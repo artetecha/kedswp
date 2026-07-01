@@ -1,5 +1,6 @@
 applications:
   keds:
+    container_profile: HIGH_MEMORY
     source:
       root: "keds"
 
