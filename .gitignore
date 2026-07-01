@@ -1,0 +1,7 @@
+# Composer/build output
+/keds/vendor/
+/keds/wordpress/
+
+# Local OS/editor files
+.DS_Store
+.idea/

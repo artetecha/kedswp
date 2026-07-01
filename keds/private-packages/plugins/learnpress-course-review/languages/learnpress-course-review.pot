@@ -1,0 +1,250 @@
+# Copyright (C) 2026 ThimPress
+# This file is distributed under the same license as the LearnPress - Course Review plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - Course Review 4.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-course-review\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-16T07:28:06+03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: learnpress-course-review\n"
+
+#. Plugin Name of the plugin
+#: learnpress-course-review.php
+msgid "LearnPress - Course Review"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: learnpress-course-review.php
+msgid "https://thimpress.com/product/learnpress-course-review/"
+msgstr ""
+
+#. Description of the plugin
+#: learnpress-course-review.php
+msgid "Adding review for course."
+msgstr ""
+
+#. Author of the plugin
+#: learnpress-course-review.php
+msgid "ThimPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: learnpress-course-review.php
+msgid "http://thimpress.com"
+msgstr ""
+
+#: inc/CourseReviewShortCode.php:43
+#: inc/CourseReviewWidget.php:62
+msgid "Course is invalid"
+msgstr ""
+
+#: inc/CourseReviewWidget.php:30
+msgid "Learnpress - Course Review"
+msgstr ""
+
+#: inc/CourseReviewWidget.php:48
+msgid "Please enter Course ID."
+msgstr ""
+
+#: inc/CourseReviewWidget.php:84
+msgid "Course Review"
+msgstr ""
+
+#: inc/CourseReviewWidget.php:89
+msgid "Title:"
+msgstr ""
+
+#: inc/CourseReviewWidget.php:97
+msgid "Course ID:"
+msgstr ""
+
+#: inc/load.php:128
+msgid "Enable reviews"
+msgstr ""
+
+#: inc/load.php:129
+msgid "Show reviews for this course"
+msgstr ""
+
+#: inc/load.php:282
+msgid "Course review"
+msgstr ""
+
+#: inc/load.php:298
+#: inc/TemplateHooks/CourseRatingTemplate.php:560
+#: inc/TemplateHooks/CourseRatingTemplate.php:612
+#: templates/list-reviews.php:33
+msgid "Reviews"
+msgstr ""
+
+#: inc/load.php:583
+msgid "Course is invalid!"
+msgstr ""
+
+#: inc/load.php:588
+msgid "User is invalid!"
+msgstr ""
+
+#: inc/load.php:592
+msgid "Rating is requirement!"
+msgstr ""
+
+#: inc/load.php:596
+msgid "Title is not empty!"
+msgstr ""
+
+#: inc/load.php:600
+msgid "Content is not empty!"
+msgstr ""
+
+#: inc/load.php:604
+msgid "You can not submit review."
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:30
+msgid "ID course"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:35
+msgid "Paged"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:40
+msgid "Per page"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:59
+msgid "Course ID"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:64
+msgid "Rate"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:69
+#: inc/TemplateHooks/CourseRatingTemplate.php:298
+#: templates/form-submit-review.php:30
+msgid "Title"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:74
+#: inc/TemplateHooks/CourseRatingTemplate.php:305
+#: templates/form-submit-review.php:34
+msgid "Content"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:100
+msgid "No Course ID param."
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:105
+msgid "Course not found."
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:128
+msgid "You have already reviewed this course. It will be visible after it has been approved"
+msgstr ""
+
+#: inc/rest-api/jwt/class-lp-rest-review-v1-controller.php:158
+#: inc/TemplateHooks/CourseRatingTemplate.php:489
+#: inc/TemplateHooks/CourseRatingTemplate.php:650
+#: templates/item-review-wait-approve.php:27
+msgid "Your review has been submitted and is awaiting approve."
+msgstr ""
+
+#: inc/TemplateHooks/CourseRatingTemplate.php:153
+#: templates/course-sum-rating.php:35
+#, php-format
+msgid "<span>%d</span> rating"
+msgid_plural "<span>%d</span> ratings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TemplateHooks/CourseRatingTemplate.php:242
+#: inc/TemplateHooks/CourseRatingTemplate.php:290
+#: templates/form-submit-review.php:19
+#: templates/form-submit-review.php:24
+msgid "Write a review"
+msgstr ""
+
+#: inc/TemplateHooks/CourseRatingTemplate.php:311
+msgid "Rating (click to choice)"
+msgstr ""
+
+#: inc/TemplateHooks/CourseRatingTemplate.php:321
+#: templates/form-submit-review.php:53
+msgid "Add review"
+msgstr ""
+
+#: inc/TemplateHooks/CourseRatingTemplate.php:322
+#: templates/form-submit-review.php:56
+msgid "Cancel"
+msgstr ""
+
+#: inc/TemplateHooks/CourseRatingTemplate.php:442
+msgid "Load more"
+msgstr ""
+
+#: inc/TemplateHooks/CourseRatingTemplate.php:529
+#: inc/TemplateHooks/FilterCourseRatingTemplate.php:152
+#: templates/form-submit-review.php:38
+msgid "Rating"
+msgid_plural "Ratings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TemplateHooks/FilterCourseRatingTemplate.php:67
+#: inc/TemplateHooks/TemplateHooks.php:68
+#: inc/TemplateHooks/TemplateHooks.php:69
+msgid "Course Reviews"
+msgstr ""
+
+#: inc/TemplateHooks/FilterCourseRatingTemplate.php:121
+msgid "All rating"
+msgstr ""
+
+#: inc/TemplateHooks/FilterCourseRatingTemplate.php:127
+msgid "& up"
+msgstr ""
+
+#: inc/TemplateHooks/FilterCourseRatingTemplate.php:179
+msgid "Average Ratings"
+msgstr ""
+
+#: inc/TemplateHooks/TemplateHooks.php:211
+msgid "Review"
+msgstr ""
+
+#: inc/TemplateHooks/TemplateHooks.php:271
+msgid "Course Rating"
+msgstr ""
+
+#: inc/TemplateHooks/TemplateHooks.php:279
+msgid "Review rated"
+msgstr ""
+
+#: inc/TemplateHooks/TemplateHooks.php:286
+msgid "Review title"
+msgstr ""
+
+#: templates/form-submit-review.php:63
+msgid "Please enter the review title"
+msgstr ""
+
+#: templates/form-submit-review.php:64
+msgid "Please enter the review content"
+msgstr ""
+
+#: templates/form-submit-review.php:65
+msgid "Please select your rating"
+msgstr ""
+
+#: templates/list-reviews.php:52
+msgid " View more "
+msgstr ""

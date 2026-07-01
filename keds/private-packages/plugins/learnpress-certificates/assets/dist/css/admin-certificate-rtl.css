@@ -1,0 +1,9 @@
+body.post-type-lp_course .wp-list-table .column-certificate {
+  width: 100px;
+}
+body.post-type-lp_course .wp-list-table .course-cert-preview img {
+  max-width: 100px;
+}
+body.post-type-lp_cert .wp-list-table .column-courses {
+  width: 300px;
+}

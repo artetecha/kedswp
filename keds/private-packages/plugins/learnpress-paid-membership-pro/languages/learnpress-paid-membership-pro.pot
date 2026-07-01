@@ -1,0 +1,152 @@
+# Copyright (C) 2026 ThimPress
+# This file is distributed under the same license as the LearnPress - Paid Membership Pro Integration plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - Paid Membership Pro Integration 4.1.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-paid-membership-pro\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-07T12:32:32+03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: learnpress-paid-membership-pro\n"
+
+#. Plugin Name of the plugin
+#: learnpress-paid-memberships-pro.php
+msgid "LearnPress - Paid Membership Pro Integration"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: learnpress-paid-memberships-pro.php
+msgid "https://thimpress.com/product/paid-memberships-pro-add-learnpress/"
+msgstr ""
+
+#. Description of the plugin
+#: learnpress-paid-memberships-pro.php
+msgid "Paid Membership Pro add-on for LearnPress."
+msgstr ""
+
+#. Author of the plugin
+#: learnpress-paid-memberships-pro.php
+msgid "ThimPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: learnpress-paid-memberships-pro.php
+msgid "http://thimpress.com"
+msgstr ""
+
+#: inc/Addon.php:125
+msgid "Course Memberships"
+msgstr ""
+
+#: inc/Addon.php:131
+msgid "Select membership levels"
+msgstr ""
+
+#: inc/classes/class-lp-pms-order.php:84
+msgid "Pay via <strong>Paid Memberships Pro</strong>"
+msgstr ""
+
+#: inc/classes/class-lp-pms-order.php:123
+#, php-format
+msgid "Order on %s"
+msgstr ""
+
+#: inc/classes/class-lp-pms-order.php:137
+#: inc/Settings.php:18
+msgid "Memberships"
+msgstr ""
+
+#: inc/Hook.php:91
+msgid "Buy Membership"
+msgstr ""
+
+#: inc/pmpro-admin/tmp/edit.php:52
+msgid "Assign courses to level"
+msgstr ""
+
+#: inc/pmpro-admin/tmp/edit.php:56
+msgid "course assigned"
+msgid_plural "courses assigned"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/Settings.php:38
+msgid "LP Orders's users bought level PMS will update list courses when save"
+msgstr ""
+
+#: inc/Settings.php:39
+msgid "Note: when remove courses on list, all progress of those courses of users will lose"
+msgstr ""
+
+#: inc/Settings.php:45
+msgid "Settings"
+msgstr ""
+
+#: inc/Settings.php:49
+msgid "Always buy the course through membership"
+msgstr ""
+
+#: inc/Settings.php:52
+msgid "Enable/Disable"
+msgstr ""
+
+#: inc/Settings.php:59
+msgid "When membership level change"
+msgstr ""
+
+#: inc/Settings.php:63
+msgid "Update access courses when level change list courses"
+msgstr ""
+
+#: inc/Settings.php:70
+msgid "Keep/Reset user's course progress"
+msgstr ""
+
+#: inc/Settings.php:72
+msgid "Controls what happens to a user’s existing course progress when they purchase a new Level that includes a course they have already started."
+msgstr ""
+
+#: inc/Settings.php:76
+msgid "Keep progress"
+msgstr ""
+
+#: inc/Settings.php:77
+msgid "Reset progress"
+msgstr ""
+
+#: learnpress-paid-memberships-pro.php:167
+msgid "here"
+msgstr ""
+
+#: learnpress-paid-memberships-pro.php:170
+msgid "or read"
+msgstr ""
+
+#: learnpress-paid-memberships-pro.php:172
+msgid "the guide"
+msgstr ""
+
+#: templates/pages/levels.php:46
+msgid "Free"
+msgstr ""
+
+#: templates/pages/levels.php:61
+msgid "Number of courses"
+msgstr ""
+
+#: templates/pages/levels.php:121
+msgid "GET IT NOW"
+msgstr ""
+
+#: templates/pages/levels.php:127
+msgid "Renew"
+msgstr ""
+
+#: templates/pages/levels.php:131
+msgid "Your Level"
+msgstr ""

@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "learnpress/archive-package-legacy",
+	"title": "Archive Package (Legacy)",
+	"category": "learnpress-legacy",
+	"description": "Renders template Archive Package Legacy PHP templates.",
+	"textdomain": "learnpress-upsell",
+	"keywords": ["legacy", "learnpress"],
+	"ancestor": [],
+	"usesContext": [],
+	"supports": {
+		"align": true
+	}
+}

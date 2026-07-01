@@ -1,0 +1,1172 @@
+# Copyright (C) 2026 ThimPress
+# This file is distributed under the same license as the LearnPress - Upsell plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - Upsell 4.0.9\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-upsell\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-13T10:01:29+03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: learnpress-upsell\n"
+
+#: build/upsell.js:14
+#: inc/Elementor/Widgets/Packages.php:18
+#: inc/Package/post-type.php:26
+msgid "Packages"
+msgstr ""
+
+#: build/upsell.js:19
+#: inc/coupon/post-type.php:14
+msgid "Coupons"
+msgstr ""
+
+#: build/upsell.js:31
+msgid "Please enter coupon code"
+msgstr ""
+
+#: build/upsell.js:35
+msgid "Limit per coupon must be greater than limit per user"
+msgstr ""
+
+#: build/upsell.js:92
+#: inc/coupon/post-type.php:18
+msgid "Add new coupon"
+msgstr ""
+
+#: build/upsell.js:122
+#: build/upsell.js:144
+#: build/upsell.js:117
+#: build/upsell.js:136
+msgid "Save"
+msgstr ""
+
+#: build/upsell.js:129
+#: build/upsell.js:150
+#: build/upsell.js:124
+#: build/upsell.js:142
+msgid "Close"
+msgstr ""
+
+#: build/upsell.js:16
+#: build/upsell.js:20
+msgid "Published"
+msgstr ""
+
+#: build/upsell.js:20
+#: build/upsell.js:11
+#: build/upsell.js:24
+#: build/upsell.js:11
+msgid "Draft"
+msgstr ""
+
+#: build/upsell.js:24
+#: build/upsell.js:21
+#: build/upsell.js:28
+#: build/upsell.js:21
+msgid "Pending"
+msgstr ""
+
+#: build/upsell.js:28
+#: build/upsell.js:16
+#: build/upsell.js:195
+#: build/upsell.js:32
+#: build/upsell.js:16
+#: build/upsell.js:274
+msgid "Trash"
+msgstr ""
+
+#: build/upsell.js:35
+#: build/upsell.js:130
+#: build/upsell.js:39
+msgid "Percentage discount"
+msgstr ""
+
+#: build/upsell.js:39
+#: build/upsell.js:134
+#: build/upsell.js:43
+msgid "Fixed discount"
+msgstr ""
+
+#: build/upsell.js:87
+#: inc/coupon/hooks.php:26
+msgid "Coupon code"
+msgstr ""
+
+#: build/upsell.js:105
+msgid "Generate coupon code"
+msgstr ""
+
+#: build/upsell.js:112
+#: build/upsell.js:88
+#: build/upsell.js:141
+msgid "Description"
+msgstr ""
+
+#: build/upsell.js:126
+#: build/upsell.js:153
+msgid "Status"
+msgstr ""
+
+#: build/upsell.js:148
+#: build/upsell.js:175
+msgid "Publish Date"
+msgstr ""
+
+#: build/upsell.js:164
+#: build/upsell.js:191
+#: build/upsell.js:545
+msgid "Cancel"
+msgstr ""
+
+#: build/upsell.js:169
+#: build/upsell.js:196
+msgid "Immediately"
+msgstr ""
+
+#: build/upsell.js:182
+msgid "General"
+msgstr ""
+
+#: build/upsell.js:188
+msgid "Discount type"
+msgstr ""
+
+#: build/upsell.js:209
+msgid "Discount start date"
+msgstr ""
+
+#: build/upsell.js:223
+#: build/upsell.js:350
+msgid "Amount"
+msgstr ""
+
+#: build/upsell.js:251
+msgid "Discount end date"
+msgstr ""
+
+#: build/upsell.js:267
+#: inc/Elementor/config/packages.php:61
+msgid "Limit"
+msgstr ""
+
+#: build/upsell.js:273
+msgid "Usage limit per coupon"
+msgstr ""
+
+#: build/upsell.js:285
+msgid "How many times can this coupon be used in total."
+msgstr ""
+
+#: build/upsell.js:291
+msgid "Usage limit per user"
+msgstr ""
+
+#: build/upsell.js:303
+msgid "How many times can this coupon be used per user."
+msgstr ""
+
+#: build/upsell.js:311
+msgid "Usage restriction"
+msgstr ""
+
+#: build/upsell.js:317
+msgid "Include packages"
+msgstr ""
+
+#: build/upsell.js:368
+#: build/upsell.js:471
+msgid "Search package…"
+msgstr ""
+
+#: build/upsell.js:411
+msgid "Packages will be applied to the cart when the coupon is applied. Leave blank to apply to all packages."
+msgstr ""
+
+#: build/upsell.js:420
+msgid "Exclude packages"
+msgstr ""
+
+#: build/upsell.js:513
+msgid "Packages that the coupon will not apply to when added to the cart."
+msgstr ""
+
+#: build/upsell.js:522
+msgid "Include courses"
+msgstr ""
+
+#: build/upsell.js:552
+#: build/upsell.js:654
+#: build/upsell.js:238
+msgid "Search course…"
+msgstr ""
+
+#: build/upsell.js:594
+msgid "Courses will be applied to the cart when the coupon is applied. Leave blank to apply to all courses."
+msgstr ""
+
+#: build/upsell.js:603
+msgid "Exclude courses"
+msgstr ""
+
+#: build/upsell.js:696
+msgid "Courses that the coupon will not apply to when added to the cart."
+msgstr ""
+
+#: build/upsell.js:705
+msgid "Include course categories"
+msgstr ""
+
+#: build/upsell.js:756
+#: build/upsell.js:858
+msgid "Search course category…"
+msgstr ""
+
+#: build/upsell.js:798
+msgid "Course categories will be applied to the cart when the coupon is applied. Leave blank to apply to all course categories."
+msgstr ""
+
+#: build/upsell.js:807
+msgid "Exclude course categories"
+msgstr ""
+
+#: build/upsell.js:900
+msgid "Course categories that the coupon will not apply to when added to the cart."
+msgstr ""
+
+#: build/upsell.js:909
+msgid "Allowed emails"
+msgstr ""
+
+#: build/upsell.js:921
+msgid "List of allowed billing emails to check against when an order is placed. Separate email addresses with commas. You can also use an asterisk (*) to match parts of an email. For example \"*@gmail.com\" would match all gmail addresses."
+msgstr ""
+
+#: build/upsell.js:92
+msgid "Edit Coupon"
+msgstr ""
+
+#: build/upsell.js:113
+#: build/upsell.js:113
+msgid "Something went wrong"
+msgstr ""
+
+#: build/upsell.js:26
+#: build/upsell.js:26
+#: build/upsell.js:538
+msgid "Add new"
+msgstr ""
+
+#: build/upsell.js:29
+msgid "Feature only apply for payment via LearnPress"
+msgstr ""
+
+#: build/upsell.js:46
+msgid "Error loading Coupons."
+msgstr ""
+
+#: build/upsell.js:58
+#: build/upsell.js:71
+msgid "Next"
+msgstr ""
+
+#: build/upsell.js:64
+#: build/upsell.js:77
+msgid "Prev"
+msgstr ""
+
+#: build/upsell.js:26
+#: build/upsell.js:26
+msgid "Scheduled"
+msgstr ""
+
+#: build/upsell.js:31
+#: build/upsell.js:31
+msgid "Private"
+msgstr ""
+
+#: build/upsell.js:79
+msgid "Code"
+msgstr ""
+
+#: build/upsell.js:82
+msgid "Coupon type"
+msgstr ""
+
+#: build/upsell.js:85
+msgid "Coupon amount"
+msgstr ""
+
+#: build/upsell.js:91
+msgid "Usage / Limit"
+msgstr ""
+
+#: build/upsell.js:94
+msgid "Expiry date"
+msgstr ""
+
+#: build/upsell.js:103
+msgid "No coupons found."
+msgstr ""
+
+#: build/upsell.js:150
+msgid "Never"
+msgstr ""
+
+#: build/upsell.js:159
+#: build/upsell.js:164
+#: inc/coupon/post-type.php:19
+msgid "Edit"
+msgstr ""
+
+#: build/upsell.js:170
+#: build/upsell.js:199
+#: build/upsell.js:210
+#: build/upsell.js:288
+msgid "Delete"
+msgstr ""
+
+#: build/upsell.js:179
+#: build/upsell.js:230
+msgid "Are you sure?"
+msgstr ""
+
+#: build/upsell.js:31
+msgid "Please select at least one course"
+msgstr ""
+
+#: build/upsell.js:88
+msgid "Add Package"
+msgstr ""
+
+#: build/upsell.js:56
+msgid "Loading…"
+msgstr ""
+
+#: build/upsell.js:68
+msgid "Error loading certificate."
+msgstr ""
+
+#: build/upsell.js:90
+#: build/upsell.js:465
+msgid "Remove"
+msgstr ""
+
+#: build/upsell.js:94
+msgid "Assign"
+msgstr ""
+
+#: build/upsell.js:92
+#: inc/Package/post-type.php:24
+msgid "Edit Package"
+msgstr ""
+
+#: build/upsell.js:59
+msgid "Error loading Packages."
+msgstr ""
+
+#: build/upsell.js:127
+#: build/upsell.js:79
+#: inc/Elementor/config/listpackage.php:21
+#: inc/Elementor/config/listpackage.php:54
+#: inc/Elementor/config/packages.php:45
+#: inc/Elementor/config/packages.php:201
+msgid "Title"
+msgstr ""
+
+#: build/upsell.js:207
+#: build/upsell.js:82
+msgid "Courses"
+msgstr ""
+
+#: build/upsell.js:302
+#: build/upsell.js:85
+msgid "Price"
+msgstr ""
+
+#: build/upsell.js:305
+msgid "Total price of the course selected (%s): "
+msgstr ""
+
+#: build/upsell.js:319
+msgid "Set a new price"
+msgstr ""
+
+#: build/upsell.js:327
+msgid "Type"
+msgstr ""
+
+#: build/upsell.js:373
+msgid "Total"
+msgstr ""
+
+#: build/upsell.js:385
+msgid "Fixed price"
+msgstr ""
+
+#: build/upsell.js:418
+msgid "Featured image"
+msgstr ""
+
+#: build/upsell.js:449
+msgid "Replace"
+msgstr ""
+
+#: build/upsell.js:486
+msgid "Upload"
+msgstr ""
+
+#: build/upsell.js:496
+msgid "Tags"
+msgstr ""
+
+#: build/upsell.js:504
+msgid "Manage tags"
+msgstr ""
+
+#: build/upsell.js:573
+msgid "Add"
+msgstr ""
+
+#: build/upsell.js:582
+msgid "This field is required"
+msgstr ""
+
+#: build/upsell.js:108
+msgid "Tag already exists"
+msgstr ""
+
+#: build/upsell.js:116
+msgid "Invalid tag name"
+msgstr ""
+
+#: build/upsell.js:88
+msgid "Author"
+msgstr ""
+
+#: build/upsell.js:91
+msgid "Date modified"
+msgstr ""
+
+#: build/upsell.js:188
+msgid "View"
+msgstr ""
+
+#: build/upsell.js:187
+msgid "Classic"
+msgstr ""
+
+#. Plugin Name of the plugin
+#: learnpress-upsell.php
+msgid "LearnPress - Upsell"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: learnpress-upsell.php
+msgid "https://thimpress.com/product/upsell-add-on-for-learnpress/"
+msgstr ""
+
+#. Description of the plugin
+#: learnpress-upsell.php
+msgid "Add upsell feature to LearnPress"
+msgstr ""
+
+#. Author of the plugin
+#: learnpress-upsell.php
+msgid "ThimPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: learnpress-upsell.php
+msgid "http://thimpress.com"
+msgstr ""
+
+#: inc/class-settings.php:8
+#: inc/load.php:97
+#: inc/load.php:98
+msgid "Upsell"
+msgstr ""
+
+#: inc/class-settings.php:19
+#: inc/Package/post-type.php:17
+#: inc/Package/post-type.php:18
+#: inc/Package/post-type.php:19
+#: inc/Package/post-type.php:20
+#: inc/TemplateHooks/ArchivePackage.php:389
+#: inc/TemplateHooks/SingleCoursePackage.php:45
+msgid "Package"
+msgstr ""
+
+#: inc/class-settings.php:22
+msgid "Package slug"
+msgstr ""
+
+#: inc/class-settings.php:29
+msgid "Archive Package page"
+msgstr ""
+
+#: inc/class-settings.php:35
+msgid "Archive Package per page"
+msgstr ""
+
+#: inc/class-settings.php:44
+msgid "Enable Course Tab"
+msgstr ""
+
+#: inc/class-settings.php:45
+msgid "Enable Packages tab in single course."
+msgstr ""
+
+#: inc/class-settings.php:51
+msgid "Course tab Packages per page"
+msgstr ""
+
+#: inc/class-settings.php:52
+msgid "Packages per page in single course tab."
+msgstr ""
+
+#: inc/class-settings.php:65
+#: inc/coupon/post-type.php:15
+msgid "Coupon"
+msgstr ""
+
+#: inc/class-settings.php:68
+msgid "Enable coupons"
+msgstr ""
+
+#: inc/class-settings.php:74
+msgid "Show list coupons"
+msgstr ""
+
+#: inc/coupon/api/admin.php:74
+#: inc/coupon/api/admin.php:80
+#: inc/coupon/api/admin.php:112
+#: inc/coupon/api/admin.php:118
+#: inc/coupon/api/admin.php:180
+msgid "Coupon not found"
+msgstr ""
+
+#: inc/coupon/api/admin.php:128
+msgid "Coupon not deleted"
+msgstr ""
+
+#: inc/coupon/api/admin.php:133
+msgid "Coupon moved to trash"
+msgstr ""
+
+#: inc/coupon/api/admin.php:133
+msgid "Coupon deleted"
+msgstr ""
+
+#: inc/coupon/api/admin.php:151
+msgid "Coupon code already exists"
+msgstr ""
+
+#: inc/coupon/api/admin.php:276
+msgid "Insert coupon successfully!"
+msgstr ""
+
+#: inc/coupon/api/admin.php:276
+msgid "Update coupon successfully!"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:47
+msgid "Coupon code is empty"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:54
+msgid "Coupons are disabled"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:59
+msgid "Coupon does not exist"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:63
+msgid "Coupon usage limit has been reached"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:67
+msgid "Coupon usage limit per user has been reached"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:71
+msgid "Coupon is invalid on date"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:75
+msgid "Coupon is not valid for this package"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:79
+msgid "Coupon is not valid for this course"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:83
+#: inc/coupon/api/frontend.php:91
+msgid "Coupon is not valid for this course category"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:87
+msgid "Coupon is not valid for this item"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:96
+msgid "Coupon code already applied!"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:105
+msgid "Cart is empty"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:138
+msgid "Coupon code applied successfully!"
+msgstr ""
+
+#: inc/coupon/api/frontend.php:163
+msgid "Coupon code removed successfully!"
+msgstr ""
+
+#: inc/coupon/hooks.php:22
+#: templates/coupon/info_coupon_checkout.php:19
+msgid "Coupon:"
+msgstr ""
+
+#: inc/coupon/hooks.php:28
+#: inc/coupon/hooks.php:29
+msgid "Apply"
+msgstr ""
+
+#: inc/coupon/hooks.php:149
+#, php-format
+msgid "Coupon \"%s\" is not valid for the email address entered!"
+msgstr ""
+
+#: inc/coupon/hooks.php:168
+#: inc/coupon/hooks.php:181
+#, php-format
+msgid "Coupon \"%s\" usage limit has been reached."
+msgstr ""
+
+#: inc/coupon/hooks.php:266
+#: inc/coupon/hooks.php:295
+msgid "Coupon(s):"
+msgstr ""
+
+#: inc/coupon/hooks.php:270
+msgid "Discount:"
+msgstr ""
+
+#: inc/coupon/post-type.php:16
+msgctxt "Admin menu name"
+msgid "Coupons"
+msgstr ""
+
+#: inc/coupon/post-type.php:17
+msgid "Add coupon"
+msgstr ""
+
+#: inc/coupon/post-type.php:20
+msgid "Edit coupon"
+msgstr ""
+
+#: inc/coupon/post-type.php:21
+msgid "New coupon"
+msgstr ""
+
+#: inc/coupon/post-type.php:22
+msgid "View coupon"
+msgstr ""
+
+#: inc/coupon/post-type.php:23
+msgid "Search coupons"
+msgstr ""
+
+#: inc/coupon/post-type.php:24
+msgid "No coupons found"
+msgstr ""
+
+#: inc/coupon/post-type.php:25
+msgid "No coupons found in trash"
+msgstr ""
+
+#: inc/coupon/post-type.php:26
+msgid "Parent coupon"
+msgstr ""
+
+#: inc/coupon/post-type.php:27
+msgid "Filter coupons"
+msgstr ""
+
+#: inc/coupon/post-type.php:28
+msgid "Coupons navigation"
+msgstr ""
+
+#: inc/coupon/post-type.php:29
+msgid "Coupons list"
+msgstr ""
+
+#: inc/coupon/post-type.php:36
+msgid "This is where you can add new coupons that customers can use in your store."
+msgstr ""
+
+#: inc/coupon/TemplateHooks/ListCouponsTemplate.php:132
+#: inc/TemplateHooks/SingleCoursePackage.php:94
+msgid "Load more"
+msgstr ""
+
+#: inc/coupon/TemplateHooks/ListCouponsTemplate.php:192
+msgid "Off"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:11
+#: inc/Elementor/config/packages.php:12
+msgid "Content"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:16
+#: inc/Elementor/config/listpackage.php:31
+#: inc/Package/post-type.php:68
+msgid "Tag"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:17
+msgid "Big Sale"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:22
+msgid "Buy this course in package"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:39
+#: inc/Elementor/config/listpackage.php:142
+msgid "Border Radius"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:63
+msgid "Package Item"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:68
+#: inc/Elementor/config/listpackage.php:210
+#: inc/Elementor/config/packages.php:246
+msgid "Margin"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:85
+#: inc/Elementor/config/packages.php:178
+msgid "Radius"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:99
+msgid "Image"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:104
+msgid "Width Image"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:123
+msgid "Content Image"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:156
+#: inc/Elementor/config/packages.php:192
+msgid "Count Courses"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:165
+msgid "Title Package"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:174
+#: inc/Elementor/config/packages.php:210
+msgid "Regular Price"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:179
+#: inc/Elementor/config/listpackage.php:198
+#: inc/Elementor/config/packages.php:215
+#: inc/Elementor/config/packages.php:234
+msgid "Color"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:193
+#: inc/Elementor/config/packages.php:229
+msgid "Origin Price"
+msgstr ""
+
+#: inc/Elementor/config/listpackage.php:224
+msgid "Load More"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:17
+msgid "Layout"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:19
+#: inc/Elementor/config/packages.php:44
+msgid "Default"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:20
+#: inc/Elementor/config/packages.php:73
+msgid "Slider"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:26
+msgid "Column"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:42
+msgid "Sort In"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:46
+msgid "Popular"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:52
+msgid "Order By"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:54
+msgid "DESC"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:55
+msgid "ASC"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:78
+msgid "Show Arrow"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:82
+msgid "Yes"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:83
+msgid "No"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:89
+msgid "Pagination Options"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:91
+msgid "Hide"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:92
+msgid "Bullets"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:93
+msgid "Progress"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:111
+msgid "Item"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:116
+msgid "Rows Gap"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:140
+msgid "Columns Gap"
+msgstr ""
+
+#: inc/Elementor/config/packages.php:161
+msgid "Padding"
+msgstr ""
+
+#: inc/Elementor/Widgets/ListPackageOneCourse.php:19
+msgid "List Package"
+msgstr ""
+
+#: inc/Package/api/admin.php:66
+#: inc/Package/api/admin.php:72
+#: inc/Package/api/admin.php:172
+#: inc/Package/api/admin.php:178
+#: inc/Package/api/admin.php:294
+msgid "Package not found"
+msgstr ""
+
+#: inc/Package/api/admin.php:82
+msgid "Package not deleted"
+msgstr ""
+
+#: inc/Package/api/admin.php:87
+msgid "Package moved to trash"
+msgstr ""
+
+#: inc/Package/api/admin.php:87
+msgid "Package deleted"
+msgstr ""
+
+#: inc/Package/api/admin.php:383
+msgid "Insert package successfully!"
+msgstr ""
+
+#: inc/Package/api/admin.php:383
+msgid "Update package successfully!"
+msgstr ""
+
+#: inc/Package/api/frontend.php:127
+msgid "Add package to cart success. Redirecting..."
+msgstr ""
+
+#: inc/Package/core-functions.php:120
+msgid "Placeholder"
+msgstr ""
+
+#: inc/Package/post-type.php:21
+msgid "Add New"
+msgstr ""
+
+#: inc/Package/post-type.php:22
+msgid "Add New Package"
+msgstr ""
+
+#: inc/Package/post-type.php:23
+msgid "New Package"
+msgstr ""
+
+#: inc/Package/post-type.php:25
+msgid "View Package"
+msgstr ""
+
+#: inc/Package/post-type.php:27
+msgid "Search Packages"
+msgstr ""
+
+#: inc/Package/post-type.php:28
+msgid "Parent Packages:"
+msgstr ""
+
+#: inc/Package/post-type.php:29
+msgid "No packages found."
+msgstr ""
+
+#: inc/Package/post-type.php:30
+msgid "No packages found in Trash."
+msgstr ""
+
+#: inc/Package/post-type.php:37
+msgid "Description."
+msgstr ""
+
+#: inc/Package/post-type.php:67
+#: inc/Package/post-type.php:81
+msgid "Package Tags"
+msgstr ""
+
+#: inc/Package/post-type.php:69
+msgid "Search Package Tags"
+msgstr ""
+
+#: inc/Package/post-type.php:70
+msgid "Popular Package Tags"
+msgstr ""
+
+#: inc/Package/post-type.php:71
+msgid "All Package Tags"
+msgstr ""
+
+#: inc/Package/post-type.php:74
+msgid "Edit Package Tag"
+msgstr ""
+
+#: inc/Package/post-type.php:75
+msgid "Update Package Tag"
+msgstr ""
+
+#: inc/Package/post-type.php:76
+msgid "Add A New Package Tag"
+msgstr ""
+
+#: inc/Package/post-type.php:77
+msgid "New Package Tag Name"
+msgstr ""
+
+#: inc/Package/post-type.php:78
+msgid "Separate tags with commas"
+msgstr ""
+
+#: inc/Package/post-type.php:79
+msgid "Add or remove tags"
+msgstr ""
+
+#: inc/Package/post-type.php:80
+msgid "Choose from the most used tags"
+msgstr ""
+
+#: inc/Package/post-type.php:91
+msgctxt "slug"
+msgid "learnpress-package-tag"
+msgstr ""
+
+#: inc/Package/template-functions.php:30
+#: inc/TemplateHooks/ArchivePackage.php:381
+#, php-format
+msgid "Search results: &ldquo;%s&rdquo;"
+msgstr ""
+
+#: inc/Package/template-functions.php:33
+#: inc/TemplateHooks/ArchivePackage.php:384
+#, php-format
+msgid "&nbsp;&ndash; Page %s"
+msgstr ""
+
+#: inc/Package/templates/addons/certificate/single-button.php:13
+msgid "Certificate"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:243
+msgid "Showing the single result"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:247
+#, php-format
+msgid "Showing all %d result"
+msgid_plural "Showing all %d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TemplateHooks/ArchivePackage.php:255
+#, php-format
+msgctxt "with first and last result"
+msgid "Showing %1$d&ndash;%2$d of %3$d result"
+msgid_plural "Showing %1$d&ndash;%2$d of %3$d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TemplateHooks/ArchivePackage.php:277
+msgid "Default sorting"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:278
+msgid "Sort by latest"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:279
+msgid "Low to high"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:280
+msgid "High to low"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:332
+msgid "Search for:"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:337
+msgid "Search packages&hellip;"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:343
+msgid "Search"
+msgstr ""
+
+#: inc/TemplateHooks/ArchivePackage.php:366
+msgid "No packages found which match your selection."
+msgstr ""
+
+#: inc/TemplateHooks/SinglePackage.php:158
+msgid "No courses"
+msgstr ""
+
+#: inc/TemplateHooks/SinglePackage.php:177
+#: inc/TemplateHooks/SinglePackage.php:373
+msgid "Course included"
+msgid_plural "Courses included"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TemplateHooks/SinglePackage.php:268
+msgid "Other Packages"
+msgstr ""
+
+#: inc/TemplateHooks/SinglePackage.php:320
+msgid "show more"
+msgstr ""
+
+#: inc/TemplateHooks/SinglePackage.php:321
+msgid "show less"
+msgstr ""
+
+#: inc/TemplateHooks/SinglePackage.php:398
+msgid "Free"
+msgstr ""
+
+#: inc/TemplateHooks/SinglePackage.php:429
+msgid "Buy Now"
+msgstr ""
+
+#: learnpress-upsell.php:104
+msgctxt "static-page"
+msgid "Packages"
+msgstr ""
+
+#: templates/coupon/info_coupon_checkout.php:28
+msgid "loading..."
+msgstr ""
+
+#: templates/coupon/info_coupon_checkout.php:29
+msgid "[Remove]"
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/archive-package-legacy/edit.js:10
+msgid "Archive Package (Legacy)"
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/archive-package-legacy/edit.js:12
+msgid "Display full content of Archive Package, can not edit."
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/single-package-legacy/edit.js:10
+msgid "Single Package (Legacy)"
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/single-package-legacy/edit.js:12
+msgid "Display full content of Single Package, can not edit."
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/archive-package-legacy/block.json
+msgctxt "block title"
+msgid "Archive Package (Legacy)"
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/archive-package-legacy/block.json
+msgctxt "block description"
+msgid "Renders template Archive Package Legacy PHP templates."
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/archive-package-legacy/block.json
+#: assets/src/js/gutenberg/blocks/single-package-legacy/block.json
+msgctxt "block keyword"
+msgid "legacy"
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/archive-package-legacy/block.json
+#: assets/src/js/gutenberg/blocks/single-package-legacy/block.json
+msgctxt "block keyword"
+msgid "learnpress"
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/single-package-legacy/block.json
+msgctxt "block title"
+msgid "Single Package (Legacy)"
+msgstr ""
+
+#: assets/src/js/gutenberg/blocks/single-package-legacy/block.json
+msgctxt "block description"
+msgid "Renders template Single Package Legacy PHP templates."
+msgstr ""

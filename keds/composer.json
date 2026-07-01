@@ -1,0 +1,173 @@
+{
+  "name": "artetecha/keds-upsun",
+  "description": "Composer-managed WordPress build for KEDS on Upsun.",
+  "type": "project",
+  "license": "proprietary",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "path",
+      "url": "private-packages/plugins/*",
+      "options": {
+        "symlink": false
+      }
+    },
+    {
+      "type": "path",
+      "url": "private-packages/themes/*",
+      "options": {
+        "symlink": false
+      }
+    }
+  ],
+  "require": {
+    "php": ">=8.4 <8.5",
+    "composer/installers": "^2.3",
+    "johnpbloch/wordpress-core-installer": "^2.0",
+    "johnpbloch/wordpress-core": "7.0.*",
+    "platformsh/config-reader": "^3.0",
+    "keds-plugin/auto-sizes": "1.7.0",
+    "keds-plugin/dominant-color-images": "1.2.1",
+    "keds-plugin/embed-optimizer": "1.0.0-beta5",
+    "keds-plugin/fluentcampaign-pro": "3.1.0",
+    "keds-plugin/fluentformpro": "6.2.4",
+    "keds-plugin/image-prioritizer": "1.0.0-beta3",
+    "keds-plugin/learnpress-2checkout-payment": "4.0.2",
+    "keds-plugin/learnpress-assignments": "4.2.0",
+    "keds-plugin/learnpress-certificates": "4.2.4",
+    "keds-plugin/learnpress-co-instructor": "4.1.1",
+    "keds-plugin/learnpress-course-review": "4.2.0",
+    "keds-plugin/learnpress-gradebook": "4.1.0",
+    "keds-plugin/learnpress-mycred": "4.0.2",
+    "keds-plugin/learnpress-paid-membership-pro": "4.1.2",
+    "keds-plugin/learnpress-stripe": "4.0.5",
+    "keds-plugin/learnpress-students-list": "4.0.3",
+    "keds-plugin/learnpress-upsell": "4.0.9",
+    "keds-plugin/learnpress-wishlist": "4.1.1",
+    "keds-plugin/learnpress-woo-payment": "4.2.3",
+    "keds-plugin/optimization-detective": "1.0.0-beta5",
+    "keds-plugin/paid-memberships-pro": "3.7.4",
+    "keds-plugin/revslider": "7.0.9",
+    "keds-plugin/speculation-rules": "1.6.0",
+    "keds-plugin/thim-core": "2.4.8",
+    "keds-plugin/thim-elementor-kit": "1.4.1",
+    "keds-plugin/tp-portfolio": "2.1.0",
+    "keds-plugin/web-worker-offloading": "0.2.1",
+    "keds-plugin/webp-uploads": "2.6.1",
+    "keds-plugin/wp-events-manager": "2.2.4",
+    "keds-theme/eduma": "5.9.0",
+    "wpackagist-plugin/akismet": "5.7",
+    "wpackagist-plugin/autodescription": "5.1.4",
+    "wpackagist-plugin/autoptimize": "3.1.15.1",
+    "wpackagist-plugin/contact-form-7": "6.1.6",
+    "wpackagist-plugin/elementor": "4.1.1",
+    "wpackagist-plugin/fluent-crm": "3.1.0",
+    "wpackagist-plugin/fluentform": "6.2.4",
+    "wpackagist-plugin/google-listings-and-ads": "3.7.0",
+    "wpackagist-plugin/google-site-kit": "1.179.0",
+    "wpackagist-plugin/honeypot": "2.3.04",
+    "wpackagist-plugin/host-webfonts-local": "6.3.5",
+    "wpackagist-plugin/learnpress": "4.3.7",
+    "wpackagist-plugin/mailchimp-for-wp": "4.12.6",
+    "wpackagist-plugin/performance-lab": "4.1.0",
+    "wpackagist-plugin/redirection": "5.7.5",
+    "wpackagist-plugin/redis-cache": "^2.0",
+    "wpackagist-plugin/woocommerce": "10.8.1",
+    "wpackagist-plugin/woocommerce-gateway-stripe": "10.7.0",
+    "wpackagist-plugin/wp-mail-smtp": "4.8.0",
+    "wpackagist-plugin/wp-native-php-sessions": "1.4.5",
+    "wpackagist-theme/twentytwentyfive": "1.5",
+    "wpackagist-theme/twentytwentyfour": "1.5"
+  },
+  "scripts": {
+    "postbuild": [
+      "cp wp-config.php wordpress/",
+      "cp -r mu-plugins wordpress/wp-content/",
+      "cp wordpress/wp-content/plugins/redis-cache/includes/object-cache.php wordpress/wp-content/object-cache.php",
+      "rm -rf wordpress/wp-content/plugins/hello.php"
+    ],
+    "post-install-cmd": "@postbuild",
+    "post-update-cmd": "@postbuild"
+  },
+  "extra": {
+    "distro": {
+      "default-theme": "eduma",
+      "enable-plugins": [
+        "wp-native-php-sessions",
+        "auto-sizes",
+        "autodescription",
+        "autoptimize",
+        "contact-form-7",
+        "dominant-color-images",
+        "elementor",
+        "embed-optimizer",
+        "fluent-crm",
+        "fluentform",
+        "fluentcampaign-pro",
+        "fluentformpro",
+        "google-listings-and-ads",
+        "honeypot",
+        "host-webfonts-local",
+        "image-prioritizer",
+        "learnpress",
+        "learnpress-2checkout-payment",
+        "learnpress-assignments",
+        "learnpress-certificates",
+        "learnpress-co-instructor",
+        "learnpress-course-review",
+        "learnpress-gradebook",
+        "learnpress-stripe",
+        "learnpress-students-list",
+        "learnpress-upsell",
+        "learnpress-wishlist",
+        "learnpress-woo-payment",
+        "mailchimp-for-wp",
+        "redis-cache",
+        "optimization-detective",
+        "paid-memberships-pro",
+        "performance-lab",
+        "redirection",
+        "revslider",
+        "speculation-rules",
+        "thim-core",
+        "thim-elementor-kit",
+        "tp-portfolio",
+        "web-worker-offloading",
+        "webp-uploads",
+        "woocommerce",
+        "woocommerce-gateway-stripe",
+        "wp-events-manager",
+        "wp-mail-smtp"
+      ],
+      "removed": [
+        "object-cache-pro",
+        "pantheon-mu-plugin"
+      ]
+    },
+    "wordpress-install-dir": "wordpress",
+    "installer-paths": {
+      "wordpress/wp-content/plugins/{$name}": [
+        "type:wordpress-plugin"
+      ],
+      "wordpress/wp-content/themes/{$name}": [
+        "type:wordpress-theme"
+      ],
+      "wordpress/wp-content/mu-plugins/{$name}": [
+        "type:wordpress-muplugin"
+      ]
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "johnpbloch/wordpress-core-installer": true
+    },
+    "platform": {
+      "php": "8.4.0"
+    },
+    "sort-packages": true
+  }
+}

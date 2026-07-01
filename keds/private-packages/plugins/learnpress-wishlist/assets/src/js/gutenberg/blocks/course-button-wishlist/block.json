@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "learnpress/course-button-wishlist",
+	"title": "Course Button Wishlist",
+	"category": "learnpress-course-elements",
+	"icon": "heart",
+	"description": "Renders template Button Wishlist Course PHP templates.",
+	"textdomain": "learnpress-wishlist",
+	"keywords": [ "button wishlist course", "learnpress" ],
+	"ancestor": [ "learnpress/single-course", "learnpress/course-item-template" ],
+	"usesContext": [ "lpCourseData" ],
+	"attributes": {
+		"textAlign": {
+			"type": "string",
+			"default": "center"
+		},
+		"justifyContent": {
+			"type": "string",
+			"default": "center"
+		},
+		"alignItems": {
+			"type": "string",
+			"default": "center"
+		},
+		"width": {
+			"type": "string",
+			"default": "100"
+		},
+		"layout": {
+			"type": "string",
+			"default": "modern",
+			"enum": [ "classic", "modern", "icon-only" ]
+		}
+	},
+	"supports": {
+		"multiple": true,
+		"align": [ "wide", "full" ],
+		"html": false,
+		"typography": {
+			"fontSize": true,
+			"__experimentalDefaultControls": { "fontSize": true }
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"width": false,
+				"color": false,
+				"radius": false
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"content": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false,
+				"content": true
+			}
+		}
+	}
+}

@@ -1,0 +1,89 @@
+.woocommerce-tabs ul.list-courses-assign-product {
+  margin-right: 25px !important;
+  list-style-type: numeric;
+  text-align: right;
+  border: none !important;
+  max-width: none !important;
+}
+
+ul.list-courses-assign-product li {
+  display: list-item !important;
+}
+
+.woocommerce-tabs ul.list-courses-assign-product li a {
+  padding: 0;
+}
+
+.course-via-product {
+  font-size: 1rem;
+}
+
+.course-via-product ul {
+  padding-right: 0;
+}
+
+.woocommerce-checkout .lp-course-sold-out {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 1rem 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.woocommerce-checkout .lp-course-sold-out__title {
+  padding: 10px;
+  cursor: pointer;
+  margin: 0;
+  position: relative;
+}
+
+.woocommerce-checkout .lp-course-sold-out__title::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid #000;
+  border-right: 2px solid #000;
+  transform: rotate(-225deg) translate(0, 50%);
+}
+
+.lp-course-sold-out:has(.lp-course-sold-out__list.is-active) .lp-course-sold-out__title::after {
+  transform: rotate(-45deg) translate(0, -50%);
+}
+
+.woocommerce-checkout .lp-course-sold-out__list {
+  list-style-type: numeric;
+  padding: 0;
+  height: 0;
+  overflow: hidden;
+  margin-block: 0;
+  transition: all 0.5s ease-out;
+}
+
+.woocommerce-checkout .lp-course-sold-out__list.is-active {
+  height: auto;
+  padding: 0 2rem 1rem;
+  margin: 0 20px;
+}
+
+/**
+ * Style for View Cart button
+ * Fix case button is Gutenberg block, not rendered after adding a course to the cart via AJAX, so style wil not be applied.
+ * If reload page, the button will be rendered and style will be applied.
+ * Because js handle will get html from AJAX response.
+ */
+.lp-btn-woo-view-cart {
+  font-size: var(--lp-font-size-base, 1em);
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--lp-primary-color, #ffb606);
+  color: var(--lp-color-white, #fff);
+  text-decoration: none;
+  border-radius: var(--lp-border-radius, 5px);
+  transition: background-color 0.3s ease;
+  border-width: 0;
+  width: 100%;
+  cursor: pointer;
+}

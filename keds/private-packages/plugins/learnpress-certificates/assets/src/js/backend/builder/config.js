@@ -1,0 +1,46 @@
+export const CANVAS_DEFAULTS = {
+	WIDTH: 842,
+	HEIGHT: 595,
+	BACKGROUND: '#ffffff',
+};
+
+export const TEXT_DEFAULTS = {
+	FONT_SIZE: 20,
+	FONT_FAMILY: 'Arial',
+	FILL_COLOR: '#000',
+	LINE_HEIGHT: 1,
+	CHAR_SPACING: 0,
+	TEXTBOX_WIDTH: 300,
+	MIN_TEXTBOX_WIDTH: 50,
+};
+
+export const TIMING = {
+	DEBOUNCE_SAVE: 500,
+	DEBOUNCE_HISTORY: 500,
+	KEYBOARD_MOVE_DELAY: 300,
+	FONT_LOAD_DELAY: 100,
+};
+
+export const LAYER_DEFAULTS = {
+	DUPLICATE_OFFSET: 10,
+	MOVE_STEP: 10,
+	MOVE_STEP_FAST: 20,
+	MAX_HISTORY_STEPS: 20,
+};
+
+export const ELEMENT_SCALING = {
+	TARGET_PERCENT: 0.2,
+};
+
+export const ALIGNMENT = {
+	MARGIN: 4,
+	COLOR: '#0015ff',
+	LINE_WIDTH: 2,
+};
+
+export const SYSTEM_FONTS = [
+	'Arial',
+	'Georgia',
+	'Helvetica',
+	'Verdana',
+];

@@ -1,0 +1,9 @@
+form.retake-course, form.enroll-course, form.purchase-course {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+a.btn-buy-via-member-ship .lp-button:hover {
+  background: rgba(10, 122, 255, 0.76);
+}

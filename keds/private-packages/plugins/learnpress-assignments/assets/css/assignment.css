@@ -1,0 +1,331 @@
+#wpadminbar #wp-admin-bar-edit-lp_assignment .ab-item:before {
+	font-family: "Font Awesome 5 Free";
+	content: "\f15c";
+}
+
+.assignment-summary {
+	margin-bottom: 50px;
+}
+
+.assignment-summary h2,
+.assignment-summary h3,
+.lp-assignment-buttons {
+	margin-bottom: 20px;
+}
+
+.course-curriculum
+ul.curriculum-sections
+.section-content
+.course-item.course-item-lp_assignment
+.section-item-link:before {
+	content: "\f15c";
+}
+
+.course-curriculum
+ul.curriculum-sections
+.section-content
+.course-item.has-status.status-evaluated
+.course-item-status {
+	color: #00adff;
+}
+
+.course-curriculum
+ul.curriculum-sections
+.section-content
+.course-item.has-status.status-evaluated
+.course-item-status:before {
+	content: "\f00c";
+}
+
+.course-curriculum
+ul.curriculum-sections
+.section-content
+.course-item.has-status.status-doing
+.course-item-status:before {
+	content: "\f130";
+	font-family: dashicons;
+}
+
+.single-lp_course
+.course-curriculum
+.curriculum-sections
+.section
+.section-content
+.course-item
+.section-item-link
+.course-item-meta
+.final-assignment {
+	margin-left: 10px;
+}
+
+.assignment-status {
+	background: #e7f7ff;
+	margin-bottom: 30px;
+}
+
+.assignment-status .progress-items {
+	display: flex;
+}
+
+.assignment-status .progress-items .progress-item {
+	flex: 1;
+	position: relative;
+	font-size: 15px;
+	color: #777;
+}
+
+.assignment-status .progress-items .progress-item .progress-number {
+	font-size: 20px;
+	margin: 15px 0 10px 0;
+}
+
+.assignment-status .progress-items .progress-item .progress-label {
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
+.assignment-status .progress-items .progress-item:after {
+	clear: both;
+	display: block;
+	content: "";
+}
+
+.assignment-status .progress-items .progress-item .progress-number,
+.assignment-status .progress-items .progress-item .progress-label {
+	display: block;
+	text-align: center;
+	line-height: 1;
+}
+
+.lp-assignment-buttons #_lp_upload_file {
+	display: block;
+	margin: 20px 0 0;
+}
+
+.lp-assignment-buttons .assignments-notice-filetype {
+	display: block;
+	margin-bottom: 20px;
+	font-style: italic;
+	font-size: 14px;
+}
+
+.assignment-button-right {
+	float: right;
+}
+
+.assignment-button-right,
+.assignment-button-left {
+	margin: 10px 0 40px;
+}
+
+/*result display:*/
+.assignment-result {
+	max-width: 400px;
+	margin: 30px auto 20px;
+	text-align: center;
+}
+
+.assignment-result.passed .result-achieved {
+	color: #04adff;
+}
+
+.assignment-result .result-grade .result-achieved {
+	font-size: 36px;
+	border-bottom: 2px solid #04adff;
+}
+
+.assignment-result .result-grade .result-message {
+	font-size: 14px;
+}
+
+.assignment-result.passed .result-message strong {
+	color: #04adff;
+}
+
+.assignment-result .result-grade .result-require {
+	display: block;
+}
+
+.assignment-result .result-grade .result-achieved,
+.assignment-result .result-grade .result-require {
+	margin: 0 auto;
+}
+
+/*intro of assignment*/
+.assignment-intro {
+	list-style: none;
+	margin: 0 0 20px;
+	padding: 0;
+	display: table;
+}
+
+.assignment-intro li {
+	margin: 0;
+	display: table-row;
+}
+
+.assignment-intro li label,
+.assignment-intro li span {
+	display: table-cell;
+}
+
+.assignment-intro li label {
+	font-weight: bold;
+	padding: 0 20px 10px 0px;
+	line-height: 1;
+}
+
+.assignment-intro li span {
+	text-align: left;
+}
+
+.assignment-files {
+	list-style: none;
+}
+
+/*.assignment-files li {
+    position: relative;
+}*/
+
+/*.assignment-files a {
+    text-decoration: underline;
+    position: absolute;
+}*/
+
+.assignment-files a .saved-time {
+	font-style: italic;
+	font-size: x-small;
+}
+
+/*
+.assignment-files li:before {
+    content: "\f497";
+    font-family: dashicons;
+    padding-right: 5px;
+}*/
+.assignmen-file {
+	padding: 6px;
+	margin: 10px;
+	border: 1px solid #fff;
+	float: left;
+	background: #e6e6e6 50% 50% repeat-x;
+	font-weight: normal;
+	color: #555;
+	list-style: none;
+	display: block;
+	position: relative;
+	overflow: hidden;
+	line-height: 12px;
+	width: 120px;
+}
+.assignmen-file .lp-assignment__overlay{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	background: rgba(0,0,0,0.4);
+	display:flex;
+	align-items: center;
+	justify-content:center;
+}
+.assignmen-file .lp-assignment__overlay:before{
+	content: '';
+	width: 30px;
+	height: 30px;
+	border: 2px #ddd solid;
+	border-top: 2px #2e93e6 solid;
+	border-radius: 50%;
+	animation: sp-anime 0.8s infinite linear;
+}
+@keyframes sp-anime {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.assignment_file_thumb {
+	width: 120px;
+	height: 70px;
+	position: relative;
+	background-image: none;
+	background-color: #eee;
+}
+
+.assignment_file_thumb .ui-widget-content {
+	border: 1px solid #aaa;
+	background: #fff 50% 50% repeat-x;
+	color: #222;
+}
+
+.assignment_file_thumb .assignment_file_dummy {
+	font-size: 21px;
+	font-weight: bold;
+	text-transform: lowercase;
+	overflow: hidden;
+	border: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	overflow: hidden;
+	line-height: 60px;
+}
+
+.assignment_file_name {
+	overflow: hidden;
+	padding: 0;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.assignment_file_name_wrapper {
+	font-size: 11px;
+}
+
+.saved-time {
+	font-size: 11px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.ui-state-disabled {
+	opacity: 0.35;
+}
+
+.assignment_file_action {
+	width: 16px;
+}
+
+.assignment_file_action {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.assignment_action_icon {
+	opacity: 0.65;
+}
+
+.assignment_action_icon:hover {
+	color: #ff0000;
+}
+
+.assignment_action_icon:before {
+	content: "\f182";
+	font-family: dashicons;
+}
+
+.assignment-buttons-area {
+	clear: both;
+	padding-top: 30px;
+}
+
+.assignment-file-size {
+	font-size: 12px;
+}
+

@@ -1,0 +1,189 @@
+# Copyright (C) 2025 ThimPress
+# This file is distributed under the same license as the LearnPress - Students List plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - Students List 4.0.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-students-list\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-05-09T14:09:29+03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: learnpress-students-list\n"
+
+#. Plugin Name of the plugin
+#: learnpress-students-list.php
+msgid "LearnPress - Students List"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: learnpress-students-list.php
+msgid "http://thimpress.com/learnpress"
+msgstr ""
+
+#. Description of the plugin
+#: learnpress-students-list.php
+msgid "Students list for LearnPress."
+msgstr ""
+
+#. Author of the plugin
+#: learnpress-students-list.php
+msgid "ThimPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: learnpress-students-list.php
+msgid "http://thimpress.com"
+msgstr ""
+
+#: config/settings.php:7
+#: release/learnpress-students-list/config/settings.php:7
+#: release/learnpress-students-list/releases/learnpress-students-list/config/settings.php:7
+#: releases/learnpress-students-list/config/settings.php:7
+msgid "Students List Settings"
+msgstr ""
+
+#: config/settings.php:11
+#: release/learnpress-students-list/config/settings.php:11
+#: release/learnpress-students-list/releases/learnpress-students-list/config/settings.php:11
+#: releases/learnpress-students-list/config/settings.php:11
+msgid "Students Per Page"
+msgstr ""
+
+#: config/settings.php:15
+#: release/learnpress-students-list/config/settings.php:15
+#: release/learnpress-students-list/releases/learnpress-students-list/config/settings.php:15
+#: releases/learnpress-students-list/config/settings.php:15
+msgid "The number of displayed students per page (Enter -1 to display all)."
+msgstr ""
+
+#: inc/load.php:90
+#: inc/StudentsListWidget.php:82
+#: release/learnpress-students-list/inc/load.php:90
+#: release/learnpress-students-list/inc/StudentsListWidget.php:82
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/load.php:74
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:73
+#: releases/learnpress-students-list/inc/load.php:74
+#: releases/learnpress-students-list/inc/widgets.php:73
+msgid "Students List"
+msgstr ""
+
+#: inc/load.php:91
+#: release/learnpress-students-list/inc/load.php:91
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/load.php:75
+#: releases/learnpress-students-list/inc/load.php:75
+msgid "Hide the students list in each individual course."
+msgstr ""
+
+#: inc/StudentsListShortCode.php:34
+#: release/learnpress-students-list/inc/StudentsListShortCode.php:34
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/shortcodes.php:67
+#: releases/learnpress-students-list/inc/shortcodes.php:67
+msgid "Course ID invalid, please check it again."
+msgstr ""
+
+#: inc/StudentsListTemplate.php:213
+#: release/learnpress-students-list/inc/StudentsListTemplate.php:213
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/StudentsListTemplate.php:201
+#: releases/learnpress-students-list/inc/StudentsListTemplate.php:201
+msgid "Load more"
+msgstr ""
+
+#: inc/StudentsListTemplate.php:231
+#: release/learnpress-students-list/inc/StudentsListTemplate.php:231
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/StudentsListTemplate.php:219
+#: releases/learnpress-students-list/inc/StudentsListTemplate.php:219
+msgid "Learning progress of students"
+msgstr ""
+
+#: inc/StudentsListTemplate.php:232
+#: release/learnpress-students-list/inc/StudentsListTemplate.php:232
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/StudentsListTemplate.php:220
+#: releases/learnpress-students-list/inc/StudentsListTemplate.php:220
+msgid "In Progress"
+msgstr ""
+
+#: inc/StudentsListTemplate.php:233
+#: release/learnpress-students-list/inc/StudentsListTemplate.php:233
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/StudentsListTemplate.php:221
+#: releases/learnpress-students-list/inc/StudentsListTemplate.php:221
+msgid "Finished"
+msgstr ""
+
+#: inc/StudentsListTemplate.php:264
+#: release/learnpress-students-list/inc/StudentsListTemplate.php:264
+msgid "There are no students"
+msgstr ""
+
+#: inc/StudentsListTemplate.php:340
+#: release/learnpress-students-list/inc/StudentsListTemplate.php:340
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/StudentsListTemplate.php:322
+#: releases/learnpress-students-list/inc/StudentsListTemplate.php:322
+msgid "Progress"
+msgstr ""
+
+#: inc/StudentsListWidget.php:27
+#: release/learnpress-students-list/inc/StudentsListWidget.php:27
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:25
+#: releases/learnpress-students-list/inc/widgets.php:25
+msgid "Learnpress - Students List"
+msgstr ""
+
+#: inc/StudentsListWidget.php:45
+#: release/learnpress-students-list/inc/StudentsListWidget.php:45
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/shortcodes.php:58
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:61
+#: releases/learnpress-students-list/inc/shortcodes.php:58
+#: releases/learnpress-students-list/inc/widgets.php:61
+msgid "Please enter Course ID."
+msgstr ""
+
+#: inc/StudentsListWidget.php:65
+#: release/learnpress-students-list/inc/StudentsListWidget.php:65
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/shortcodes.php:71
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:53
+#: releases/learnpress-students-list/inc/shortcodes.php:71
+#: releases/learnpress-students-list/inc/widgets.php:53
+msgid "Course"
+msgstr ""
+
+#: inc/StudentsListWidget.php:88
+#: release/learnpress-students-list/inc/StudentsListWidget.php:88
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:80
+#: releases/learnpress-students-list/inc/widgets.php:80
+msgid "Title:"
+msgstr ""
+
+#: inc/StudentsListWidget.php:96
+#: release/learnpress-students-list/inc/StudentsListWidget.php:96
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:88
+#: releases/learnpress-students-list/inc/widgets.php:88
+msgid "Course ID:"
+msgstr ""
+
+#: inc/StudentsListWidget.php:102
+#: release/learnpress-students-list/inc/StudentsListWidget.php:102
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:94
+#: releases/learnpress-students-list/inc/widgets.php:94
+msgid "Course IDs separated by commas (,)"
+msgstr ""
+
+#: inc/StudentsListWidget.php:107
+#: release/learnpress-students-list/inc/StudentsListWidget.php:107
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:99
+#: releases/learnpress-students-list/inc/widgets.php:99
+msgid "Number students to show:"
+msgstr ""
+
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:26
+#: releases/learnpress-students-list/inc/widgets.php:26
+msgid "Display students list of course."
+msgstr ""
+
+#: release/learnpress-students-list/releases/learnpress-students-list/inc/widgets.php:108
+#: releases/learnpress-students-list/inc/widgets.php:108
+msgid "Filter:"
+msgstr ""

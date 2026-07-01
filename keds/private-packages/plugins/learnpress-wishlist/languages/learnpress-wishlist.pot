@@ -1,0 +1,216 @@
+# Copyright (C) 2026 ThimPress
+# This file is distributed under the same license as the LearnPress - Course Wishlist plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - Course Wishlist 4.1.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-wishlist\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-22T05:46:18+03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: learnpress-wishlist\n"
+
+#. Plugin Name of the plugin
+#: learnpress-wishlist.php
+msgid "LearnPress - Course Wishlist"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: learnpress-wishlist.php
+msgid "https://thimpress.com/product/learnpress-course-wishlist/"
+msgstr ""
+
+#. Description of the plugin
+#: learnpress-wishlist.php
+msgid "Wishlist feature."
+msgstr ""
+
+#. Author of the plugin
+#: learnpress-wishlist.php
+msgid "ThimPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: learnpress-wishlist.php
+msgid "http://thimpress.com"
+msgstr ""
+
+#: config/elementor/wishlist.php:11
+#: config/elementor/wishlist_loop.php:11
+msgid "Style"
+msgstr ""
+
+#: config/elementor/wishlist.php:16
+#: config/elementor/wishlist_loop.php:16
+msgid "Layout"
+msgstr ""
+
+#: config/elementor/wishlist.php:18
+#: config/elementor/wishlist_loop.php:18
+msgid "Classic"
+msgstr ""
+
+#: config/elementor/wishlist.php:19
+#: config/elementor/wishlist_loop.php:19
+msgid "Modern"
+msgstr ""
+
+#: config/elementor/wishlist.php:20
+#: config/elementor/wishlist_loop.php:20
+msgid "Icon Only"
+msgstr ""
+
+#: config/elementor/wishlist.php:26
+#: config/elementor/wishlist_loop.php:26
+msgid "Color"
+msgstr ""
+
+#: config/elementor/wishlist.php:33
+#: config/elementor/wishlist_loop.php:33
+msgid "Color Active, Hover"
+msgstr ""
+
+#: config/elementor/wishlist.php:41
+#: config/elementor/wishlist_loop.php:41
+msgid "Background Color"
+msgstr ""
+
+#: config/elementor/wishlist.php:48
+#: config/elementor/wishlist_loop.php:48
+msgid "Background Color Hover"
+msgstr ""
+
+#: config/elementor/wishlist.php:55
+#: config/elementor/wishlist_loop.php:55
+msgid "Padding"
+msgstr ""
+
+#: config/elementor/wishlist.php:77
+#: config/elementor/wishlist_loop.php:77
+msgid "Icon Size"
+msgstr ""
+
+#: config/elementor/wishlist.php:89
+#: config/elementor/wishlist_loop.php:89
+msgid "Icon Space"
+msgstr ""
+
+#: inc/Elementor/Widgets/CourseWishlistElementor.php:21
+msgid "Course Wishlist"
+msgstr ""
+
+#: inc/Elementor/Widgets/CourseWishlistLoopElementor.php:20
+msgid "Course Wishlist Loop"
+msgstr ""
+
+#: inc/Gutenberg/Blocks/ButtonWishListBlockType.php:210
+#: inc/TemplateHooks/CourseWishlistTemplate.php:157
+#, php-format
+msgid "Please %s to add this course to your wishlist."
+msgstr ""
+
+#: inc/Gutenberg/Blocks/ButtonWishListBlockType.php:214
+#: inc/TemplateHooks/CourseWishlistTemplate.php:161
+msgid "login"
+msgstr ""
+
+#: inc/Gutenberg/Blocks/ButtonWishListBlockType.php:234
+#: inc/TemplateHooks/CourseWishlistTemplate.php:179
+msgid "Course added to wishlist."
+msgstr ""
+
+#: inc/Gutenberg/Blocks/ButtonWishListBlockType.php:238
+#: inc/TemplateHooks/CourseWishlistTemplate.php:183
+msgid "View Wishlist"
+msgstr ""
+
+#: inc/Gutenberg/Blocks/ButtonWishListBlockType.php:243
+#: inc/TemplateHooks/CourseWishlistTemplate.php:188
+msgid "Course removed from wishlist."
+msgstr ""
+
+#: inc/load.php:53
+msgid "wishlist"
+msgstr ""
+
+#: inc/load.php:254
+msgid "You have not permission to do this action"
+msgstr ""
+
+#: inc/load.php:297
+#: inc/TemplateHooks/CourseWishlistTemplate.php:32
+#: inc/TemplateHooks/CourseWishlistTemplate.php:213
+#: templates/button.php:25
+msgid "Add to Wishlist"
+msgstr ""
+
+#: inc/load.php:300
+#: inc/TemplateHooks/CourseWishlistTemplate.php:36
+#: inc/TemplateHooks/CourseWishlistTemplate.php:218
+#: templates/button.php:25
+msgid "Remove from Wishlist"
+msgstr ""
+
+#: inc/load.php:311
+msgid "Remove this course from your wishlist"
+msgstr ""
+
+#: inc/load.php:314
+msgid "Add this course to your wishlist"
+msgstr ""
+
+#: inc/load.php:323
+msgid "This course added to your wishlist"
+msgstr ""
+
+#: inc/load.php:326
+msgid "This course removed from your wishlist"
+msgstr ""
+
+#: inc/load.php:396
+#: inc/TemplateHooks/CourseWishlistTemplate.php:238
+#: inc/TemplateHooks/CourseWishlistTemplate.php:243
+msgid "Wishlist"
+msgstr ""
+
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:116
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:164
+msgid "Add to wishlist"
+msgstr ""
+
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:117
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:165
+msgid "Remove from wishlist"
+msgstr ""
+
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:138
+msgid "This course available in your wishlist"
+msgstr ""
+
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:141
+msgid "This course not in your wishlist"
+msgstr ""
+
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:184
+msgid "This course has been removed from your wishlists"
+msgstr ""
+
+#: inc/rest-api/class-lp-rest-wishlist-v1-controller.php:189
+msgid "This course has been added to your wishlists"
+msgstr ""
+
+#: inc/TemplateHooks/CoursesWishlistTemplate.php:75
+msgid "My Wishlist Courses"
+msgstr ""
+
+#: templates/button.php:24
+msgid "Processing..."
+msgstr ""
+
+#: templates/user-wishlist.php:27
+msgid "No courses in your wishlist!"
+msgstr ""

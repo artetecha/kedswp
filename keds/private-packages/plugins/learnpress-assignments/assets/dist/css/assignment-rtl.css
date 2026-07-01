@@ -1,0 +1,469 @@
+#wpadminbar #wp-admin-bar-edit-lp_assignment .ab-item:before {
+  font-family: "lp-icon";
+  content: "\f15b";
+  font-weight: normal;
+}
+
+.course-curriculum .section-content .course-item.course-item-lp_assignment .section-item-link:before {
+  content: "\f15c";
+}
+.course-curriculum .section-content .course-item.has-status.status-evaluated .course-item-status {
+  color: #00adff;
+}
+.course-curriculum .section-content .course-item.has-status.status-evaluated .course-item-status:before {
+  content: "\f00c";
+}
+.course-curriculum .section-content .course-item.has-status.status-doing .course-item-status:before {
+  content: "\e921";
+}
+.course-curriculum .section-content .course-item.has-status.failed .course-item-status:before {
+  color: #f02425;
+  content: "\f00d";
+}
+
+.single-lp_course .course-curriculum .curriculum-sections .section .section-content .course-item .section-item-link .course-item-meta .final-assignment {
+  margin-right: 10px;
+}
+
+.lp-assignment-buttons .assignments-notice-filetype {
+  display: block;
+  margin: 10px 0 20px;
+  font-size: var(--lp-font-size-base, 1rem);
+}
+
+.course-summary h1.assignment-title {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 32px;
+  font-weight: bold;
+}
+.course-summary .learn-press-main-content-item-assignment {
+  margin-bottom: 30px;
+}
+.course-summary .assignment-banner-status {
+  background: #F1F2F8;
+  margin: 0 0 30px 0;
+  border-radius: var(--lp-border-radius, 5px);
+  list-style: none;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.course-summary .assignment-banner-status li {
+  text-align: center;
+}
+.course-summary .assignment-banner-status .assignment-countdown {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: var(--lp-font-size-base, 1em);
+}
+.course-summary .assignment-banner-status .assignment-countdown::before {
+  content: "\e909";
+  font-family: "lp-icon";
+  font-size: var(--lp-font-size-base, 1.1em);
+}
+.course-summary .assignment-banner-status .assignment-countdown .progress-number {
+  color: #F51A1A;
+}
+.course-summary .assignment-banner-status .assignment-status-time-spend::before {
+  content: "\e909";
+  font-family: "lp-icon";
+  margin-left: 8px;
+  display: inline-block;
+}
+.course-summary .assignment-banner-status .assignment-status-submitted-time::before {
+  content: "\f08b";
+  font-family: "lp-icon";
+  transform: rotate(90deg);
+  margin-left: 8px;
+  display: inline-block;
+}
+.course-summary .assignment-banner-status .assignment-status-mark {
+  position: relative;
+  padding-right: 24px;
+}
+.course-summary .assignment-banner-status .assignment-status-mark::before {
+  content: "\f058";
+  font-family: "lp-icon";
+  position: absolute;
+  display: inline-block;
+  right: 0;
+  left: auto;
+}
+.course-summary .assignment-banner-status .assignment-status-label {
+  background-color: rgba(255, 205, 87, 0.4392156863);
+  color: #F88C0E;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.course-summary .assignment-banner-status .assignment-status-label.passed {
+  background-color: rgba(0, 200, 40, 0.1607843137);
+  color: #4BC313;
+}
+.course-summary .assignment-banner-status .assignment-status-label.failed {
+  background-color: #FFE1DF;
+  color: #FF3B30;
+}
+.course-summary .assignment-user-answering-label {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: bold;
+}
+.course-summary .assignment-description-label,
+.course-summary .assignment-user-answered-title {
+  font-size: 26px;
+}
+.course-summary .assignment-intro {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: table;
+}
+.course-summary .assignment-intro li {
+  margin: 0;
+  display: table-row;
+}
+.course-summary .assignment-intro li label,
+.course-summary .assignment-intro li span {
+  display: table-cell;
+}
+.course-summary .assignment-intro li label {
+  font-weight: normal;
+  padding: 0 0 10px 30px;
+  line-height: 1.2;
+}
+.course-summary .assignment-intro li span {
+  font-weight: 500;
+  text-align: right;
+}
+.course-summary #show-assignment-content {
+  margin-bottom: 40px;
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+.course-summary #show-assignment-content:hover {
+  color: var(--lp-primary-color);
+}
+.course-summary .assignment-description-label,
+.course-summary .assignment-task-introduction-title,
+.course-summary .assignment-attachment-title,
+.course-summary .assignment-user-answered-files-label,
+.course-summary .assignment-evaluated-instructor-title {
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+.course-summary .learn_press_assignment_content {
+  margin-bottom: 24px;
+}
+.course-summary .assignment-files {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  margin-bottom: 24px;
+}
+.course-summary .assignment-files li {
+  margin-bottom: 10px;
+  padding: 10px 16px;
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  border-radius: var(--lp-border-radius, 5px);
+  font-size: var(--lp-font-size-base, 1rem);
+  display: flex;
+  align-items: center;
+}
+.course-summary .assignment-files li:last-child {
+  margin-bottom: 0;
+}
+.course-summary .assignment-files li::before {
+  content: "\f15b";
+  font-family: "lp-icon";
+  font-size: 20px;
+  margin: 0 0 0 10px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--lp-border-radius, 5px);
+  background-color: #F8F9FB;
+}
+.course-summary .assignment-files li .assignment-file {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  font-size: var(--lp-font-size-base);
+}
+.course-summary .assignment-files a .saved-time {
+  font-size: x-small;
+}
+.course-summary .assignment-attachment .assignment-documentations {
+  margin-bottom: 24px;
+}
+.course-summary .assignment-information {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.course-summary .assignment-information label::after {
+  content: ":";
+  display: inline-block;
+}
+.course-summary .assignment-result {
+  max-width: 400px;
+  margin: 30px auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.course-summary .assignment-result.passed .result-achieved {
+  color: #55BE24;
+}
+.course-summary .assignment-result.failed .result-achieved {
+  color: #FF3B30;
+}
+.course-summary .assignment-result.failed .result-grade {
+  background: conic-gradient(#FF3B30 var(--progress, 50%), #F1F2F8 0);
+}
+.course-summary .assignment-result .result-grade {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  background: conic-gradient(#4caf50 var(--progress, 50%), #F1F2F8 0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+}
+.course-summary .assignment-result .result-grade:before {
+  background-color: #fff;
+  border-radius: 50%;
+  content: "";
+  height: 90%;
+  right: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(50%, -50%);
+  width: 90%;
+  z-index: -1;
+}
+.course-summary .assignment-result .result-grade .result-achieved {
+  font-size: 48px;
+  line-height: 1.2;
+  margin: 0 auto;
+}
+.course-summary .assignment-result .result-grade .result-message {
+  font-size: 14px;
+}
+.course-summary .assignment-result .result-grade .result-require {
+  display: block;
+  margin: 0 auto;
+}
+.course-summary .assignment-result.passed .result-message strong {
+  color: #04adff;
+}
+.course-summary .assignment-evaluated-instructor {
+  padding: 16px;
+  background-color: #F7F7FB;
+  border-radius: var(--lp-border-radius, 5px);
+}
+.course-summary .assignment-evaluated-instructor .assignment-evaluated-instructor-title {
+  margin-top: 0;
+}
+.course-summary .assignment-user-edit-upload {
+  padding: 30px;
+  margin: 24px 0;
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  border-radius: var(--lp-border-radius, 5px);
+}
+.course-summary .assignment-user-edit-upload .assignment-upload-note {
+  font-size: 14px;
+  color: #999999;
+}
+.course-summary .assignment-user-edit-upload .assignment-upload-note:last-child {
+  margin-bottom: 0;
+}
+.course-summary .assignment-user-edit-upload .assignment-user-edit-upload-title {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+.course-summary .assignment-user-edit-upload input[type=file]::file-selector-button {
+  padding: 10px 20px;
+  margin-left: 8px;
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  background-color: transparent;
+  border-radius: var(--lp-border-radius, 5px);
+}
+.course-summary .assignment-user-edit-upload input[type=file]::file-selector-button:hover {
+  background-color: var(--lp-primary-color);
+  border-color: var(--lp-primary-color);
+}
+.course-summary .assignment-user-edit-upload input[type=file]:disabled::file-selector-button:hover {
+  background-color: transparent;
+  border-color: var(--lp-border-color, #E2E0DB);
+}
+.course-summary .assignment-user-edit-upload #_lp_upload_file {
+  margin-bottom: 12px;
+  display: block;
+  background: transparent;
+  border: none;
+  height: unset;
+  outline: none;
+  padding: 0;
+  box-shadow: none;
+}
+.course-summary .assignment-user-edit-upload .learn-press-message {
+  float: none !important;
+  margin-bottom: 0;
+}
+.course-summary .assignment-user-edit-upload .assignment-user-answered-files {
+  margin-top: 20px;
+}
+.course-summary .assignment-user-edit-upload .assignment-user-answered-files-label {
+  display: none;
+}
+.course-summary .assignment-user-edit-upload .assignment-files {
+  margin-bottom: 0;
+}
+.course-summary .assignment-answer {
+  margin-bottom: 24px;
+}
+.course-summary .assignment-user-answering-wrapper {
+  margin-top: 30px;
+}
+.course-summary .learn_press_assignment_reference {
+  background: #F7F7FB;
+  padding: 30px;
+  border-radius: var(--lp-border-radius, 5px);
+  margin-bottom: 24px;
+}
+.course-summary .learn_press_assignment_reference .assignment-references {
+  margin-bottom: 0;
+}
+.course-summary .wp-editor-wrap button {
+  background-color: transparent !important;
+  color: inherit !important;
+  padding: 10px 20px;
+}
+.course-summary .wp-editor-wrap .quicktags-toolbar {
+  padding: 15px;
+  background-color: transparent;
+}
+.course-summary .wp-editor-wrap .quicktags-toolbar .button {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+.course-summary .wp-editor-wrap textarea.wp-editor-area {
+  border: none;
+}
+.course-summary .wp-editor-wrap .mce-toolbar-grp {
+  padding: 12px;
+  background-color: transparent;
+  box-shadow: none;
+}
+.course-summary .wp-editor-wrap .mce-top-part::before {
+  box-shadow: none;
+}
+.course-summary .assignment-uploaded .assignment-uploaded-file {
+  position: relative;
+  overflow: hidden;
+}
+.course-summary .assignment-uploaded .assignment-uploaded-file .lp-assignment__overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.course-summary .assignment-uploaded .assignment-uploaded-file .lp-assignment__overlay:before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border: 2px #ddd solid;
+  border-top: 2px #2e93e6 solid;
+  border-radius: 50%;
+  animation: sp-anime 0.8s infinite linear;
+}
+.course-summary .assignment-uploaded .assignment-uploaded-file .assignment_file_name {
+  margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--lp-font-size-base, 1rem);
+}
+.course-summary .assignment-uploaded .assignment-uploaded-file .assignment_file_uploaded_time {
+  display: none;
+}
+.course-summary .assignment_file_thumb {
+  display: none;
+}
+.course-summary .saved-time {
+  font-size: 12px;
+}
+.course-summary .assignment-user-answered-wrapper {
+  margin-bottom: 24px;
+}
+.course-summary .ui-state-disabled {
+  opacity: 0.35;
+}
+.course-summary .assignment_file_action {
+  width: 16px;
+  margin-right: auto;
+}
+.course-summary .assignment_file_action .assignment_action_icon:hover::before {
+  color: #ff0000;
+}
+.course-summary .assignment_file_action .assignment_action_icon:before {
+  content: "\f014";
+  font-family: "lp-icon";
+  color: #A3A3A4;
+  font-weight: normal;
+}
+.course-summary .assignment-buttons-area {
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 10px;
+  margin-bottom: 20px;
+}
+.course-summary .assignment-file-size {
+  font-size: 12px;
+}
+@keyframes sp-anime {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+.course-summary .assignment-user-answered-text {
+  border-radius: var(--lp-border-radius, 5px);
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  padding: 10px;
+}
+.course-summary .lp-form-start-assignment,
+.course-summary .retake-assignment {
+  margin-top: 24px;
+}
+
+#popup-content .lp-btn-assignment-save.lp-button {
+  margin-left: 20px !important;
+}

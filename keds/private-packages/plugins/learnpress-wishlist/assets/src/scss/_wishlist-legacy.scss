@@ -1,0 +1,254 @@
+.lp-button-wishlist-action:not(.wp-block-learnpress-course-button-wishlist) {
+	outline: none !important;
+	&.lp-button {
+		border: none;
+	}
+
+	&.modern, &.icon-only {
+		border: none;
+		background: none;
+		color: unset;
+		padding: 0;
+
+		i {
+			color: var(--lp-primary-color);
+		}
+	}
+}
+
+.site button.lp-button-wishlist-action:not(.wp-block-learnpress-course-button-wishlist) {
+	&.modern, &.icon-only {
+		border: none;
+		background: none;
+		color: unset;
+		padding: 0;
+
+		i {
+			color: var(--lp-primary-color);
+		}
+	}
+}
+
+#learn-press-profile-tab-course-wishlist {
+	&.has-courses .learn-press-message {
+		display: none;
+	}
+}
+
+.course-wishlist {
+	float: right;
+
+	&.heartbeat {
+		animation-name: course-wishlist-heartbeat;
+		animation-duration: 1s;
+		animation-timing-function: ease-out;
+		animation-delay: 3s;
+		animation-direction: alternate;
+		animation-iteration-count: infinite;
+		animation-fill-mode: none;
+		animation-play-state: running;
+	}
+
+	&.heartbeat.ajaxload {
+		animation-duration: 0.3s;
+		animation-name: course-wishlist-heartbeat-ajaxload;
+		animation-delay: 0s;
+	}
+
+	&:before {
+		content: "\f004";
+		margin-right: 5px;
+		font-family: "lp-icon";
+	}
+
+	&.filled:before {
+		content: "\f004";
+	}
+}
+
+.lp-item-wishlist {
+	cursor: pointer;
+	text-transform: capitalize;
+
+	&::before {
+		margin-right: 10px;
+		display: inline-block;
+		font-family: 'lp-icon';
+		content: "\f08a";
+		font-size: 18px;
+	}
+
+	&.active::before {
+		content: "\f004";
+		color: var(--lp-primary-color);
+	}
+}
+
+.lp-btn-wishlist {
+	&:hover {
+		background: var(--lp-primary-color);
+
+		.lp-item-wishlist {
+			&.active::before {
+				color: white;
+			}
+		}
+	}
+}
+
+@keyframes course-wishlist-heartbeat {
+	0% {
+		transform: scale(1);
+	}
+
+	100% {
+		transform: scale(1.2);
+	}
+}
+
+@keyframes course-wishlist-heartbeat-ajaxload {
+	0% {
+		transform: scale(1);
+	}
+
+	100% {
+		transform: scale(1.5);
+	}
+}
+
+#learn-press-course,
+#learn-press-profile {
+	.learn-press-course-wishlist {
+		display: block;
+		position: relative !important;
+		background: #fff;
+		border: 1px solid #000;
+		font-size: 14px;
+		color: #000;
+		padding: 5px;
+	}
+}
+
+/**************** List Course ****************/
+.learn-press-courses {
+	.lp-button-wishlist-action {
+		&.icon-only {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			z-index: 1;
+		}
+	}
+
+	.lp-wishlist-widget-loop {
+		.lp-button-wishlist-action {
+			&.icon-only {
+				position: static;
+			}
+		}
+	}
+}
+
+.ul-instructor-courses {
+	.course-thumbnail {
+		position: relative;
+	}
+}
+
+// Toastify message, add temporary, run on single instructor, LP has code, but tag style 'learnpress' not load here, need optimize later
+$msg-success:#EBF8E5;
+$msg-error: #FEE5E5;
+.lp-toast{
+	&.toastify{
+		background: $msg-success;
+		color :#3AB500;
+		border-radius: var( --lp-border-radius, 5px);
+		box-shadow: 0 0 0;
+		display: flex;
+		align-items: center;
+		.toast-close{
+			background: transparent!important;
+			font-size: 0;
+			padding-left: 12px;
+			&:before{
+				content: "\f00d";
+				font-family: 'lp-icon';
+				font-size: 16px;
+				color: #000;
+				line-height: 17px;
+			}
+			&:hover{
+				opacity: 1;
+			}
+		}
+		&.error{
+			background-color: $msg-error;
+			color: #FF3B30;
+			padding: 12px 20px; // Fixed by on Backend of WP has style div.error
+			border: none; // Fixed by on Backend of WP has style div.error
+			margin: 0 auto; // Fixed by on Backend of WP has style div.error
+		}
+	}
+}
+
+/**************** Page Profile ****************/
+#learn-press-profile {
+	#profile-nav {
+		.lp-profile-nav-tabs>li.wishlist.active>a::before {
+			color: white;
+		}
+	}
+
+	.learn-press-wishlist-courses {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(290px, 290px));
+		grid-gap: 20px;
+		padding-right: 20px;
+
+		h3 {
+			font-size: 1em;
+			padding: 5px 0;
+		}
+
+		.lp-btn-wishlist {
+			width: 100%;
+		}
+	}
+
+	.elementor-widget-learnpress_course_wishlist {
+		.course-wishlist-box {
+			.lp-button {
+				border: none;
+			}
+		}
+	}
+
+	.lp-item-wishlist {
+		cursor: pointer;
+
+		&::before {
+			display: inline-block;
+			font-family: 'lp-icon';
+			content: "\f08a";
+			font-size: 18px;
+		}
+
+		&.active::before {
+			content: "\f004";
+		}
+	}
+}
+
+#profile-content-wishlist {
+	h3 {
+		margin-top: 0;
+	}
+
+	.learn-press-courses.wishlist {
+		margin-top: 24px;
+
+		li {
+			width: 33%;
+		}
+	}
+}

@@ -1,0 +1,328 @@
+# Copyright (C) 2026 ThimPress
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - WooCommerce Payment Methods Integration 4.2.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-woo-payment\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-03-31T06:15:01+03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: learnpress-woo-payment\n"
+
+#. Plugin Name of the plugin
+#: learnpress-woo-payment.php
+msgid "LearnPress - WooCommerce Payment Methods Integration"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: learnpress-woo-payment.php
+msgid "https://thimpress.com/product/woocommerce-add-on-for-learnpress/"
+msgstr ""
+
+#. Description of the plugin
+#: learnpress-woo-payment.php
+msgid "Buy courses via WooCommerce."
+msgstr ""
+
+#. Author of the plugin
+#: learnpress-woo-payment.php
+msgid "ThimPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: learnpress-woo-payment.php
+msgid "http://thimpress.com"
+msgstr ""
+
+#: config/settings.php:8
+msgid "Enable to redirect to page Checkout when add to cart"
+msgstr ""
+
+#: config/settings.php:16
+msgid "If enabled system will use Payment, Checkout page, Options of Woocommerce instead of Learnpress"
+msgstr ""
+
+#: config/settings.php:30
+msgid "Buy courses via Product"
+msgstr ""
+
+#: config/settings.php:32
+msgid "Buy courses/package via Product"
+msgstr ""
+
+#: config/settings.php:41
+msgid "Enable"
+msgstr ""
+
+#: config/settings.php:54
+msgid "If enable system will access assign courses to product, and user want enroll/buy course must buy via product"
+msgstr ""
+
+#: config/settings.php:60
+msgid "Redirect to Woo checkout"
+msgstr ""
+
+#: config/settings.php:68
+msgid "Enable run background"
+msgstr ""
+
+#: config/settings.php:75
+msgid "If enable, courses of LP Order will handle in the background"
+msgstr ""
+
+#: config/settings.php:76
+msgid "Recommendation for case assigning large number courses to a product"
+msgstr ""
+
+#: config/settings.php:80
+msgid "Woo Subscription"
+msgstr ""
+
+#: config/settings.php:87
+msgid "If you want to use feature subscription, you must enable \"Buy courses via Product\""
+msgstr ""
+
+#: config/settings.php:88
+msgid "Currently, it don't apply for case Manual Order"
+msgstr ""
+
+#: config/settings.php:90
+msgid "Learn more about Woo Subscription"
+msgstr ""
+
+#: incs/Background/LPWooBackground.php:55
+msgid "LP order is invalid!"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:172
+msgid "LP Order:"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:177
+msgid "LP Order key:"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:491
+msgid "Redirecting..."
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:492
+msgid "Adding..."
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:714
+msgid "Order Woocommerce"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:766
+msgid "Displaying {{from}} to {{to}} of {{total}} {{item_name}}."
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:806
+msgid "This order is related to LearnPress order"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:826
+msgid "This order is related to Woocommerce order"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:828
+msgid "If you want to change status of this Order, you must go to Woocommerce Order related and change"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:909
+msgid "Deleted"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:938
+msgid "Course"
+msgstr ""
+
+#: incs/class-lp-wc-hooks.php:1028
+msgid "Courses are full of students"
+msgstr ""
+
+#: incs/class-lp-woo-ajax.php:42
+#: incs/Upsell/LP_WC_Package_Ajax.php:51
+msgid "Request is invalid."
+msgstr ""
+
+#: incs/class-lp-woo-ajax.php:48
+msgid "Params invalid!"
+msgstr ""
+
+#: incs/class-lp-woo-ajax.php:56
+msgid "Course is invalid!"
+msgstr ""
+
+#: incs/class-lp-woo-ajax.php:69
+msgid "Package is invalid!"
+msgstr ""
+
+#: incs/class-lp-woo-ajax.php:81
+msgid "Can not add to cart!"
+msgstr ""
+
+#: incs/class-lp-woo-ajax.php:104
+msgid "Course is only added one time."
+msgstr ""
+
+#: incs/class-lp-woo-assign-course-to-product.php:177
+msgid "If you want to buy courses, please go to the"
+msgstr ""
+
+#: incs/class-lp-woo-assign-course-to-product.php:179
+msgid "page to buy products assigned courses!"
+msgstr ""
+
+#: incs/class-lp-woo-assign-course-to-product.php:194
+#: incs/class-lp-woo-assign-course-to-product.php:291
+msgid "Courses"
+msgstr ""
+
+#: incs/class-lp-woo-assign-course-to-product.php:220
+msgid "Assign courses to this product"
+msgstr ""
+
+#: incs/class-lp-woo-assign-course-to-product.php:385
+msgid "Product which has courses is only added one time."
+msgstr ""
+
+#: incs/class-lp-woo-assign-course-to-product.php:393
+msgid "All courses are full students, so this product is out of stock."
+msgstr ""
+
+#: incs/class-lp-woo-assign-course-to-product.php:401
+#: incs/class-lp-woo-assign-course-to-product.php:404
+msgid "View Cart"
+msgstr ""
+
+#: incs/LPWooOrderHandler.php:190
+msgid "Order on"
+msgstr ""
+
+#: incs/TemplateHooks/LPWooTemplate.php:47
+msgid "Add to cart"
+msgstr ""
+
+#: incs/TemplateHooks/LPWooTemplate.php:91
+msgid "View cart"
+msgstr ""
+
+#: incs/Upsell/LP_WC_Package_Ajax.php:56
+msgid "Package is invalid."
+msgstr ""
+
+#: incs/Upsell/LP_WC_Package_Ajax.php:78
+msgid "Package is only added once."
+msgstr ""
+
+#: incs/Upsell/LP_WC_Upsell.php:81
+msgid "Package is unavailable, no any courses assigned."
+msgstr ""
+
+#: incs/Upsell/LP_WC_Upsell.php:102
+msgid "LP Packages"
+msgstr ""
+
+#: incs/Upsell/LP_WC_Upsell.php:136
+msgid "Choose a package"
+msgstr ""
+
+#: incs/Upsell/LP_WC_Upsell.php:150
+msgid "Assign package to this product"
+msgstr ""
+
+#: incs/Upsell/LP_WC_Upsell.php:220
+#: incs/Upsell/LP_WC_Upsell.php:297
+msgid "Package"
+msgstr ""
+
+#: incs/Upsell/LP_WC_Upsell.php:339
+msgid "Product which has package is only added one time."
+msgstr ""
+
+#: incs/WooGateway.php:30
+msgid "WooCommerce Payment"
+msgstr ""
+
+#: incs/WooGateway.php:32
+msgid "Make a payment with WooCommerce payment methods."
+msgstr ""
+
+#: templates/list-courses-assign-product-checkout.php:26
+msgid "list courses"
+msgstr ""
+
+#: templates/list-courses-assign-product.php:21
+msgid "Courses are full students, so this product is out of stock."
+msgstr ""
+
+#: templates/notice.php:25
+msgid "Purchase is only available if the course is already assigned to a product!"
+msgstr ""
+
+#: templates/notice.php:27
+msgid "You couldn't purchase this course because it hasn't been assigned to any product yet!"
+msgstr ""
+
+#: templates/notice.php:34
+msgid "You need to purchase courses from below products list to begin learning."
+msgstr ""
+
+#: templates/package-notice.php:39
+msgid "Purchase is only available if the package is already assigned to a product!"
+msgstr ""
+
+#: templates/package-notice.php:41
+msgid "You couldn't purchase this package because it hasn't been assigned to any product yet!"
+msgstr ""
+
+#: templates/package-notice.php:48
+msgid "You need to purchase package from products list to begin."
+msgstr ""
+
+#: templates/package-notice.php:51
+msgid "--List products: "
+msgstr ""
+
+#: templates/wc-order-profile.php:14
+msgid "Orders Woocommerce"
+msgstr ""
+
+#: templates/wc-order-profile.php:18
+msgid "Order"
+msgstr ""
+
+#: templates/wc-order-profile.php:19
+msgid "Total"
+msgstr ""
+
+#: templates/wc-order-profile.php:20
+msgid "Status"
+msgstr ""
+
+#: templates/wc-order-profile.php:21
+msgid "Date"
+msgstr ""
+
+#: templates/wc-order-profile.php:22
+msgid "Actions"
+msgstr ""
+
+#: templates/wc-order-profile.php:41
+msgctxt "hash before order number"
+msgid "#"
+msgstr ""
+
+#: templates/wc-order-profile.php:48
+#, php-format
+msgid "%1$s for %2$s item"
+msgid_plural "%1$s for %2$s items"
+msgstr[0] ""
+msgstr[1] ""

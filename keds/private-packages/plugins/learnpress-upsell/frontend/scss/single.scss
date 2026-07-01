@@ -1,0 +1,330 @@
+.lp-content-area {
+	max-width: var(--lp-container-max-width)!important;
+	margin: 0 auto;
+	padding-right: var(--lp-cotainer-padding);
+	padding-left: var(--lp-cotainer-padding);
+}
+
+.single-learnpress_package {
+	.learnpress-package {
+		> * {
+			width: 100%;
+		}
+	}
+}
+
+.lp-package-price {
+	display: inline-block;
+
+	.origin-price {
+		text-decoration: line-through;
+		margin-right: 8px;
+		font-size: 0.875rem;
+	}
+
+	.price {
+		font-size: 1rem;
+		font-weight: bold;
+	}
+}
+
+.learnpress-single-package {
+	&__main {
+		display: flex;
+		//flex-wrap: wrap;
+		//align-items: center;
+	}
+
+	&__left {
+		width: 30%;
+		position: relative;
+
+		.learnpress-single-package__left-sticky {
+			position: -webkit-sticky;
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
+
+		.lp-package-price {
+			margin-bottom: 20px;
+
+			.origin-price {
+				font-size: 1rem;
+			}
+
+			.price {
+				font-size: 1.25rem;
+			}
+		}
+
+		.learnpress-package__image {
+			margin-bottom: 20px;
+			img {
+				height: auto !important;
+				max-width: 100%;
+				//border: 1px solid var(--lp-package-border-color, #ececec);
+			}
+		}
+
+		.learnpress-package__count-courses {
+			margin-bottom: 16px;
+		}
+	}
+
+	&__right {
+		width: 70%;
+		padding-left: 30px;
+
+		> * {
+			margin-bottom: var(--lp-package-space-item, 20px);
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.learnpress-package__title {
+		margin-top: 0;
+		font-size: var(--lp-package-font-size-single-title, 2rem);
+	}
+
+	&__add-cart {
+		button[type="submit"] {
+			text-align: center;
+			padding: 8px 45px;
+ 			background-color: var(--lp-primary-color);
+			color: black ;
+			text-transform: capitalize;
+			border: 0;
+			transition: .3s;
+			&:hover {
+				filter: brightness(95%);
+			}
+		}
+	}
+
+	&__content {
+		margin-top: 30px;
+		position: relative;
+
+		.learnpress-single-package__content-inner {
+			max-height: 160px;
+			overflow: hidden;
+			transition: all 0.4s ease-in-out;
+
+			&.show-all {
+				max-height: 5000px;
+
+				~ .show-more-btn::before {
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
+		}
+
+		.hidden-content {
+			display: none;
+		}
+
+		.lp-show-more-content {
+			cursor: pointer;
+			margin-top: 20px;
+    		display: inline-block;
+			color: var(--lp-primary-color);
+			text-transform: capitalize;
+
+			&:hover {
+				text-decoration: underline;
+			}
+
+			&:not(.less) {
+				&::before {
+					content: '';
+					background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, #FFFFFF 100%);
+					position: absolute;
+					bottom: 40px;
+					left: 0;
+					right: 0;
+					top: 80px;
+					transition: all 0.4s ease-in-out;
+				}
+			}
+		}
+	}
+
+	&__courses {
+		h3 {
+			margin: 30px 0;
+		}
+
+		ul {
+			list-style: none;
+    		margin: 0;
+			padding: 0;
+		}
+
+		.course {
+			display: flex;
+			gap: 20px;
+			margin-bottom: 20px;
+			padding-bottom: 20px;
+			border-bottom: 1px solid #ccc;
+
+			&:last-child {
+				border-bottom: none;
+			}
+		}
+
+		.course-thumbnail {
+			img {
+				max-width: 200px;
+			}
+		}
+
+		.course-content {
+			width: 75%;
+		}
+
+		.course-level {
+			background-color: #F1F2F8;
+			padding: 4px 8px;
+		}
+
+		.course-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 12px;
+
+			> *{
+				&::before {
+					font-family: "lp-icon";
+					display: inline-block;
+					margin-right: 8px;
+					color: var(--lp-primary-color);
+				}
+			}
+
+			.course-count-student {
+				&::before {
+					content: "\f501";
+				}
+			}
+
+			.course-count-item.lp_lesson {
+				&::before {
+					content: "\f15b";
+				}
+			}
+
+			.course-duration {
+				&::before {
+					content: "\e901";
+				}
+			}
+		}
+
+		.course-price {
+			float: right;
+
+			.origin-price {
+				text-decoration: line-through;
+				margin-right: 8px;
+			}
+		}
+
+		.course-title {
+			margin: 12px 0;
+		}
+	}
+
+	.learnpress-related-package {
+		> h2 {
+			margin-bottom: 30px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		--lp-package-space-item: 15px;
+		&__main {
+			display: block;
+		}
+
+		&__left {
+			width: 100%;
+		}
+
+		&__right {
+			width: 100%;
+			padding-left: 0;
+			margin-top: 20px;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.learnpress-single-package__courses .course {
+			flex-direction: column;
+
+			.course-thumbnail {
+				width: 100%;
+				max-width: 100%;
+			}
+
+			.course-content {
+				width: 100%;
+			}
+		}
+	}
+}
+
+.lp-content-area .lp-list-coupons {
+	padding: 0;
+	list-style: none;
+	margin: 0;
+
+	.lp-coupon {
+		display: flex;
+		margin-bottom: 8px;
+		align-items: center;
+
+		&__wrapper {
+			display: flex;
+			flex-grow: 1;
+			flex-direction: column;
+			padding: 0 12px;
+			justify-content: center;
+		}
+
+		.lp-button {
+			margin-left: auto;
+			height: fit-content;
+		}
+
+		&__desc {
+			display: none
+		}
+
+		svg .background {
+			fill: #F1C4D4;
+		}
+
+		h5 {
+			margin-top: 0;
+			margin-bottom: 4px;
+			text-transform: uppercase;
+		}
+
+		&:nth-child(2n) {
+			svg .background {
+				fill: #C4DEF1;
+			}
+		}
+
+		&:nth-child(3n) {
+			svg .background {
+				fill: #F7E0A7;
+			}
+		}
+	}
+}

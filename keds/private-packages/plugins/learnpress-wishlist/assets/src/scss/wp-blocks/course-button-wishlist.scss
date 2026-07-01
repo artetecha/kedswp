@@ -1,0 +1,61 @@
+button.lp-button.wp-block-learnpress-course-button-wishlist {
+	display: flex;
+	gap: 5px;
+	font-size: unset;
+	padding: 12px 24px;
+	background: unset;
+
+	&:not(.has-border-color) { // class of gutenberg
+		border: none;
+	}
+
+	i {
+		color: unset;
+	}
+
+	&:hover {
+		color: unset;
+		background: #ffb606 !important;
+		cursor: pointer;
+
+		i {
+			color: unset;
+		}
+	}
+}
+
+.learn-press-courses .lp-button-wishlist-action.icon-only.wp-block-learnpress-course-button-wishlist {
+	position: unset;
+}
+
+// Fix case LP don't have this code run Gutenberg on Archive Course page, after LP update, remove this code
+.lp-button {
+	&.loading {
+		pointer-events: none;
+		opacity: 0.8;
+		&:before{
+			display: inline-block;
+			font-family: 'lp-icon';
+			content: "\f110";
+			animation: lp-rotating 1s linear infinite;
+			margin-right: 5px;
+			font-variant: normal;
+			text-transform: none;
+			line-height: 1;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			vertical-align: middle;
+			margin-top: -2px;
+		}
+	}
+}
+
+.lp-single-offline-course__right {
+	.course-button-wishlist__wrapper-no-css {
+		text-align: center;
+	}
+
+	.item-meta .lp-button.lp-button-wishlist-action {
+		margin-top: 20px;
+	}
+}

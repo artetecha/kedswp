@@ -1,0 +1,21 @@
+body {
+	&.post-type-lp_course {
+		.wp-list-table {
+			.column-certificate {
+				width: 100px;
+			}
+			.course-cert-preview {
+				img {
+					max-width: 100px;
+				}
+			}
+		}
+	}
+	&.post-type-lp_cert {
+		.wp-list-table {
+			.column-courses {
+				width: 300px;
+			}
+		}
+	}
+}

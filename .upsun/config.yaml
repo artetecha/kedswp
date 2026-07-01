@@ -1,0 +1,88 @@
+applications:
+  keds:
+    source:
+      root: "keds"
+
+    type: "php:8.4"
+
+    runtime:
+      extensions:
+        - redis
+
+    build:
+      flavor: composer
+
+    hooks:
+      deploy: |
+        set -e
+        bash scripts/deploy.sh
+
+    relationships:
+      database: "kedsdb:mysql"
+      rediscache: "redis:redis"
+
+    web:
+      locations:
+        "/":
+          root: "wordpress"
+          passthru: "/index.php"
+          index:
+            - "index.php"
+          expires: 600
+          scripts: true
+          allow: true
+          rules:
+            ^/composer\.(json|lock)$:
+              allow: false
+            ^/license\.txt$:
+              allow: false
+            ^/readme\.html$:
+              allow: false
+            ^/xmlrpc\.php$:
+              allow: false
+        "/wp-content/cache":
+          root: "wordpress/wp-content/cache"
+          scripts: false
+          allow: false
+        "/wp-content/uploads":
+          root: "wordpress/wp-content/uploads"
+          scripts: false
+          allow: true
+
+    dependencies:
+      php:
+        wp-cli/wp-cli-bundle: "^2.12"
+        psy/psysh: "^0.12"
+
+    mounts:
+      "wordpress/wp-content/cache":
+        source: local
+        source_path: "cache"
+      "wordpress/wp-content/uploads":
+        source: local
+        source_path: "uploads"
+
+    crons:
+      wp-cron:
+        spec: "*/5 * * * *"
+        cmd: "cd wordpress && wp cron event run --due-now"
+
+services:
+  kedsdb:
+    type: mariadb:11.8
+
+  redis:
+    type: redis:8.0
+
+routes:
+  "https://{default}/":
+    type: upstream
+    upstream: "keds:http"
+    cache:
+      enabled: true
+      cookies:
+        - "/^wordpress_logged_in_/"
+        - "/^wordpress_sec_/"
+        - "wordpress_test_cookie"
+        - "/^wp-settings-/"
+        - "/^wp-postpass/"

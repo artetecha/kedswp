@@ -1,0 +1,186 @@
+#wpadminbar {display: none !important;}
+html {margin-top: 0 !important;}
+body.admin-bar {margin-top: 0 !important;}
+.fcrm_frontend_portal_scope {
+    container-type: inline-size;
+    container-name: fcrm-frontend-portal;
+    width: 100%;
+    display: block;
+}
+.fcrm_frontend_portal_scope dl,
+.fcrm_frontend_portal_scope dt,
+.fcrm_frontend_portal_scope dd,
+.fcrm_frontend_portal_scope ol,
+.fcrm_frontend_portal_scope ul,
+.fcrm_frontend_portal_scope li {
+    margin: 0;
+    padding: 0;
+}
+body.fluentcrm-frontend-portal-page {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    line-height: 1.4em;
+}
+.fcrm_frontend_portal_scope .fluentcrm_admin_dashboard {
+    margin-top: 15px;
+}
+.fcrm_frontend_portal_scope .fluentcrm_app_wrapper {
+    background: var(--fc-secondary-bg);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+body.fluentcrm-frontend-portal-page {background: var(--fc-secondary-bg); margin: 0 !important; padding: 0 !important;}
+body.fluentcrm-frontend-portal-page .fluentcrm_app_wrapper {padding-top: 0 !important;}
+body.fluentcrm-frontend-portal-page .fcrm_topbar {top: 0 !important; margin-right: -17px !important; padding-top: 6px; padding-bottom: 6px; padding-left: 20px !important; padding-right: 20px !important;}
+body.fluentcrm-frontend-portal-page .fluentcrm-app {margin-right: 0 !important; padding: 0 0 20px !important;}
+.fcrm_frontend_portal_scope .fluentcrm_app_wrapper .fcrm_page_header_top_nav_wrapper ul {list-style: none !important; margin: 0 !important; padding-left: 0 !important;}
+.fcrm_frontend_portal_scope .fluentcrm_app_wrapper .fcrm_profile_body_nav {list-style: none !important; margin: 0 !important;}
+.fcrm_frontend_portal_scope .fcrm_single_recurring_camp_body_header--left > ul.fcrm_action_menu {list-style: none !important;}
+.fcrm_frontend_portal_scope .fcrm_single_recurring_camp_page > .fcrm-layout-width .fcrm_page_header {padding-top: 24px !important;}
+.fcrm_frontend_portal_scope .fcrm_topbar_right {gap: 14px;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_menu {position: relative; display: flex; align-items: center;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_button {box-shadow:none;position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: transparent; border: none; border-radius: 999px; cursor: pointer; line-height: 0;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_avatar {display: inline-flex; align-items: center; justify-content: center;width: 38px;height: 38px;flex: none;overflow: hidden;border-radius: 999px;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_avatar img,
+.fcrm_frontend_portal_scope .fcrm_portal_profile_avatar .avatar {width: 100% !important; height: 100% !important; border-radius: inherit; display: block; object-fit: cover;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_chevron {position: absolute; right: 0; bottom: 0; width: 18px; height: 18px; padding: 2px; color: #7A828F; background: var(--fc-primary-bg); border: 1px solid var(--fc-primary-border); border-radius: 999px; box-sizing: border-box; transition: transform .2s ease;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_menu.is-open .fcrm_portal_profile_chevron {transform: rotate(180deg);}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_dropdown {position: absolute; top: calc(100% + 14px); right: 0; width: 320px; background: var(--fc-primary-bg); border: 1px solid var(--fc-primary-border); border-radius: 8px; box-shadow: 0 24px 70px rgba(15, 23, 42, 0.14); padding: 18px; display: none; z-index: 9999;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_menu.is-open .fcrm_portal_profile_dropdown {display: block;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_heading {display: flex; align-items: center; gap: 14px; padding-bottom: 16px;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_heading .fcrm_portal_profile_avatar,
+.fcrm_frontend_portal_scope .fcrm_portal_profile_heading .fcrm_portal_profile_avatar img,
+.fcrm_frontend_portal_scope .fcrm_portal_profile_heading .fcrm_portal_profile_avatar .avatar {width: 56px; height: 56px;flex: none;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_identity .fcrm_portal_profile_name {font-size: 16px; line-height: 1.2; font-weight: 600; color: var(--fc-primary-text); margin: 0 0 4px;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_identity .fcrm_portal_profile_email {font-size: 14px; line-height: 1.3; color: var(--fc-secondary-text); margin: 0;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_dropdown .fcrm_portal_profile_actions {list-style: none; margin: 0; padding: 14px 0 0; border-top: 1px solid var(--fc-primary-border);}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_dropdown .fcrm_portal_profile_actions li {margin: 0;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_dropdown .fcrm_portal_profile_actions a {display: flex; align-items: center; gap: 12px; padding: 12px 4px; font-size: 16px; line-height: 1.25; color: var(--fc-primary-text); text-decoration: none;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_dropdown .fcrm_portal_profile_actions a:hover {color: var(--fc-primary-text);}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_dropdown .fcrm_portal_profile_actions svg {width: 22px; height: 22px; flex: 0 0 22px;}
+.fcrm_frontend_portal_scope .fcrm_portal_profile_dropdown .fcrm_portal_profile_actions img {width: 22px; height: 22px; flex: 0 0 22px; display: block;}
+.fcrm_frontend_portal_scope .fcrm_notice {background: #ffffff; border: 1px solid #E1E4EA; border-left: 3px solid #FB3748; padding: 10px 12px !important; border-radius: 8px; margin: 5px 0 5px;}
+.fcrm_frontend_portal_scope .fcrm_front_portal_state {max-width: 520px; margin: 48px auto; padding: 32px; border-radius: 20px; background: #fff; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);}
+.fcrm_frontend_portal_scope .fcrm_front_portal_state h3 {margin: 0 0 12px; font-size: 24px; color: #0e121b;}
+.fcrm_frontend_portal_scope .fcrm_front_portal_state p {margin: 0; color: #525866;}
+.fcrm_frontend_portal_scope .fcrm_front_portal_state_body {margin-top: 20px;}
+.fcrm_frontend_portal_scope .fcrm_front_portal_state_body .login-username, .fcrm_frontend_portal_scope .fcrm_front_portal_state_body .login-password, .fcrm_frontend_portal_scope .fcrm_front_portal_state_body .login-submit {margin-bottom: 16px;}
+.fcrm_frontend_portal_scope .fcrm_front_portal_state_body input[type="text"], .fcrm_frontend_portal_scope .fcrm_front_portal_state_body input[type="password"] {width: 100%; padding: 12px 14px; border: 1px solid #d0d5dd; border-radius: 10px;}
+.fcrm_frontend_portal_scope .fcrm_front_portal_state_body input[type="submit"] {padding: 12px 18px; border: none; border-radius: 10px; background: #2563eb; color: #fff; cursor: pointer;}
+
+.fcrm_frontend_portal_scope .fcrm_settings_sidebar {
+    height: calc(100vh - 56px);
+    left: 0;
+}
+.fcrm_frontend_portal_scope .fcrm_settings_menu_overlay {
+    height: calc(100vh - 109px);
+}
+.fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fcrm_settings_inner {
+    padding-left: 272px;
+}
+.fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fcrm_settings_inner.is-collapsed {
+    padding-left: 78px;
+}
+.fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fcrm_settings_content .fcrm_settings {
+    max-height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px);
+}
+.fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fluentcrm-body {
+    height: calc(100vh - 56px);
+    background: var(--fc-secondary-bg);
+}
+
+
+@media (max-width: 1100px) {
+    .fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fluentcrm-body .fcrm_settings_content .fcrm_settings {
+        max-height: calc(100vh - 56px);
+        min-height: calc(100vh - 56px);
+    }
+}
+@media (max-width: 1024px) {
+    .fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fcrm_settings_inner {
+        padding-left: 0;
+    }
+
+    .fcrm_frontend_portal_scope .fcrm_settings_sidebar {
+        height: calc(100vh - 109px);
+        left: -272px;
+    }
+    .fcrm_frontend_portal_scope .fcrm_settings_sidebar.is-open {
+        left: 0;
+    }
+}
+@media (max-width: 782px) {
+    .fcrm_frontend_portal_scope .fluentcrm-app {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+
+
+body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page {
+    overflow: inherit;
+    margin-top: 0;
+}
+body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fluentcrm-body {
+    position: relative;
+    height: auto;
+}
+body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fcrm_settings_content .fcrm_settings {
+    max-height: inherit;
+    min-height: auto;
+}
+body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fcrm_settings_sidebar {
+    height: auto;
+    position: relative;
+    left: 0;
+}
+body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fcrm_topbar {
+    position: relative;
+    top: 0;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fcrm_settings {
+    min-height: inherit;
+    overflow: inherit;
+}
+body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fluentcrm-app.is-settings-page .fcrm_settings_inner {
+    padding-left: 0;
+    position: relative;
+}
+
+@container fcrm-frontend-portal (max-width: 991px) {
+    .fcrm_frontend_portal_scope .el-row > .el-col {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fcrm_settings_menu_overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+    }
+    body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fcrm_settings_sidebar {
+        height: 100%;
+        left: -272px;
+        position: absolute;
+        top: 0;
+        padding-top: 0;
+    }
+    body:not(.fluentcrm-frontend-portal-page) .fcrm_frontend_portal_scope .fcrm_settings_sidebar.is-open {
+        left: 0;
+        width: 272px;
+    }
+}
+
+.fcrm_access_denied {
+    max-width: 600px;
+    padding: 20px;
+    margin: 100px auto;
+    text-align: center;
+}

@@ -1,0 +1,97 @@
+# Copyright (C) 2026 ThimPress
+# This file is distributed under the same license as the LearnPress - Co-Instructors plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnPress - Co-Instructors 4.1.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-co-instructor\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-12T10:10:45+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: learnpress-co-instructor\n"
+
+#. Plugin Name of the plugin
+#: learnpress-co-instructor.php
+msgid "LearnPress - Co-Instructors"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: learnpress-co-instructor.php
+msgid "https://thimpress.com/product/co-instructors-add-on-for-learnpress/"
+msgstr ""
+
+#. Description of the plugin
+#: learnpress-co-instructor.php
+msgid "Building courses with other instructors."
+msgstr ""
+
+#. Author of the plugin
+#: learnpress-co-instructor.php
+msgid "ThimPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: learnpress-co-instructor.php
+msgid "http://thimpress.com"
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-enrolled-course.php:28
+msgid "Co-instructor"
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-enrolled-course.php:29
+msgid "Send this email to co-instructor when they have enrolled course."
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-enrolled-course.php:34
+msgid "{{user_display_name}} has enrolled course"
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-enrolled-course.php:35
+msgid "Enrolled course"
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-finished-course.php:29
+#: inc/load.php:295
+msgid "Co-Instructor"
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-finished-course.php:30
+msgid "Send this email to co-instructor of course when a user finished the course"
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-finished-course.php:35
+msgid "{{user_display_name}} has finished course"
+msgstr ""
+
+#: inc/emails/class-lp-co-instructor-email-finished-course.php:36
+msgid "Finished course"
+msgstr ""
+
+#: inc/load.php:142
+msgid "Co-Instructors"
+msgstr ""
+
+#: inc/load.php:143
+msgid "Colleagues will work with you."
+msgstr ""
+
+#: inc/load.php:244
+msgid "Instructor"
+msgstr ""
+
+#: inc/load.php:250
+msgid "This is a slug and should be unique."
+msgstr ""
+
+#: inc/load.php:255
+msgid "Example link is"
+msgstr ""
+
+#: templates/profile-tab.php:53
+msgid "There isn't any courses created by you as an instructor."
+msgstr ""

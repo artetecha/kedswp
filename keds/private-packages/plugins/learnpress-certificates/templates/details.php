@@ -1,0 +1,73 @@
+<?php
+/**
+ * Template for displaying certificate in user profile.
+ *
+ * This template can be overridden by copying it to yourtheme/learnpress/addons/certificates/details.php.
+ *
+ * @package LearnPress/Templates/Certificates
+ * @author  ThimPress
+ * @version 3.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * @var LP_User_Certificate $certificate
+ */
+if ( ! isset( $certificate ) ) {
+	return;
+}
+$hide_actions = ! empty( $hide_actions );
+$template_id  = $certificate->get_uni_id();
+
+$can_get_certificate = LP_Certificate::can_get_certificate( $certificate->get_course_id(), $certificate->get_user_id() );
+
+if ( ! $can_get_certificate['flag'] ) {
+	echo esc_html__( 'You can\'t get this certificate', 'learnpress-certificates' );
+	return;
+}
+
+$image_file = $certificate->get_image_file();
+
+if ( ! $image_file ) {
+	LP_Addon_Certificates_Preload::$addon->header_google_fonts();
+}
+?>
+
+<div class="certificate">
+	<?php if ( ! $hide_actions ) : ?>
+		<?php do_action( 'learn-press/certificates/before-certificate-content', $certificate ); ?>
+	<?php endif; ?>
+
+	<div id="<?php echo esc_attr( $template_id ); ?>" class="certificate-preview<?php echo $image_file ? ' has-cached-image' : ''; ?>">
+		<?php if ( $image_file ) : ?>
+			<img class="certificate-result" src="<?php echo esc_url( $image_file['proxy_url'] ); ?>" alt="<?php echo esc_attr( $certificate->get_title() ); ?>" />
+		<?php else : ?>
+			<div class="certificate-preview-inner">
+				<canvas></canvas>
+			</div>
+			<input type="hidden" name="need_upload_cert_img_to_server">
+		<?php endif; ?>
+
+		<!-- <div class="certificate-preview-inner">
+			<canvas></canvas>
+		</div> -->
+
+		<input class="lp-data-config-cer" type="hidden" value="<?php echo htmlspecialchars( $certificate ); ?>">
+
+		<?php
+		// $share_social_setting = LearnPress::instance()->settings()->get( 'certificates.socials', array() );
+
+		// $twitter  = LearnPress::instance()->settings()->get( 'certificates.socials_twitter' );
+		// $facebook = LearnPress::instance()->settings()->get( 'certificates.socials_facebook' );
+
+		// if ( $twitter || $facebook || ! empty( $share_social_setting ) ) {
+		// 	echo '<input type="hidden" name="need_upload_cert_img_to_server">';
+		// }
+		?>
+	</div>
+
+	<?php if ( ! $hide_actions ) : ?>
+		<?php do_action( 'learn-press/certificates/after-certificate-content', $certificate ); ?>
+	<?php endif; ?>
+</div>

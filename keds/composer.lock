@@ -1,0 +1,1135 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "fd472f2f04061be868c51db248758d83",
+    "packages": [
+        {
+            "name": "composer/installers",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/installers.git",
+                "reference": "12fb2dfe5e16183de69e784a7b84046c43d97e8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/installers/zipball/12fb2dfe5e16183de69e784a7b84046c43d97e8e",
+                "reference": "12fb2dfe5e16183de69e784a7b84046c43d97e8e",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.10.27 || ^2.7",
+                "composer/semver": "^1.7.2 || ^3.4.0",
+                "phpstan/phpstan": "^1.11",
+                "phpstan/phpstan-phpunit": "^1",
+                "symfony/phpunit-bridge": "^7.1.1",
+                "symfony/process": "^5 || ^6 || ^7"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Composer\\Installers\\Plugin",
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                },
+                "plugin-modifies-install-path": true
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "A multi-framework Composer library installer",
+            "homepage": "https://composer.github.io/installers/",
+            "keywords": [
+                "Dolibarr",
+                "Eliasis",
+                "Hurad",
+                "ImageCMS",
+                "Kanboard",
+                "Lan Management System",
+                "MODX Evo",
+                "MantisBT",
+                "Mautic",
+                "Maya",
+                "OXID",
+                "Plentymarkets",
+                "Porto",
+                "RadPHP",
+                "SMF",
+                "Starbug",
+                "Thelia",
+                "Whmcs",
+                "WolfCMS",
+                "agl",
+                "annotatecms",
+                "attogram",
+                "bitrix",
+                "cakephp",
+                "chef",
+                "cockpit",
+                "codeigniter",
+                "concrete5",
+                "concreteCMS",
+                "croogo",
+                "dokuwiki",
+                "drupal",
+                "eZ Platform",
+                "elgg",
+                "expressionengine",
+                "fuelphp",
+                "grav",
+                "installer",
+                "itop",
+                "known",
+                "kohana",
+                "laravel",
+                "lavalite",
+                "lithium",
+                "magento",
+                "majima",
+                "mako",
+                "matomo",
+                "mediawiki",
+                "miaoxing",
+                "modulework",
+                "modx",
+                "moodle",
+                "osclass",
+                "pantheon",
+                "phpbb",
+                "piwik",
+                "ppi",
+                "processwire",
+                "puppet",
+                "pxcms",
+                "reindex",
+                "roundcube",
+                "shopware",
+                "silverstripe",
+                "sydes",
+                "sylius",
+                "tastyigniter",
+                "wordpress",
+                "yawik",
+                "zend",
+                "zikula"
+            ],
+            "support": {
+                "issues": "https://github.com/composer/installers/issues",
+                "source": "https://github.com/composer/installers/tree/v2.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-06-24T20:46:46+00:00"
+        },
+        {
+            "name": "johnpbloch/wordpress-core",
+            "version": "7.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnpbloch/wordpress-core.git",
+                "reference": "fcbc2f2636d65ae060dfb6a5377ba43e0a599e84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/fcbc2f2636d65ae060dfb6a5377ba43e0a599e84",
+                "reference": "fcbc2f2636d65ae060dfb6a5377ba43e0a599e84",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.4"
+            },
+            "provide": {
+                "wordpress/core-implementation": "7.0.0"
+            },
+            "type": "wordpress-core",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "WordPress Community",
+                    "homepage": "https://wordpress.org/about/"
+                }
+            ],
+            "description": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
+            "homepage": "https://wordpress.org/",
+            "keywords": [
+                "blog",
+                "cms",
+                "wordpress"
+            ],
+            "support": {
+                "forum": "https://wordpress.org/support/",
+                "irc": "irc://irc.freenode.net/wordpress",
+                "issues": "https://core.trac.wordpress.org/",
+                "source": "https://core.trac.wordpress.org/browser",
+                "wiki": "https://codex.wordpress.org/"
+            },
+            "time": "2026-05-20T19:36:40+00:00"
+        },
+        {
+            "name": "johnpbloch/wordpress-core-installer",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnpbloch/wordpress-core-installer.git",
+                "reference": "237faae9a60a4a2e1d45dce1a5836ffa616de63e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core-installer/zipball/237faae9a60a4a2e1d45dce1a5836ffa616de63e",
+                "reference": "237faae9a60a4a2e1d45dce1a5836ffa616de63e",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.6.0"
+            },
+            "conflict": {
+                "composer/installers": "<1.0.6"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0 || ^2.0",
+                "phpunit/phpunit": ">=5.7.27"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "johnpbloch\\Composer\\WordPressCorePlugin"
+            },
+            "autoload": {
+                "psr-0": {
+                    "johnpbloch\\Composer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "John P. Bloch",
+                    "email": "me@johnpbloch.com"
+                }
+            ],
+            "description": "A custom installer to handle deploying WordPress with composer",
+            "keywords": [
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/johnpbloch/wordpress-core-installer/issues",
+                "source": "https://github.com/johnpbloch/wordpress-core-installer/tree/master"
+            },
+            "time": "2020-04-16T21:44:57+00:00"
+        },
+        {
+            "name": "keds-plugin/auto-sizes",
+            "version": "1.7.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/auto-sizes",
+                "reference": "ebf6c29e77d4f5d57f4f04a9cb9384effc375455"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/dominant-color-images",
+            "version": "1.2.1",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/dominant-color-images",
+                "reference": "50e0ba47875eb8febb01bedb03a30c208f579b54"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/embed-optimizer",
+            "version": "1.0.0-beta5",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/embed-optimizer",
+                "reference": "6fee80cc12d2cc27028bd44bb79c201c09a224a6"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/fluentcampaign-pro",
+            "version": "3.1.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/fluentcampaign-pro",
+                "reference": "86f5f4fae8d48b3da4d89ad0a962736af3de2c31"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/fluentformpro",
+            "version": "6.2.4",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/fluentformpro",
+                "reference": "dad4ecbcb06778aa8e6ff43bae6c21dfad0a9a24"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/image-prioritizer",
+            "version": "1.0.0-beta3",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/image-prioritizer",
+                "reference": "4571cf18ab133e5be81750e24ea03569ff47dec6"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-2checkout-payment",
+            "version": "4.0.2",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-2checkout-payment",
+                "reference": "a4e48dfe65c6b325fc58217da66ae34d9310de0c"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-assignments",
+            "version": "4.2.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-assignments",
+                "reference": "f98149f3a00751233fe1022adafc8a8cd6ea0ca5"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-certificates",
+            "version": "4.2.4",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-certificates",
+                "reference": "497b0e854ca83473c65874038c20b43806b25c87"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-co-instructor",
+            "version": "4.1.1",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-co-instructor",
+                "reference": "4ce4e2e3daf882cbed2b876bf8588b7af02654e8"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-course-review",
+            "version": "4.2.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-course-review",
+                "reference": "9ec00899e1fb0cb71fecc0d3c4cd9da03be92551"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-gradebook",
+            "version": "4.1.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-gradebook",
+                "reference": "71820df6dc5626df6ab2e5503fb5b02da65c4bac"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-mycred",
+            "version": "4.0.2",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-mycred",
+                "reference": "f01b9f6587fb9f6e53b6d661ef52b267cfde759f"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-paid-membership-pro",
+            "version": "4.1.2",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-paid-membership-pro",
+                "reference": "0f1c5664d8730457ca0a39d5a9ce1aab6cf29337"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-stripe",
+            "version": "4.0.5",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-stripe",
+                "reference": "9d56bc8f27ad2963b163fb53d78e332c74a7d0bd"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-students-list",
+            "version": "4.0.3",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-students-list",
+                "reference": "956ad65fdcc9f9957b220545853998851ed11630"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-upsell",
+            "version": "4.0.9",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-upsell",
+                "reference": "b915af72b2c1e1c0fbe6abf753bb17ae97a3815d"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-wishlist",
+            "version": "4.1.1",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-wishlist",
+                "reference": "ef856857f36f981320143a450466dda55406ce6d"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/learnpress-woo-payment",
+            "version": "4.2.3",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/learnpress-woo-payment",
+                "reference": "127b1855dd457ada487e6c9ee745ecaa3774f5ee"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/optimization-detective",
+            "version": "1.0.0-beta5",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/optimization-detective",
+                "reference": "63f324371b9a7e8f9c653b9e9e8902f55dd5f4b4"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/paid-memberships-pro",
+            "version": "3.7.4",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/paid-memberships-pro",
+                "reference": "d95ebf4d06043ed1376fa8d9b3dd4117d636461d"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/revslider",
+            "version": "7.0.9",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/revslider",
+                "reference": "d98c7be89420e27438e1e56569c6c782cc6fb030"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/speculation-rules",
+            "version": "1.6.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/speculation-rules",
+                "reference": "36df202af944c28b3d6115c63c0c984c2906d609"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/thim-core",
+            "version": "2.4.8",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/thim-core",
+                "reference": "db56a71aec80ed9be230bfaf41ea6c4959393d1d"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/thim-elementor-kit",
+            "version": "1.4.1",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/thim-elementor-kit",
+                "reference": "9d9b8e58eb548f58bf83267d164c05becdf22177"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/tp-portfolio",
+            "version": "2.1.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/tp-portfolio",
+                "reference": "6020775ea7a3c82f6a20474937d2fd438af3e45b"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/web-worker-offloading",
+            "version": "0.2.1",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/web-worker-offloading",
+                "reference": "fec174b3bbc54c10c7b6403f38a65e4a61eda4fc"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/webp-uploads",
+            "version": "2.6.1",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/webp-uploads",
+                "reference": "b3cfc0c003ead6bb659d13cb9da34d5005cfc272"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-plugin/wp-events-manager",
+            "version": "2.2.4",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/plugins/wp-events-manager",
+                "reference": "544016519a267e6146f780f253b9b5aa6ecfe058"
+            },
+            "type": "wordpress-plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-theme/eduma",
+            "version": "5.9.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/themes/eduma",
+                "reference": "e782c555611569ab05ffa3c9418759b79793a32a"
+            },
+            "type": "wordpress-theme",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "platformsh/config-reader",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/platformsh/config-reader-php.git",
+                "reference": "cab2b6c0cdfc318df09a64136957dc1fc308f418"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/platformsh/config-reader-php/zipball/cab2b6c0cdfc318df09a64136957dc1fc308f418",
+                "reference": "cab2b6c0cdfc318df09a64136957dc1fc308f418",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platformsh\\ConfigReader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Larry Garfield",
+                    "email": "larry@platform.sh"
+                }
+            ],
+            "description": "Small helper to access Platform.sh environment variables",
+            "support": {
+                "issues": "https://github.com/platformsh/config-reader-php/issues",
+                "source": "https://github.com/platformsh/config-reader-php/tree/3.0.1"
+            },
+            "time": "2025-02-25T17:22:15+00:00"
+        },
+        {
+            "name": "wpackagist-plugin/akismet",
+            "version": "5.7",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/akismet/",
+                "reference": "tags/5.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/akismet.5.7.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/akismet/"
+        },
+        {
+            "name": "wpackagist-plugin/autodescription",
+            "version": "5.1.4",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/autodescription/",
+                "reference": "tags/5.1.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/autodescription.5.1.4.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/autodescription/"
+        },
+        {
+            "name": "wpackagist-plugin/autoptimize",
+            "version": "3.1.15.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/autoptimize/",
+                "reference": "tags/3.1.15.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/autoptimize.3.1.15.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/autoptimize/"
+        },
+        {
+            "name": "wpackagist-plugin/contact-form-7",
+            "version": "6.1.6",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/contact-form-7/",
+                "reference": "tags/6.1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/contact-form-7.6.1.6.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/contact-form-7/"
+        },
+        {
+            "name": "wpackagist-plugin/elementor",
+            "version": "4.1.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/elementor/",
+                "reference": "tags/4.1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/elementor.4.1.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/elementor/"
+        },
+        {
+            "name": "wpackagist-plugin/fluent-crm",
+            "version": "3.1.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/fluent-crm/",
+                "reference": "tags/3.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/fluent-crm.3.1.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/fluent-crm/"
+        },
+        {
+            "name": "wpackagist-plugin/fluentform",
+            "version": "6.2.4",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/fluentform/",
+                "reference": "tags/6.2.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/fluentform.6.2.4.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/fluentform/"
+        },
+        {
+            "name": "wpackagist-plugin/google-listings-and-ads",
+            "version": "3.7.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/google-listings-and-ads/",
+                "reference": "tags/3.7.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/google-listings-and-ads.3.7.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/google-listings-and-ads/"
+        },
+        {
+            "name": "wpackagist-plugin/google-site-kit",
+            "version": "1.179.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/google-site-kit/",
+                "reference": "tags/1.179.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.179.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/google-site-kit/"
+        },
+        {
+            "name": "wpackagist-plugin/honeypot",
+            "version": "2.3.04",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/honeypot/",
+                "reference": "tags/2.3.04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/honeypot.2.3.04.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/honeypot/"
+        },
+        {
+            "name": "wpackagist-plugin/host-webfonts-local",
+            "version": "6.3.5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/host-webfonts-local/",
+                "reference": "tags/6.3.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/host-webfonts-local.6.3.5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/host-webfonts-local/"
+        },
+        {
+            "name": "wpackagist-plugin/learnpress",
+            "version": "4.3.7",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/learnpress/",
+                "reference": "tags/4.3.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/learnpress.4.3.7.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/learnpress/"
+        },
+        {
+            "name": "wpackagist-plugin/mailchimp-for-wp",
+            "version": "4.12.6",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/mailchimp-for-wp/",
+                "reference": "tags/4.12.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-wp.4.12.6.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/mailchimp-for-wp/"
+        },
+        {
+            "name": "wpackagist-plugin/performance-lab",
+            "version": "4.1.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/performance-lab/",
+                "reference": "tags/4.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/performance-lab.4.1.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/performance-lab/"
+        },
+        {
+            "name": "wpackagist-plugin/redirection",
+            "version": "5.7.5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/redirection/",
+                "reference": "tags/5.7.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/redirection.5.7.5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/redirection/"
+        },
+        {
+            "name": "wpackagist-plugin/redis-cache",
+            "version": "2.8.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/redis-cache/",
+                "reference": "tags/2.8.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/redis-cache.2.8.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/redis-cache/"
+        },
+        {
+            "name": "wpackagist-plugin/woocommerce",
+            "version": "10.8.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/woocommerce/",
+                "reference": "tags/10.8.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.8.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/woocommerce/"
+        },
+        {
+            "name": "wpackagist-plugin/woocommerce-gateway-stripe",
+            "version": "10.7.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
+                "reference": "tags/10.7.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.10.7.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/woocommerce-gateway-stripe/"
+        },
+        {
+            "name": "wpackagist-plugin/wp-mail-smtp",
+            "version": "4.8.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-mail-smtp/",
+                "reference": "tags/4.8.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.4.8.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-mail-smtp/"
+        },
+        {
+            "name": "wpackagist-plugin/wp-native-php-sessions",
+            "version": "1.4.5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-native-php-sessions/",
+                "reference": "tags/1.4.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-native-php-sessions.1.4.5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-native-php-sessions/"
+        },
+        {
+            "name": "wpackagist-theme/twentytwentyfive",
+            "version": "1.5",
+            "source": {
+                "type": "svn",
+                "url": "https://themes.svn.wordpress.org/twentytwentyfive/",
+                "reference": "1.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/theme/twentytwentyfive.1.5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-theme",
+            "homepage": "https://wordpress.org/themes/twentytwentyfive/"
+        },
+        {
+            "name": "wpackagist-theme/twentytwentyfour",
+            "version": "1.5",
+            "source": {
+                "type": "svn",
+                "url": "https://themes.svn.wordpress.org/twentytwentyfour/",
+                "reference": "1.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/theme/twentytwentyfour.1.5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-theme",
+            "homepage": "https://wordpress.org/themes/twentytwentyfour/"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "keds-plugin/embed-optimizer": 10,
+        "keds-plugin/image-prioritizer": 10,
+        "keds-plugin/optimization-detective": 10
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.4 <8.5"
+    },
+    "platform-dev": {},
+    "platform-overrides": {
+        "php": "8.4.0"
+    },
+    "plugin-api-version": "2.9.0"
+}
