@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Plugin Name: KEDS Disable LearnPress guest session

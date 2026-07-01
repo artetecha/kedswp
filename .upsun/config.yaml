@@ -57,10 +57,10 @@ applications:
 
     mounts:
       "wordpress/wp-content/cache":
-        source: local
+        source: storage
         source_path: "cache"
       "wordpress/wp-content/uploads":
-        source: local
+        source: storage
         source_path: "uploads"
 
     crons:
