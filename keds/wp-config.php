@@ -119,6 +119,10 @@ if ( ! defined( 'WP_TEMP_DIR' ) ) {
 	define( 'WP_TEMP_DIR', sys_get_temp_dir() );
 }
 
+if ( ! defined( 'FS_METHOD' ) ) {
+	define( 'FS_METHOD', 'direct' );
+}
+
 if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
 	define( 'DISALLOW_FILE_EDIT', true );
 }
