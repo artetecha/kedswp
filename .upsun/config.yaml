@@ -12,8 +12,8 @@ applications:
             extensions:
               - redis
       packages:
-        - composer
         - frankenphp
+        - php84Packages.composer
         - wp-cli
 
     hooks:
