@@ -74,7 +74,19 @@ if ( $config->isValidPlatform() ) {
 		if ( ! empty( $redis['password'] ) ) {
 			define( 'WP_REDIS_PASSWORD', $redis['password'] );
 		}
-		define( 'WP_CACHE_KEY_SALT', 'keds:' . $config->environment . ':' );
+		define( 'WP_REDIS_PREFIX', 'keds:' . $config->environment . ':' );
+		define( 'WP_CACHE_KEY_SALT', WP_REDIS_PREFIX );
+		define( 'WP_REDIS_SELECTIVE_FLUSH', true );
+		define( 'WP_REDIS_GRACEFUL', true );
+		define( 'WP_REDIS_IGBINARY', true );
+		define( 'WP_REDIS_TIMEOUT', 0.5 );
+		define( 'WP_REDIS_READ_TIMEOUT', 0.5 );
+		define( 'WP_REDIS_DISABLE_METRICS', true );
+		define( 'WP_REDIS_DISABLE_ADMINBAR', true );
+		define( 'WP_REDIS_DISABLE_BANNERS', true );
+		define( 'WP_REDIS_DISABLE_COMMENT', true );
+		define( 'WP_REDIS_DISABLE_DROPIN_CHECK', true );
+		define( 'WP_REDIS_DISABLE_DROPIN_AUTOUPDATE', true );
 	}
 
 	if ( ! defined( 'WP_DEBUG' ) ) {

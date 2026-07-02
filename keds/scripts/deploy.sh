@@ -24,5 +24,9 @@ while read -r PLUGIN; do
 done
 
 wp redis enable || true
-wp cache flush || true
+if [ "${KEDS_FLUSH_CACHE_ON_DEPLOY:-0}" = "1" ]; then
+	wp cache flush || true
+else
+	wp redis status || true
+fi
 wp cron event run --due-now || true

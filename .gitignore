@@ -5,3 +5,6 @@
 # Local OS/editor files
 .DS_Store
 .idea/
+
+# Logs
+/logs
