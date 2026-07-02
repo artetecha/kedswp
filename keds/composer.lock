@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd472f2f04061be868c51db248758d83",
+    "content-hash": "31e787398de91dae8a14297422ca7269",
     "packages": [
         {
             "name": "composer/installers",
@@ -302,9 +302,26 @@
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/fluentcampaign-pro",
-                "reference": "86f5f4fae8d48b3da4d89ad0a962736af3de2c31"
+                "reference": "b5fbd26b04e1fe6875cba279eb4f9b67611ab24a"
             },
             "type": "wordpress-plugin",
+            "extra": {
+                "wpfluent": {
+                    "namespace": {
+                        "current": "FluentCampaign",
+                        "parent": "FluentCrm"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FluentCampaign\\App\\": "app/",
+                    "FluentCampaign\\Dev\\": "dev/"
+                },
+                "classmap": [],
+                "files": []
+            },
+            "description": "FluentCampaign Pro private package for KEDS.",
             "transport-options": {
                 "symlink": false,
                 "relative": true

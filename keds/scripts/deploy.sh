@@ -11,17 +11,7 @@ fi
 
 wp core update-db
 
-DEFAULT_THEME=$(jq -r '.[ "extra" ][ "distro" ][ "default-theme" ]' ../composer.json)
-if ! wp theme is-installed "${DEFAULT_THEME}"; then
-	echo "Required theme ${DEFAULT_THEME} is not installed."
-	exit 1
-fi
-wp theme activate "${DEFAULT_THEME}"
-
-jq -r '.[ "extra" ][ "distro" ][ "enable-plugins" ][]' ../composer.json |
-while read -r PLUGIN; do
-	wp plugin activate "${PLUGIN}"
-done
+bash ../scripts/run-deploy-migrations.sh
 
 wp redis enable || true
 if [ "${KEDS_FLUSH_CACHE_ON_DEPLOY:-0}" = "1" ]; then
