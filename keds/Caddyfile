@@ -16,5 +16,7 @@
 	@static path *.avif *.css *.gif *.ico *.jpg *.jpeg *.js *.png *.svg *.webp *.woff *.woff2
 	header @static Cache-Control "public, max-age=600"
 
+	try_files {path} {path}/ /index.php?{query}
+
 	php_server
 }
