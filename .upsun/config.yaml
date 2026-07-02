@@ -29,6 +29,8 @@ applications:
       rediscache: "redis:redis"
 
     web:
+      upstream:
+        socket_family: tcp
       commands:
         start: "frankenphp run --config Caddyfile"
 
