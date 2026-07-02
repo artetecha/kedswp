@@ -33,6 +33,11 @@ applications:
         socket_family: tcp
       commands:
         start: "frankenphp run --config Caddyfile"
+      locations:
+        "/":
+          passthru: true
+          scripts: false
+          allow: false
 
     mounts:
       "wordpress/wp-content/cache":
