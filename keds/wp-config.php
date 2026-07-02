@@ -68,7 +68,7 @@ if ( $config->isValidPlatform() ) {
 
 	if ( $config->hasRelationship( 'rediscache' ) ) {
 		$redis = $config->credentials( 'rediscache' );
-		define( 'WP_REDIS_CLIENT', 'phpredis' );
+		define( 'WP_REDIS_CLIENT', 'predis' );
 		define( 'WP_REDIS_HOST', $redis['host'] );
 		define( 'WP_REDIS_PORT', $redis['port'] );
 		if ( ! empty( $redis['password'] ) ) {
@@ -78,7 +78,6 @@ if ( $config->isValidPlatform() ) {
 		define( 'WP_CACHE_KEY_SALT', WP_REDIS_PREFIX );
 		define( 'WP_REDIS_SELECTIVE_FLUSH', true );
 		define( 'WP_REDIS_GRACEFUL', true );
-		define( 'WP_REDIS_IGBINARY', true );
 		define( 'WP_REDIS_TIMEOUT', 0.5 );
 		define( 'WP_REDIS_READ_TIMEOUT', 0.5 );
 		define( 'WP_REDIS_DISABLE_METRICS', true );
