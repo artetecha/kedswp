@@ -1,0 +1,20 @@
+{
+	auto_https off
+	admin off
+}
+
+:{$PORT} {
+	root * wordpress
+	encode zstd br gzip
+
+	@blocked path /composer.json /composer.lock /license.txt /readme.html /xmlrpc.php
+	respond @blocked 404
+
+	@runtime_php path_regexp runtime_php ^/wp-content/(cache|uploads)/.*\.php$
+	respond @runtime_php 403
+
+	@static path *.avif *.css *.gif *.ico *.jpg *.jpeg *.js *.png *.svg *.webp *.woff *.woff2
+	header @static Cache-Control "public, max-age=600"
+
+	php_server
+}

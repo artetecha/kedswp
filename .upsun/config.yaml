@@ -4,16 +4,22 @@ applications:
     source:
       root: "keds"
 
-    type: "php:8.4"
+    type: "composable:26.05"
 
-    runtime:
-      extensions:
-        - redis
-
-    build:
-      flavor: composer
+    stack:
+      runtimes:
+        - "php@8.4":
+            extensions:
+              - redis
+      packages:
+        - composer
+        - frankenphp
+        - wp-cli
 
     hooks:
+      build: |
+        set -e
+        composer install --no-dev --prefer-dist --optimize-autoloader --no-progress --no-interaction
       deploy: |
         set -e
         bash scripts/deploy.sh
@@ -23,37 +29,8 @@ applications:
       rediscache: "redis:redis"
 
     web:
-      locations:
-        "/":
-          root: "wordpress"
-          passthru: "/index.php"
-          index:
-            - "index.php"
-          expires: 600
-          scripts: true
-          allow: true
-          rules:
-            ^/composer\.(json|lock)$:
-              allow: false
-            ^/license\.txt$:
-              allow: false
-            ^/readme\.html$:
-              allow: false
-            ^/xmlrpc\.php$:
-              allow: false
-        "/wp-content/cache":
-          root: "wordpress/wp-content/cache"
-          scripts: false
-          allow: false
-        "/wp-content/uploads":
-          root: "wordpress/wp-content/uploads"
-          scripts: false
-          allow: true
-
-    dependencies:
-      php:
-        wp-cli/wp-cli-bundle: "^2.12"
-        psy/psysh: "^0.12"
+      commands:
+        start: "frankenphp run --config Caddyfile"
 
     mounts:
       "wordpress/wp-content/cache":
