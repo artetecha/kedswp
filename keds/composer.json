@@ -78,7 +78,6 @@
     "wpackagist-plugin/woocommerce": "10.8.1",
     "wpackagist-plugin/woocommerce-gateway-stripe": "10.7.0",
     "wpackagist-plugin/wp-mail-smtp": "4.8.0",
-    "wpackagist-plugin/wp-native-php-sessions": "1.4.5",
     "wpackagist-theme/twentytwentyfive": "1.5",
     "wpackagist-theme/twentytwentyfour": "1.5"
   },
