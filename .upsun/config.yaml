@@ -87,3 +87,7 @@ routes:
         - "wordpress_test_cookie"
         - "/^wp-settings-/"
         - "/^wp-postpass/"
+        - "/^wp_woocommerce_session_/"
+        - "woocommerce_items_in_cart"
+        - "woocommerce_cart_hash"
+        - "PHPSESSID"
