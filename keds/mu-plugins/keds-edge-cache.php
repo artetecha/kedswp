@@ -51,6 +51,17 @@ add_action( 'template_redirect', function () {
 		}
 	}
 
+	// If another component already declared this response uncacheable or is
+	// establishing a session, respect that instead of overriding it.
+	foreach ( headers_list() as $sent ) {
+		if ( 0 === stripos( $sent, 'set-cookie:' ) ) {
+			return;
+		}
+		if ( 0 === stripos( $sent, 'cache-control:' ) && preg_match( '/no-cache|no-store|private/i', $sent ) ) {
+			return;
+		}
+	}
+
 	// Belt and braces for pages Woo/LP mark dynamic without DONOTCACHEPAGE.
 	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() || is_account_page() ) ) {
 		return;

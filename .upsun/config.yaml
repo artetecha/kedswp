@@ -45,6 +45,12 @@ applications:
           root: "wordpress/wp-content/cache"
           scripts: false
           allow: false
+          rules:
+            # Autoptimize writes content-hashed css/js bundles here that the
+            # frontend loads directly; everything else in the mount stays blocked.
+            '\.(css|js)$':
+              allow: true
+              expires: 1y
         "/wp-content/uploads":
           root: "wordpress/wp-content/uploads"
           scripts: false
