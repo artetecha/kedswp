@@ -1,0 +1,67 @@
+# Native GitHub auto-merge for dependabot PRs (replaces Mergify).
+#
+# Arms GitHub's auto-merge on patch/minor dependabot PRs; GitHub then merges
+# only when every required check in the main ruleset passes (PR checks,
+# PR E2E, and the Upsun deployment status). Majors — and a short list of
+# high-blast-radius packages — always wait for a human.
+#
+# Requires (one-time): repo setting "Allow auto-merge" and a ruleset on main
+# with the required status checks. Merging deploys production via Upsun.
+
+name: Auto-merge
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    if: >-
+      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for eligible updates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+          DEPENDENCY_NAMES: ${{ steps.meta.outputs.dependency-names }}
+        run: |
+          case "$UPDATE_TYPE" in
+            version-update:semver-patch|version-update:semver-minor) ;;
+            *)
+              echo "Update type '$UPDATE_TYPE' requires manual review."
+              exit 0
+              ;;
+          esac
+
+          # High-blast-radius / non-semver packages: never auto-merge, even
+          # for minors. Exact-name match against the (comma-separated)
+          # dependency list.
+          blocklist="wpackagist-plugin/woocommerce
+          wpackagist-plugin/elementor
+          wpackagist-plugin/learnpress
+          johnpbloch/wordpress-core"
+
+          names=$(tr ',' '\n' <<<"$DEPENDENCY_NAMES" | sed 's/^ *//;s/ *$//')
+          while read -r blocked; do
+            blocked=$(sed 's/^ *//' <<<"$blocked")
+            [ -n "$blocked" ] || continue
+            if grep -qx "$blocked" <<<"$names"; then
+              echo "PR touches $blocked — manual review required."
+              exit 0
+            fi
+          done <<<"$blocklist"
+
+          echo "Arming auto-merge (squash) — merges when required checks pass."
+          gh pr merge --auto --squash "$PR_URL"

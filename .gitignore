@@ -2,9 +2,18 @@
 /keds/vendor/
 /keds/wordpress/
 
+# Local/CI-only WordPress config (written by CI, never committed)
+/keds/wp-config-local.php
+/keds/wp-cli.local.yml
+
 # Local OS/editor files
 .DS_Store
 .idea/
 
 # Logs
 /logs
+
+# E2E test suite artifacts
+/tests/e2e/node_modules/
+/tests/e2e/playwright-report/
+/tests/e2e/test-results/

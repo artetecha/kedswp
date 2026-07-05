@@ -1,0 +1,183 @@
+# Tier 1: hermetic build + WordPress boot smoke test.
+#
+# Runs on every PR with no secrets, so dependabot and fork PRs behave
+# identically. Catches: broken composer resolution, PHP 8.4 syntax errors in
+# updated plugin/theme code, activation fatals, and boot-time fatals — before
+# anything reaches the Upsun preview environment tier (pr-e2e.yml).
+
+name: PR checks
+
+on:
+  pull_request:
+
+concurrency:
+  group: pr-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  hermetic:
+    name: hermetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: keds
+    services:
+      mariadb:
+        image: mariadb:11.8
+        env:
+          MARIADB_DATABASE: wordpress
+          MARIADB_USER: wp
+          MARIADB_PASSWORD: wp
+          MARIADB_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=30
+      redis:
+        image: redis:8.0
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mysqli, redis, igbinary, gd, intl, zip, mbstring, curl, exif
+          tools: composer, wp-cli
+          coverage: none
+
+      - name: Validate composer manifests
+        run: |
+          # --no-check-all: exact version pins are deliberate here; --strict
+          # still fails on schema errors and an out-of-date composer.lock.
+          composer validate --strict --no-check-all --no-check-publish
+          python3 <<'PY'
+          import json, pathlib, sys
+          req = json.load(open("composer.json"))["require"]
+          bad, count = [], 0
+          for cj in sorted(pathlib.Path("private-packages").glob("*/*/composer.json")):
+              pkg = json.load(cj.open())
+              count += 1
+              pin = req.get(pkg["name"])
+              if pin != pkg.get("version"):
+                  bad.append(f'{pkg["name"]}: vendored {pkg.get("version")!r} vs root pin {pin!r}')
+          if bad:
+              print("Private package pins out of sync with composer.json:", *bad, sep="\n  ")
+              sys.exit(1)
+          print(f"{count} private package pins consistent")
+          PY
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ hashFiles('keds/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Composer install (exercises the postbuild scripts too)
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      # Full lint, not diff-based: composer-mediated plugin updates change
+      # zero files in the git diff. Excludes below are for shipped test
+      # fixtures that are intentionally invalid PHP.
+      - name: PHP 8.4 lint of wp-content
+        run: |
+          composer global require php-parallel-lint/php-parallel-lint:^1.4 --no-interaction --quiet
+          "$(composer global config bin-dir --absolute --quiet)/parallel-lint" \
+            -j "$(nproc)" --no-progress \
+            wordpress/wp-content/plugins \
+            wordpress/wp-content/themes \
+            wordpress/wp-content/mu-plugins
+
+      - name: Write CI WordPress config
+        run: |
+          cp ../.github/ci/wp-config-local.php wp-config-local.php
+          printf 'path: wordpress\n' > wp-cli.local.yml
+
+      - name: Install WordPress
+        run: |
+          wp core install \
+            --url=http://127.0.0.1:8080 \
+            --title="KEDS CI" \
+            --admin_user=ci-admin \
+            --admin_password="ci-$(head -c8 /dev/urandom | xxd -p)" \
+            --admin_email=ci@example.invalid \
+            --skip-email
+          wp theme activate eduma
+
+      - name: Activate production plugin set
+        run: bash ../.github/ci/activate-plugins.sh package-source-manifest.json
+
+      - name: Pretty permalinks (LearnPress archive + REST routes)
+        run: wp rewrite structure '/%postname%/'
+
+      - name: Serve site
+        run: |
+          wp server --host=127.0.0.1 --port=8080 &
+          for i in $(seq 1 30); do
+            curl -fsS -o /dev/null http://127.0.0.1:8080/wp-login.php && exit 0
+            sleep 2
+          done
+          echo "ERROR: wp server did not come up" >&2
+          exit 1
+
+      - name: Smoke tests
+        run: |
+          set -x
+          mkdir -p /tmp/smoke
+
+          # NB: assertions use explicit `if`, not `! grep` — commands prefixed
+          # with `!` are exempt from bash errexit and would never fail the job.
+          fatal='There has been a critical error|Fatal error'
+
+          # Homepage: 200 and no fatal markers (first render is uncached Eduma+Elementor — be patient).
+          curl -fsS --max-time 300 http://127.0.0.1:8080/ -o /tmp/smoke/home.html
+          if grep -Eqi "$fatal" /tmp/smoke/home.html; then echo "fatal on /" >&2; exit 1; fi
+
+          # Login page renders its form.
+          curl -fsS --max-time 60 http://127.0.0.1:8080/wp-login.php -o /tmp/smoke/login.html
+          grep -q 'loginform' /tmp/smoke/login.html
+
+          # LearnPress course archive exists and renders.
+          curl -fsS --max-time 120 http://127.0.0.1:8080/courses/ -o /tmp/smoke/courses.html
+          if grep -Eqi "$fatal" /tmp/smoke/courses.html; then echo "fatal on /courses/" >&2; exit 1; fi
+
+          # REST API responds with valid JSON.
+          curl -fsS --max-time 60 http://127.0.0.1:8080/wp-json/ | jq -e '.name' > /dev/null
+
+      - name: Fail on PHP fatals in the debug log
+        # Fatals only: 30 premium plugins on PHP 8.4 emit deprecations —
+        # that's report material, not a merge gate.
+        run: |
+          if [ -f /tmp/wp-debug.log ] && grep -E 'PHP Fatal|Uncaught' /tmp/wp-debug.log; then
+            echo "ERROR: PHP fatals found in debug log" >&2
+            exit 1
+          fi
+
+      - name: Upload diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hermetic-diagnostics
+          if-no-files-found: ignore
+          path: |
+            /tmp/wp-debug.log
+            /tmp/smoke/

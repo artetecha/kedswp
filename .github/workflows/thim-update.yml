@@ -1,0 +1,78 @@
+# Daily scheduled pipeline that raises one PR per ThimPress-licensed package
+# (Eduma, thim-*, LearnPress add-ons, ...) with an update available, using
+# keds/scripts/thim-update.sh — which SSHes into the production container so
+# license tokens never leave Upsun.
+#
+# SECURITY: this workflow holds UPSUN_CLI_TOKEN (can SSH into prod). It must
+# only ever run on schedule/workflow_dispatch from this repo — never on
+# pull_request / pull_request_target (the repo is public).
+#
+# PRs are created with BOT_PAT (fine-grained PAT), NOT the workflow
+# GITHUB_TOKEN: PRs created by GITHUB_TOKEN never trigger the pull_request
+# test workflows, which would silently skip the whole test suite.
+#
+# These PRs are human-merged by design (mission-critical: merging deploys
+# production). Each run rebuilds every thim/<slug> branch from main, so PRs
+# that went stale when a sibling merged self-heal daily; trigger manually
+# (workflow_dispatch) to refresh sooner.
+
+name: Thim premium updates
+
+on:
+  schedule:
+    - cron: '30 5 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: "Space-separated package slugs to update (empty = all with updates)"
+        required: false
+        default: ""
+
+concurrency:
+  group: thim-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: upsun-prod
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.BOT_PAT }}
+
+      - name: Set up PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+          coverage: none
+
+      - name: Install Upsun CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/upsun/cli/main/installer.sh | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Load SSH certificate
+        env:
+          UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
+        run: upsun ssh-cert:load --no-interaction
+
+      - name: Configure git author
+        run: |
+          git config user.name "keds-ci"
+          git config user.email "keds-ci@users.noreply.github.com"
+
+      - name: Raise update PRs
+        env:
+          UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
+          GH_TOKEN: ${{ secrets.BOT_PAT }}
+          # Via env (not inline interpolation) so the input can't inject shell.
+          SLUGS: ${{ inputs.slugs }}
+        run: bash .github/ci/thim-update-prs.sh $SLUGS

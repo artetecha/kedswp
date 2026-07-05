@@ -7,6 +7,7 @@
 #
 # Usage:
 #   scripts/thim-update.sh check                  # show available updates
+#   scripts/thim-update.sh check --porcelain      # machine-readable: "slug local remote" lines
 #   scripts/thim-update.sh update <slug> [...]    # vendor new versions
 #
 # Downloads happen ON the container (same egress as the wp-admin
@@ -39,13 +40,14 @@ local_version() { # local_version <slug> -> version or "absent"
 	echo "absent"
 }
 
-cmd_check() {
-	local listing
+cmd_check() { # cmd_check [table|porcelain]
+	local format="${1:-table}" listing
 	listing=$(remote_wp list)
-	python3 - "$PKG_DIR" "$listing" <<'PY'
+	python3 - "$PKG_DIR" "$listing" "$format" <<'PY'
 import json, sys, pathlib
 pkg_dir = pathlib.Path(sys.argv[1])
 data = json.loads(sys.argv[2])
+fmt = sys.argv[3]
 latest = dict(data["plugins"])
 theme = data["theme"]
 if theme.get("latest"):
@@ -66,7 +68,12 @@ for sub in ("plugins", "themes"):
         # Only genuine upgrades; Thim's catalog sometimes lags what's installed.
         if remote and parse(remote) > parse(local):
             rows.append((slug, local, remote))
-if not rows:
+if fmt == "porcelain":
+    # One "slug local remote" line per available update; empty output
+    # means everything is up to date.
+    for slug, local, remote in rows:
+        print(slug, local, remote)
+elif not rows:
     print("Everything up to date (Thim-distributed packages only).")
 else:
     print(f"{'PACKAGE':40} {'LOCAL':10} AVAILABLE")
@@ -123,11 +130,16 @@ cmd_update() {
 }
 
 case "${1:-}" in
-	check) cmd_check ;;
+	check)
+		shift
+		format="table"
+		if [ "${1:-}" = "--porcelain" ]; then format="porcelain"; fi
+		cmd_check "$format"
+		;;
 	update)
 		shift
 		[ $# -ge 1 ] || { echo "usage: $0 update <slug> [...]" >&2; exit 1; }
 		for slug in "$@"; do cmd_update "$slug"; done
 		;;
-	*) echo "usage: $0 check | update <slug> [...]" >&2; exit 1 ;;
+	*) echo "usage: $0 check [--porcelain] | update <slug> [...]" >&2; exit 1 ;;
 esac
