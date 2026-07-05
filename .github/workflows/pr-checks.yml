@@ -112,7 +112,13 @@ jobs:
           cp ../.github/ci/wp-config-local.php wp-config-local.php
           printf 'path: wordpress\n' > wp-cli.local.yml
 
+      # All wp-cli steps below run from wordpress/ to mirror production
+      # (/app/wordpress). Running from keds/ breaks plugins that load their
+      # bundled autoloader via a relative `include 'vendor/autoload.php'`:
+      # include_path's "." would resolve it to the PROJECT autoloader in
+      # keds/vendor/ instead (seen with learnpress-course-review).
       - name: Install WordPress
+        working-directory: keds/wordpress
         run: |
           wp core install \
             --url=http://127.0.0.1:8080 \
@@ -124,12 +130,15 @@ jobs:
           wp theme activate eduma
 
       - name: Activate production plugin set
-        run: bash ../.github/ci/activate-plugins.sh package-source-manifest.json
+        working-directory: keds/wordpress
+        run: bash ../../.github/ci/activate-plugins.sh ../package-source-manifest.json
 
       - name: Pretty permalinks (LearnPress archive + REST routes)
+        working-directory: keds/wordpress
         run: wp rewrite structure '/%postname%/'
 
       - name: Serve site
+        working-directory: keds/wordpress
         run: |
           wp server --host=127.0.0.1 --port=8080 &
           for i in $(seq 1 30); do

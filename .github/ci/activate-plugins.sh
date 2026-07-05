@@ -8,7 +8,9 @@
 # add-ons, Fluent pro, thim-elementor-kit, ...) activate after the plugin
 # they extend.
 #
-# Run from keds/ (alongside wp-cli.local.yml): bash ../.github/ci/activate-plugins.sh
+# Run from keds/wordpress/ (mirrors prod's /app/wordpress cwd — some plugins
+# resolve bundled autoloaders relative to the cwd via include_path):
+#   bash ../../.github/ci/activate-plugins.sh ../package-source-manifest.json
 #
 # Deliberately no `set -e`: activation failures are collected and reported
 # together, then the script exits non-zero.
@@ -64,8 +66,10 @@ for slug in "${desired[@]}"; do
 done
 
 # Some plugins self-deactivate from their activation hook; check final state.
+# stderr is left visible on purpose: if WordPress is wedged (an activation
+# fatal), the real error must reach the log, not /dev/null.
 for slug in "${desired[@]}"; do
-	status=$(wp plugin get "$slug" --field=status 2>/dev/null || echo unknown)
+	status=$(wp plugin get "$slug" --field=status || echo unknown)
 	case "$status" in
 		active|active-network) ;;
 		*) failed+=("$slug[$status]") ;;
