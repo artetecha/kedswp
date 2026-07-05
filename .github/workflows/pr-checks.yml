@@ -57,11 +57,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mysqli, redis, igbinary, gd, intl, zip, mbstring, curl, exif, opcache
-          # opcache.enable_cli covers wp server (cli-server SAPI): without it
-          # every request re-parses the whole ~50MB codebase and renders take
-          # minutes instead of seconds.
-          ini-values: opcache.enable_cli=1, opcache.memory_consumption=256, memory_limit=512M
+          extensions: mysqli, redis, igbinary, gd, intl, zip, mbstring, curl, exif
+          # NOTE: do not set opcache.enable_cli — it slows every one-shot
+          # wp-cli call and segfaulted PHP during host-webfonts-local
+          # activation (seen on run 4). The persistent wp server process
+          # already gets opcache via the default opcache.enable=1; first
+          # renders are slow because of real generation work, hence the
+          # generous curl timeouts below.
+          ini-values: memory_limit=512M
           tools: composer, wp-cli
           coverage: none
 
