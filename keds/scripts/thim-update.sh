@@ -25,6 +25,35 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HELPER="${ROOT_DIR}/scripts/thim-update-helper.php"
 PKG_DIR="${ROOT_DIR}/private-packages"
 
+# write_package_composer <pkg_dir> <name> <type> <version>
+# Preserve the upstream composer.json (some plugins read it at runtime —
+# fluentcampaign-pro needs extra.wpfluent.namespace), overriding only our
+# pin fields and stripping anything that could leak into project dependency
+# resolution or app-wide autoloading.
+write_package_composer() {
+	python3 - "$1" "$2" "$3" "$4" <<'PYEOF'
+import json, pathlib, sys
+pkg, name, ptype, version = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3], sys.argv[4]
+cj = pkg / "composer.json"
+data = {}
+if cj.is_file():
+    try:
+        loaded = json.load(cj.open())
+        if isinstance(loaded, dict):
+            data = loaded
+    except ValueError:
+        pass
+for key in ("require", "require-dev", "repositories", "scripts", "config",
+            "autoload", "autoload-dev", "minimum-stability", "prefer-stable",
+            "provide", "replace", "conflict", "suggest", "bin"):
+    data.pop(key, None)
+data["name"] = name
+data["type"] = ptype
+data["version"] = version
+cj.write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n")
+PYEOF
+}
+
 remote_wp() { # remote_wp <action> [slug]
 	upsun ssh -p "$PROJECT" -e "$ENVIRONMENT" --app keds --no-interaction \
 		"cd /app/wordpress && wp eval-file - $*" < "$HELPER"
@@ -141,8 +170,7 @@ cmd_update() {
 	rm -rf "${PKG_DIR:?}/$kind/$slug"
 	mkdir -p "$PKG_DIR/$kind/$slug"
 	cp -R "$src/." "$PKG_DIR/$kind/$slug/"
-	printf '{"name":"%s/%s","type":"%s","version":"%s"}\n' \
-		"$comp_ns" "$slug" "$comp_type" "$version" > "$PKG_DIR/$kind/$slug/composer.json"
+	write_package_composer "$PKG_DIR/$kind/$slug" "$comp_ns/$slug" "$comp_type" "$version"
 
 	( cd "$ROOT_DIR" && composer require --no-install --no-scripts --quiet "$comp_ns/$slug:$version" )
 	echo "==> $slug: done ($version). Review with git diff, then commit & push."
