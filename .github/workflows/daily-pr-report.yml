@@ -1,0 +1,56 @@
+# Daily open-PR digest, emailed to Vinnie.
+#
+# Composes a markdown report (.github/ci/pr-report.sh) of every open PR —
+# ready-to-merge with suggested merge order, auto-merge armed, failing,
+# conflicted, in progress — and emails it. Sends nothing when there are no
+# open PRs (an empty inbox means an empty queue; check the Actions tab if
+# you suspect the workflow itself is broken).
+#
+# Recipient is deliberately hardcoded below — do not move it to a secret.
+#
+# Required Actions secrets (SMTP account used only as sender):
+#   MAIL_SERVER    e.g. smtp.fastmail.com
+#   MAIL_PORT      e.g. 465
+#   MAIL_USERNAME  SMTP login (also used as the From address)
+#   MAIL_PASSWORD  SMTP password / app password
+
+name: Daily PR report
+
+on:
+  schedule:
+    - cron: '30 6 * * *'   # 06:30 UTC daily — after dependabot (05:00) and thim (05:30) have raised the day's PRs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compose report
+        id: report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          .github/ci/pr-report.sh > /tmp/pr-report.md
+          echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+          cat /tmp/pr-report.md
+
+      - name: Send email
+        if: steps.report.outputs.count != '0'
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: ${{ secrets.MAIL_SERVER }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: KEDS CI <${{ secrets.MAIL_USERNAME }}>
+          to: v@artetecha.com
+          subject: "KEDS: ${{ steps.report.outputs.count }} open PR(s) — ${{ steps.report.outputs.date }}"
+          html_body: file:///tmp/pr-report.md
+          convert_markdown: true
