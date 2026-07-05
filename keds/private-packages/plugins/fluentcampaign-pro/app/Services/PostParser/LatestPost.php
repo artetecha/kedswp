@@ -8,6 +8,41 @@ class LatestPost
 {
     private static $htmlCache = [];
 
+    /**
+     * Resolve the canonical URL for a post in the latest posts email block.
+     *
+     * For WP RSS Aggregator feed items the local CPT permalink is not the
+     * original article URL. We read the stored source URL from post meta and
+     * prefer it over the local permalink when it passes URL validation.
+     *
+     * A filter is exposed so third-party post types can provide their own
+     * canonical URL without modifying templates.
+     *
+     * @param \WP_Post $post  Must be a WP_Post object (not a post ID).
+     * @param array    $atts  Block attributes, forwarded to the filter.
+     * @return string  Validated, unescaped URL.
+     */
+    public static function getPostUrl($post, $atts = [])
+    {
+        $url = get_permalink($post);
+
+        if ($post instanceof \WP_Post && $post->post_type === 'wprss_feed_item') {
+            $feedUrl = get_post_meta($post->ID, '_wpra_url', true);
+
+            if ($feedUrl && wp_http_validate_url($feedUrl)) {
+                $url = $feedUrl;
+            }
+        }
+
+        $filteredUrl = apply_filters('fluent_crm/latest_post_block_post_url', $url, $post, $atts);
+
+        if (is_string($filteredUrl) && wp_http_validate_url($filteredUrl)) {
+            return $filteredUrl;
+        }
+
+        return $url;
+    }
+
     public static function renderPosts($postsHtml, $data)
     {
         $defaultAtts = [
@@ -145,9 +180,12 @@ class LatestPost
                 $gapStyle = 'margin-bottom:' . intval(Arr::get($atts, 'postsGap', 20)) . 'px;';
             }
 
+            $postUrl = self::getPostUrl($post, $atts);
+
             $content .= self::loadView($defaultAtts['selectedLayout'], [
                 'atts'     => $atts,
                 'post'     => $post,
+                'postUrl'  => $postUrl,
                 'settings' => [
                     'authorStyle'  => $authorStyle,
                     'commentStyle' => $commentStyle,

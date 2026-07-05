@@ -4,7 +4,7 @@ Tags: fluentcrm
 Requires at least: 4.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.1.0
+Stable tag: 3.1.8
 
 FluentCRM Pro Version
 
@@ -24,6 +24,61 @@ Manual Install:
 Upload the plugin files to the /wp-content/plugins/ directory, then activate the plugin.
 
 == Change Log ==
+
+= 3.1.8 (Date: June 30, 2026) =
+- Improvement: Email sending now respects the configured maximum sending cap.
+- Fixed: Abandon cart totals and provider-specific recovery notices.
+- Fixed: FluentCart abandon cart coupon fallback and built-in template smartcodes.
+- Fixed: LearnPress course completion tags not being applied with deprecated hooks.
+- Fixed: Reflected XSS issues in admin flows.
+
+= 3.1.7 (Date: June 25, 2026) = 
+= Improvement: Email Sending Cap Centralized
+- Improvement: Automation contact list table ui/ux synced with other tables
+- Improvement: Added Created At and Updated At sorting in the funnels table.
+- Fixed: FluentCart checkout subscription opt-in missing in modal checkout.
+- Fixed: FluentCart checkout opt-in selected lists showing IDs instead of names.
+- Fixed: FluentCart purchase history order links opening the wrong admin screen.
+- Fixed: WooCommerce single product email preview button text issue.
+- Fixed: Striped Gutenberg table style rendering issue in email
+- Fixed: Email design preset switch resetting global email styles.
+- Fixed: Contact growth report list and tag selector search issue.
+- Fixed: Email footer disabled state reset issue when using Send Email.
+- Fixed: Raw HTML template import not updating the campaign body editor.
+- Fixed: Sequence email action menu popover issue.
+- Fixed: Missing Contact Type field in CSV import mapping.
+- Fixed: Contact profile support section table layout issue.
+- Fixed: Gutenberg editor next button render issue in some cases
+
+= 3.1.6 (Date: June 21, 2026) =
+- Fix: Db index migration failed issue
+- Improvement: Added Support for months unit for wait times in automation.
+
+= 3.1.5 (Date: June 15, 2026) =
+- New: Added FluentCart checkout subscription opt-in for assigning lists, tags, and double opt-in from checkout.
+- New: Added global link color picker to the Gutenberg email editor.
+- New: Added CSV export for FluentCRM system logs / CRM logs with date range options.
+- New: Company quick-create flow in contact addition 
+- Improvement: Improved campaign email queue reliability with lock-first sender handling, safer stale email recovery, and loopback fallback.
+- Improvement: Improved campaign recipient processing progress UI.
+- Improvement: Improved CSP compatibility for public forms and email view-on-browser pages.
+- Fixed: Campaign recipient processing could skip contacts during large list chunking.
+- Fixed: RSS block rendering and feed item links in the email editor.
+- Fixed: ##web_preview_url## and other URL smartcode issues.
+- Fixed: Duplicate footer issue in email web preview.
+- Fixed: Email template footer disable persistence issue.
+- Fixed: Missing footer settings in the classic email editor.
+- Fixed: Missing subject and settings step in Gutenberg recurring campaign editor.
+- Fixed: Revenue re-sync issue in sent campaign reports.
+- Fixed: WooCommerce dashboard sales stats now support modern order stats and HPOS-friendly stores.
+- Fixed: Latest Posts block links now resolve original WP RSS Aggregator feed item URLs.
+- Fixed: Latest Posts block filtered URLs are validated before rendering.
+- Fixed: Add Media button issue in Companies Notes & Activities.
+- Fixed: Automation label contrast in Dark Mode.
+- Fixed: Automation label sync from the label dialog.
+- Fixed: Conditional blocks being selectable inside conditional child branches.
+- Fixed: Data cleanup delete flow interruption issue
+- Fixed: Emogrifier autoloader conflict with FluentCart.
 
 = 3.1.0 (Date: May 23, 2026) =
 - New: WordPress AI support added for WordPress 7.x.

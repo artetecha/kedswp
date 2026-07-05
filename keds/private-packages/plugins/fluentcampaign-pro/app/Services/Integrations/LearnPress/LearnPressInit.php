@@ -5,12 +5,11 @@ namespace FluentCampaign\App\Services\Integrations\LearnPress;
 use FluentCampaign\App\Services\MetaFormBuilder;
 use FluentCrm\App\Models\Tag;
 use FluentCrm\App\Services\Funnel\FunnelHelper;
+use FluentCrm\App\Services\Helper;
 use FluentCrm\App\Services\Html\TableBuilder;
 
 class LearnPressInit
 {
-    protected $processedCourseCompletions = [];
-
     public function init()
     {
         new LearnPressImporter();
@@ -35,9 +34,11 @@ class LearnPressInit
             add_action('learnpress/user/course-enrolled', function ($ref, $courseId, $userId) {
                 $this->courseEnrolled($courseId, $userId);
             }, 10, 3);
+            // Legacy hook (older LearnPress); kept for backward compatibility.
             add_action('learn-press/user-course/finish', array($this, 'courseFinished'), 10, 1);
+            // Current LearnPress fires this on course finish, passing the UserCourseModel
+            // object (which exposes item_id and user_id) that courseFinished() expects.
             add_action('learn-press/user-course/finished', array($this, 'courseFinished'), 10, 1);
-            add_action('learn-press/user-course-finished', array($this, 'courseFinishedByIds'), 10, 2);
             add_action('learn-press/user-completed-lesson', array($this, 'lessonCompleted'), 10, 3);
         }
 
@@ -237,7 +238,13 @@ class LearnPressInit
             return false;
         }
 
-        return $this->applyTagsToUser($user_id, $settings['enroll_tags']);
+        $contact = Helper::getWPMapUserInfo($user_id);
+
+        $contact['tags'] = $settings['enroll_tags'];
+
+        FunnelHelper::createOrUpdateContact($contact);
+
+        return true;
     }
 
     public function courseFinished($course)
@@ -253,22 +260,13 @@ class LearnPressInit
             return false;
         }
 
-        return $this->applyCourseCompletionTags($courseId, $userId, $settings['completed_tags']);
-    }
+        $contact = Helper::getWPMapUserInfo($userId);
 
-    public function courseFinishedByIds($courseId, $userId)
-    {
-        if (!$courseId || !$userId) {
-            return false;
-        }
+        $contact['tags'] = $settings['completed_tags'];
 
-        $settings = get_post_meta($courseId, '_fcrm_settings', true);
+        FunnelHelper::createOrUpdateContact($contact);
 
-        if (!$settings || empty($settings['completed_tags'])) {
-            return false;
-        }
-
-        return $this->applyCourseCompletionTags($courseId, $userId, $settings['completed_tags']);
+        return true;
     }
 
     public function lessonCompleted($lessonId, $result, $userId)
@@ -279,46 +277,14 @@ class LearnPressInit
             return false;
         }
 
-        return $this->applyTagsToUser($userId, $settings['completed_tags']);
-    }
+        $contact = Helper::getWPMapUserInfo($userId);
 
-    protected function applyTagsToUser($userId, $tagIds)
-    {
-        $subscriberData = FunnelHelper::prepareUserData($userId);
+        $contact['tags'] = $settings['completed_tags'];
 
-        if (empty($subscriberData['email']) || !is_email($subscriberData['email'])) {
-            return false;
-        }
-
-        $subscriber = FunnelHelper::getSubscriber($subscriberData['email']);
-
-        if (!$subscriber) {
-            $subscriberData['source'] = __('LearnPress', 'fluentcampaign-pro');
-            $subscriber = FunnelHelper::createOrUpdateContact($subscriberData);
-        }
-
-        if (!$subscriber) {
-            return false;
-        }
-
-        $subscriber->attachTags($tagIds);
+        FunnelHelper::createOrUpdateContact($contact);
 
         return true;
     }
-
-    protected function applyCourseCompletionTags($courseId, $userId, $tagIds)
-    {
-        $completionKey = absint($courseId) . ':' . absint($userId);
-
-        if (isset($this->processedCourseCompletions[$completionKey])) {
-            return false;
-        }
-
-        $this->processedCourseCompletions[$completionKey] = true;
-
-        return $this->applyTagsToUser($userId, $tagIds);
-    }
-
     public function addDeepIntegrationProvider($providers)
     {
         $providers['learnpress'] = [

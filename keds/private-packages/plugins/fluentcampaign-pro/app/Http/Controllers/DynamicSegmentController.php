@@ -9,6 +9,7 @@ use FluentCrm\App\Models\Meta;
 use FluentCrm\App\Models\Tag;
 use FluentCrm\Framework\Http\Request\Request;
 use FluentCrm\App\Services\Helper;
+use FluentCrm\App\Services\Sanitize;
 
 
 class DynamicSegmentController extends Controller
@@ -99,6 +100,21 @@ class DynamicSegmentController extends Controller
             $subscribers = $subscribers->searchBy(sanitize_text_field($request->get('search', '')));
         }
 
+        $tagIds = $this->normalizeSegmentTagFilters($request->get('tags', []));
+        if ($tagIds) {
+            $subscribers = $subscribers->filterByTags($tagIds);
+        }
+
+        $listIds = $this->normalizeSegmentListFilters($request->get('lists', []));
+        if ($listIds) {
+            $subscribers = $subscribers->filterByLists($listIds);
+        }
+
+        $statuses = $this->normalizeSegmentStatuses($request->get('statuses', []));
+        if ($statuses) {
+            $subscribers = $subscribers->filterByStatues($statuses);
+        }
+
         if ($request->get('has_commerce')) {
             $commerceProvider = apply_filters('fluentcrm_commerce_provider', '');
             if ($commerceProvider) {
@@ -121,6 +137,23 @@ class DynamicSegmentController extends Controller
             'segment'     => $segment,
             'subscribers' => $subscribers
         ]);
+    }
+
+    protected function normalizeSegmentTagFilters($tagFilters)
+    {
+        return array_values(array_filter(Sanitize::sanitizeTagIds((array) $tagFilters, false)));
+    }
+
+    protected function normalizeSegmentListFilters($listFilters)
+    {
+        return array_values(array_filter(Sanitize::sanitizeListIds((array) $listFilters, false)));
+    }
+
+    protected function normalizeSegmentStatuses($statuses)
+    {
+        $statuses = array_filter(array_map('sanitize_text_field', (array) $statuses));
+
+        return array_values(array_intersect($statuses, fluentcrm_subscriber_statuses()));
     }
 
     public function getCustomFields(Request $request)

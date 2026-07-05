@@ -2,7 +2,8 @@
 <?php
 /**
  * @var $atts array
- * @var $post array
+ * @var $post \WP_Post
+ * @var $postUrl string
  * @var $settings array
  */
 ?>
@@ -11,7 +12,7 @@
         <?php if ( get_the_post_thumbnail_url($post) && $atts['showImage'] == true) { ?>
             <tr>
                 <td width="100%" style="padding: 0 0 25px 0;">
-                    <a href="<?php echo esc_url(get_the_permalink($post)); ?>" class="fc_latest_post_overlay" style="background: url(<?php echo esc_url(get_the_post_thumbnail_url($post)); ?>) center no-repeat; background-size: <?php echo esc_attr($atts['backgroundType']); ?>;">
+                    <a href="<?php echo esc_url($postUrl); ?>" class="fc_latest_post_overlay" style="background: url(<?php echo esc_url(get_the_post_thumbnail_url($post)); ?>) center no-repeat; background-size: <?php echo esc_attr($atts['backgroundType']); ?>;">
                     </a>
                 </td>
             </tr>
@@ -25,7 +26,7 @@
                             <td>
                                 <div class="fc_latest_post_content">
                                     <h1 class="title" style="<?php echo esc_attr($settings['titleStyle']); ?>">
-                                        <a href="<?php echo esc_url(get_the_permalink($post)); ?>" style="<?php echo esc_attr($settings['titleStyle']); ?>">
+                                        <a href="<?php echo esc_url($postUrl); ?>" style="<?php echo esc_attr($settings['titleStyle']); ?>">
                                             <?php
                                             if ( $post->post_title ) {
                                                 echo esc_html($post->post_title);
@@ -47,7 +48,7 @@
                                     }
                                     if ( !empty($atts['buttonText']) && $atts['showButton'] == true ) {
                                         ?>
-                                        <a href="<?php echo esc_url(get_the_permalink($post)); ?>" style="line-height:1.8;<?php echo esc_attr($settings['buttonStyle']); ?>" class="fc_latest_post_btn">
+                                        <a href="<?php echo esc_url($postUrl); ?>" style="line-height:1.8;<?php echo esc_attr($settings['buttonStyle']); ?>" class="fc_latest_post_btn">
                                             <?php echo esc_html($atts['buttonText']); ?>
                                         </a>
                                     <?php } ?>
