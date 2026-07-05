@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68ed2c9c5077aa0f01a2132b4572a8af",
+    "content-hash": "2839f18fc48a09da31d3907d802bfc85",
     "packages": [
         {
             "name": "composer/installers",
@@ -255,48 +255,6 @@
             "time": "2020-04-16T21:44:57+00:00"
         },
         {
-            "name": "keds-plugin/auto-sizes",
-            "version": "1.7.0",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/auto-sizes",
-                "reference": "ebf6c29e77d4f5d57f4f04a9cb9384effc375455"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
-            "name": "keds-plugin/dominant-color-images",
-            "version": "1.2.1",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/dominant-color-images",
-                "reference": "50e0ba47875eb8febb01bedb03a30c208f579b54"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
-            "name": "keds-plugin/embed-optimizer",
-            "version": "1.0.0-beta5",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/embed-optimizer",
-                "reference": "6fee80cc12d2cc27028bd44bb79c201c09a224a6"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
             "name": "keds-plugin/fluentcampaign-pro",
             "version": "3.1.0",
             "dist": {
@@ -334,20 +292,6 @@
                 "type": "path",
                 "url": "private-packages/plugins/fluentformpro",
                 "reference": "dad4ecbcb06778aa8e6ff43bae6c21dfad0a9a24"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
-            "name": "keds-plugin/image-prioritizer",
-            "version": "1.0.0-beta3",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/image-prioritizer",
-                "reference": "4571cf18ab133e5be81750e24ea03569ff47dec6"
             },
             "type": "wordpress-plugin",
             "transport-options": {
@@ -538,20 +482,6 @@
             }
         },
         {
-            "name": "keds-plugin/optimization-detective",
-            "version": "1.0.0-beta5",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/optimization-detective",
-                "reference": "63f324371b9a7e8f9c653b9e9e8902f55dd5f4b4"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
             "name": "keds-plugin/paid-memberships-pro",
             "version": "3.7.4",
             "dist": {
@@ -572,20 +502,6 @@
                 "type": "path",
                 "url": "private-packages/plugins/revslider",
                 "reference": "d98c7be89420e27438e1e56569c6c782cc6fb030"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
-            "name": "keds-plugin/speculation-rules",
-            "version": "1.6.0",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/speculation-rules",
-                "reference": "36df202af944c28b3d6115c63c0c984c2906d609"
             },
             "type": "wordpress-plugin",
             "transport-options": {
@@ -628,34 +544,6 @@
                 "type": "path",
                 "url": "private-packages/plugins/tp-portfolio",
                 "reference": "6020775ea7a3c82f6a20474937d2fd438af3e45b"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
-            "name": "keds-plugin/web-worker-offloading",
-            "version": "0.2.1",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/web-worker-offloading",
-                "reference": "fec174b3bbc54c10c7b6403f38a65e4a61eda4fc"
-            },
-            "type": "wordpress-plugin",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
-        },
-        {
-            "name": "keds-plugin/webp-uploads",
-            "version": "2.6.1",
-            "dist": {
-                "type": "path",
-                "url": "private-packages/plugins/webp-uploads",
-                "reference": "b3cfc0c003ead6bb659d13cb9da34d5005cfc272"
             },
             "type": "wordpress-plugin",
             "transport-options": {
@@ -753,6 +641,24 @@
             "homepage": "https://wordpress.org/plugins/akismet/"
         },
         {
+            "name": "wpackagist-plugin/auto-sizes",
+            "version": "1.7.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/auto-sizes/",
+                "reference": "tags/1.7.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/auto-sizes.1.7.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/auto-sizes/"
+        },
+        {
             "name": "wpackagist-plugin/autodescription",
             "version": "5.1.4",
             "source": {
@@ -807,6 +713,24 @@
             "homepage": "https://wordpress.org/plugins/contact-form-7/"
         },
         {
+            "name": "wpackagist-plugin/dominant-color-images",
+            "version": "1.2.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/dominant-color-images/",
+                "reference": "tags/1.2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/dominant-color-images.1.2.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/dominant-color-images/"
+        },
+        {
             "name": "wpackagist-plugin/elementor",
             "version": "4.1.1",
             "source": {
@@ -823,6 +747,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/elementor/"
+        },
+        {
+            "name": "wpackagist-plugin/embed-optimizer",
+            "version": "1.0.0-beta5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/embed-optimizer/",
+                "reference": "tags/1.0.0-beta5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/embed-optimizer.1.0.0-beta5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/embed-optimizer/"
         },
         {
             "name": "wpackagist-plugin/fluent-crm",
@@ -933,6 +875,24 @@
             "homepage": "https://wordpress.org/plugins/host-webfonts-local/"
         },
         {
+            "name": "wpackagist-plugin/image-prioritizer",
+            "version": "1.0.0-beta3",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/image-prioritizer/",
+                "reference": "tags/1.0.0-beta3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/image-prioritizer.1.0.0-beta3.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/image-prioritizer/"
+        },
+        {
             "name": "wpackagist-plugin/learnpress",
             "version": "4.3.7",
             "source": {
@@ -967,6 +927,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/mailchimp-for-wp/"
+        },
+        {
+            "name": "wpackagist-plugin/optimization-detective",
+            "version": "1.0.0-beta5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/optimization-detective/",
+                "reference": "tags/1.0.0-beta5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/optimization-detective.1.0.0-beta5.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/optimization-detective/"
         },
         {
             "name": "wpackagist-plugin/performance-lab",
@@ -1021,6 +999,60 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/redis-cache/"
+        },
+        {
+            "name": "wpackagist-plugin/speculation-rules",
+            "version": "1.6.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/speculation-rules/",
+                "reference": "tags/1.6.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/speculation-rules.1.6.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/speculation-rules/"
+        },
+        {
+            "name": "wpackagist-plugin/web-worker-offloading",
+            "version": "0.2.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/web-worker-offloading/",
+                "reference": "tags/0.2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/web-worker-offloading.0.2.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/web-worker-offloading/"
+        },
+        {
+            "name": "wpackagist-plugin/webp-uploads",
+            "version": "2.6.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/webp-uploads/",
+                "reference": "tags/2.6.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/webp-uploads.2.6.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/webp-uploads/"
         },
         {
             "name": "wpackagist-plugin/woocommerce",
@@ -1117,9 +1149,9 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "keds-plugin/embed-optimizer": 10,
-        "keds-plugin/image-prioritizer": 10,
-        "keds-plugin/optimization-detective": 10
+        "wpackagist-plugin/embed-optimizer": 10,
+        "wpackagist-plugin/image-prioritizer": 10,
+        "wpackagist-plugin/optimization-detective": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,
