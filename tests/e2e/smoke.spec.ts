@@ -72,7 +72,11 @@ test.describe('KEDS smoke', () => {
   });
 
   test('sitemap responds', async ({ request }) => {
-    const response = await request.get('/wp-sitemap.xml');
-    expect(response.status()).toBe(200);
+    // The SEO Framework (autodescription) replaces core's /wp-sitemap.xml
+    // with its own /sitemap.xml — accept whichever answers.
+    const core = await request.get('/wp-sitemap.xml');
+    if (core.status() === 200) return;
+    const tsf = await request.get('/sitemap.xml');
+    expect(tsf.status(), 'neither /wp-sitemap.xml nor /sitemap.xml returned 200').toBe(200);
   });
 });

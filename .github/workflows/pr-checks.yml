@@ -152,7 +152,11 @@ jobs:
           # fatals in wp-admin/includes/menu.php on the null admin menu)
           # must not trip it; activation failures already gate separately.
           : > /tmp/wp-debug.log
-          wp server --host=127.0.0.1 --port=8080 &
+          # Workers matter: plugins make loopback HTTP requests to the site
+          # itself (font/CSS proxying); a single-threaded built-in server
+          # deadlocks on those until default_socket_timeout (60s ×2 ≈ the
+          # uniform 121s renders seen on runs 3-5).
+          PHP_CLI_SERVER_WORKERS=4 wp server --host=127.0.0.1 --port=8080 &
           for i in $(seq 1 30); do
             curl -fsS -o /dev/null http://127.0.0.1:8080/wp-login.php && exit 0
             sleep 2
