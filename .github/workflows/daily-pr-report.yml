@@ -47,6 +47,7 @@ jobs:
         with:
           server_address: ${{ secrets.MAIL_SERVER }}
           server_port: ${{ secrets.MAIL_PORT }}
+          secure: true   # implicit SSL — pair with port 465 (Gmail: smtp.gmail.com)
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           from: KEDS CI <${{ secrets.MAIL_USERNAME }}>
