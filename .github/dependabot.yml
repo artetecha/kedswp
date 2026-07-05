@@ -1,0 +1,40 @@
+# Dependabot: free (wpackagist) composer packages + GitHub Actions.
+#
+# Notes:
+# - wpackagist needs no `registries:` entry — dependabot's composer engine
+#   reads the `repositories` array from keds/composer.json directly.
+# - Path packages (keds/private-packages/*) are invisible to dependabot;
+#   those are updated by .github/workflows/thim-update.yml instead.
+# - Patch/minor wpackagist updates arrive as one grouped rolling PR and are
+#   auto-merged when CI passes (see automerge.yml); majors arrive
+#   individually and wait for human review.
+# - Known gap: dependabot's handling of already-satisfying range constraints
+#   (johnpbloch/wordpress-core "7.0.*", redis-cache "^2.0") is inconsistent
+#   for composer — verify a core point release actually yields a PR.
+
+version: 2
+updates:
+  - package-ecosystem: composer
+    directory: "/keds"
+    schedule:
+      interval: daily
+      time: "05:00"
+      timezone: Europe/London
+    versioning-strategy: increase
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+    groups:
+      wpackagist-minor-patch:
+        patterns:
+          - "wpackagist-*"
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies

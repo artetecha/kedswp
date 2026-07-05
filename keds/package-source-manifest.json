@@ -124,6 +124,7 @@
  "removed": [
   "object-cache-pro",
   "pantheon-mu-plugin",
+  "wp-native-php-sessions",
   "wp-content/object-cache.php",
   "wp-content/wp-cloudflare-super-page-cache"
  ],
