@@ -61,7 +61,10 @@ if ( 'list' === $action ) {
 		}
 	}
 
-	echo json_encode( $out );
+	// FORCE_OBJECT: empty PHP arrays would serialize as [] (JSON list) and
+	// break map-shaped parsing on the consumer side. Every array in $out is
+	// a map, so forcing objects is lossless.
+	echo json_encode( $out, JSON_FORCE_OBJECT );
 	exit( 0 );
 }
 

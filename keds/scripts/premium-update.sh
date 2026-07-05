@@ -37,7 +37,10 @@ data = json.loads(sys.argv[2])
 fmt = sys.argv[3]
 latest = {}
 for kind in ("plugins", "themes"):
-    for slug, info in data.get(kind, {}).items():
+    entries = data.get(kind) or {}
+    if isinstance(entries, list):  # empty PHP array serializes as []
+        entries = {}
+    for slug, info in entries.items():
         # No package URL means no licensed download — nothing we can vendor.
         if info.get("package"):
             latest[slug] = info["version"]
