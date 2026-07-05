@@ -1,0 +1,69 @@
+# Daily open-PR digest, delivered via GitHub notifications — no SMTP needed.
+#
+# Composes a markdown report (.github/ci/pr-report.sh) of every open PR —
+# ready-to-merge with suggested merge order, auto-merge armed, failing,
+# conflicted, in progress — and posts it as a comment on a long-lived
+# "Daily PR digest" issue, @mentioning Vinnie. GitHub emails the rendered
+# comment to his notification address (route the artetecha org to
+# v@artetecha.com under Settings → Notifications → Custom routing).
+#
+# Posts nothing when there are no open PRs (no email means an empty queue;
+# check the Actions tab if you suspect the workflow itself is broken).
+
+name: Daily PR report
+
+on:
+  schedule:
+    - cron: '30 6 * * *'   # 06:30 UTC daily — after dependabot (05:00) and thim (05:30) have raised the day's PRs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: write
+
+env:
+  REPORT_TITLE: "📬 Daily PR digest"
+  REPORT_LABEL: daily-report
+  MENTION: "@vincenzo"
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compose report
+        id: report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          .github/ci/pr-report.sh > /tmp/pr-report.md
+          echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+          cat /tmp/pr-report.md
+
+      - name: Post digest to the report issue
+        if: steps.report.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "$REPORT_LABEL" --repo "$GITHUB_REPOSITORY" \
+            --description "Carries the daily PR digest comments" \
+            --color 0e8a16 --force 2>/dev/null || true
+
+          issue=$(gh issue list --repo "$GITHUB_REPOSITORY" --label "$REPORT_LABEL" \
+            --state open --json number --jq '.[0].number // empty')
+
+          if [ -z "$issue" ]; then
+            issue=$(gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "$REPORT_TITLE" --label "$REPORT_LABEL" --assignee "${MENTION#@}" \
+              --body "One comment per day with the open-PR digest and suggested merge order. Posted by \`.github/workflows/daily-pr-report.yml\`; keep this issue open — closing it just makes the workflow create a fresh one." \
+              | grep -oE '[0-9]+$')
+          fi
+
+          {
+            echo "$MENTION — digest for ${{ steps.report.outputs.date }}:"
+            echo
+            cat /tmp/pr-report.md
+          } | gh issue comment "$issue" --repo "$GITHUB_REPOSITORY" --body-file -

@@ -19,10 +19,28 @@ set -euo pipefail
 BASE_BRANCH="main"
 REQUESTED=("$@")
 
+# retry <attempts> <cmd...>: exponential-ish backoff (30s, 60s, 120s...).
+# The Upsun API occasionally answers 503 (seen 2026-07-05); one transient
+# error must not kill a whole scheduled run.
+retry() {
+	local attempts="$1" delay=30 i
+	shift
+	for (( i = 1; i <= attempts; i++ )); do
+		"$@" && return 0
+		if (( i < attempts )); then
+			echo "==> attempt $i/$attempts failed, retrying in ${delay}s" >&2
+			sleep "$delay"
+			delay=$(( delay * 2 ))
+		fi
+	done
+	echo "ERROR: all $attempts attempts failed: $*" >&2
+	return 1
+}
+
 git fetch origin "$BASE_BRANCH"
 
 echo "==> checking the ThimPress channel for updates"
-updates=$(keds/scripts/thim-update.sh check --porcelain)
+updates=$(retry 3 keds/scripts/thim-update.sh check --porcelain)
 
 if [ -z "$updates" ]; then
 	echo "Everything up to date."
