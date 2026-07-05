@@ -29,6 +29,7 @@ def prio:
 	elif $h == "thim/eduma" then 1
 	elif ($h | startswith("thim/learnpress-")) then 2
 	elif ($h | startswith("thim/")) then 3
+	elif ($h | startswith("premium/")) then 3
 	elif ($h | startswith("dependabot/")) then 4
 	else 5 end;
 
@@ -55,12 +56,12 @@ sort_by(prio, .number) | group_by(bucket) | map({(.[0] | bucket): .}) | add as $
 	"## ✅ Ready to merge (all checks green) — suggested order\n",
 	($b.ready | to_entries[] | "\(.key + 1). #\(.value.number) \(.value.title)"),
 
-	# Copy-paste commands. PRs that touch composer.json/lock (thim/*,
+	# Copy-paste commands. PRs that touch composer.json/lock (thim/*, premium/*,
 	# dependabot composer) conflict with EACH OTHER once one merges, so
 	# only the first of those gets a merge line; the rest need a refresh
 	# cycle. Everything else can merge back-to-back.
-	([$b.ready[] | select((.headRefName | startswith("thim/")) or (.headRefName | startswith("dependabot/composer/")))]) as $coupled |
-	([$b.ready[] | select((.headRefName | startswith("thim/")) or (.headRefName | startswith("dependabot/composer/")) | not)]) as $indep |
+	([$b.ready[] | select((.headRefName | startswith("thim/")) or (.headRefName | startswith("premium/")) or (.headRefName | startswith("dependabot/composer/")))]) as $coupled |
+	([$b.ready[] | select((.headRefName | startswith("thim/")) or (.headRefName | startswith("premium/")) or (.headRefName | startswith("dependabot/composer/")) | not)]) as $indep |
 	"\n### Copy-paste merge commands\n\n```bash",
 	(if ($indep | length) > 0 then
 		"# Independent PRs — safe to run back-to-back:",
@@ -72,7 +73,7 @@ sort_by(prio, .number) | group_by(bucket) | map({(.[0] | bucket): .}) | add as $
 		"# merge one, refresh the rest, wait for green, repeat with the next digest.",
 		($coupled[0] | "gh pr merge \(.number) --repo \($repo) --squash   # \(.title)"),
 		(if ($coupled | length) > 1 then
-			"gh workflow run thim-update.yml --repo \($repo)   # rebuilds the remaining thim/* PRs"
+			"gh workflow run thim-update.yml --repo \($repo)   # rebuilds the remaining thim/premium PRs"
 		else empty end),
 		(if ($coupled | length) > 1 then
 			($coupled[1:][] | "#   next cycle: #\(.number) \(.title)")
@@ -92,7 +93,7 @@ else empty end),
 else empty end),
 
 (if $b.conflicted then
-	"## ⚠️ Merge conflicts (thim/* self-heal on the next daily run)\n",
+	"## ⚠️ Merge conflicts (thim/premium branches self-heal on the next daily run)\n",
 	($b.conflicted[] | pr_line), ""
 else empty end),
 

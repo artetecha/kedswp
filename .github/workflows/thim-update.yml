@@ -1,7 +1,13 @@
-# Daily scheduled pipeline that raises one PR per ThimPress-licensed package
-# (Eduma, thim-*, LearnPress add-ons, ...) with an update available, using
-# keds/scripts/thim-update.sh — which SSHes into the production container so
-# license tokens never leave Upsun.
+# Daily scheduled pipeline that raises one PR per vendored premium package
+# with an update available, across two licensed channels (both SSH into the
+# production container so license tokens never leave Upsun):
+#   - ThimPress catalog (keds/scripts/thim-update.sh): Eduma, thim-*,
+#     LearnPress add-ons, revslider — branches thim/<slug>
+#   - WP update transients (keds/scripts/premium-update.sh): Fluent pro,
+#     Paid Memberships Pro, any future licensed plugin — branches
+#     premium/<slug>
+# Ends with a coverage audit (job summary) of vendored packages neither
+# channel can see.
 #
 # SECURITY: this workflow holds UPSUN_CLI_TOKEN (can SSH into prod). It must
 # only ever run on schedule/workflow_dispatch from this repo — never on

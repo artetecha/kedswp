@@ -1,19 +1,16 @@
 #!/usr/bin/env bash
 #
-# Update Thim-distributed premium packages (Eduma theme, thim-core,
-# LearnPress add-ons, ...) in private-packages/ using ThimPress's own
-# update API, driven through thim-core on the production container so
-# requests carry the site's activated license.
+# Update vendored premium packages that are NOT Thim-distributed (Fluent
+# pro, Paid Memberships Pro, ...) via WordPress's own update transients on
+# the production container: licensed updaters inject authenticated download
+# URLs there, exactly as wp-admin sees them. Sibling of thim-update.sh —
+# same trust model (tokens never leave the container), same vendoring flow.
 #
 # Usage:
-#   scripts/thim-update.sh check                  # show available updates
-#   scripts/thim-update.sh check --porcelain      # machine-readable: "slug local remote" lines
-#   scripts/thim-update.sh coverage               # private packages present in the Thim catalog
-#   scripts/thim-update.sh update <slug> [...]    # vendor new versions
-#
-# Downloads happen ON the container (same egress as the wp-admin
-# dashboard) and are streamed back base64-encoded. Nothing is committed;
-# review `git diff` and push yourself.
+#   scripts/premium-update.sh check                  # show available updates
+#   scripts/premium-update.sh check --porcelain      # "slug local remote" lines
+#   scripts/premium-update.sh coverage               # private packages visible to the WP update system
+#   scripts/premium-update.sh update <slug> [...]    # vendor new versions
 #
 # Requires: upsun CLI (authenticated), composer, python3, unzip.
 
@@ -22,23 +19,12 @@ set -euo pipefail
 PROJECT="${UPSUN_PROJECT:-idpo3r4eqatcu}"
 ENVIRONMENT="${UPSUN_ENV:-main}"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-HELPER="${ROOT_DIR}/scripts/thim-update-helper.php"
+HELPER="${ROOT_DIR}/scripts/premium-update-helper.php"
 PKG_DIR="${ROOT_DIR}/private-packages"
 
 remote_wp() { # remote_wp <action> [slug]
 	upsun ssh -p "$PROJECT" -e "$ENVIRONMENT" --app keds --no-interaction \
 		"cd /app/wordpress && wp eval-file - $*" < "$HELPER"
-}
-
-local_version() { # local_version <slug> -> version or "absent"
-	local f
-	for f in "$PKG_DIR/plugins/$1/composer.json" "$PKG_DIR/themes/$1/composer.json"; do
-		if [ -f "$f" ]; then
-			python3 -c "import json;print(json.load(open('$f'))['version'])"
-			return
-		fi
-	done
-	echo "absent"
 }
 
 cmd_check() { # cmd_check [table|porcelain]
@@ -49,10 +35,12 @@ import json, sys, pathlib
 pkg_dir = pathlib.Path(sys.argv[1])
 data = json.loads(sys.argv[2])
 fmt = sys.argv[3]
-latest = dict(data["plugins"])
-theme = data["theme"]
-if theme.get("latest"):
-    latest[theme["slug"]] = theme["latest"]
+latest = {}
+for kind in ("plugins", "themes"):
+    for slug, info in data.get(kind, {}).items():
+        # No package URL means no licensed download — nothing we can vendor.
+        if info.get("package"):
+            latest[slug] = info["version"]
 rows = []
 for sub in ("plugins", "themes"):
     for pkg in sorted((pkg_dir / sub).iterdir()):
@@ -66,16 +54,13 @@ for sub in ("plugins", "themes"):
         def parse(v):
             return tuple(int(p) for p in v.split(".") if p.isdigit())
 
-        # Only genuine upgrades; Thim's catalog sometimes lags what's installed.
         if remote and parse(remote) > parse(local):
             rows.append((slug, local, remote))
 if fmt == "porcelain":
-    # One "slug local remote" line per available update; empty output
-    # means everything is up to date.
     for slug, local, remote in rows:
         print(slug, local, remote)
 elif not rows:
-    print("Everything up to date (Thim-distributed packages only).")
+    print("Everything up to date (WP-update-channel packages only).")
 else:
     print(f"{'PACKAGE':40} {'LOCAL':10} AVAILABLE")
     for slug, local, remote in rows:
@@ -85,18 +70,14 @@ PY
 
 cmd_coverage() {
 	local listing
-	listing=$(remote_wp list)
+	listing=$(remote_wp coverage)
 	python3 - "$PKG_DIR" "$listing" <<'PY'
-import json, sys, pathlib
+import sys, pathlib
 pkg_dir = pathlib.Path(sys.argv[1])
-data = json.loads(sys.argv[2])
-covered = set(data["plugins"])
-theme = data["theme"]
-if theme.get("latest"):
-    covered.add(theme["slug"])
+visible = set(sys.argv[2].split())
 for sub in ("plugins", "themes"):
     for pkg in sorted((pkg_dir / sub).iterdir()):
-        if (pkg / "composer.json").is_file() and pkg.name in covered:
+        if (pkg / "composer.json").is_file() and pkg.name in visible:
             print(pkg.name)
 PY
 }
