@@ -57,7 +57,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mysqli, redis, igbinary, gd, intl, zip, mbstring, curl, exif
+          extensions: mysqli, redis, igbinary, gd, intl, zip, mbstring, curl, exif, opcache
+          # opcache.enable_cli covers wp server (cli-server SAPI): without it
+          # every request re-parses the whole ~50MB codebase and renders take
+          # minutes instead of seconds.
+          ini-values: opcache.enable_cli=1, opcache.memory_consumption=256, memory_limit=512M
           tools: composer, wp-cli
           coverage: none
 
@@ -140,6 +144,11 @@ jobs:
       - name: Serve site
         working-directory: keds/wordpress
         run: |
+          # Reset the debug log: the fatal gate below is for RENDER fatals.
+          # Setup noise (notably a known wp-cli quirk where --context=admin
+          # fatals in wp-admin/includes/menu.php on the null admin menu)
+          # must not trip it; activation failures already gate separately.
+          : > /tmp/wp-debug.log
           wp server --host=127.0.0.1 --port=8080 &
           for i in $(seq 1 30); do
             curl -fsS -o /dev/null http://127.0.0.1:8080/wp-login.php && exit 0
@@ -166,11 +175,11 @@ jobs:
           grep -q 'loginform' /tmp/smoke/login.html
 
           # LearnPress course archive exists and renders.
-          curl -fsS --max-time 120 http://127.0.0.1:8080/courses/ -o /tmp/smoke/courses.html
+          curl -fsS --max-time 300 http://127.0.0.1:8080/courses/ -o /tmp/smoke/courses.html
           if grep -Eqi "$fatal" /tmp/smoke/courses.html; then echo "fatal on /courses/" >&2; exit 1; fi
 
           # REST API responds with valid JSON.
-          curl -fsS --max-time 60 http://127.0.0.1:8080/wp-json/ | jq -e '.name' > /dev/null
+          curl -fsS --max-time 120 http://127.0.0.1:8080/wp-json/ | jq -e '.name' > /dev/null
 
       - name: Fail on PHP fatals in the debug log
         # Fatals only: 30 premium plugins on PHP 8.4 emit deprecations —
