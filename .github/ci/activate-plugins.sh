@@ -35,8 +35,11 @@ for slug in db["active-plugins"]:
     plugins.append(slug)
 
 # Parents whose add-ons misbehave (or self-deactivate) when activated first.
+# optimization-detective is a `Requires Plugins:` dependency of
+# image-prioritizer — WP core refuses to activate a dependent first.
 parents = ["learnpress", "woocommerce", "elementor", "fluent-crm",
-           "fluentform", "paid-memberships-pro", "thim-core"]
+           "fluentform", "paid-memberships-pro", "thim-core",
+           "optimization-detective"]
 ordered = [p for p in parents if p in plugins] + [p for p in plugins if p not in parents]
 print("\n".join(ordered))
 PY
@@ -63,6 +66,16 @@ failed=()
 for slug in "${desired[@]}"; do
 	echo "==> activating $slug"
 	wp plugin activate "$slug" || failed+=("$slug")
+
+	if [ "$slug" = "learnpress" ]; then
+		# LearnPress writes its learnpress_version option (and runs its
+		# install routine) only under is_admin(); several premium add-ons
+		# (stripe, students-list, woo-payment) read that option and
+		# self-deactivate when it's missing. One admin-context command
+		# triggers the same sync a wp-admin pageview would.
+		echo "==> priming LearnPress install state (admin context)"
+		wp --context=admin option get learnpress_version || true
+	fi
 done
 
 # Some plugins self-deactivate from their activation hook; check final state.
