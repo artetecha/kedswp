@@ -2,13 +2,12 @@
 #
 # Composes a markdown report (.github/ci/pr-report.sh) of every open PR —
 # ready-to-merge with suggested merge order, auto-merge armed, failing,
-# conflicted, in progress — and posts it as a comment on a long-lived
-# "Daily PR digest" issue, @mentioning Vinnie. GitHub emails the rendered
-# comment to his notification address (route the artetecha org to
-# v@artetecha.com under Settings → Notifications → Custom routing).
-#
-# Posts nothing when there are no open PRs (no email means an empty queue;
-# check the Actions tab if you suspect the workflow itself is broken).
+# conflicted, in progress — and publishes it as a NEW dated issue assigned
+# to Vinnie, closing the previous digest issue. Issue creation reliably
+# triggers an email notification (actions-bot comments proved not to);
+# route the artetecha org to v@artetecha.com under Settings →
+# Notifications → Custom routing. An empty PR queue creates no issue and
+# closes any open digest as "queue empty".
 
 name: Daily PR report
 
@@ -44,27 +43,44 @@ jobs:
           echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
           cat /tmp/pr-report.md
 
-      - name: Post digest to the report issue
-        if: steps.report.outputs.count != '0'
+      # One issue PER RUN: issue creation reliably triggers an email
+      # notification (comments from the actions bot proved not to), and the
+      # previous digest issue is closed so exactly one is open at a time.
+      - name: Publish digest as a new issue, close the previous one
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COUNT: ${{ steps.report.outputs.count }}
+          DATE: ${{ steps.report.outputs.date }}
         run: |
           gh label create "$REPORT_LABEL" --repo "$GITHUB_REPOSITORY" \
-            --description "Carries the daily PR digest comments" \
+            --description "Daily PR digest issues" \
             --color 0e8a16 --force 2>/dev/null || true
 
-          issue=$(gh issue list --repo "$GITHUB_REPOSITORY" --label "$REPORT_LABEL" \
-            --state open --json number --jq '.[0].number // empty')
+          previous=$(gh issue list --repo "$GITHUB_REPOSITORY" --label "$REPORT_LABEL" \
+            --state open --json number --jq '.[].number')
 
-          if [ -z "$issue" ]; then
-            issue=$(gh issue create --repo "$GITHUB_REPOSITORY" \
-              --title "$REPORT_TITLE" --label "$REPORT_LABEL" --assignee "${MENTION#@}" \
-              --body "One comment per day with the open-PR digest and suggested merge order. Posted by \`.github/workflows/daily-pr-report.yml\`; keep this issue open — closing it just makes the workflow create a fresh one." \
-              | grep -oE '[0-9]+$')
+          new_issue=""
+          if [ "$COUNT" != "0" ]; then
+            {
+              echo "$MENTION"
+              echo
+              cat /tmp/pr-report.md
+            } > /tmp/issue-body.md
+            new_url=$(gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "$REPORT_TITLE — $DATE" \
+              --label "$REPORT_LABEL" --assignee "${MENTION#@}" \
+              --body-file /tmp/issue-body.md)
+            new_issue="${new_url##*/}"
+            echo "created issue #$new_issue"
           fi
 
-          {
-            echo "$MENTION — digest for ${{ steps.report.outputs.date }}:"
-            echo
-            cat /tmp/pr-report.md
-          } | gh issue comment "$issue" --repo "$GITHUB_REPOSITORY" --body-file -
+          for old in $previous; do
+            [ "$old" = "$new_issue" ] && continue
+            if [ -n "$new_issue" ]; then
+              gh issue close "$old" --repo "$GITHUB_REPOSITORY" \
+                --comment "Superseded by #$new_issue."
+            else
+              gh issue close "$old" --repo "$GITHUB_REPOSITORY" \
+                --comment "The PR queue is empty — nothing to report today."
+            fi
+          done
