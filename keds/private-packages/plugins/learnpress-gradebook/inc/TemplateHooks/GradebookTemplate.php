@@ -8,7 +8,7 @@ namespace LearnPress\Gradebook\TemplateHooks;
 use LearnPress\Helpers\Template;
 
 class GradebookTemplate {
-	public static function html_micromodal( array $args = [] ): string {
+	public static function html_micromodal( array $args = array() ): string {
 		$id           = $args['id'] ?? '';
 		$html_content = $args['content'] ?? '';
 		$title        = $args['title'] ?? '';
@@ -20,7 +20,7 @@ class GradebookTemplate {
 			esc_html__( 'Close', 'learnpress-gradebook' )
 		);
 
-		$section = [
+		$section = array(
 			'wrap'          => sprintf(
 				'<div id="%s" class="lp-micromodal-slide lp-micromodal" aria-hidden="true">',
 				esc_attr( $id )
@@ -45,7 +45,7 @@ class GradebookTemplate {
 			'container_end' => '</div>',
 			'overlay_end'   => '</div>',
 			'wrap_end'      => '</div>',
-		];
+		);
 
 		return Template::combine_components( $section );
 	}

@@ -1,19 +1,18 @@
 <?php
 namespace LearnPress\Gradebook\TemplateHooks\Admin;
 
-use Braintree\Exception;
+use Exception;
 use LearnPress\Databases\UserItemsDB;
 use LearnPress\Filters\UserItemsFilter;
+use LearnPress\Gradebook\Permission;
 use LearnPress\Helpers\Singleton;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\UserModel;
 use LearnPress\TemplateHooks\TemplateAJAX;
-use LP_Helper;
 use stdClass;
 use Throwable;
 use LP_Meta_Box_Select_Field;
 use LP_Request;
-
 /**
  * Class AdminStudentOverviewTemplate
  *
@@ -22,6 +21,29 @@ use LP_Request;
  */
 class AdminStudentOverviewTemplate {
 	use Singleton;
+
+	const SORTABLE_COLUMNS = array(
+		'student'       => array(
+			'order_by' => 'MIN(u.display_name)',
+			'default'  => 'ASC',
+		),
+		'inprogress'    => array(
+			'order_by' => 'inprogress',
+			'default'  => 'DESC',
+		),
+		'passed'        => array(
+			'order_by' => 'passed',
+			'default'  => 'DESC',
+		),
+		'failed'        => array(
+			'order_by' => 'failed',
+			'default'  => 'DESC',
+		),
+		'total_courses' => array(
+			'order_by' => 'total_courses',
+			'default'  => 'DESC',
+		),
+	);
 
 	public function init() {
 		add_action( 'learn-press/gradebook/admin-view', array( $this, 'layout' ) );
@@ -40,7 +62,7 @@ class AdminStudentOverviewTemplate {
 		return $callbacks;
 	}
 
-	public function layout( array $data = [] ) {
+	public function layout( array $data = array() ) {
 		$tab     = $data['tab'] ?? '';
 		$section = $data['section'] ?? '';
 		if ( $tab !== 'student-overview' || ! empty( $section ) ) {
@@ -88,19 +110,29 @@ class AdminStudentOverviewTemplate {
 		$content = new stdClass();
 
 		try {
-			if ( ! current_user_can( UserModel::ROLE_ADMINISTRATOR ) ) {
+			if ( ! Permission::can_view_gradebook() ) {
 				throw new Exception( __( 'You do not have permission to access this page.', 'learnpress-gradebook' ) );
 			}
 
-			$user_ids = LP_Helper::sanitize_params_submitted( $args['user_ids'] ?? '' );
-			$limit    = intval( $args['limit'] ?? 10 );
-			$paged    = intval( $args['paged'] ?? 1 );
+			$user_ids = wp_parse_id_list( $args['user_ids'] ?? '' );
+			$limit    = min( 100, max( 1, intval( $args['limit'] ?? 10 ) ) );
+			$paged    = max( 1, intval( $args['paged'] ?? 1 ) );
+			$sort     = self::resolve_sort_args( $args );
 
-			$filter              = new UserItemsFilter();
-			$total_rows          = 0;
-			$userItemsDB         = UserItemsDB::getInstance();
+			$filter      = new UserItemsFilter();
+			$total_rows  = 0;
+			$userItemsDB = UserItemsDB::getInstance();
+
+			$filter_current_courses                      = new UserItemsFilter();
+			$filter_current_courses->only_fields         = array( 'MAX(ui.user_item_id) AS user_item_id' );
+			$filter_current_courses->item_type           = LP_COURSE_CPT;
+			$filter_current_courses->group_by            = 'ui.user_id, ui.item_id';
+			$filter_current_courses->return_string_query = true;
+			$filter_current_courses->run_query_count     = false;
+			$current_courses_query                       = $userItemsDB->get_user_items( $filter_current_courses );
+
 			$filter->only_fields = array(
-				'DISTINCT(u.ID) as user_id',
+				'DISTINCT(u.ID) AS user_id',
 				'SUM(ui.graduation = "in-progress" ) AS inprogress',
 				'SUM(ui.graduation = "passed" ) AS passed',
 				'SUM(ui.graduation = "failed" ) AS failed',
@@ -109,16 +141,30 @@ class AdminStudentOverviewTemplate {
 			// join to check deleted user
 			$filter->join[]      = "INNER JOIN {$userItemsDB->tb_users} AS u ON ui.user_id = u.ID";
 			$filter->item_type   = LP_COURSE_CPT;
-			$filter->order_by    = 'total_courses';
-			$filter->order       = 'DESC';
+			$filter->order_by    = $sort['order_by'];
+			$filter->order       = $sort['direction'];
 			$filter->limit       = $limit;
 			$filter->page        = $paged;
 			$filter->field_count = 'user_id';
 			$filter->group_by    = 'user_id';
+			$filter->where[]     = "AND ui.user_item_id IN ({$current_courses_query})";
+
+			$allowed = Permission::get_allowed_course_ids();
+			if ( is_array( $allowed ) ) {
+				if ( empty( $allowed ) ) {
+					$content->content     = sprintf( '<p>%s</p>', __( 'No user found.', 'learnpress-gradebook' ) );
+					$content->total_pages = 0;
+					$content->paged       = 1;
+
+					return $content;
+				}
+
+				$filter->where[] = 'AND ui.item_id IN (' . Permission::get_scope_sql_in( $allowed ) . ')';
+			}
 
 			// Filter by user ids.
 			if ( ! empty( $user_ids ) ) {
-				$filter->where[] = "AND ui.user_id IN ({$user_ids})";
+				$filter->where[] = 'AND ui.user_id IN (' . implode( ',', $user_ids ) . ')';
 			}
 
 			$items       = $userItemsDB->get_user_items( $filter, $total_rows );
@@ -135,14 +181,14 @@ class AdminStudentOverviewTemplate {
 
 				$section          = array(
 					'table_start' => '<div class="table-container"><table class="lp-admin-table lp-gradebook-table">',
-					'table_head'  => self::html_table_head(),
+					'table_head'  => self::html_table_head( $sort['field'], $sort['direction'] ),
 					'table_body'  => $row_html,
 					'table_end'   => '</table>',
 					'pagination'  => Template::instance()->html_pagination(
-						[
+						array(
 							'paged'       => $paged,
 							'total_pages' => $total_pages,
-						]
+						)
 					),
 				);
 				$content->content = Template::combine_components( $section );
@@ -154,6 +200,31 @@ class AdminStudentOverviewTemplate {
 			$content->content = Template::print_message( $e->getMessage(), 'error', false );
 		}
 		return $content;
+	}
+
+	/**
+	 * Resolve safe sort arguments from TemplateAJAX args.
+	 *
+	 * @param array $args Request args.
+	 *
+	 * @return array{field:string,direction:string,order_by:string}
+	 */
+	private static function resolve_sort_args( array $args ): array {
+		$sort_field = sanitize_key( $args['sort_field'] ?? 'total_courses' );
+		if ( ! isset( self::SORTABLE_COLUMNS[ $sort_field ] ) ) {
+			$sort_field = 'total_courses';
+		}
+
+		$sort_direction = strtoupper( (string) ( $args['sort_direction'] ?? '' ) );
+		if ( ! in_array( $sort_direction, array( 'ASC', 'DESC' ), true ) ) {
+			$sort_direction = self::SORTABLE_COLUMNS[ $sort_field ]['default'];
+		}
+
+		return array(
+			'field'     => $sort_field,
+			'direction' => $sort_direction,
+			'order_by'  => self::SORTABLE_COLUMNS[ $sort_field ]['order_by'],
+		);
 	}
 
 	/**
@@ -191,19 +262,48 @@ class AdminStudentOverviewTemplate {
 		return Template::combine_components( $row_fields );
 	}
 
-	public static function html_table_head(): string {
+	public static function html_table_head( string $sort_field = 'total_courses', string $sort_direction = 'DESC' ): string {
 		$fields = array(
 			'wrap_start'    => '<thead><tr>',
-			'student'       => sprintf( '<th>%s</th>', __( 'Student', 'learnpress-gradebook' ) ),
-			'in-progress'   => sprintf( '<th class="count">%s</th>', __( 'In Progress', 'learnpress-gradebook' ) ),
-			'passed'        => sprintf( '<th class="count">%s</th>', __( 'Passed', 'learnpress-gradebook' ) ),
-			'failed'        => sprintf( '<th class="count">%s</th>', __( 'Failed', 'learnpress-gradebook' ) ),
-			'total-courses' => sprintf( '<th class="count">%s</th>', __( 'Total Courses', 'learnpress-gradebook' ) ),
+			'student'       => self::html_sortable_table_head_cell( 'student', __( 'Student', 'learnpress-gradebook' ), $sort_field, $sort_direction ),
+			'in-progress'   => self::html_sortable_table_head_cell( 'inprogress', __( 'In Progress', 'learnpress-gradebook' ), $sort_field, $sort_direction, 'count' ),
+			'passed'        => self::html_sortable_table_head_cell( 'passed', __( 'Passed', 'learnpress-gradebook' ), $sort_field, $sort_direction, 'count' ),
+			'failed'        => self::html_sortable_table_head_cell( 'failed', __( 'Failed', 'learnpress-gradebook' ), $sort_field, $sort_direction, 'count' ),
+			'total-courses' => self::html_sortable_table_head_cell( 'total_courses', __( 'Total Courses', 'learnpress-gradebook' ), $sort_field, $sort_direction, 'count' ),
 			'link-view'     => sprintf( '<th>%s</th>', __( 'Action', 'learnpress-gradebook' ) ),
 			'wrap_end'      => '</tr></thead>',
 		);
 
 		return Template::combine_components( $fields );
+	}
+
+	/**
+	 * Render a sortable table head cell.
+	 *
+	 * @param string $field          Sort field key.
+	 * @param string $label          Column label.
+	 * @param string $sort_field     Active sort field key.
+	 * @param string $sort_direction Active sort direction.
+	 * @param string $extra_class    Extra class names.
+	 *
+	 * @return string
+	 */
+	private static function html_sortable_table_head_cell( string $field, string $label, string $sort_field, string $sort_direction, string $extra_class = '' ): string {
+		$classes = array_filter(
+			array(
+				$extra_class,
+				'sortable',
+				$field === $sort_field ? 'sorted-' . strtolower( $sort_direction ) : '',
+			)
+		);
+
+		return sprintf(
+			'<th class="%1$s" data-sort-field="%2$s" data-sort-default="%3$s"><label>%4$s<span class="sort-indicator"></span></label></th>',
+			esc_attr( implode( ' ', $classes ) ),
+			esc_attr( $field ),
+			esc_attr( strtolower( self::SORTABLE_COLUMNS[ $field ]['default'] ) ),
+			esc_html( $label )
+		);
 	}
 
 	/**
@@ -245,7 +345,7 @@ class AdminStudentOverviewTemplate {
 			'dataType'    => 'users',
 			'keyGetValue' => array(
 				'value'      => 'ID',
-				'text'       => '{{display_name}}(#{{ID}}) - {{user_email}}',
+				'text'       => '{{display_name}} — {{user_email}}',
 				'key_render' => array(
 					'display_name' => 'display_name',
 					'user_email'   => 'user_email',
@@ -253,7 +353,7 @@ class AdminStudentOverviewTemplate {
 				),
 			),
 			'setting'     => array(
-				'placeholder' => esc_html__( 'Choose User', 'learnpress' ),
+				'placeholder' => esc_html__( 'Search student or email…', 'learnpress-gradebook' ),
 			),
 		);
 		$filter_user      = new LP_Meta_Box_Select_Field(
@@ -263,7 +363,7 @@ class AdminStudentOverviewTemplate {
 			array(
 				'options'           => array(),
 				'tom_select'        => true,
-				'data-saved'        => [],
+				'data-saved'        => array(),
 				'multiple'          => true,
 				'name_no_bracket'   => true,
 				'custom_attributes' => array( 'data-struct' => htmlentities2( json_encode( $data_struct_user ) ) ),

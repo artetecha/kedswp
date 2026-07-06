@@ -5,6 +5,8 @@
  * @package LearnPress/Gradebook
  * @author Nhamdv
  */
+use LearnPress\Gradebook\Databases\GradebookDB;
+use LearnPress\Gradebook\Permission;
 use LearnPress\Gradebook\TemplateHooks\SectionStudentDetails;
 use LearnPress\Models\UserItems\UserCourseModel;
 class LP_Gradebook_Rest_Controller {
@@ -153,15 +155,47 @@ class LP_Gradebook_Rest_Controller {
 	}
 
 	public function permission_callback( $request ) {
-		$permission = current_user_can( LP_TEACHER_ROLE ) || current_user_can( 'administrator' );
+		$permission = Permission::can_view_gradebook();
 
 		return apply_filters( 'learnpress/gradebook/rest-api/permission', $permission );
 	}
 
 	/**
+	 * Validate current user access to a course.
+	 *
+	 * @param mixed $course_id Course ID.
+	 *
+	 * @return int
+	 * @throws Exception When access is denied.
+	 */
+	private function validate_course_access( $course_id ): int {
+		$course_id = absint( $course_id );
+		if ( ! $course_id || ! Permission::can_view_course( $course_id ) ) {
+			throw new Exception( esc_html__( 'You do not have permission to view this course.', 'learnpress-gradebook' ) );
+		}
+
+		return $course_id;
+	}
+
+	/**
+	 * Validate current user access to a student.
+	 *
+	 * @param mixed $student_id Student ID.
+	 *
+	 * @return int
+	 * @throws Exception When access is denied.
+	 */
+	private function validate_student_access( $student_id ): int {
+		$student_id = absint( $student_id );
+		if ( ! $student_id || ! Permission::can_view_student( $student_id ) ) {
+			throw new Exception( esc_html__( 'You do not have permission to view this student.', 'learnpress-gradebook' ) );
+		}
+
+		return $student_id;
+	}
+	/**
 	 * get list student enroll by courseID
 	 */
-
 	public function get_students( $request ) {
 		$response       = new LP_REST_Response();
 		$response->data = new stdClass();
@@ -175,13 +209,10 @@ class LP_Gradebook_Rest_Controller {
 		$username   = ! empty( $request['userName'] ) ? $request['userName'] : '';
 
 		try {
-			if ( empty( $course_id ) ) {
-				throw new Exception( esc_html__( 'No Course ID param.', 'learnpress-gradebook' ) );
-			}
+			$course_id = $this->validate_course_access( $course_id );
 
-			$results = LP_Gradebook_Database::instance()->get_all_students( $course_id, $limit, $page, $graduation, $username, false );
-
-			$output = array();
+			$results = GradebookDB::getInstance()->get_all_students( $course_id, $limit, $page, $graduation, $username, false );
+			$output  = array();
 
 			if ( ! empty( $results ) ) {
 				foreach ( $results as $result ) {
@@ -204,12 +235,12 @@ class LP_Gradebook_Rest_Controller {
 						'result'        => $course_results['result'],
 						'user_email'    => $result['user_email'] ?? '',
 						'user_nicename' => $result['user_nicename'] ?? '',
+						'display_name'  => $result['display_name'] ?? '',
 					);
 				}
 			}
-
 			$response->data->result = $output ?? array();
-			$response->data->count  = absint( LP_Gradebook_Database::instance()->get_all_students( $course_id, $limit, $page, $graduation, $username, true ) );
+			$response->data->count  = absint( GradebookDB::getInstance()->get_all_students( $course_id, $limit, $page, $graduation, $username, true ) );
 			$response->data->title  = get_the_title( $course_id );
 			$response->status       = 'success';
 		} catch ( Exception $e ) {
@@ -222,19 +253,15 @@ class LP_Gradebook_Rest_Controller {
 	/**
 	 * get list student enroll by courseID for export
 	 */
-
 	public function export_list_students( $request ) {
 		$response       = new LP_REST_Response();
 		$response->data = '';
 		$course_id      = $request->get_param( 'courseID' );
 
 		try {
-			if ( empty( $course_id ) ) {
-				throw new Exception( esc_html__( 'No Course ID param.', 'learnpress-gradebook' ) );
-			}
+			$course_id = $this->validate_course_access( $course_id );
 
-			$result = LP_Gradebook_Database::instance()->lp_gradebook_get_all_students_for_export( $course_id );
-
+			$result = GradebookDB::getInstance()->lp_gradebook_get_all_students_for_export( $course_id );
 			$output = array();
 			if ( $result ) {
 				foreach ( $result as $value ) {
@@ -295,9 +322,7 @@ class LP_Gradebook_Rest_Controller {
 		$offset         = $request->get_param( 'offset' );
 
 		try {
-			if ( empty( $course_id ) ) {
-				throw new Exception( esc_html__( 'No Course ID param.', 'learnpress-gradebook' ) );
-			}
+			$course_id = $this->validate_course_access( $course_id );
 
 			$status_text = array(
 				'started'     => esc_html__( 'Started', 'learnpress-gradebook' ),
@@ -306,8 +331,8 @@ class LP_Gradebook_Rest_Controller {
 				'evaluated'   => esc_html__( 'Evaluated', 'learnpress-gradebook' ),
 			);
 
-			$result = LP_Gradebook_Database::instance()->get_all_item_students_for_export( $course_id, $limit, $offset );
-			$count  = LP_Gradebook_Database::instance()->get_all_export_count( $course_id );
+			$result = GradebookDB::getInstance()->get_all_item_students_for_export( $course_id, $limit, $offset );
+			$count  = GradebookDB::getInstance()->get_all_export_count( $course_id );
 
 			$course     = learn_press_get_course( $course_id );
 			$curriculum = $course->get_curriculum();
@@ -346,7 +371,7 @@ class LP_Gradebook_Rest_Controller {
 						$data[]          = $object;
 					}
 
-					$items  = LP_Gradebook_Database::instance()->get_all_status_item( $course_id, $user_id );
+					$items  = GradebookDB::getInstance()->get_all_status_item( $course_id, $user_id );
 					$status = ! empty( $items ) ? wp_list_pluck( $items, 'status', 'item_id' ) : array();
 
 					if ( ! empty( $curriculum ) ) {
@@ -398,7 +423,6 @@ class LP_Gradebook_Rest_Controller {
 	/**
 	 *  get list student enroll course and display chart bar
 	 */
-
 	public function get_chart_students( $request ) {
 		$response       = new LP_REST_Response();
 		$response->data = '';
@@ -406,22 +430,20 @@ class LP_Gradebook_Rest_Controller {
 		$type_chart     = $request->get_param( 'typeChart' ) ?? 'last-7-days';
 
 		try {
-			if ( empty( $course_id ) ) {
-				throw new Exception( esc_html__( 'No Course ID param.', 'learnpress-gradebook' ) );
-			}
+			$course_id = $this->validate_course_access( $course_id );
 
 			switch ( $type_chart ) {
 				case 'last-7-days':
-					$data = LP_Gradebook_Database::instance()->lp_gradebook_get_chart_students( $course_id, null, 'days', 7 );
+					$data = GradebookDB::getInstance()->lp_gradebook_get_chart_students( $course_id, null, 'days', 7 );
 					break;
 				case 'last-30-days':
-					$data = LP_Gradebook_Database::instance()->lp_gradebook_get_chart_students( $course_id, null, 'days', 30 );
+					$data = GradebookDB::getInstance()->lp_gradebook_get_chart_students( $course_id, null, 'days', 30 );
 					break;
 				case 'last-12-month':
-					$data = LP_Gradebook_Database::instance()->lp_gradebook_get_chart_students( $course_id, null, 'months', 12 );
+					$data = GradebookDB::getInstance()->lp_gradebook_get_chart_students( $course_id, null, 'months', 12 );
 					break;
 			}
-
+			$data['title']    = __( 'All students registered and finished the course', 'learnpress-gradebook' );
 			$response->data   = $data;
 			$response->status = 'success';
 
@@ -435,21 +457,19 @@ class LP_Gradebook_Rest_Controller {
 	/**
 	 *  get list student enroll course and display chart pie
 	 */
-
 	public function get_pie_chart_students( $request ) {
 		$response       = new LP_REST_Response();
 		$response->data = '';
 		$course_id      = $request->get_param( 'courseID' );
 
 		try {
-			if ( empty( $course_id ) ) {
-				throw new Exception( esc_html__( 'No Course ID param.', 'learnpress-gradebook' ) );
-			}
+			$course_id = $this->validate_course_access( $course_id );
 
-			$data             = LP_Gradebook_Database::instance()->lp_gradebook_get_pie_chart_students( $course_id );
+			$data             = GradebookDB::getInstance()->lp_gradebook_get_pie_chart_students( $course_id );
 			$response->data   = $data;
 			$response->status = 'success';
 
+			$response->message = __( 'All students registered and finished the course', 'learnpress-gradebook' );
 		} catch ( Exception $e ) {
 			$response->message = $e->getMessage();
 		}
@@ -460,7 +480,6 @@ class LP_Gradebook_Rest_Controller {
 	/**
 	 *  get list items courseID by StudentID
 	 */
-
 	public function get_items( $request ) {
 		$student_id = $request->get_param( 'studentID' );
 		$course_id  = $request->get_param( 'courseID' );
@@ -485,6 +504,8 @@ class LP_Gradebook_Rest_Controller {
 			if ( empty( $course_id ) || empty( $student_id ) ) {
 				throw new Exception( esc_html__( 'No params invalid', 'learnpress-gradebook' ) );
 			}
+			$course_id  = $this->validate_course_access( $course_id );
+			$student_id = $this->validate_student_access( $student_id );
 
 			$posts       = array();
 			$total_posts = 0;
@@ -492,7 +513,7 @@ class LP_Gradebook_Rest_Controller {
 			$course   = learn_press_get_course( $course_id );
 			$item_ids = $course->get_item_ids();
 
-			$course_items = LP_Gradebook_Database::instance()->get_item_id_in_user_items( $course_id, $student_id, $status, $item_type, $item_ids );
+			$course_items = GradebookDB::getInstance()->get_item_id_in_user_items( $course_id, $student_id, $status, $item_type, $item_ids );
 
 			if ( ! empty( $course_items ) ) {
 				$course_item_ids = ! empty( $course_items ) ? array_map( 'absint', wp_list_pluck( $course_items, 'item_id' ) ) : array();
@@ -561,7 +582,6 @@ class LP_Gradebook_Rest_Controller {
 	/**
 	 * get list items CourseID by StudenID for export
 	 */
-
 	public function export_list_items( $request ) {
 		$response       = new LP_REST_Response();
 		$response->data = '';
@@ -579,9 +599,10 @@ class LP_Gradebook_Rest_Controller {
 			if ( empty( $course_id ) || empty( $student_id ) ) {
 				throw new Exception( esc_html__( 'No params invalid', 'learnpress-gradebook' ) );
 			}
+			$course_id  = $this->validate_course_access( $course_id );
+			$student_id = $this->validate_student_access( $student_id );
 
-			$db = LP_Gradebook_Database::instance()->lp_gradebook_get_all_items_for_export( $student_id, $course_id );
-
+			$db     = GradebookDB::getInstance()->lp_gradebook_get_all_items_for_export( $student_id, $course_id );
 			$output = array();
 			if ( $db ) {
 				foreach ( $db as $value ) {
@@ -620,7 +641,6 @@ class LP_Gradebook_Rest_Controller {
 	/**
 	 *  get all list question by QuizID and StudentID
 	 */
-
 	public function lp_gradebook_get_questions( $request ) {
 		$response       = new LP_REST_Response();
 		$response->data = new stdClass();
@@ -636,6 +656,9 @@ class LP_Gradebook_Rest_Controller {
 			if ( empty( $course_id ) || empty( $student_id ) || empty( $quiz_id ) ) {
 				throw new Exception( esc_html__( 'No params invalid', 'learnpress-gradebook' ) );
 			}
+			$course_id  = $this->validate_course_access( $course_id );
+			$student_id = $this->validate_student_access( $student_id );
+			$quiz_id    = absint( $quiz_id );
 
 			$course = learn_press_get_course( $course_id );
 			if ( ! $course ) {
@@ -738,14 +761,18 @@ class LP_Gradebook_Rest_Controller {
 
 		$quiz_id    = $request->get_param( 'quizzID' );
 		$student_id = $request->get_param( 'studentID' );
+		$course_id  = $request->get_param( 'courseID' );
 
 		try {
 
-			if ( empty( $student_id ) || empty( $quiz_id ) ) {
+			if ( empty( $course_id ) || empty( $student_id ) || empty( $quiz_id ) ) {
 				throw new Exception( esc_html__( 'No params invalid', 'learnpress-gradebook' ) );
 			}
+			$course_id  = $this->validate_course_access( $course_id );
+			$student_id = $this->validate_student_access( $student_id );
+			$quiz_id    = absint( $quiz_id );
 
-			$result                 = LP_Gradebook_Database::instance()->lp_gradebook_get_qizz_result( $quiz_id, $student_id );
+			$result                 = GradebookDB::getInstance()->lp_gradebook_get_qizz_result( $quiz_id, $student_id, 1, $course_id );
 			$response->data->result = $result;
 			$response->status       = 'success';
 
@@ -768,7 +795,15 @@ class LP_Gradebook_Rest_Controller {
 			$quiz_id    = $request->get_param( 'quizzID' ) ?? 0;
 			$student_id = $request->get_param( 'studentID' ) ?? 0;
 			$course_id  = $request->get_param( 'courseID' ) ?? 0;
-			$student    = learn_press_get_user( $student_id );
+			$course_id  = $this->validate_course_access( $course_id );
+			$student_id = $this->validate_student_access( $student_id );
+			$quiz_id    = absint( $quiz_id );
+
+			if ( ! $quiz_id ) {
+				throw new Exception( esc_html__( 'No params invalid', 'learnpress-gradebook' ) );
+			}
+
+			$student = learn_press_get_user( $student_id );
 
 			if ( ! $student ) {
 				throw new Exception( 'User invalid!' );
@@ -781,14 +816,11 @@ class LP_Gradebook_Rest_Controller {
 
 			$quiz = $course_data->get_item( $quiz_id );
 
-			if ( empty( $student_id ) || empty( $quiz_id ) ) {
-				throw new Exception( esc_html__( 'No params invalid', 'learnpress-gradebook' ) );
-			}
 			if ( ! $quiz->is_completed() ) {
 				throw new Exception( esc_html__( 'Quiz is in-progress', 'learnpress-gradebook' ) );
 			}
 
-			$query  = LP_Gradebook_Database::instance()->lp_gradebook_get_qizz_result( $quiz_id, $student_id );
+			$query  = GradebookDB::getInstance()->lp_gradebook_get_qizz_result( $quiz_id, $student_id, 1, $course_id );
 			$result = ! empty( $query['result'] ) ? json_decode( $query['result'] ) : '';
 			$labels = array( esc_html__( 'True', 'learnpress-gradebook' ), esc_html__( 'False', 'learnpress-gradebook' ) );
 
@@ -810,8 +842,9 @@ class LP_Gradebook_Rest_Controller {
 				'datasets' => $datasets,
 			);
 
-			$response->data   = $data;
-			$response->status = 'success';
+			$response->data    = $data;
+			$response->status  = 'success';
+			$response->message = __( 'Chart: Total number of true and false questions\'s quiz', 'learnpress-gradebook' );
 
 		} catch ( Exception $e ) {
 			$response->message = $e->getMessage();
@@ -823,7 +856,6 @@ class LP_Gradebook_Rest_Controller {
 	/**
 	 *  export list question by QuizID and StudentID
 	 */
-
 	public function export_list_questions( $request ) {
 		$course_id  = $request->get_param( 'courseID' );
 		$quiz_id    = $request->get_param( 'quizzID' );
@@ -836,12 +868,14 @@ class LP_Gradebook_Rest_Controller {
 			if ( empty( $course_id ) || empty( $student_id ) || empty( $quiz_id ) ) {
 				throw new Exception( esc_html__( 'No params invalid', 'learnpress-gradebook' ) );
 			}
+			$course_id  = $this->validate_course_access( $course_id );
+			$student_id = $this->validate_student_access( $student_id );
+			$quiz_id    = absint( $quiz_id );
 
 			$quiz             = learn_press_get_quiz( $quiz_id );
 			$list_id_question = $quiz->get_questions();
 
-			$retake = LP_Gradebook_Database::instance()->lp_gradebook_get_all_questions_result( $quiz_id, $student_id );
-
+			$retake       = GradebookDB::getInstance()->lp_gradebook_get_all_questions_result( $quiz_id, $student_id, $course_id );
 			$user_item_id = 0;
 			$user         = learn_press_get_user( $student_id );
 			if ( ! $user ) {
@@ -910,7 +944,7 @@ class LP_Gradebook_Rest_Controller {
 	public function export_student_courses( $request ) {
 		$response = new LP_REST_Response();
 		try {
-			$user_id = $request->get_param( 'user_id' );
+			$user_id = $this->validate_student_access( $request->get_param( 'user_id' ) );
 			if ( empty( $user_id ) ) {
 				throw new Exception( __( 'Userid is required', 'learnpress-gradebook' ) );
 			}
@@ -981,7 +1015,7 @@ class LP_Gradebook_Rest_Controller {
 	public function student_courses_pie_chart( $request ) {
 		$response = new LP_REST_Response();
 		try {
-			$user_id = $request->get_param( 'user_id' );
+			$user_id = $this->validate_student_access( $request->get_param( 'user_id' ) );
 			if ( empty( $user_id ) ) {
 				throw new Exception( __( 'Userid is required', 'learnpress-gradebook' ) );
 			}
@@ -989,7 +1023,7 @@ class LP_Gradebook_Rest_Controller {
 			if ( ! $user ) {
 				throw new Exception( __( 'User not found', 'learnpress-gradebook' ) );
 			}
-			$chart_data = LP_Gradebook_Database::instance()->get_student_course_pie_chart_data( $user_id );
+			$chart_data = GradebookDB::getInstance()->get_student_course_pie_chart_data( $user_id );
 			if ( ! $chart_data ) {
 				$response->data    = false;
 				$response->message = __( 'No data found.', 'learnpress-gradebook' );
@@ -1000,19 +1034,19 @@ class LP_Gradebook_Rest_Controller {
 						'value' => $chart_data->inprogress,
 						'color' => '#00a0d2',
 					),
-					'passed' => array(
+					'passed'     => array(
 						'label' => __( 'Passed', 'learnpress-gradebook' ),
 						'value' => $chart_data->passed,
 						'color' => '#46b450',
 					),
-					'failed' => array(
+					'failed'     => array(
 						'label' => __( 'Failed', 'learnpress-gradebook' ),
 						'value' => $chart_data->failed,
 						'color' => '#dc3232',
 					),
 				);
 			}
-			$response->status = 'success';
+			$response->status  = 'success';
 			$response->message = __( 'Courses overview (all time): in progress, passed, failed.', 'learnpress-gradebook' );
 		} catch ( Throwable $e ) {
 			$response->message = $e->getMessage();
@@ -1023,7 +1057,7 @@ class LP_Gradebook_Rest_Controller {
 	public function student_courses_bar_chart( $request ) {
 		$response = new LP_REST_Response();
 		try {
-			$user_id = $request->get_param( 'user_id' );
+			$user_id = $this->validate_student_access( $request->get_param( 'user_id' ) );
 			if ( empty( $user_id ) ) {
 				throw new Exception( __( 'Userid is required', 'learnpress-gradebook' ) );
 			}
@@ -1032,7 +1066,7 @@ class LP_Gradebook_Rest_Controller {
 				throw new Exception( __( 'User not found', 'learnpress-gradebook' ) );
 			}
 			$filter_type = $request->get_param( 'filtertype' ) ?? 'last7days';
-			$chart_data  = LP_Gradebook_Database::instance()->get_student_course_bar_chart_data( $user_id, $filter_type );
+			$chart_data  = GradebookDB::getInstance()->get_student_course_bar_chart_data( $user_id, $filter_type );
 			$chart_label = array();
 			$dataset     = array();
 			if ( ! empty( $chart_data ) ) {

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
 * Style for Gradebook Admin
 */
@@ -370,6 +371,26 @@
 }
 .lp-admin-table thead th.count {
   text-align: center;
+}
+.lp-admin-table thead th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+.lp-admin-table thead th.sortable label {
+  cursor: pointer;
+}
+.lp-admin-table thead th.sortable .sort-indicator::after {
+  content: "↕";
+  margin-left: 4px;
+  opacity: 0.4;
+}
+.lp-admin-table thead th.sorted-asc .sort-indicator::after {
+  content: "▲";
+  opacity: 1;
+}
+.lp-admin-table thead th.sorted-desc .sort-indicator::after {
+  content: "▼";
+  opacity: 1;
 }
 .lp-admin-table tbody tr {
   border-bottom: 1px solid #c3c4c7;

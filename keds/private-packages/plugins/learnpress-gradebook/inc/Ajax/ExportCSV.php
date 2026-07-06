@@ -6,9 +6,9 @@ use Exception;
 use LearnPress\Ajax\AbstractAjax;
 use LearnPress\Databases\UserItemsDB;
 use LearnPress\Filters\UserItemsFilter;
+use LearnPress\Gradebook\Permission;
 use LearnPress\Gradebook\TemplateHooks\Admin\AdminRecentActivityTemplate;
 use LearnPress\Models\UserItems\UserCourseModel;
-use LearnPress\Models\UserModel;
 use LP_Datetime;
 use LP_Helper;
 use LP_Request;
@@ -34,7 +34,7 @@ class ExportCSV extends AbstractAjax {
 		$response = new LP_REST_Response();
 
 		try {
-			if ( ! current_user_can( UserModel::ROLE_ADMINISTRATOR ) ) {
+			if ( ! Permission::can_view_gradebook() ) {
 				throw new Exception( __( 'You do not have permission to access this page.', 'learnpress-gradebook' ) );
 			}
 
@@ -47,7 +47,6 @@ class ExportCSV extends AbstractAjax {
 			if ( ! $user_id ) {
 				throw new Exception( __( 'Param is invalid!', 'learnpress-gradebook' ) );
 			}
-
 			$wp_upload_dir = wp_upload_dir();
 			$file_name     = 'lp-gradebook.csv';
 			$file_path     = $wp_upload_dir['basedir'] . '/' . $file_name;
@@ -65,23 +64,30 @@ class ExportCSV extends AbstractAjax {
 				wp_send_json( $response );
 			}
 
+			if ( ! Permission::can_view_student( $user_id ) ) {
+				throw new Exception( __( 'You do not have permission to view this student.', 'learnpress-gradebook' ) );
+			}
+
 			$filter              = new UserItemsFilter();
 			$total_rows          = 0;
 			$userItemsDB         = UserItemsDB::getInstance();
-			$filter->only_fields = [
+			$filter->only_fields = array(
 				UserItemsFilter::COL_USER_ITEM_ID,
 				UserItemsFilter::COL_USER_ID,
 				UserItemsFilter::COL_ITEM_ID,
-			];
+			);
 			$filter->user_id     = $user_id;
 			$filter->item_type   = LP_COURSE_CPT;
 			$filter->limit       = 10;
 			$filter->page        = $paged;
 
-			if ( ! empty( $course_ids ) ) {
-				$course_ids       = explode( ',', $course_ids );
-				$course_ids       = array_map( 'intval', $course_ids );
-				$filter->item_ids = $course_ids;
+			$allowed = Permission::get_allowed_course_ids();
+			if ( is_array( $allowed ) ) {
+				if ( empty( $allowed ) ) {
+					throw new Exception( __( 'No data found!', 'learnpress-gradebook' ) );
+				}
+
+				$filter->where[] = 'AND ui.item_id IN (' . Permission::get_scope_sql_in( $allowed ) . ')';
 			}
 
 			$items = $userItemsDB->get_user_items( $filter, $total_rows );
@@ -93,13 +99,13 @@ class ExportCSV extends AbstractAjax {
 
 			// Handle create file CSV.
 			if ( $paged === 1 ) {
-				$header = [
+				$header = array(
 					__( 'Course', 'learnpress-gradebook' ),
 					__( 'Start date', 'learnpress-gradebook' ),
 					__( 'End date', 'learnpress-gradebook' ),
 					__( 'Progress', 'learnpress-gradebook' ),
 					__( 'Status', 'learnpress-gradebook' ),
-				];
+				);
 
 				$file = fopen( $file_path, 'w' );
 				fputcsv( $file, $header );
@@ -117,13 +123,13 @@ class ExportCSV extends AbstractAjax {
 				$end_time_obj   = new LP_Datetime( $userCourseModel->get_end_time() );
 				$progress       = $userCourseModel->calculate_course_results();
 
-				$row = [
+				$row = array(
 					$userCourseModel->get_course_model()->get_title(),
 					$start_time_obj->format( LP_Datetime::I18N_FORMAT_HAS_TIME ),
 					$end_time_obj->format( LP_Datetime::I18N_FORMAT_HAS_TIME ),
 					$progress['result'],
 					AdminRecentActivityTemplate::get_status_label( $userCourseModel->get_status() ),
-				];
+				);
 
 				fputcsv( $file, $row );
 			}

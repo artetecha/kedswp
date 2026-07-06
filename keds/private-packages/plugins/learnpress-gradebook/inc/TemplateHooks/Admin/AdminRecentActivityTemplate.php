@@ -2,9 +2,10 @@
 
 namespace LearnPress\Gradebook\TemplateHooks\Admin;
 
-use Braintree\Exception;
+use Exception;
 use LearnPress\Databases\UserItemsDB;
 use LearnPress\Filters\UserItemsFilter;
+use LearnPress\Gradebook\Permission;
 use LearnPress\Helpers\Singleton;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\CourseModel;
@@ -55,7 +56,7 @@ class AdminRecentActivityTemplate {
 	/**
 	 * Layout for recent activity tab.
 	 */
-	public function layout( array $data = [] ) {
+	public function layout( array $data = array() ) {
 		$current_tab = $data['tab'] ?? '';
 		if ( $current_tab !== 'recent-activity' ) {
 			return;
@@ -101,16 +102,16 @@ class AdminRecentActivityTemplate {
 	public static function render_content( array $args ): stdClass {
 		$content = new stdClass();
 		try {
-			if ( ! current_user_can( UserModel::ROLE_ADMINISTRATOR ) ) {
+			if ( ! Permission::can_view_gradebook() ) {
 				throw new Exception( __( 'You do not have permission to access this page.', 'learnpress-gradebook' ) );
 			}
 
-			$paged      = intval( $args['paged'] ?? 1 );
-			$limit      = intval( $args['limit'] ?? 10 );
+			$paged      = max( 1, intval( $args['paged'] ?? 1 ) );
+			$limit      = min( 100, max( 1, intval( $args['limit'] ?? 10 ) ) );
 			$start_date = LP_Helper::sanitize_params_submitted( $args['start_date'] ?? '' );
 			$end_date   = LP_Helper::sanitize_params_submitted( $args['end_date'] ?? '' );
-			$course_ids = LP_Helper::sanitize_params_submitted( $args['course_ids'] ?? '' );
-			$user_ids   = LP_Helper::sanitize_params_submitted( $args['user_ids'] ?? '' );
+			$course_ids = wp_parse_id_list( $args['course_ids'] ?? '' );
+			$user_ids   = wp_parse_id_list( $args['user_ids'] ?? '' );
 			$status     = LP_Helper::sanitize_params_submitted( $args['status'] ?? '' );
 
 			$filter     = new UserItemsFilter();
@@ -121,6 +122,15 @@ class AdminRecentActivityTemplate {
 			$filter->order    = 'DESC';
 			$filter->limit    = $limit;
 			$filter->page     = $paged;
+
+			$allowed = Permission::get_allowed_course_ids();
+			if ( is_array( $allowed ) && empty( $allowed ) ) {
+				$content->content     = sprintf( '<p>%s</p>', esc_html__( 'No activities found!', 'learnpress' ) );
+				$content->total_pages = 0;
+				$content->paged       = 1;
+
+				return $content;
+			}
 
 			if ( ! empty( $start_date ) ) {
 				$gmt_from_date   = get_gmt_from_date( "$start_date 00:00:00" );
@@ -139,30 +149,43 @@ class AdminRecentActivityTemplate {
 			}
 
 			// Find item by course IDs and item_type = course or ref_type = course.
+			if ( is_array( $allowed ) ) {
+				if ( ! empty( $course_ids ) ) {
+					$course_ids = array_values( array_intersect( $course_ids, $allowed ) );
+					if ( empty( $course_ids ) ) {
+						$content->content     = sprintf( '<p>%s</p>', esc_html__( 'No activities found!', 'learnpress' ) );
+						$content->total_pages = 0;
+						$content->paged       = 1;
+
+						return $content;
+					}
+				} else {
+					$course_ids = $allowed;
+				}
+			}
+
 			if ( ! empty( $course_ids ) ) {
-				$course_ids      = explode( ',', $course_ids );
-				$course_ids      = array_map( 'intval', $course_ids );
+				$course_ids_in   = implode( ',', $course_ids );
 				$filter->where[] = $userItemsDB->wpdb->prepare(
-					'AND ( (item_id IN (%s) AND item_type = %s) OR (ref_id IN (%s) AND ref_type = %s) )',
-					implode( ',', $course_ids ),
+					"AND ( (ui.item_id IN ({$course_ids_in}) AND ui.item_type = %s) OR (ui.ref_id IN ({$course_ids_in}) AND ui.ref_type = %s) )",
 					LP_COURSE_CPT,
-					implode( ',', $course_ids ),
 					LP_COURSE_CPT
 				);
 			}
 
 			if ( ! empty( $user_ids ) ) {
-				$filter->where[] = "AND user_id IN ({$user_ids})";
+				$filter->where[] = 'AND ui.user_id IN (' . implode( ',', $user_ids ) . ')';
 			}
 
 			if ( ! empty( $status ) && $status !== 'all' ) {
 				if ( in_array(
 					$status,
-					[
+					array(
 						UserItemModel::GRADUATION_IN_PROGRESS,
 						UserItemModel::GRADUATION_FAILED,
 						UserItemModel::GRADUATION_PASSED,
-					]
+					),
+					true
 				) ) {
 					$filter->graduation = $status;
 				} else {
@@ -195,10 +218,10 @@ class AdminRecentActivityTemplate {
 					'activities' => $activities,
 					'wrap_end'   => '</div>',
 					'pagination' => Template::instance()->html_pagination(
-						[
+						array(
 							'total_pages' => $total_pages,
 							'paged'       => $paged,
-						]
+						)
 					),
 				);
 				$content->content = Template::combine_components( $section );
@@ -418,7 +441,7 @@ class AdminRecentActivityTemplate {
 			'dataType'    => 'users',
 			'keyGetValue' => array(
 				'value'      => 'ID',
-				'text'       => '{{display_name}}(#{{ID}}) - {{user_email}}',
+				'text'       => '{{display_name}} — {{user_email}}',
 				'key_render' => array(
 					'display_name' => 'display_name',
 					'user_email'   => 'user_email',
@@ -426,7 +449,7 @@ class AdminRecentActivityTemplate {
 				),
 			),
 			'setting'     => array(
-				'placeholder' => esc_html__( 'Choose User', 'learnpress' ),
+				'placeholder' => esc_html__( 'Search student or email…', 'learnpress-gradebook' ),
 			),
 		);
 		$filter_user      = new LP_Meta_Box_Select_Field(
@@ -457,13 +480,13 @@ class AdminRecentActivityTemplate {
 	public static function html_filter_status_field(): string {
 		$options = apply_filters(
 			'lp/gradebook/recent-activity/status-options',
-			[
+			array(
 				'all'                                 => __( 'All', 'learnpress-gradebook' ),
 				UserItemModel::STATUS_FINISHED        => __( 'Finished', 'learnpress-gradebook' ),
 				UserItemModel::GRADUATION_PASSED      => __( 'Passed', 'learnpress-gradebook' ),
 				UserItemModel::GRADUATION_FAILED      => __( 'Failed', 'learnpress-gradebook' ),
 				UserItemModel::GRADUATION_IN_PROGRESS => __( 'In-progress (Course)', 'learnpress-gradebook' ),
-			]
+			)
 		);
 
 		$select_html = sprintf( '<select name="%1$s" class="%1$s">', 'status' );
