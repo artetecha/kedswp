@@ -2,148 +2,57 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/admin/student-detail.js":
+/***/ "./assets/src/js/admin/student-detail.js"
 /*!***********************************************!*\
   !*** ./assets/src/js/admin/student-detail.js ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./assets/src/js/utils.js");
 /* harmony import */ var micromodal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! micromodal */ "./node_modules/micromodal/dist/micromodal.es.js");
 /* harmony import */ var chart_js_auto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chart.js/auto */ "./node_modules/chart.js/auto/auto.esm.js");
 /**
- * Student Detail JS
+ * Admin student-detail JS — export CSV (paged), bar chart modal, chart filter.
+ *
+ * @since 4.0.0
+ * @version 1.0.1
  */
 
 
 
-var exportCSV = function exportCSV(e, target) {
-  if (!target.closest('.lp-btn-gradebook-export-csv')) {
-    return;
-  }
-  _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 1);
-  var dataSendString = target.dataset.send ? target.dataset.send : '';
-  var dataSend = dataSendString ? JSON.parse(dataSendString) : {};
-  var callBack = {
-    success: function success(response) {
-      var message = response.message,
-        status = response.status,
-        data = response.data;
-      var file = data.file,
-        filename = data.filename,
-        finish = data.finish,
-        deleted = data.deleted;
-      if (status !== 'success') {
-        _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
-        alert(message);
-        return;
-      }
-      if (!finish) {
-        dataSend.paged++;
-        setTimeout(function () {
-          window.lpAJAXG.fetchAJAX(dataSend, callBack);
-        }, 500);
-      } else {
-        var elLink = document.createElement('a');
-        elLink.href = data.file;
-        elLink.download = data.filename;
-        document.body.appendChild(elLink);
-        elLink.click();
-        document.body.removeChild(elLink);
-        _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
-        dataSend.delete_file = true;
-        window.lpAJAXG.fetchAJAX(dataSend, {});
-      }
-    },
-    error: function error(_error) {
-      console.log(_error);
-    },
-    completed: function completed() {}
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
-};
-var showChart = function showChart(e, target) {
-  if (!target.closest('.lp-btn-gradebook-view-chart')) {
-    return;
-  }
-  micromodal__WEBPACK_IMPORTED_MODULE_1__["default"].show('lp-gradebook-chart-modal');
-  var elChart = document.querySelector('#lp-gradebook-chart-modal');
-  var elLoading = elChart.querySelector('.lp-skeleton-animation');
-  var elChartMain = elChart.querySelector('.lp-gradebook-chart-main');
-  if (elLoading.classList.contains(_utils__WEBPACK_IMPORTED_MODULE_0__.lpClassName.hidden)) {
-    return;
-  }
-  var dataSendString = target.dataset.send ? target.dataset.send : '';
-  var dataSend = dataSendString ? JSON.parse(dataSendString) : {};
-  var callBack = {
-    success: function success(response) {
-      var message = response.message,
-        status = response.status,
-        data = response.data;
-      if (status !== 'success') {
-        _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
-        alert(message);
-        return;
-      }
-      var labels = data.labels,
-        datasets = data.datasets;
-      renderBarChart(labels, datasets);
-      _utils__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elLoading, 0);
-      _utils__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elChartMain, 1);
-    },
-    error: function error(_error2) {
-      console.log(_error2);
-    },
-    completed: function completed() {
-      _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
-    }
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
-};
-var filterChart = function filterChart(e, target) {
-  if (!target.closest('.lp-btn-gradebook-filter')) {
-    return;
-  }
-  var elWrap = target.closest('.lp-gradebook-filter-chart-wrap');
-  var dataSendString = elWrap && elWrap.dataset.send ? elWrap.dataset.send : '';
-  var dataSend = dataSendString ? JSON.parse(dataSendString) : {};
-  dataSend.filter_days = target.dataset.filter ? target.dataset.filter : '';
-  elWrap.querySelectorAll('.lp-btn-gradebook-filter').forEach(function (el) {
-    el.classList.remove('active');
-  });
-  target.classList.add('active');
-  _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 1);
-  var callBack = {
-    success: function success(response) {
-      var message = response.message,
-        status = response.status,
-        data = response.data;
-      if (status !== 'success') {
-        _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
-        alert(message);
-        return;
-      }
-      var labels = data.labels,
-        datasets = data.datasets;
-      renderBarChart(labels, datasets);
-    },
-    error: function error(_error3) {
-      console.log(_error3);
-    },
-    completed: function completed() {
-      _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
-    }
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
-};
 var studentCourseBarChar;
+
+/**
+ * Parse the JSON payload encoded in an element's data-send attribute.
+ *
+ * Returns an empty object on missing / malformed JSON so callers can mutate
+ * the result safely.
+ *
+ * @param {HTMLElement|null|undefined} el
+ * @return {Object}
+ */
+var parseSendData = function parseSendData(el) {
+  var raw = (el === null || el === void 0 ? void 0 : el.dataset.send) || '';
+  try {
+    return raw ? JSON.parse(raw) : {};
+  } catch (_e) {
+    return {};
+  }
+};
+
+/**
+ * Build the chart on first call, or update its data on subsequent calls.
+ *
+ * @param {Array} labels
+ * @param {Array} datasets
+ */
 var renderBarChart = function renderBarChart() {
   var labels = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var datasets = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   if (undefined === studentCourseBarChar) {
     var canvas = document.querySelector('.chart-canvas');
-    var configBar = {
+    studentCourseBarChar = new chart_js_auto__WEBPACK_IMPORTED_MODULE_2__["default"](canvas, {
       type: 'bar',
       data: {
         labels: labels,
@@ -154,45 +63,191 @@ var renderBarChart = function renderBarChart() {
         maintainAspectRatio: false,
         aspectRatio: 1
       }
-    };
-    studentCourseBarChar = new chart_js_auto__WEBPACK_IMPORTED_MODULE_2__["default"](canvas, configBar);
+    });
   } else {
     studentCourseBarChar.data.labels = labels;
     studentCourseBarChar.data.datasets = datasets;
     studentCourseBarChar.update();
   }
 };
-document.addEventListener('click', function (e) {
-  var target = e.target;
-  exportCSV(e, target);
-  showChart(e, target);
-  filterChart(e, target);
-});
 
-/***/ }),
+/**
+ * Click handler — page through the export endpoint, download the final file,
+ * then ask the server to delete the cached file.
+ *
+ * @param {Object}      args
+ * @param {HTMLElement} args.target
+ */
+var onExportCsv = function onExportCsv(_ref) {
+  var target = _ref.target;
+  var btn = target.closest('.lp-btn-gradebook-export-csv');
+  if (!btn) {
+    return;
+  }
+  _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 1);
+  var dataSend = parseSendData(btn);
+  var callBack = {
+    success: function success(response) {
+      var message = response.message,
+        status = response.status,
+        data = response.data;
+      var finish = data.finish;
+      if (status !== 'success') {
+        _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
+        alert(message);
+        return;
+      }
+      if (!finish) {
+        dataSend.paged++;
+        setTimeout(function () {
+          window.lpAJAXG.fetchAJAX(dataSend, callBack);
+        }, 500);
+        return;
+      }
+      var elLink = document.createElement('a');
+      elLink.href = data.file;
+      elLink.download = data.filename;
+      document.body.appendChild(elLink);
+      elLink.click();
+      document.body.removeChild(elLink);
+      _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
+      dataSend.delete_file = true;
+      window.lpAJAXG.fetchAJAX(dataSend, {});
+    },
+    error: function error(_error) {
+      console.log(_error);
+    },
+    completed: function completed() {
+      // noop — loading state cleared explicitly in success branches.
+    }
+  };
+  window.lpAJAXG.fetchAJAX(dataSend, callBack);
+};
 
-/***/ "./assets/src/js/gradebook-admin-share.js":
+/**
+ * Click handler — open the chart modal and fetch+render the chart payload
+ * (only the first time; subsequent opens reuse the rendered chart).
+ *
+ * @param {Object}      args
+ * @param {HTMLElement} args.target
+ */
+var onShowChart = function onShowChart(_ref2) {
+  var target = _ref2.target;
+  var btn = target.closest('.lp-btn-gradebook-view-chart');
+  if (!btn) {
+    return;
+  }
+  micromodal__WEBPACK_IMPORTED_MODULE_1__["default"].show('lp-gradebook-chart-modal');
+  var elChart = document.querySelector('#lp-gradebook-chart-modal');
+  var elLoading = elChart.querySelector('.lp-skeleton-animation');
+  var elChartMain = elChart.querySelector('.lp-gradebook-chart-main');
+  if (elLoading.classList.contains(_utils__WEBPACK_IMPORTED_MODULE_0__.lpClassName.hidden)) {
+    return;
+  }
+  var dataSend = parseSendData(btn);
+  window.lpAJAXG.fetchAJAX(dataSend, {
+    success: function success(response) {
+      var message = response.message,
+        status = response.status,
+        data = response.data;
+      if (status !== 'success') {
+        _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
+        alert(message);
+        return;
+      }
+      renderBarChart(data.labels, data.datasets);
+      _utils__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elLoading, 0);
+      _utils__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elChartMain, 1);
+    },
+    error: function error(_error2) {
+      console.log(_error2);
+    },
+    completed: function completed() {
+      _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
+    }
+  });
+};
+
+/**
+ * Click handler — refetch chart data for the selected date range and update
+ * the active state on the filter buttons.
+ *
+ * @param {Object}      args
+ * @param {HTMLElement} args.target
+ */
+var onFilterChart = function onFilterChart(_ref3) {
+  var target = _ref3.target;
+  var btn = target.closest('.lp-btn-gradebook-filter');
+  if (!btn) {
+    return;
+  }
+  var elWrap = btn.closest('.lp-gradebook-filter-chart-wrap');
+  var dataSend = parseSendData(elWrap);
+  dataSend.filter_days = btn.dataset.filter || '';
+  elWrap === null || elWrap === void 0 || elWrap.querySelectorAll('.lp-btn-gradebook-filter').forEach(function (el) {
+    el.classList.remove('active');
+  });
+  btn.classList.add('active');
+  _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 1);
+  window.lpAJAXG.fetchAJAX(dataSend, {
+    success: function success(response) {
+      var message = response.message,
+        status = response.status,
+        data = response.data;
+      if (status !== 'success') {
+        _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
+        alert(message);
+        return;
+      }
+      renderBarChart(data.labels, data.datasets);
+    },
+    error: function error(_error3) {
+      console.log(_error3);
+    },
+    completed: function completed() {
+      _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
+    }
+  });
+};
+_utils__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+  selector: '.lp-btn-gradebook-export-csv',
+  callBack: onExportCsv
+}, {
+  selector: '.lp-btn-gradebook-view-chart',
+  callBack: onShowChart
+}, {
+  selector: '.lp-btn-gradebook-filter',
+  callBack: onFilterChart
+}]);
+
+/***/ },
+
+/***/ "./assets/src/js/gradebook-admin-share.js"
 /*!************************************************!*\
   !*** ./assets/src/js/gradebook-admin-share.js ***!
   \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   dateChoiceFilterHandler: () => (/* binding */ dateChoiceFilterHandler),
-/* harmony export */   submitFilter: () => (/* binding */ submitFilter)
+/* harmony export */   submitFilter: () => (/* binding */ submitFilter),
+/* harmony export */   submitFilterFront: () => (/* binding */ submitFilterFront)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./assets/src/js/utils.js");
 /**
  * GradeBook Admin share JS
  *
  * @since 4.0.8
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 
 /**
- * Submit filter parameters to server
+ * Submit admin filter parameters to server.
+ *
+ * @param {HTMLFormElement} form
+ * @param {Object}          callBack
  */
 var submitFilter = function submitFilter(form, callBack) {
   var lpTarget = document.querySelector('.lp-target');
@@ -208,31 +263,88 @@ var submitFilter = function submitFilter(form, callBack) {
 };
 
 /**
- * Event change start date will set min end date
+ * Submit frontend filter parameters to server and re-render the .lp-target area.
+ *
+ * Shared by student-details, course-gradebook, user-course-gradebook,
+ * user-quiz-gradebook — each used to inline this same body.
+ *
+ * @param {HTMLElement} target       Button that triggered the submit (gets loading state).
+ * @param {string}      formSelector Selector used to find the wrapping filter form.
+ * @since 4.0.8
  */
-var dateChoiceFilterHandler = function dateChoiceFilterHandler(e, target) {
-  if (target.closest('.start_date')) {
-    var elEndDate = target.closest('form').querySelector('.end_date');
-    var valueStartDate = target.value;
-    if (!valueStartDate) {
-      elEndDate.value = '';
-    } else if (valueStartDate > elEndDate.value) {
-      elEndDate.value = valueStartDate;
-    }
-    elEndDate.setAttribute('min', valueStartDate);
+var submitFilterFront = function submitFilterFront(target) {
+  var formSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '.lp-gradebook-filter';
+  _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 1);
+  var form = target.closest(formSelector);
+  if (!form) {
+    _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
+    return;
   }
+  var lpTarget = document.querySelector('.lp-target');
+  if (!lpTarget || !window.lpAJAXG) {
+    _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
+    return;
+  }
+  var dataSend = window.lpAJAXG.getDataSetCurrent(lpTarget);
+  dataSend.args.paged = 1;
+  dataSend.args = _utils__WEBPACK_IMPORTED_MODULE_0__.mergeDataWithDatForm(form, dataSend.args);
+  window.lpAJAXG.setDataSetCurrent(lpTarget, dataSend);
+  var lpTargetY = lpTarget.getBoundingClientRect().top + window.scrollY - 100;
+  window.scrollTo({
+    top: lpTargetY
+  });
+  window.lpAJAXG.showHideLoading(lpTarget, 1);
+  window.lpAJAXG.fetchAJAX(dataSend, {
+    success: function success(response) {
+      var data = response.data;
+      lpTarget.innerHTML = (data === null || data === void 0 ? void 0 : data.content) || '';
+    },
+    error: function error(_error) {
+      console.log(_error);
+    },
+    completed: function completed() {
+      window.lpAJAXG.showHideLoading(lpTarget, 0);
+      _utils__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
+    }
+  });
 };
 
-/***/ }),
+/**
+ * Sync end-date min attribute when the start-date input changes.
+ *
+ * Empties end-date if start-date is cleared, or bumps it up if it falls
+ * before the new start-date. Wired via eventHandlers('change', ...).
+ *
+ * @param {Object}      args
+ * @param {HTMLElement} args.target Element that fired the change event.
+ */
+var dateChoiceFilterHandler = function dateChoiceFilterHandler(_ref) {
+  var target = _ref.target;
+  if (!target.closest('.start_date')) {
+    return;
+  }
+  var elEndDate = target.closest('form').querySelector('.end_date');
+  var valueStartDate = target.value;
+  if (!valueStartDate) {
+    elEndDate.value = '';
+  } else if (valueStartDate > elEndDate.value) {
+    elEndDate.value = valueStartDate;
+  }
+  elEndDate.setAttribute('min', valueStartDate);
+};
 
-/***/ "./assets/src/js/utils.js":
+/***/ },
+
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   debounce: () => (/* binding */ debounce),
+/* harmony export */   eventHandlers: () => (/* binding */ eventHandlers),
 /* harmony export */   getDataOfForm: () => (/* binding */ getDataOfForm),
 /* harmony export */   getFieldKeysOfForm: () => (/* binding */ getFieldKeysOfForm),
 /* harmony export */   listenElementCreated: () => (/* binding */ listenElementCreated),
@@ -264,7 +376,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
  * @param data
  * @param functions
  * @since 4.2.5.1
- * @version 1.0.4
+ * @version 1.0.6
  */
 var lpClassName = {
   hidden: 'lp-hidden',
@@ -538,13 +650,97 @@ var mergeDataWithDatForm = function mergeDataWithDatForm(elForm, dataHandle) {
   return dataHandle;
 };
 
-/***/ }),
+/**
+ * Event trigger
+ * For each list of event handlers, listen event on document.
+ *
+ * eventName: 'click', 'change', ...
+ * eventHandlers = [ { selector: '.lp-button', callBack: function(){}, class: object } ]
+ *
+ * @param eventName
+ * @param eventHandlers
+ */
+var eventHandlers = function eventHandlers(eventName, _eventHandlers) {
+  document.addEventListener(eventName, function (e) {
+    var target = e.target;
+    var args = {
+      e: e,
+      target: target
+    };
+    _eventHandlers.forEach(function (eventHandler) {
+      args = _objectSpread(_objectSpread({}, args), eventHandler);
 
-/***/ "./node_modules/chart.js/auto/auto.esm.js":
+      //console.log( args );
+
+      // Check condition before call back
+      if (eventHandler.conditionBeforeCallBack) {
+        if (eventHandler.conditionBeforeCallBack(args) !== true) {
+          return;
+        }
+      }
+
+      // Special check for keydown event with checkIsEventEnter = true
+      if (eventName === 'keydown' && eventHandler.checkIsEventEnter) {
+        if (e.key !== 'Enter') {
+          return;
+        }
+      }
+      if (target.closest(eventHandler.selector)) {
+        if (eventHandler["class"]) {
+          // Call method of class, function callBack will understand exactly {this} is class object.
+          eventHandler["class"][eventHandler.callBack](args);
+        } else {
+          // For send args is objected, {this} is eventHandler object, not class object.
+          eventHandler.callBack(args);
+        }
+      }
+    });
+  });
+};
+
+/**
+ * Debounce - delays function execution until after `wait` ms of inactivity.
+ *
+ * Each call resets the timer. Only the last call in a burst executes.
+ *
+ * USE CASES:
+ * - Search inputs, form validation, window resize
+ * - Multiple elements need independent timers
+ * - When you need to call with different arguments
+ *
+ * EXAMPLES:
+ * const debouncedSearch = debounce( (query) => fetchResults(query), 300 );
+ * searchInput.addEventListener('input', (e) => debouncedSearch(e.target.value));
+ *
+ * const debouncedResize = debounce( recalculateLayout, 250 );
+ * window.addEventListener('resize', debouncedResize);
+ *
+ * ⚠️ Create ONCE outside event handlers, not inside.
+ *
+ * @param {Function} func - Function to debounce (can be anonymous)
+ * @param {number}   wait - Milliseconds to wait (default: 500)
+ * @return {Function} Debounced wrapper function
+ * @since 4.3.7
+ * @version 1.0.0
+ */
+var debounce = function debounce(func) {
+  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
+  var timer;
+  return function (args) {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      return func(args);
+    }, wait);
+  };
+};
+
+/***/ },
+
+/***/ "./node_modules/chart.js/auto/auto.esm.js"
 /*!************************************************!*\
   !*** ./node_modules/chart.js/auto/auto.esm.js ***!
   \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -558,13 +754,13 @@ _dist_chart_esm__WEBPACK_IMPORTED_MODULE_0__.Chart.register(..._dist_chart_esm__
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_dist_chart_esm__WEBPACK_IMPORTED_MODULE_0__.Chart);
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/chart.js/dist/chart.esm.js":
+/***/ "./node_modules/chart.js/dist/chart.esm.js"
 /*!*************************************************!*\
   !*** ./node_modules/chart.js/dist/chart.esm.js ***!
   \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -11228,13 +11424,13 @@ const registerables = [
 
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/chart.js/dist/chunks/helpers.segment.js":
+/***/ "./node_modules/chart.js/dist/chunks/helpers.segment.js"
 /*!**************************************************************!*\
   !*** ./node_modules/chart.js/dist/chunks/helpers.segment.js ***!
   \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -13832,13 +14028,13 @@ function styleChanged(style, prevStyle) {
 
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/micromodal/dist/micromodal.es.js":
+/***/ "./node_modules/micromodal/dist/micromodal.es.js"
 /*!*******************************************************!*\
   !*** ./node_modules/micromodal/dist/micromodal.es.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -13847,7 +14043,7 @@ __webpack_require__.r(__webpack_exports__);
 function e(e,t){for(var o=0;o<t.length;o++){var n=t[o];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function t(e){return function(e){if(Array.isArray(e))return o(e)}(e)||function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e))return Array.from(e)}(e)||function(e,t){if(!e)return;if("string"==typeof e)return o(e,t);var n=Object.prototype.toString.call(e).slice(8,-1);"Object"===n&&e.constructor&&(n=e.constructor.name);if("Map"===n||"Set"===n)return Array.from(e);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return o(e,t)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function o(e,t){(null==t||t>e.length)&&(t=e.length);for(var o=0,n=new Array(t);o<t;o++)n[o]=e[o];return n}var n,i,a,r,s,l=(n=["a[href]","area[href]",'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',"select:not([disabled]):not([aria-hidden])","textarea:not([disabled]):not([aria-hidden])","button:not([disabled]):not([aria-hidden])","iframe","object","embed","[contenteditable]",'[tabindex]:not([tabindex^="-"])'],i=function(){function o(e){var n=e.targetModal,i=e.triggers,a=void 0===i?[]:i,r=e.onShow,s=void 0===r?function(){}:r,l=e.onClose,c=void 0===l?function(){}:l,d=e.openTrigger,u=void 0===d?"data-micromodal-trigger":d,f=e.closeTrigger,h=void 0===f?"data-micromodal-close":f,v=e.openClass,g=void 0===v?"is-open":v,m=e.disableScroll,b=void 0!==m&&m,y=e.disableFocus,p=void 0!==y&&y,w=e.awaitCloseAnimation,E=void 0!==w&&w,k=e.awaitOpenAnimation,M=void 0!==k&&k,A=e.debugMode,C=void 0!==A&&A;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,o),this.modal="string"==typeof n?document.getElementById(n):n,this.config={debugMode:C,disableScroll:b,openTrigger:u,closeTrigger:h,openClass:g,onShow:s,onClose:c,awaitCloseAnimation:E,awaitOpenAnimation:M,disableFocus:p},a.length>0&&this.registerTriggers.apply(this,t(a)),this.onClick=this.onClick.bind(this),this.onKeydown=this.onKeydown.bind(this)}var i,a,r;return i=o,(a=[{key:"registerTriggers",value:function(){for(var e=this,t=arguments.length,o=new Array(t),n=0;n<t;n++)o[n]=arguments[n];o.filter(Boolean).forEach((function(t){t.addEventListener("click",(function(t){return e.showModal(t)}))}))}},{key:"showModal",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;if(this.activeElement=document.activeElement,this.modal.setAttribute("aria-hidden","false"),this.modal.classList.add(this.config.openClass),this.scrollBehaviour("disable"),this.addEventListeners(),this.config.awaitOpenAnimation){var o=function t(){e.modal.removeEventListener("animationend",t,!1),e.setFocusToFirstNode()};this.modal.addEventListener("animationend",o,!1)}else this.setFocusToFirstNode();this.config.onShow(this.modal,this.activeElement,t)}},{key:"closeModal",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,t=this.modal;if(this.modal.setAttribute("aria-hidden","true"),this.removeEventListeners(),this.scrollBehaviour("enable"),this.activeElement&&this.activeElement.focus&&this.activeElement.focus(),this.config.onClose(this.modal,this.activeElement,e),this.config.awaitCloseAnimation){var o=this.config.openClass;this.modal.addEventListener("animationend",(function e(){t.classList.remove(o),t.removeEventListener("animationend",e,!1)}),!1)}else t.classList.remove(this.config.openClass)}},{key:"closeModalByIdOrElement",value:function(e){this.modal="string"==typeof e?document.getElementById(e):e,this.modal&&this.closeModal()}},{key:"scrollBehaviour",value:function(e){if(this.config.disableScroll){var t=document.querySelector("body");switch(e){case"enable":Object.assign(t.style,{overflow:""});break;case"disable":Object.assign(t.style,{overflow:"hidden"})}}}},{key:"addEventListeners",value:function(){this.modal.addEventListener("touchstart",this.onClick),this.modal.addEventListener("click",this.onClick),document.addEventListener("keydown",this.onKeydown)}},{key:"removeEventListeners",value:function(){this.modal.removeEventListener("touchstart",this.onClick),this.modal.removeEventListener("click",this.onClick),document.removeEventListener("keydown",this.onKeydown)}},{key:"onClick",value:function(e){(e.target.hasAttribute(this.config.closeTrigger)||e.target.parentNode.hasAttribute(this.config.closeTrigger))&&(e.preventDefault(),e.stopPropagation(),this.closeModal(e))}},{key:"onKeydown",value:function(e){27===e.keyCode&&this.closeModal(e),9===e.keyCode&&this.retainFocus(e)}},{key:"getFocusableNodes",value:function(){var e=this.modal.querySelectorAll(n);return Array.apply(void 0,t(e))}},{key:"setFocusToFirstNode",value:function(){var e=this;if(!this.config.disableFocus){var t=this.getFocusableNodes();if(0!==t.length){var o=t.filter((function(t){return!t.hasAttribute(e.config.closeTrigger)}));o.length>0&&o[0].focus(),0===o.length&&t[0].focus()}}}},{key:"retainFocus",value:function(e){var t=this.getFocusableNodes();if(0!==t.length)if(t=t.filter((function(e){return null!==e.offsetParent})),this.modal.contains(document.activeElement)){var o=t.indexOf(document.activeElement);e.shiftKey&&0===o&&(t[t.length-1].focus(),e.preventDefault()),!e.shiftKey&&t.length>0&&o===t.length-1&&(t[0].focus(),e.preventDefault())}else t[0].focus()}}])&&e(i.prototype,a),r&&e(i,r),o}(),a=null,r=function(e){if("string"==typeof id?!document.getElementById(e):!e)return console.warn("MicroModal: ❗Seems like you have missed %c'".concat(e,"'"),"background-color: #f8f9fa;color: #50596c;font-weight: bold;","ID somewhere in your code. Refer example below to resolve it."),console.warn("%cExample:","background-color: #f8f9fa;color: #50596c;font-weight: bold;",'<div class="modal" id="'.concat(e,'"></div>')),!1},s=function(e,t){if(function(e){e.length<=0&&(console.warn("MicroModal: ❗Please specify at least one %c'micromodal-trigger'","background-color: #f8f9fa;color: #50596c;font-weight: bold;","data attribute."),console.warn("%cExample:","background-color: #f8f9fa;color: #50596c;font-weight: bold;",'<a href="#" data-micromodal-trigger="my-modal"></a>'))}(e),!t)return!0;for(var o in t)r(o);return!0},{init:function(e){var o=Object.assign({},{openTrigger:"data-micromodal-trigger"},e),n=t(document.querySelectorAll("[".concat(o.openTrigger,"]"))),r=function(e,t){var o=[];return e.forEach((function(e){var n=e.attributes[t].value;void 0===o[n]&&(o[n]=[]),o[n].push(e)})),o}(n,o.openTrigger);if(!0!==o.debugMode||!1!==s(n,r))for(var l in r){var c=r[l];o.targetModal=l,o.triggers=t(c),a=new i(o)}},show:function(e,t){var o=t||{};o.targetModal=e,!0===o.debugMode&&!1===r(e)||(a&&a.removeEventListeners(),(a=new i(o)).showModal())},close:function(e){e?a.closeModalByIdOrElement(e):a.closeModal()}});"undefined"!=typeof window&&(window.MicroModal=l);/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (l);
 
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -13869,6 +14065,12 @@ function e(e,t){for(var o=0;o<t.length;o++){var n=t[o];n.enumerable=n.enumerable
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -13916,23 +14118,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _gradebook_admin_share_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gradebook-admin-share.js */ "./assets/src/js/gradebook-admin-share.js");
 /* harmony import */ var _admin_student_detail_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin/student-detail.js */ "./assets/src/js/admin/student-detail.js");
 /**
- * Gradebook Admin JS
+ * Gradebook Admin JS — filter / reset form, plus date-pair validation.
+ *
+ * @since 4.0.0
+ * @version 1.0.1
  */
 
 
 
 
-var filter = function filter(e, target) {
-  if (!target.closest('.lp-btn-filter-gradebook')) {
+/**
+ * Resolve the form + the .lp-target render area associated with a filter button.
+ *
+ * The action wrapper carries data-element pointing at the wrapper to render into.
+ *
+ * @param {HTMLElement} target Button inside .filter-actions / .lp-form-gradebook-filter.
+ * @return {{ form: HTMLFormElement|null, elLPTarget: HTMLElement|null }}
+ */
+var resolveTargets = function resolveTargets(target) {
+  var elFilterAction = target.closest('.filter-actions');
+  var elWrapClass = elFilterAction === null || elFilterAction === void 0 ? void 0 : elFilterAction.dataset.element;
+  var elWrap = elWrapClass ? document.querySelector(elWrapClass) : null;
+  var elLPTarget = elWrap === null || elWrap === void 0 ? void 0 : elWrap.querySelector('.lp-target');
+  var form = target.closest('.lp-form-gradebook-filter');
+  return {
+    form: form,
+    elLPTarget: elLPTarget
+  };
+};
+
+/**
+ * Click handler — submit the filter form and replace the .lp-target content
+ * with the server-rendered HTML.
+ *
+ * @param {Object}      args
+ * @param {HTMLElement} args.target
+ */
+var onFilter = function onFilter(_ref) {
+  var target = _ref.target;
+  var btn = target.closest('.lp-btn-filter-gradebook');
+  if (!btn) {
     return;
   }
-  var elFilterAction = target.closest('.filter-actions');
-  var elWrapClass = elFilterAction.dataset.element;
-  var elWrap = document.querySelector("".concat(elWrapClass));
-  var elLPTarget = elWrap.querySelector('.lp-target');
-  var form = target.closest('.lp-form-gradebook-filter');
-  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 1);
-  var callBack = {
+  var _resolveTargets = resolveTargets(btn),
+    form = _resolveTargets.form,
+    elLPTarget = _resolveTargets.elLPTarget;
+  if (!form || !elLPTarget) {
+    return;
+  }
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 1);
+  (0,_gradebook_admin_share_js__WEBPACK_IMPORTED_MODULE_1__.submitFilter)(form, {
     success: function success(response) {
       var message = response.message,
         status = response.status,
@@ -13947,50 +14182,116 @@ var filter = function filter(e, target) {
       console.log(_error);
     },
     completed: function completed() {
-      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
     }
-  };
-  (0,_gradebook_admin_share_js__WEBPACK_IMPORTED_MODULE_1__.submitFilter)(form, callBack);
+  });
 };
-var reset = function reset(e, target) {
-  if (!target.closest('.lp-btn-reset-gradebook')) {
+
+/**
+ * Click handler — reset the filter form (incl. TomSelect controls) and refetch
+ * the unfiltered list.
+ *
+ * @param {Object}      args
+ * @param {HTMLElement} args.target
+ */
+var onReset = function onReset(_ref2) {
+  var target = _ref2.target;
+  var btn = target.closest('.lp-btn-reset-gradebook');
+  if (!btn) {
     return;
   }
-  var form = target.closest('.lp-form-gradebook-filter');
-  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 1);
+  var _resolveTargets2 = resolveTargets(btn),
+    form = _resolveTargets2.form,
+    elLPTarget = _resolveTargets2.elLPTarget;
+  if (!form || !elLPTarget) {
+    return;
+  }
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 1);
   form.reset();
-  form.querySelectorAll('.tomselected').forEach(function (tomselectedElement) {
-    tomselectedElement.tomselect.clear();
+  form.querySelectorAll('.tomselected').forEach(function (el) {
+    el.tomselect.clear();
   });
-  var elFilterAction = target.closest('.filter-actions');
-  var elWrapClass = elFilterAction.dataset.element;
-  var elWrap = document.querySelector("".concat(elWrapClass));
-  var elLPTarget = elWrap.querySelector('.lp-target');
-  var callBack = {
+  (0,_gradebook_admin_share_js__WEBPACK_IMPORTED_MODULE_1__.submitFilter)(form, {
     success: function success(response) {
-      var message = response.message,
-        status = response.status,
-        data = response.data;
-      elLPTarget.innerHTML = data.content;
+      elLPTarget.innerHTML = response.data.content;
     },
     error: function error(_error2) {
       console.log(_error2);
     },
     completed: function completed() {
-      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(target, 0);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, 0);
     }
-  };
-  (0,_gradebook_admin_share_js__WEBPACK_IMPORTED_MODULE_1__.submitFilter)(form, callBack);
+  });
 };
-document.addEventListener('click', function (e) {
-  var target = e.target;
-  filter(e, target);
-  reset(e, target);
-});
-document.addEventListener('change', function (e) {
-  var target = e.target;
-  (0,_gradebook_admin_share_js__WEBPACK_IMPORTED_MODULE_1__.dateChoiceFilterHandler)(e, target);
-});
+
+/**
+ * Click handler - sort the Student Overview table by server-rendered columns.
+ *
+ * @param {Object}      args
+ * @param {Event}       args.e
+ * @param {HTMLElement} args.target
+ */
+var onSortOverview = function onSortOverview(_ref3) {
+  var e = _ref3.e,
+    target = _ref3.target;
+  var th = target.closest('.lp-gradebook-student-overview th.sortable');
+  if (!th) {
+    return;
+  }
+  e.preventDefault();
+  var elWrap = th.closest('.lp-gradebook-student-overview');
+  var elLPTarget = elWrap === null || elWrap === void 0 ? void 0 : elWrap.querySelector('.lp-target');
+  if (!elLPTarget || !window.lpAJAXG) {
+    return;
+  }
+  var dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+  dataSend.args = dataSend.args || {};
+  var field = th.dataset.sortField;
+  if (!field) {
+    return;
+  }
+  if (dataSend.args.sort_field === field) {
+    dataSend.args.sort_direction = String(dataSend.args.sort_direction || '').toLowerCase() === 'asc' ? 'desc' : 'asc';
+  } else {
+    dataSend.args.sort_field = field;
+    dataSend.args.sort_direction = th.dataset.sortDefault || 'desc';
+  }
+  dataSend.args.paged = 1;
+  window.lpAJAXG.setDataSetCurrent(elLPTarget, dataSend);
+  window.lpAJAXG.showHideLoading(elLPTarget, 1);
+  window.lpAJAXG.fetchAJAX(dataSend, {
+    success: function success(response) {
+      var status = response.status,
+        message = response.message,
+        data = response.data;
+      if (status === 'success') {
+        elLPTarget.innerHTML = data.content;
+      } else {
+        console.error(message);
+      }
+    },
+    error: function error(_error3) {
+      console.log(_error3);
+    },
+    completed: function completed() {
+      window.lpAJAXG.showHideLoading(elLPTarget, 0);
+    }
+  });
+};
+_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+  selector: '.lp-btn-filter-gradebook',
+  callBack: onFilter
+}, {
+  selector: '.lp-btn-reset-gradebook',
+  callBack: onReset
+}, {
+  selector: '.lp-gradebook-student-overview th.sortable',
+  callBack: onSortOverview
+}]);
+_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('change', [{
+  selector: '.start_date',
+  callBack: _gradebook_admin_share_js__WEBPACK_IMPORTED_MODULE_1__.dateChoiceFilterHandler
+}]);
 })();
 
 /******/ })()

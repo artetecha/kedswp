@@ -371,11 +371,11 @@
         },
         {
             "name": "keds-plugin/learnpress-gradebook",
-            "version": "4.1.0",
+            "version": "4.1.1",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/learnpress-gradebook",
-                "reference": "71820df6dc5626df6ab2e5503fb5b02da65c4bac"
+                "reference": "dd0abf72ca1c822d5df4c97c73a5fe9574983b35"
             },
             "type": "wordpress-plugin",
             "transport-options": {

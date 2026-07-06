@@ -6,9 +6,7 @@ use Exception;
 use LearnPress\Ajax\AbstractAjax;
 use LearnPress\Databases\UserItemsDB;
 use LearnPress\Filters\UserItemsFilter;
-use LearnPress\Gradebook\TemplateHooks\Admin\AdminRecentActivityTemplate;
-use LearnPress\Models\UserItems\UserCourseModel;
-use LearnPress\Models\UserModel;
+use LearnPress\Gradebook\Permission;
 use LP_Datetime;
 use LP_Helper;
 use LP_Request;
@@ -35,7 +33,7 @@ class Chart extends AbstractAjax {
 		$response = new LP_REST_Response();
 
 		try {
-			if ( ! current_user_can( UserModel::ROLE_ADMINISTRATOR ) ) {
+			if ( ! Permission::can_view_gradebook() ) {
 				throw new Exception( __( 'You do not have permission to access this page.', 'learnpress-gradebook' ) );
 			}
 
@@ -46,6 +44,9 @@ class Chart extends AbstractAjax {
 
 			if ( ! $user_id ) {
 				throw new Exception( __( 'Param is invalid!', 'learnpress-gradebook' ) );
+			}
+			if ( ! Permission::can_view_student( $user_id ) ) {
+				throw new Exception( __( 'You do not have permission to view this student.', 'learnpress-gradebook' ) );
 			}
 
 			$date_now                = gmdate( LP_Datetime::$format, time() );
@@ -65,7 +66,16 @@ class Chart extends AbstractAjax {
 			$filter->order_by        = 'date';
 			$filter->order           = 'DESC';
 
-			$data_chart = [];
+			$allowed = Permission::get_allowed_course_ids();
+			if ( is_array( $allowed ) ) {
+				if ( empty( $allowed ) ) {
+					throw new Exception( __( 'No data found!', 'learnpress-gradebook' ) );
+				}
+
+				$filter->where[] = 'AND ui.item_id IN (' . Permission::get_scope_sql_in( $allowed ) . ')';
+			}
+
+			$data_chart = array();
 			switch ( $filter_days ) {
 				case 'last7days':
 					$filter->only_fields[] = 'CAST(ui.start_time AS DATE) as date';
@@ -93,20 +103,20 @@ class Chart extends AbstractAjax {
 			$inprogress_datasets                  = new stdClass();
 			$inprogress_datasets->label           = __( 'In Progress', 'learnpress-gradebook' );
 			$inprogress_datasets->backgroundColor = '#00a0d2';
-			$inprogress_datasets->borderColor = '#00a0d2';
-			$inprogress_datasets->data            = [];
+			$inprogress_datasets->borderColor     = '#00a0d2';
+			$inprogress_datasets->data            = array();
 
 			$passed_datasets                  = new stdClass();
 			$passed_datasets->label           = __( 'Passed', 'learnpress-gradebook' );
 			$passed_datasets->backgroundColor = '#46b450';
-			$passed_datasets->borderColor = '#46b450';
-			$passed_datasets->data            = [];
+			$passed_datasets->borderColor     = '#46b450';
+			$passed_datasets->data            = array();
 
 			$failed_datasets                  = new stdClass();
 			$failed_datasets->label           = __( 'Failed', 'learnpress-gradebook' );
 			$failed_datasets->backgroundColor = '#dc3232';
-			$failed_datasets->borderColor = '#dc3232';
-			$failed_datasets->data            = [];
+			$failed_datasets->borderColor     = '#dc3232';
+			$failed_datasets->data            = array();
 
 			foreach ( $data_chart as $key => $value ) {
 				$chart_label[]               = $key;
@@ -115,14 +125,14 @@ class Chart extends AbstractAjax {
 				$failed_datasets->data[]     = intval( $value->failed );
 			}
 
-			$response->data   = [
+			$response->data   = array(
 				'labels'   => $chart_label,
-				'datasets' => [
+				'datasets' => array(
 					$inprogress_datasets,
 					$passed_datasets,
 					$failed_datasets,
-				],
-			];
+				),
+			);
 			$response->status = 'success';
 		} catch ( Throwable $e ) {
 			$response->message = $e->getMessage();

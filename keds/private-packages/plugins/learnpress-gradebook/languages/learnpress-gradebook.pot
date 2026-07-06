@@ -2,465 +2,168 @@
 # This file is distributed under the same license as the LearnPress - Gradebook plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LearnPress - Gradebook 4.1.0\n"
+"Project-Id-Version: LearnPress - Gradebook 4.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-gradebook\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-25T10:37:50+03:00\n"
+"POT-Creation-Date: 2026-06-30T11:11:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: learnpress-gradebook\n"
 
-#: assets/dist/js/gradebook.js:39
-#: assets/dist/js/gradebook.js:72
-#: assets/dist/js/gradebook.js:39
-msgid "Back"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:57
-#: assets/dist/js/gradebook.js:823
-#: assets/dist/js/gradebook.js:620
-msgid "Total students enrolled:"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:58
-#: assets/dist/js/gradebook.js:823
-#: assets/dist/js/gradebook.js:621
-msgid "Total students finished:"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:59
-#: assets/dist/js/gradebook.js:823
-#: assets/dist/js/gradebook.js:622
-msgid "Total:"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:63
-#: assets/dist/js/gradebook.js:825
-#: assets/dist/js/gradebook.js:626
-msgid "Chart 2:"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:64
-#: assets/dist/js/gradebook.js:825
-#: assets/dist/js/gradebook.js:627
-msgid "All students registered and finished the course"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:60
-#: assets/dist/js/gradebook.js:935
-#: assets/dist/js/gradebook.js:692
-msgid "Chart:"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:61
-#: assets/dist/js/gradebook.js:935
-#: assets/dist/js/gradebook.js:693
-msgid "Total number of true and false questions's quiz"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:66
-#: assets/dist/js/gradebook.js:84
-#: assets/dist/js/gradebook.js:81
-#: assets/dist/js/gradebook.js:53
-#: assets/dist/js/gradebook.js:152
-#: assets/dist/js/gradebook.js:284
-#: assets/dist/js/gradebook.js:383
-#: assets/dist/js/gradebook.js:558
-#: assets/dist/js/gradebook.js:707
-#: assets/dist/js/gradebook.js:938
-#: assets/dist/js/gradebook.js:202
-#: assets/dist/js/gradebook.js:289
-#: assets/dist/js/gradebook.js:393
-#: assets/dist/js/gradebook.js:557
-#: assets/dist/js/gradebook.js:698
-msgid "No data available"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:9
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:344
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:434
-#: assets/dist/js/gradebook.js:988
-#: assets/dist/js/gradebook.js:718
-msgid "Last 7 days"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:10
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:345
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:435
-#: assets/dist/js/gradebook.js:991
-#: assets/dist/js/gradebook.js:719
-msgid "Last 30 days"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:11
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:346
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:436
-#: assets/dist/js/gradebook.js:994
-#: assets/dist/js/gradebook.js:720
-msgid "Last 12 months"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:102
-#: assets/dist/js/gradebook.js:1099
-#: assets/dist/js/gradebook.js:811
-msgid "Chart 1:"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:103
-#: assets/dist/js/gradebook.js:1099
-#: assets/dist/js/gradebook.js:812
-msgid "Number of students registered and finished the course by date"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:16
-#: assets/dist/js/gradebook.js:18
-#: assets/dist/js/gradebook.js:67
-#: assets/dist/js/gradebook.js:325
-#: assets/dist/js/gradebook.js:647
-#: assets/dist/js/gradebook.js:1150
-#: assets/dist/js/gradebook.js:226
-#: assets/dist/js/gradebook.js:472
-#: assets/dist/js/gradebook.js:834
-msgid "Title"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:17
-#: assets/dist/js/gradebook.js:12
-#: assets/dist/js/gradebook.js:68
-#: assets/dist/js/gradebook.js:19
-#: assets/dist/js/gradebook.js:68
-#: assets/dist/js/gradebook.js:325
-#: assets/dist/js/gradebook.js:647
-#: assets/dist/js/gradebook.js:1153
-#: assets/dist/js/gradebook.js:1274
-#: assets/dist/js/gradebook.js:1963
-#: assets/dist/js/gradebook.js:227
-#: assets/dist/js/gradebook.js:473
-#: assets/dist/js/gradebook.js:835
-#: assets/dist/js/gradebook.js:891
-#: assets/dist/js/gradebook.js:1237
-msgid "Type"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:18
-#: assets/dist/js/gradebook.js:14
-#: assets/dist/js/gradebook.js:23
-#: assets/dist/js/gradebook.js:20
-#: assets/dist/js/gradebook.js:20
-#: assets/dist/js/gradebook.js:228
-#: assets/dist/js/gradebook.js:325
-#: assets/dist/js/gradebook.js:1156
-#: assets/dist/js/gradebook.js:1402
-#: assets/dist/js/gradebook.js:1421
-#: assets/dist/js/gradebook.js:138
-#: assets/dist/js/gradebook.js:836
-#: assets/dist/js/gradebook.js:945
-#: assets/dist/js/gradebook.js:954
-msgid "Start time"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:19
-#: assets/dist/js/gradebook.js:24
-#: assets/dist/js/gradebook.js:21
-#: assets/dist/js/gradebook.js:325
-#: assets/dist/js/gradebook.js:1159
-#: assets/dist/js/gradebook.js:1424
-#: assets/dist/js/gradebook.js:229
-#: assets/dist/js/gradebook.js:837
-#: assets/dist/js/gradebook.js:955
-msgid "End time"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:20
-#: assets/dist/js/gradebook.js:22
-#: assets/dist/js/gradebook.js:325
-#: assets/dist/js/gradebook.js:1162
-#: assets/dist/js/gradebook.js:230
-#: assets/dist/js/gradebook.js:838
-msgid "Graduation"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:21
-#: assets/dist/js/gradebook.js:15
-#: assets/dist/js/gradebook.js:25
-#: assets/dist/js/gradebook.js:88
-#: assets/dist/js/gradebook.js:22
-#: assets/dist/js/gradebook.js:107
-#: assets/dist/js/gradebook.js:23
-#: inc/Ajax/ExportCSV.php:101
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:481
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:251
-#: assets/dist/js/gradebook.js:228
-#: assets/dist/js/gradebook.js:325
-#: assets/dist/js/gradebook.js:1165
-#: assets/dist/js/gradebook.js:1405
-#: assets/dist/js/gradebook.js:1427
-#: assets/dist/js/gradebook.js:1774
-#: assets/dist/js/gradebook.js:2015
-#: assets/dist/js/gradebook.js:140
-#: assets/dist/js/gradebook.js:231
-#: assets/dist/js/gradebook.js:839
-#: assets/dist/js/gradebook.js:946
-#: assets/dist/js/gradebook.js:956
-#: assets/dist/js/gradebook.js:1146
-#: assets/dist/js/gradebook.js:1276
-msgid "Status"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:57
-#: assets/dist/js/gradebook.js:48
-#: assets/dist/js/gradebook.js:112
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:121
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:456
-#: assets/dist/js/gradebook.js:1224
-#: assets/dist/js/gradebook.js:1342
-#: assets/dist/js/gradebook.js:1590
-#: assets/dist/js/gradebook.js:875
-#: assets/dist/js/gradebook.js:927
-#: assets/dist/js/gradebook.js:1043
-msgid "Export CSV"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:11
-msgid "Question"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:13
-#: assets/dist/js/gradebook.js:1277
-#: assets/dist/js/gradebook.js:892
-msgid "Retake"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:14
-#: assets/dist/js/gradebook.js:69
-#: assets/dist/js/gradebook.js:647
-#: assets/dist/js/gradebook.js:1280
-#: assets/dist/js/gradebook.js:474
-#: assets/dist/js/gradebook.js:893
-msgid "Correct"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:15
-#: assets/dist/js/gradebook.js:1283
-#: assets/dist/js/gradebook.js:894
-msgid "Retake detail"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:11
-#: assets/dist/js/gradebook.js:20
-#: assets/dist/js/gradebook.js:1393
-#: assets/dist/js/gradebook.js:1412
-#: assets/dist/js/gradebook.js:942
-#: assets/dist/js/gradebook.js:951
-msgid "User ID"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:12
-#: assets/dist/js/gradebook.js:21
-#: assets/dist/js/gradebook.js:1396
-#: assets/dist/js/gradebook.js:1415
-#: assets/dist/js/gradebook.js:943
-#: assets/dist/js/gradebook.js:952
-msgid "Username"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:13
-#: assets/dist/js/gradebook.js:22
-#: assets/dist/js/gradebook.js:19
-#: assets/dist/js/gradebook.js:228
-#: assets/dist/js/gradebook.js:1399
-#: assets/dist/js/gradebook.js:1418
-#: assets/dist/js/gradebook.js:137
-#: assets/dist/js/gradebook.js:944
-#: assets/dist/js/gradebook.js:953
-msgid "Email"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:16
-#: assets/dist/js/gradebook.js:26
-#: assets/dist/js/gradebook.js:21
-#: assets/dist/js/gradebook.js:228
-#: assets/dist/js/gradebook.js:1408
-#: assets/dist/js/gradebook.js:1430
-#: assets/dist/js/gradebook.js:139
-#: assets/dist/js/gradebook.js:947
-#: assets/dist/js/gradebook.js:957
-msgid "Average"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:122
-#: assets/dist/js/gradebook.js:1598
-#: assets/dist/js/gradebook.js:1053
-msgid "Export Full CSV"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:73
-#: assets/dist/js/gradebook.js:1763
-#: assets/dist/js/gradebook.js:1131
-msgid "Search student…"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:89
-#: inc/Ajax/Chart.php:100
-#: inc/class-rest-controller.php:1004
-#: inc/class-rest-controller.php:1045
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:463
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:199
-#: assets/dist/js/gradebook.js:1777
-#: assets/dist/js/gradebook.js:1147
-msgid "Passed"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:90
-#: inc/Ajax/Chart.php:106
-#: inc/class-rest-controller.php:1009
-#: inc/class-rest-controller.php:1050
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:464
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:200
-#: assets/dist/js/gradebook.js:1780
-#: assets/dist/js/gradebook.js:1148
-msgid "Failed"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:91
-#: inc/Ajax/Chart.php:94
-#: inc/class-rest-controller.php:305
-#: inc/class-rest-controller.php:476
-#: inc/class-rest-controller.php:574
-#: inc/class-rest-controller.php:1040
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:198
-#: assets/dist/js/gradebook.js:1783
-#: assets/dist/js/gradebook.js:1149
-msgid "In Progress"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:100
-#: assets/dist/js/gradebook.js:118
-#: assets/dist/js/gradebook.js:1795
-#: assets/dist/js/gradebook.js:2033
-#: assets/dist/js/gradebook.js:1158
-#: assets/dist/js/gradebook.js:1287
-msgid "Filters"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:34
-#: assets/dist/js/gradebook.js:39
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:109
-#: assets/dist/js/gradebook.js:185
-#: assets/dist/js/gradebook.js:459
-#: assets/dist/js/gradebook.js:112
-#: assets/dist/js/gradebook.js:334
-msgid "View Chart"
-msgstr ""
-
-#: assets/dist/js/gradebook.js:34
-#: assets/dist/js/gradebook.js:39
-#: assets/dist/js/gradebook.js:185
-#: assets/dist/js/gradebook.js:459
-#: assets/dist/js/gradebook.js:112
-#: assets/dist/js/gradebook.js:334
+#: assets/src/js/course-chart.js:162
+#: assets/src/js/user-quiz-gradebook.js:153
+#: assets/dist/js/course-gradebook.js:438
+#: assets/dist/js/user-course-gradebook.js:438
+#: assets/dist/js/user-quiz-gradebook.js:14627
+#: assets/dist/js/course-gradebook.js:322
+#: assets/dist/js/user-course-gradebook.js:322
+#: assets/dist/js/user-quiz-gradebook.js:14212
 msgid "Close Chart"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:18
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:457
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:197
-#: assets/dist/js/gradebook.js:228
-#: assets/dist/js/gradebook.js:136
-msgid "Student"
+#: assets/src/js/course-chart.js:164
+#: assets/src/js/user-quiz-gradebook.js:155
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:113
+#: assets/dist/js/course-gradebook.js:440
+#: assets/dist/js/user-course-gradebook.js:440
+#: assets/dist/js/user-quiz-gradebook.js:14629
+#: assets/dist/js/course-gradebook.js:324
+#: assets/dist/js/user-course-gradebook.js:324
+#: assets/dist/js/user-quiz-gradebook.js:14214
+msgid "View Chart"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:92
-#: assets/dist/js/gradebook.js:1994
-#: assets/dist/js/gradebook.js:1261
-msgid "Search lesson, quiz…"
+#: assets/src/js/course-gradebook.js:19
+#: assets/src/js/course-gradebook.js:28
+#: assets/dist/js/course-gradebook.js:14741
+#: assets/dist/js/course-gradebook.js:14760
+#: assets/dist/js/course-gradebook.js:14291
+#: assets/dist/js/course-gradebook.js:14300
+msgid "User ID"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:108
-#: inc/class-rest-controller.php:303
-#: inc/class-rest-controller.php:474
-#: inc/class-rest-controller.php:572
-#: assets/dist/js/gradebook.js:2018
-#: assets/dist/js/gradebook.js:1277
-msgid "Started"
+#: assets/src/js/course-gradebook.js:20
+#: assets/src/js/course-gradebook.js:29
+#: assets/dist/js/course-gradebook.js:14744
+#: assets/dist/js/course-gradebook.js:14763
+#: assets/dist/js/course-gradebook.js:14292
+#: assets/dist/js/course-gradebook.js:14301
+msgid "Username"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:109
-#: inc/class-rest-controller.php:304
-#: inc/class-rest-controller.php:475
-#: inc/class-rest-controller.php:573
-#: assets/dist/js/gradebook.js:2021
-#: assets/dist/js/gradebook.js:1278
-msgid "Completed"
+#: assets/src/js/course-gradebook.js:21
+#: assets/src/js/course-gradebook.js:30
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:373
+#: assets/dist/js/course-gradebook.js:14747
+#: assets/dist/js/course-gradebook.js:14766
+#: assets/dist/js/course-gradebook.js:14293
+#: assets/dist/js/course-gradebook.js:14302
+msgid "Email"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:43
-#: assets/dist/js/gradebook.js:555
-#: assets/dist/js/gradebook.js:383
-msgid "Result Quiz"
+#: assets/src/js/course-gradebook.js:22
+#: assets/src/js/course-gradebook.js:31
+#: assets/src/js/user-course-gradebook.js:21
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:374
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:284
+#: assets/dist/js/course-gradebook.js:14750
+#: assets/dist/js/course-gradebook.js:14769
+#: assets/dist/js/user-course-gradebook.js:14741
+#: assets/dist/js/course-gradebook.js:14294
+#: assets/dist/js/course-gradebook.js:14303
+#: assets/dist/js/user-course-gradebook.js:14293
+msgid "Start time"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:44
-#: assets/dist/js/gradebook.js:555
-#: assets/dist/js/gradebook.js:384
-msgid "Date finish:"
+#: assets/src/js/course-gradebook.js:23
+#: assets/src/js/course-gradebook.js:33
+#: assets/src/js/user-course-gradebook.js:24
+#: inc/Ajax/ExportCSV.php:107
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:377
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:504
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:280
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:287
+#: assets/dist/js/course-gradebook.js:14753
+#: assets/dist/js/course-gradebook.js:14775
+#: assets/dist/js/user-course-gradebook.js:14750
+#: assets/dist/js/course-gradebook.js:14295
+#: assets/dist/js/course-gradebook.js:14305
+#: assets/dist/js/user-course-gradebook.js:14296
+msgid "Status"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:45
-#: assets/dist/js/gradebook.js:555
-#: assets/dist/js/gradebook.js:385
-msgid "Questions:"
+#: assets/src/js/course-gradebook.js:24
+#: assets/src/js/course-gradebook.js:34
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:376
+#: assets/dist/js/course-gradebook.js:14756
+#: assets/dist/js/course-gradebook.js:14778
+#: assets/dist/js/course-gradebook.js:14296
+#: assets/dist/js/course-gradebook.js:14306
+msgid "Average"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:46
-#: assets/dist/js/gradebook.js:555
-#: assets/dist/js/gradebook.js:386
-msgid "Time spent:"
+#: assets/src/js/course-gradebook.js:32
+#: assets/src/js/user-course-gradebook.js:22
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:375
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:285
+#: assets/dist/js/course-gradebook.js:14772
+#: assets/dist/js/user-course-gradebook.js:14744
+#: assets/dist/js/course-gradebook.js:14304
+#: assets/dist/js/user-course-gradebook.js:14294
+msgid "End time"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:47
-#: assets/dist/js/gradebook.js:555
-#: assets/dist/js/gradebook.js:387
-msgid "Marks:"
+#: assets/src/js/user-course-gradebook.js:19
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:282
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:253
+#: assets/dist/js/user-course-gradebook.js:14735
+#: assets/dist/js/user-course-gradebook.js:14291
+msgid "Title"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:48
-#: assets/dist/js/gradebook.js:555
-#: assets/dist/js/gradebook.js:388
-msgid "Passing grade:"
+#: assets/src/js/user-course-gradebook.js:20
+#: assets/src/js/user-quiz-gradebook.js:22
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:283
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:254
+#: assets/dist/js/user-course-gradebook.js:14738
+#: assets/dist/js/user-quiz-gradebook.js:14439
+#: assets/dist/js/user-course-gradebook.js:14292
+#: assets/dist/js/user-quiz-gradebook.js:14081
+msgid "Type"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:49
-#: assets/dist/js/gradebook.js:555
-#: assets/dist/js/gradebook.js:389
-msgid "Result:"
+#: assets/src/js/user-course-gradebook.js:23
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:286
+#: assets/dist/js/user-course-gradebook.js:14747
+#: assets/dist/js/user-course-gradebook.js:14295
+msgid "Graduation"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:42
-msgid "Search quesion…"
+#: assets/src/js/user-quiz-gradebook.js:21
+msgid "Question"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:54
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:467
-msgid "Search"
+#: assets/src/js/user-quiz-gradebook.js:23
+#: assets/dist/js/user-quiz-gradebook.js:14442
+#: assets/dist/js/user-quiz-gradebook.js:14082
+msgid "Retake"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:70
-#: assets/dist/js/gradebook.js:647
-#: assets/dist/js/gradebook.js:475
-msgid "Retake Detail"
+#: assets/src/js/user-quiz-gradebook.js:24
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:255
+#: assets/dist/js/user-quiz-gradebook.js:14445
+#: assets/dist/js/user-quiz-gradebook.js:14083
+msgid "Correct"
 msgstr ""
 
-#: assets/dist/js/gradebook.js:99
-#: inc/load.php:160
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:186
-#: assets/dist/js/gradebook.js:677
-#: assets/dist/js/gradebook.js:504
-msgid "View"
+#: assets/src/js/user-quiz-gradebook.js:25
+#: assets/dist/js/user-quiz-gradebook.js:14448
+#: assets/dist/js/user-quiz-gradebook.js:14084
+msgid "Retake detail"
 msgstr ""
 
 #. Plugin Name of the plugin
@@ -488,318 +191,575 @@ msgstr ""
 msgid "http://thimpress.com"
 msgstr ""
 
-#: inc/Ajax/Chart.php:39
+#: config/settings.php:18
+msgid "Instructor access"
+msgstr ""
+
+#: config/settings.php:22
+msgid "Allow instructors and co-instructors to view Gradebook data"
+msgstr ""
+
+#: inc/Ajax/Chart.php:37
 #: inc/Ajax/ExportCSV.php:38
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:105
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:152
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:92
+#: inc/load.php:413
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:110
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:151
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:106
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:156
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:114
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:120
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:166
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:105
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:159
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: inc/Ajax/Chart.php:48
+#: inc/Ajax/Chart.php:46
 #: inc/Ajax/ExportCSV.php:48
 msgid "Param is invalid!"
 msgstr ""
 
-#: inc/Ajax/ExportCSV.php:63
-msgid "Delete file successfully!"
+#: inc/Ajax/Chart.php:49
+#: inc/Ajax/ExportCSV.php:68
+#: inc/class-rest-controller.php:191
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:168
+msgid "You do not have permission to view this student."
 msgstr ""
 
-#: inc/Ajax/ExportCSV.php:89
+#: inc/Ajax/Chart.php:72
+#: inc/Ajax/ExportCSV.php:87
+#: inc/Ajax/ExportCSV.php:95
 msgid "No data found!"
 msgstr ""
 
-#: inc/Ajax/ExportCSV.php:97
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:346
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:247
+#: inc/Ajax/Chart.php:104
+#: inc/class-rest-controller.php:330
+#: inc/class-rest-controller.php:495
+#: inc/class-rest-controller.php:594
+#: inc/class-rest-controller.php:1074
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:269
+msgid "In Progress"
+msgstr ""
+
+#: inc/Ajax/Chart.php:110
+#: inc/class-rest-controller.php:1038
+#: inc/class-rest-controller.php:1079
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:212
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:486
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:270
+msgid "Passed"
+msgstr ""
+
+#: inc/Ajax/Chart.php:116
+#: inc/class-rest-controller.php:1043
+#: inc/class-rest-controller.php:1084
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:213
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:487
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:271
+msgid "Failed"
+msgstr ""
+
+#: inc/Ajax/ExportCSV.php:62
+msgid "Delete file successfully!"
+msgstr ""
+
+#: inc/Ajax/ExportCSV.php:103
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:228
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:369
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:276
 msgid "Course"
 msgstr ""
 
-#: inc/Ajax/ExportCSV.php:98
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:248
+#: inc/Ajax/ExportCSV.php:104
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:277
 msgid "Start date"
 msgstr ""
 
-#: inc/Ajax/ExportCSV.php:99
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:249
+#: inc/Ajax/ExportCSV.php:105
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:278
 msgid "End date"
 msgstr ""
 
-#: inc/Ajax/ExportCSV.php:100
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:250
+#: inc/Ajax/ExportCSV.php:106
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:279
 msgid "Progress"
 msgstr ""
 
-#: inc/class-database.php:298
-#: inc/class-database.php:326
+#: inc/class-database.php:340
+#: inc/class-database.php:367
+#: inc/Databases/GradebookDB.php:438
+#: inc/Databases/GradebookDB.php:507
 msgid "Enrolled"
 msgstr ""
 
-#: inc/class-database.php:303
-#: inc/class-database.php:326
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:462
+#: inc/class-database.php:345
+#: inc/class-database.php:367
+#: inc/Databases/GradebookDB.php:443
+#: inc/Databases/GradebookDB.php:507
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:485
 msgid "Finished"
 msgstr ""
 
-#: inc/class-rest-controller.php:179
-#: inc/class-rest-controller.php:233
-#: inc/class-rest-controller.php:299
-#: inc/class-rest-controller.php:410
-#: inc/class-rest-controller.php:446
-msgid "No Course ID param."
+#: inc/class-rest-controller.php:174
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:156
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:172
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:166
+msgid "You do not have permission to view this course."
 msgstr ""
 
-#: inc/class-rest-controller.php:306
-#: inc/class-rest-controller.php:477
-#: inc/class-rest-controller.php:575
+#: inc/class-rest-controller.php:328
+#: inc/class-rest-controller.php:493
+#: inc/class-rest-controller.php:592
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:366
+msgid "Started"
+msgstr ""
+
+#: inc/class-rest-controller.php:329
+#: inc/class-rest-controller.php:494
+#: inc/class-rest-controller.php:593
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:367
+msgid "Completed"
+msgstr ""
+
+#: inc/class-rest-controller.php:331
+#: inc/class-rest-controller.php:496
+#: inc/class-rest-controller.php:595
 msgid "Evaluated"
 msgstr ""
 
-#: inc/class-rest-controller.php:478
+#: inc/class-rest-controller.php:446
+#: inc/class-rest-controller.php:472
+msgid "All students registered and finished the course"
+msgstr ""
+
+#: inc/class-rest-controller.php:497
 msgid "Viewed"
 msgstr ""
 
-#: inc/class-rest-controller.php:486
-#: inc/class-rest-controller.php:580
-#: inc/class-rest-controller.php:637
-#: inc/class-rest-controller.php:745
-#: inc/class-rest-controller.php:785
-#: inc/class-rest-controller.php:837
+#: inc/class-rest-controller.php:505
+#: inc/class-rest-controller.php:600
+#: inc/class-rest-controller.php:657
+#: inc/class-rest-controller.php:769
+#: inc/class-rest-controller.php:803
+#: inc/class-rest-controller.php:869
 msgid "No params invalid"
 msgstr ""
 
-#: inc/class-rest-controller.php:642
+#: inc/class-rest-controller.php:665
 msgid "Course not found"
 msgstr ""
 
-#: inc/class-rest-controller.php:647
+#: inc/class-rest-controller.php:670
 msgid "Quiz not found"
 msgstr ""
 
-#: inc/class-rest-controller.php:680
+#: inc/class-rest-controller.php:703
 msgid "No user found"
 msgstr ""
 
-#: inc/class-rest-controller.php:706
-#: inc/class-rest-controller.php:710
-#: inc/class-rest-controller.php:793
-#: inc/class-rest-controller.php:876
-#: inc/class-rest-controller.php:880
+#: inc/class-rest-controller.php:729
+#: inc/class-rest-controller.php:733
+#: inc/class-rest-controller.php:825
+#: inc/class-rest-controller.php:910
+#: inc/class-rest-controller.php:914
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:467
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:470
 msgid "False"
 msgstr ""
 
-#: inc/class-rest-controller.php:706
-#: inc/class-rest-controller.php:710
-#: inc/class-rest-controller.php:793
-#: inc/class-rest-controller.php:876
-#: inc/class-rest-controller.php:880
+#: inc/class-rest-controller.php:729
+#: inc/class-rest-controller.php:733
+#: inc/class-rest-controller.php:825
+#: inc/class-rest-controller.php:910
+#: inc/class-rest-controller.php:914
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:467
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:470
 msgid "True"
 msgstr ""
 
-#: inc/class-rest-controller.php:788
+#: inc/class-rest-controller.php:820
 msgid "Quiz is in-progress"
 msgstr ""
 
-#: inc/class-rest-controller.php:915
-#: inc/class-rest-controller.php:986
-#: inc/class-rest-controller.php:1028
+#: inc/class-rest-controller.php:847
+msgid "Chart: Total number of true and false questions's quiz"
+msgstr ""
+
+#: inc/class-rest-controller.php:949
+#: inc/class-rest-controller.php:1020
+#: inc/class-rest-controller.php:1062
 msgid "Userid is required"
 msgstr ""
 
-#: inc/class-rest-controller.php:919
-#: inc/class-rest-controller.php:990
-#: inc/class-rest-controller.php:1032
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:161
+#: inc/class-rest-controller.php:953
+#: inc/class-rest-controller.php:1024
+#: inc/class-rest-controller.php:1066
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:165
 msgid "User not found"
 msgstr ""
 
-#: inc/class-rest-controller.php:995
+#: inc/class-rest-controller.php:1029
 msgid "No data found."
 msgstr ""
 
-#: inc/class-rest-controller.php:999
+#: inc/class-rest-controller.php:1033
 msgid "In progress"
 msgstr ""
 
-#: inc/class-rest-controller.php:1016
+#: inc/class-rest-controller.php:1050
 msgid "Courses overview (all time): in progress, passed, failed."
 msgstr ""
 
-#: inc/class-rest-controller.php:1068
+#: inc/class-rest-controller.php:1102
 msgid "Number of courses In progress, passed, failed by date"
 msgstr ""
 
-#: inc/class-rest-controller.php:1070
+#: inc/class-rest-controller.php:1104
 msgid "Success"
 msgstr ""
 
-#: inc/load.php:104
+#: inc/load.php:208
+#: inc/load.php:215
 msgid "Course Gradebook"
 msgstr ""
 
-#: inc/load.php:112
+#: inc/load.php:223
 msgid "Gradebook Manager"
 msgstr ""
 
-#: inc/load.php:113
-#: inc/load.php:137
-#: inc/load.php:180
+#: inc/load.php:224
+#: inc/load.php:240
+#: inc/load.php:343
+#: inc/load.php:384
 msgid "Gradebook"
 msgstr ""
 
-#: inc/load.php:197
+#: inc/load.php:365
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:257
+#: templates/admin/course-gradebook/shared/retake-dropdown.php:21
+msgid "View"
+msgstr ""
+
+#: inc/load.php:401
 msgid "Go to Gradebook"
 msgstr ""
 
-#: inc/load.php:210
+#: inc/load.php:419
 msgid "Recent Activity"
 msgstr ""
 
-#: inc/load.php:211
+#: inc/load.php:420
 msgid "Student Overview"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:237
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:241
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:106
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:116
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:101
+msgid "The course is not existed"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:170
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:184
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:194
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:213
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:190
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:191
+msgid "No course found"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:211
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:484
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:365
+msgid "All"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:214
+msgid "In-progress(Course)"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:225
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:484
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:388
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:383
+msgid "View chart"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:226
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:125
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:485
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:388
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:383
+msgid "Export CSV"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:227
+msgid "Export Full CSV"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:235
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:496
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:376
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:371
+#: templates/admin/course-gradebook/shared/filter-form.php:14
+msgid "Search"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:269
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:452
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:356
+msgid "Search student or email…"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:372
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:486
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:268
+msgid "Student"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:398
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:308
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:296
+msgid "&laquo;"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminCourseGradebookTemplate.php:399
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:309
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:297
+msgid "&raquo;"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:260
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:264
 msgid "Guest"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:244
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:267
 #, php-format
 msgid "User ID: %d (Deleted)"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:253
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:276
 msgid "just"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:273
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:296
 #, php-format
 msgid "%1$s %2$s in the Course %3$s"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:288
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:311
 #, php-format
 msgid "%1$s %2$s the %3$s %4$s of the Course %5$s"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:331
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:354
 msgid "From"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:339
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:362
 msgid "To"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:353
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:376
 msgid "User"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:461
-msgid "All"
-msgstr ""
-
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:465
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:488
 msgid "In-progress (Course)"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:503
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:327
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:292
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:526
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:356
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:392
 msgid "Filter"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:510
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:334
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:299
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:533
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:363
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:399
 msgid "Reset"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:524
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:547
 msgid "enrolled"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:525
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:548
 msgid "purchased"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:526
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:549
 msgid "completed"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:527
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:550
 msgid "started"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:528
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:551
 msgid "finished"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:529
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:552
 msgid "passed"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:530
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:553
 msgid "failed"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:531
+#: inc/TemplateHooks/Admin/AdminRecentActivityTemplate.php:554
 msgid "in progress"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:80
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:84
 msgid "Back to Student Overview"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:84
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:88
 msgid "Student Details"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:85
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:89
 msgid "Courses attended by"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:128
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:132
 #, php-format
 msgid "Course statistics of user: %s"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:184
-msgid "No course found"
-msgstr ""
-
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:264
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:293
 msgid "Course:"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:431
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:373
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:463
+#: templates/admin/course-gradebook/shared/chart-course.php:12
+msgid "Last 7 days"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:374
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:464
+#: templates/admin/course-gradebook/shared/chart-course.php:13
+msgid "Last 30 days"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:375
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:465
+#: templates/admin/course-gradebook/shared/chart-course.php:14
+msgid "Last 12 months"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:460
 msgid "'s attended courses"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentDetailTemplate.php:455
-msgid "View chart"
-msgstr ""
-
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:71
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:93
 msgid "List students attend courses"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:128
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:155
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:174
 msgid "No user found."
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:201
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:272
 msgid "Total Courses"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:202
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:273
 msgid "Action"
 msgstr ""
 
-#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:221
+#: inc/TemplateHooks/Admin/AdminStudentOverviewTemplate.php:321
 msgid "User:"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:111
+msgid "Course and user is required"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:125
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:110
+msgid "User is not existed"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:175
+msgid "User is required"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:247
+msgid "Unknown"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserCourseGradebookTemplate.php:374
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:369
+msgid "Search lesson, quiz, ..."
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:96
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:169
+msgid "Course, user, quiz is required"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:115
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:174
+msgid "User quiz is not existed"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/AdminUserQuizGradebookTemplate.php:256
+msgid "Retake details"
+msgstr ""
+
+#: inc/TemplateHooks/Admin/GradebookTemplateRenderer.php:132
+msgid "Gradebook template file does not exist."
+msgstr ""
+
+#: inc/TemplateHooks/Admin/GradebookTemplateRenderer.php:146
+msgid "Unable to capture gradebook template output."
+msgstr ""
+
+#: inc/TemplateHooks/Admin/GradebookTemplateRenderer.php:176
+msgid "Invalid gradebook template path."
 msgstr ""
 
 #: inc/TemplateHooks/GradebookTemplate.php:20
 msgid "Close"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/breadcrumbs.php:15
+msgid "breadcrumb"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/empty-state.php:10
+msgid "No data available"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/quiz-result.php:20
+msgid "Quiz Result"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/quiz-result.php:21
+msgid "Finish time"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/quiz-result.php:22
+msgid "Questions"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/quiz-result.php:23
+msgid "Time spent"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/quiz-result.php:24
+msgid "Marks"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/quiz-result.php:25
+msgid "Passing grade"
+msgstr ""
+
+#: templates/admin/course-gradebook/shared/quiz-result.php:26
+msgid "Result"
 msgstr ""

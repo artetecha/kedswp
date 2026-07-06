@@ -28,6 +28,11 @@ Yes, you can. Please find the documentation for writing an add-on for LearnPress
 
 == Changelog ==
 
+= 4.1.0 (2026-06-30) =
+~ Added: option "Allow instructors to view Gradebook data".
+~ Added: filter by student name, email attend courses on the Student Overview page.
+~ Added: sort order by student, in-progress, passed, failed, total courses on the Student Overview page.
+
 = 4.1.0 (2026-05-25) =
 ~ Fixed: minor bugs.
 

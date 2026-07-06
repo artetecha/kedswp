@@ -5,13 +5,13 @@ namespace LearnPress\Gradebook\TemplateHooks\Admin;
 use Exception;
 use LearnPress\Databases\UserItemsDB;
 use LearnPress\Filters\UserItemsFilter;
+use LearnPress\Gradebook\Permission;
 use LearnPress\Gradebook\TemplateHooks\GradebookTemplate;
 use LearnPress\Helpers\Singleton;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\UserItems\UserCourseModel;
 use LearnPress\Models\UserModel;
 use LearnPress\TemplateHooks\TemplateAJAX;
-use LP_Helper;
 use stdClass;
 use Throwable;
 use LP_Meta_Box_Select_Field;
@@ -54,7 +54,11 @@ class AdminStudentDetailTemplate {
 		wp_enqueue_script( 'lp-gradebook-admin-script' );
 
 		$user_id = LP_Request::get_param( 'user_id', 0, 'int' );
-		$args    = array(
+		if ( ! Permission::can_view_gradebook() || ! Permission::can_view_student( $user_id ) ) {
+			return;
+		}
+
+		$args = array(
 			'id_url'  => 'gradebook-student-detail',
 			'paged'   => LP_Request::get_param( 'paged', 1, 'int' ),
 			'limit'   => 10,
@@ -98,38 +102,38 @@ class AdminStudentDetailTemplate {
 					</button>
 				</div>',
 				Template::convert_data_to_json(
-					[
+					array(
 						'action'  => 'lp_gradebook_data_chart_student',
 						'user_id' => $user_id,
-						'args'    => [
+						'args'    => array(
 							'id_url' => 'gradebook-chart-student-courses',
-						],
-					]
+						),
+					)
 				),
 				__( 'View Chart', 'learnpress-gradebook' ),
 				Template::convert_data_to_json(
-					[
+					array(
 						'action'  => 'lp_gradebook_export_student_courses',
 						'user_id' => $user_id,
 						'paged'   => 1,
 						'limit'   => 10,
-						'args'    => [
+						'args'    => array(
 							'id_url' => 'gradebook-export-student-courses',
-						],
-					]
+						),
+					)
 				),
 				__( 'Export CSV', 'learnpress-gradebook' )
 			),
 			'content'     => $content,
 			'popup-chart' => GradebookTemplate::html_micromodal(
-				[
+				array(
 					'id'      => 'lp-gradebook-chart-modal',
 					'title'   => sprintf(
 						__( 'Course statistics of user: %s', 'learnpress-gradebook' ),
 						$userModel->get_display_name()
 					),
 					'content' => $this->html_chart( $user_id ),
-				]
+				)
 			),
 			'wrap_end'    => '</div>',
 		);
@@ -144,21 +148,24 @@ class AdminStudentDetailTemplate {
 	 *
 	 * @return stdClass
 	 */
-	public static function render_content( array $args = [] ): stdClass {
+	public static function render_content( array $args = array() ): stdClass {
 		$content = new stdClass();
 
 		try {
-			if ( ! current_user_can( UserModel::ROLE_ADMINISTRATOR ) ) {
+			if ( ! Permission::can_view_gradebook() ) {
 				throw new Exception( __( 'You do not have permission to access this page.', 'learnpress-gradebook' ) );
 			}
 
-			$user_id    = intval( $args['user_id'] ?? 0 );
-			$course_ids = LP_Helper::sanitize_params_submitted( $args['course_ids'] ?? '' );
-			$limit      = intval( $args['limit'] ?? 10 );
-			$paged      = intval( $args['paged'] ?? 1 );
+			$user_id    = absint( $args['user_id'] ?? 0 );
+			$course_ids = wp_parse_id_list( $args['course_ids'] ?? '' );
+			$limit      = min( 100, max( 1, intval( $args['limit'] ?? 10 ) ) );
+			$paged      = max( 1, intval( $args['paged'] ?? 1 ) );
 			$userModel  = UserModel::find( $user_id, true );
 			if ( ! $userModel ) {
 				throw new Exception( __( 'User not found', 'learnpress-gradebook' ) );
+			}
+			if ( ! Permission::can_view_student( $user_id ) ) {
+				throw new Exception( __( 'You do not have permission to view this student.', 'learnpress-gradebook' ) );
 			}
 
 			$filter            = new UserItemsFilter();
@@ -171,9 +178,31 @@ class AdminStudentDetailTemplate {
 			$filter->order_by  = 'start_time';
 			$filter->order     = 'DESC';
 
-			if ( ! empty( $course_ids ) ) {
-				$course_ids       = explode( ',', $course_ids );
-				$course_ids       = array_map( 'intval', $course_ids );
+			$allowed = Permission::get_allowed_course_ids();
+			if ( is_array( $allowed ) ) {
+				if ( empty( $allowed ) ) {
+					$content->content     = __( 'No course found', 'learnpress-gradebook' );
+					$content->total_pages = 0;
+					$content->paged       = 1;
+
+					return $content;
+				}
+
+				if ( ! empty( $course_ids ) ) {
+					$course_ids = array_values( array_intersect( $course_ids, $allowed ) );
+					if ( empty( $course_ids ) ) {
+						$content->content     = __( 'No course found', 'learnpress-gradebook' );
+						$content->total_pages = 0;
+						$content->paged       = 1;
+
+						return $content;
+					}
+
+					$filter->item_ids = $course_ids;
+				} else {
+					$filter->where[] = 'AND ui.item_id IN (' . Permission::get_scope_sql_in( $allowed ) . ')';
+				}
+			} elseif ( ! empty( $course_ids ) ) {
 				$filter->item_ids = $course_ids;
 			}
 
@@ -198,10 +227,10 @@ class AdminStudentDetailTemplate {
 					'table_body'  => $row_html,
 					'table_end'   => '</table></div>',
 					'pagination'  => Template::instance()->html_pagination(
-						[
+						array(
 							'total_pages' => $total_pages,
 							'paged'       => $paged,
-						]
+						)
 					),
 				);
 				// $content->content = 'test';
@@ -230,7 +259,7 @@ class AdminStudentDetailTemplate {
 
 		$row_cells = array(
 			'wrap'       => '<tr>',
-			'course'     => sprintf( '<td class="course-name"><a href="%1$s" target="_blank"> %2$s</a></td>', $course_link, get_the_title( $userCourseModel->item_id ) ),
+			'course'     => sprintf( '<td class="course-name"><a href="%1$s"> %2$s</a></td>', $course_link, get_the_title( $userCourseModel->item_id ) ),
 			'start-date' => sprintf( '<td class="start-time">%s</td>', wp_date( $datetime_format, strtotime( $userCourseModel->start_time ) ) ),
 			'end-date'   => sprintf( '<td class="end-time">%s</td>', ( ! empty( $userCourseModel->end_time ) ? wp_date( $datetime_format, strtotime( $userCourseModel->end_time ) ) : '-' ) ),
 			'progress'   => sprintf( '<td class="Progress">%s</td>', $progress_percent != 0 ? $progress_percent . ' %' : '-' ),
@@ -357,20 +386,20 @@ class AdminStudentDetailTemplate {
 			);
 		}
 
-		$html_filter_wrap  = [
+		$html_filter_wrap  = array(
 			sprintf(
 				'<div class="lp-gradebook-filter-chart-wrap" data-send="%s">',
 				Template::convert_data_to_json(
-					[
+					array(
 						'action'  => 'lp_gradebook_data_chart_student',
 						'user_id' => $user_id,
-						'args'    => [
+						'args'    => array(
 							'id_url' => 'gradebook-chart-student-courses',
-						],
-					]
+						),
+					)
 				),
 			) => '</div>',
-		];
+		);
 		$html_filter_chart = Template::instance()->nest_elements( $html_filter_wrap, $html_filter_chart );
 
 		$chart_canvas_html = '<div class="lp-gradebook-wrapper-chart-canvas"><canvas class="chart-canvas"></canvas></div>';
@@ -378,13 +407,13 @@ class AdminStudentDetailTemplate {
 		ob_start();
 		lp_skeleton_animation_html( 6 );
 		$html_loading          = ob_get_clean();
-		$course_chart_sections = [
+		$course_chart_sections = array(
 			'loading'   => $html_loading,
 			'wrap'      => '<div class="lp-gradebook-chart-main lp-hidden">',
 			'filter'    => $html_filter_chart,
 			'char_html' => $chart_canvas_html,
 			'wrap_end'  => '</div>',
-		];
+		);
 
 		return Template::combine_components( $course_chart_sections );
 	}

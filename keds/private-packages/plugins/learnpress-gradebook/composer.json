@@ -1,1 +1,5 @@
-{"name":"keds-plugin/learnpress-gradebook","type":"wordpress-plugin","version":"4.1.0"}
+{
+ "name": "keds-plugin/learnpress-gradebook",
+ "type": "wordpress-plugin",
+ "version": "4.1.1"
+}

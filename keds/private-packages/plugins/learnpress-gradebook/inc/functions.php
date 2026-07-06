@@ -4,4 +4,3 @@ function learn_press_gradebook_nonce_url( $args = array(), $field = 'gradebook-n
 
 	return wp_nonce_url( add_query_arg( $args, 'admin.php?page=course-gradebook' ), 'learn-press-gradebook-' . $args['course_id'], $field );
 }
-
