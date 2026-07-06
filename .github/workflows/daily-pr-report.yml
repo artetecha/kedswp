@@ -14,7 +14,8 @@ name: Daily PR report
 
 on:
   schedule:
-    - cron: '30 6 * * *'   # 06:30 UTC daily — after dependabot (05:00) and thim (05:30) have raised the day's PRs
+    # Off the :00/:30 marks — GitHub drops cron runs scheduled at busy minutes.
+    - cron: '17 6 * * *'   # 06:17 UTC daily — after dependabot (05:00) and thim (05:43) have raised the day's PRs
   workflow_dispatch:
 
 permissions:
