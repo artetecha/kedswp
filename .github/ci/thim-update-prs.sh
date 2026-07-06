@@ -72,7 +72,7 @@ failures=()
 # process_updates <channel> <script> <branch_prefix> <label> <channel_desc> <<<"$updates"
 process_updates() {
 	local channel="$1" script="$2" prefix="$3" label="$4" desc="$5"
-	local slug local_ver remote_ver branch marker pr_json body pr_number
+	local slug local_ver remote_ver branch marker pr_json mergeable body pr_number
 
 	gh label create "$label" --color 5319e7 \
 		--description "Automated premium package update ($channel channel)" --force >/dev/null 2>&1 || true
@@ -89,10 +89,18 @@ process_updates() {
 		branch="$prefix/$slug"
 		marker="<!-- $channel: ${slug}@${remote_ver} -->"
 
-		pr_json=$(gh pr list --head "$branch" --base "$BASE_BRANCH" --state open --json number,body --jq '.[0] // empty')
+		pr_json=$(gh pr list --head "$branch" --base "$BASE_BRANCH" --state open --json number,body,mergeable --jq '.[0] // empty')
 		if [ -n "$pr_json" ] && grep -qF "$marker" <<<"$pr_json"; then
-			echo "==> $slug: open PR already proposes $remote_ver, skipping"
-			continue
+			# Same version already proposed — but only skip if the PR is
+			# still mergeable. Conflicted branches (composer.lock overlap
+			# after a sibling merged) MUST rebuild or they stay stale
+			# forever: the whole self-heal design hinges on this.
+			mergeable=$(python3 -c 'import json,sys; print(json.loads(sys.argv[1]).get("mergeable",""))' "$pr_json")
+			if [ "$mergeable" != "CONFLICTING" ]; then
+				echo "==> $slug: open PR already proposes $remote_ver, skipping"
+				continue
+			fi
+			echo "==> $slug: open PR is conflicted, rebuilding from $BASE_BRANCH"
 		fi
 
 		echo "==> $slug: $local_ver -> $remote_ver ($channel)"
