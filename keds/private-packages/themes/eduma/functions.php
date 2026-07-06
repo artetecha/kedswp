@@ -9,8 +9,7 @@
 define( 'THIM_DIR', trailingslashit( get_template_directory() ) );
 define( 'THIM_URI', trailingslashit( get_template_directory_uri() ) );
 
-const THIM_THEME_VERSION = '5.9.0';
-
+const THIM_THEME_VERSION = '5.9.2';
 
 /**
  * Set the content width based on the theme's design and stylesheet.
@@ -380,8 +379,10 @@ add_action( 'widgets_init', 'thim_widgets_inits' );
 if ( ! function_exists( 'thim_styles' ) ) {
 	function thim_styles() {
 		$v_asset = THIM_THEME_VERSION;
+		$min     = '-min';
 		if ( class_exists( 'LP_Debug' ) && LP_Debug::is_debug() ) {
 			$v_asset = uniqid();
+			$min     = '';
 		}
 		//      wp_deregister_style( 'font-awesome' );
 		if ( ! class_exists( 'TP' ) ) {
@@ -399,7 +400,7 @@ if ( ! function_exists( 'thim_styles' ) ) {
 		wp_enqueue_style( 'thim-style', get_stylesheet_uri(), array(), $v_asset );
 		if ( is_rtl() ) {
 			// Load RTL CSS.
-			wp_enqueue_style( 'thim-style-rtl', THIM_URI . 'rtl.css', array(), THIM_THEME_VERSION );
+			wp_enqueue_style( 'thim-style-rtl', THIM_URI . 'rtl' . $min . '.css', array(), $v_asset );
 		}
 
 		// css inline

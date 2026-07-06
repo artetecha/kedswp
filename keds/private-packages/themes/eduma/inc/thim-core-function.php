@@ -49,12 +49,15 @@ add_filter( 'thim_core_list_child_themes', 'thim_eduma_list_child_themes' );
  */
 if ( ! function_exists( 'thim_import_add_basic_settings' ) ) {
 	function thim_import_add_basic_settings( $settings ) {
-		$settings[] = 'learn_press_archive_course_limit';
 		// $settings[] = 'siteorigin_panels_settings';
-		$settings[] = 'thim_enable_mega_menu';
 		$settings[] = 'permalink_structure';
 		$settings[] = 'learn_press_course_thumbnail_dimensions';
-		$settings[] = 'thim_ekits_widget_settings';
+		$settings[] = 'learn_press_archive_course_limit';
+		$settings[] = 'learn_press_primary_color';
+		$settings[] = 'learn_press_secondary_color';
+		$settings[] = 'learn_press_width_container';
+		$settings[] = 'learn_press_package[archive]';
+
 		$settings[] = 'elementor_css_print_method';
 		$settings[] = 'elementor_experiment-container';
 		$settings[] = 'elementor_experiment-nested-elements';
@@ -70,14 +73,15 @@ if ( ! function_exists( 'thim_import_add_basic_settings' ) ) {
 		$settings[] = 'elementor_experiment-e_classes';
 		$settings[] = 'elementor_experiment-e_variables';
 
+		$settings[] = 'thim_ekits_widget_settings';
 		$settings[] = 'thim_ekits_advanced_settings';
+		$settings[] = 'thim_enable_mega_menu';
+
 		$settings[] = 'wcbt_option';
 		$settings[] = 'medium_size_w';
 		$settings[] = 'medium_size_h';
 		$settings[] = 'woocommerce_single_image_width';
 		$settings[] = 'woocommerce_thumbnail_image_width';
-		$settings[] = 'learn_press_primary_color';
-		$settings[] = 'learn_press_secondary_color';
 
 		return $settings;
 	}
@@ -105,6 +109,12 @@ if ( ! function_exists( 'thim_import_add_page_id_settings' ) ) {
 	function thim_import_add_page_id_settings( $settings ) {
 		$settings[] = 'learn_press_courses_page_id';
 		$settings[] = 'learn_press_profile_page_id';
+		$settings[] = 'learn_press_instructors_page_id';
+		$settings[] = 'learn_press_single_instructor_page_id';
+		$settings[] = 'learn_press_checkout_page_id';
+		$settings[] = 'learn_press_become_a_teacher_page_id';
+		$settings[] = 'learn_press_term_conditions_page_id';
+		$settings[] = 'learn_press_logout_redirect_page_id';
 		$settings[] = 'elementor_active_kit';
 
 		return $settings;

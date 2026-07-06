@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-14 02:23+0000\n"
+"POT-Creation-Date: 2026-07-02 09:45+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Read more about %s"
 msgstr ""
 
-#: content-grid.php:76, content-search.php:55, content.php:47, thim-elementor-kit/courses/courses.php:424, thim-elementor-kit/icon-box/icon-box.php:821, thim-elementor-kit/icon-box/icon-box.php:834, thim-elementor-kit/image-accordion/image-accordion.php:241, thim-elementor-kit/image-accordion/image-accordion.php:476, thim-elementor-kit/list-event/list-event.php:400, thim-elementor-kit/list-post/list-post.php:318, thim-elementor-kit/list-post/list-post.php:695, thim-elementor-kit/portfolio/portfolio.php:282, thim-elementor-kit/tab/tab.php:338, thim-elementor-kit/tabs-post/tabs-post.php:332, thim-elementor-kit/tabs-post/tabs-post.php:746, lp-child-path/learnpress-v4/eduma-child-udemy/custom-functions-child.php:10, inc/widgets/list-event/tpl/slider.php:68, inc/widgets/list-post/tpl/base.php:114, inc/widgets/list-post/tpl/grid.php:80
+#: content-grid.php:76, content-search.php:55, content.php:47, thim-elementor-kit/courses/courses.php:424, thim-elementor-kit/icon-box/icon-box.php:821, thim-elementor-kit/icon-box/icon-box.php:834, thim-elementor-kit/image-accordion/image-accordion.php:241, thim-elementor-kit/image-accordion/image-accordion.php:476, thim-elementor-kit/list-event/list-event.php:400, thim-elementor-kit/list-post/list-post.php:318, thim-elementor-kit/list-post/list-post.php:695, thim-elementor-kit/portfolio/portfolio.php:282, thim-elementor-kit/tab/tab.php:338, thim-elementor-kit/tabs-post/tabs-post.php:332, thim-elementor-kit/tabs-post/tabs-post.php:751, lp-child-path/learnpress-v4/eduma-child-udemy/custom-functions-child.php:10, inc/widgets/list-event/tpl/slider.php:68, inc/widgets/list-post/tpl/base.php:114, inc/widgets/list-post/tpl/grid.php:80
 msgid "Read More"
 msgstr ""
 
@@ -106,135 +106,135 @@ msgstr ""
 msgid "Tag:"
 msgstr ""
 
-#: functions.php:66
+#: functions.php:65
 msgid "Primary Menu"
 msgstr ""
 
-#: functions.php:127, inc/admin/customizer-sections/dark-mode-settings.php:31, inc/admin/customizer-sections/general-styling.php:22
+#: functions.php:126, inc/admin/customizer-sections/dark-mode-settings.php:31, inc/admin/customizer-sections/general-styling.php:22
 msgid "Primary Color"
 msgstr ""
 
-#: functions.php:132, inc/admin/meta_boxes.php:128, thim-elementor-kit/course-categories/course-categories.php:849, thim-elementor-kit/portfolio/portfolio.php:535, thim-elementor-kit/video/video.php:432, inc/admin/customizer-sections/blog-archive.php:171, inc/admin/customizer-sections/blog-front.php:148, inc/admin/customizer-sections/blog-singular.php:127, inc/admin/customizer-sections/course-archive.php:326, inc/admin/customizer-sections/course-collection.php:120, inc/admin/customizer-sections/course-package.php:90, inc/admin/customizer-sections/course-single.php:205, inc/admin/customizer-sections/event-archive.php:120, inc/admin/customizer-sections/event-single.php:120, inc/admin/customizer-sections/forum-archive.php:109, inc/admin/customizer-sections/general-404-page.php:98, inc/admin/customizer-sections/portfolio-archive.php:135, inc/admin/customizer-sections/portfolio-single.php:109, inc/admin/customizer-sections/product-archive.php:179, inc/admin/customizer-sections/product-single.php:148, inc/admin/customizer-sections/team-archive.php:127, inc/admin/customizer-sections/team-single.php:109, inc/admin/customizer-sections/testimonials-archive.php:109, inc/admin/customizer-sections/testimonials-single.php:109
+#: functions.php:131, inc/admin/meta_boxes.php:128, thim-elementor-kit/course-categories/course-categories.php:849, thim-elementor-kit/portfolio/portfolio.php:535, thim-elementor-kit/video/video.php:432, inc/admin/customizer-sections/blog-archive.php:171, inc/admin/customizer-sections/blog-front.php:148, inc/admin/customizer-sections/blog-singular.php:127, inc/admin/customizer-sections/course-archive.php:326, inc/admin/customizer-sections/course-collection.php:120, inc/admin/customizer-sections/course-package.php:90, inc/admin/customizer-sections/course-single.php:205, inc/admin/customizer-sections/event-archive.php:120, inc/admin/customizer-sections/event-single.php:120, inc/admin/customizer-sections/forum-archive.php:109, inc/admin/customizer-sections/general-404-page.php:98, inc/admin/customizer-sections/portfolio-archive.php:135, inc/admin/customizer-sections/portfolio-single.php:109, inc/admin/customizer-sections/product-archive.php:179, inc/admin/customizer-sections/product-single.php:148, inc/admin/customizer-sections/team-archive.php:127, inc/admin/customizer-sections/team-single.php:109, inc/admin/customizer-sections/testimonials-archive.php:109, inc/admin/customizer-sections/testimonials-single.php:109
 msgid "Title Color"
 msgstr ""
 
-#: functions.php:137, inc/admin/customizer-sections/blog-archive.php:195, inc/admin/customizer-sections/blog-front.php:172, inc/admin/customizer-sections/blog-singular.php:151, inc/admin/customizer-sections/course-archive.php:350, inc/admin/customizer-sections/course-collection.php:141, inc/admin/customizer-sections/course-single.php:229, inc/admin/customizer-sections/event-archive.php:141, inc/admin/customizer-sections/event-single.php:141, inc/admin/customizer-sections/forum-archive.php:130, inc/admin/customizer-sections/general-404-page.php:125, inc/admin/customizer-sections/portfolio-archive.php:156, inc/admin/customizer-sections/portfolio-single.php:130, inc/admin/customizer-sections/product-archive.php:203, inc/admin/customizer-sections/product-single.php:172, inc/admin/customizer-sections/team-archive.php:148, inc/admin/customizer-sections/team-single.php:130, inc/admin/customizer-sections/testimonials-archive.php:130, inc/admin/customizer-sections/testimonials-single.php:130
+#: functions.php:136, inc/admin/customizer-sections/blog-archive.php:195, inc/admin/customizer-sections/blog-front.php:172, inc/admin/customizer-sections/blog-singular.php:151, inc/admin/customizer-sections/course-archive.php:350, inc/admin/customizer-sections/course-collection.php:141, inc/admin/customizer-sections/course-single.php:229, inc/admin/customizer-sections/event-archive.php:141, inc/admin/customizer-sections/event-single.php:141, inc/admin/customizer-sections/forum-archive.php:130, inc/admin/customizer-sections/general-404-page.php:125, inc/admin/customizer-sections/portfolio-archive.php:156, inc/admin/customizer-sections/portfolio-single.php:130, inc/admin/customizer-sections/product-archive.php:203, inc/admin/customizer-sections/product-single.php:172, inc/admin/customizer-sections/team-archive.php:148, inc/admin/customizer-sections/team-single.php:130, inc/admin/customizer-sections/testimonials-archive.php:130, inc/admin/customizer-sections/testimonials-single.php:130
 msgid "Sub Title Color"
 msgstr ""
 
-#: functions.php:142, thim-elementor-kit/counters-box/counters-box.php:870, thim-elementor-kit/counters-box/counters-box.php:933, thim-elementor-kit/courses/courses.php:520, thim-elementor-kit/courses/courses.php:580, thim-elementor-kit/courses-searching/courses-searching.php:208, thim-elementor-kit/courses-searching/courses-searching.php:271, thim-elementor-kit/icon-box/icon-box.php:671, thim-elementor-kit/icon-box/icon-box.php:729, thim-elementor-kit/icon-box/icon-box.php:930, thim-elementor-kit/icon-box/icon-box.php:987, thim-elementor-kit/image-accordion/image-accordion.php:557, thim-elementor-kit/image-accordion/image-accordion.php:617, thim-elementor-kit/list-event/list-event.php:1031, thim-elementor-kit/list-event/list-event.php:1153, thim-elementor-kit/list-event/list-event.php:2761, thim-elementor-kit/list-event/list-event.php:2821, thim-elementor-kit/list-instructors/list-instructors.php:876, thim-elementor-kit/list-instructors/list-instructors.php:998, thim-elementor-kit/list-post/list-post.php:415, thim-elementor-kit/list-post/list-post.php:475, thim-elementor-kit/login-popup/login-popup.php:367, thim-elementor-kit/login-popup/login-popup.php:427, thim-elementor-kit/our-team/our-team.php:369, thim-elementor-kit/our-team/our-team.php:429, thim-elementor-kit/portfolio/portfolio.php:384, thim-elementor-kit/portfolio/portfolio.php:444, thim-elementor-kit/tab/tab.php:182, thim-elementor-kit/tab/tab.php:220, thim-elementor-kit/tab/tab.php:297, thim-elementor-kit/tab/tab.php:437, thim-elementor-kit/tab/tab.php:497, thim-elementor-kit/tab-event/tab-event.php:158, thim-elementor-kit/tab-event/tab-event.php:196, thim-elementor-kit/tab-event/tab-event.php:399, thim-elementor-kit/video/video.php:337, thim-elementor-kit/video/video.php:381, inc/admin/customizer-sections/dark-mode-settings.php:35, inc/admin/customizer-sections/footer-copyright.php:114, inc/admin/customizer-sections/general-styling.php:129, inc/admin/customizer-sections/header-sub-menu.php:57, inc/admin/customizer-sections/header-toolbar.php:348, inc/widgets/button/config.php:169, inc/widgets/icon-box/class-so-icon-box.php:276, inc/widgets/icon-box/config.php:335
+#: functions.php:141, thim-elementor-kit/counters-box/counters-box.php:870, thim-elementor-kit/counters-box/counters-box.php:933, thim-elementor-kit/courses/courses.php:520, thim-elementor-kit/courses/courses.php:580, thim-elementor-kit/courses-searching/courses-searching.php:208, thim-elementor-kit/courses-searching/courses-searching.php:271, thim-elementor-kit/icon-box/icon-box.php:671, thim-elementor-kit/icon-box/icon-box.php:729, thim-elementor-kit/icon-box/icon-box.php:930, thim-elementor-kit/icon-box/icon-box.php:987, thim-elementor-kit/image-accordion/image-accordion.php:557, thim-elementor-kit/image-accordion/image-accordion.php:617, thim-elementor-kit/list-event/list-event.php:1031, thim-elementor-kit/list-event/list-event.php:1153, thim-elementor-kit/list-event/list-event.php:2761, thim-elementor-kit/list-event/list-event.php:2821, thim-elementor-kit/list-instructors/list-instructors.php:876, thim-elementor-kit/list-instructors/list-instructors.php:998, thim-elementor-kit/list-post/list-post.php:415, thim-elementor-kit/list-post/list-post.php:475, thim-elementor-kit/login-popup/login-popup.php:367, thim-elementor-kit/login-popup/login-popup.php:427, thim-elementor-kit/our-team/our-team.php:369, thim-elementor-kit/our-team/our-team.php:429, thim-elementor-kit/portfolio/portfolio.php:384, thim-elementor-kit/portfolio/portfolio.php:444, thim-elementor-kit/tab/tab.php:182, thim-elementor-kit/tab/tab.php:220, thim-elementor-kit/tab/tab.php:297, thim-elementor-kit/tab/tab.php:437, thim-elementor-kit/tab/tab.php:497, thim-elementor-kit/tab-event/tab-event.php:158, thim-elementor-kit/tab-event/tab-event.php:196, thim-elementor-kit/tab-event/tab-event.php:399, thim-elementor-kit/video/video.php:337, thim-elementor-kit/video/video.php:381, inc/admin/customizer-sections/dark-mode-settings.php:35, inc/admin/customizer-sections/footer-copyright.php:114, inc/admin/customizer-sections/general-styling.php:129, inc/admin/customizer-sections/header-sub-menu.php:57, inc/admin/customizer-sections/header-toolbar.php:348, inc/widgets/button/config.php:169, inc/widgets/icon-box/class-so-icon-box.php:276, inc/widgets/icon-box/config.php:335
 msgid "Border Color"
 msgstr ""
 
-#: functions.php:154, thim-elementor-kit/button/button.php:165, inc/widgets/button/config.php:280
+#: functions.php:153, thim-elementor-kit/button/button.php:165, inc/widgets/button/config.php:280
 msgid "Small"
 msgstr ""
 
-#: functions.php:155
+#: functions.php:154
 msgid "S"
 msgstr ""
 
-#: functions.php:160, thim-elementor-kit/button/button.php:164, thim-elementor-kit/button/button.php:221, thim-elementor-kit/button/button.php:352, thim-elementor-kit/counters-box/counters-box.php:530, thim-elementor-kit/counters-box/counters-box.php:863, thim-elementor-kit/course-categories/course-categories.php:582, thim-elementor-kit/courses/courses.php:503, thim-elementor-kit/courses-searching/courses-searching.php:190, thim-elementor-kit/courses-searching/courses-searching.php:584, thim-elementor-kit/gallery-images/gallery-images.php:720, thim-elementor-kit/icon-box/icon-box.php:651, thim-elementor-kit/icon-box/icon-box.php:913, thim-elementor-kit/image-accordion/image-accordion.php:540, thim-elementor-kit/image-box/image-box.php:382, thim-elementor-kit/list-event/list-event.php:548, thim-elementor-kit/list-event/list-event.php:1454, thim-elementor-kit/list-event/list-event.php:1980, thim-elementor-kit/list-event/list-event.php:2496, thim-elementor-kit/list-event/list-event.php:2734, thim-elementor-kit/list-instructors/list-instructors.php:1300, thim-elementor-kit/list-post/list-post.php:398, thim-elementor-kit/login-popup/login-popup.php:350, thim-elementor-kit/navigation-menu/navigation-menu.php:208, thim-elementor-kit/our-team/our-team.php:342, thim-elementor-kit/portfolio/portfolio.php:233, thim-elementor-kit/portfolio/portfolio.php:357, thim-elementor-kit/tab/tab.php:156, thim-elementor-kit/tab/tab.php:410, thim-elementor-kit/tab-event/tab-event.php:132, thim-elementor-kit/tab-event/tab-event.php:269, thim-elementor-kit/tabs-post/tabs-post.php:472, thim-elementor-kit/video/video.php:309, inc/admin/customizer-sections/general-layouts.php:107, inc/widgets/button/config.php:116, inc/widgets/button/config.php:279, inc/widgets/heading/class-so-heading.php:155, inc/widgets/heading/class-so-heading.php:180, inc/widgets/heading/config.php:194, inc/widgets/heading/config.php:226, inc/widgets/icon-box/class-so-icon-box.php:106, inc/widgets/icon-box/class-so-icon-box.php:182, inc/widgets/icon-box/config.php:115, inc/widgets/icon-box/config.php:202
+#: functions.php:159, thim-elementor-kit/button/button.php:164, thim-elementor-kit/button/button.php:221, thim-elementor-kit/button/button.php:352, thim-elementor-kit/counters-box/counters-box.php:530, thim-elementor-kit/counters-box/counters-box.php:863, thim-elementor-kit/course-categories/course-categories.php:582, thim-elementor-kit/courses/courses.php:503, thim-elementor-kit/courses-searching/courses-searching.php:190, thim-elementor-kit/courses-searching/courses-searching.php:584, thim-elementor-kit/gallery-images/gallery-images.php:720, thim-elementor-kit/icon-box/icon-box.php:651, thim-elementor-kit/icon-box/icon-box.php:913, thim-elementor-kit/image-accordion/image-accordion.php:540, thim-elementor-kit/image-box/image-box.php:382, thim-elementor-kit/list-event/list-event.php:548, thim-elementor-kit/list-event/list-event.php:1454, thim-elementor-kit/list-event/list-event.php:1980, thim-elementor-kit/list-event/list-event.php:2496, thim-elementor-kit/list-event/list-event.php:2734, thim-elementor-kit/list-instructors/list-instructors.php:1300, thim-elementor-kit/list-post/list-post.php:398, thim-elementor-kit/login-popup/login-popup.php:350, thim-elementor-kit/navigation-menu/navigation-menu.php:208, thim-elementor-kit/our-team/our-team.php:342, thim-elementor-kit/portfolio/portfolio.php:233, thim-elementor-kit/portfolio/portfolio.php:357, thim-elementor-kit/tab/tab.php:156, thim-elementor-kit/tab/tab.php:410, thim-elementor-kit/tab-event/tab-event.php:132, thim-elementor-kit/tab-event/tab-event.php:269, thim-elementor-kit/tabs-post/tabs-post.php:477, thim-elementor-kit/video/video.php:309, inc/admin/customizer-sections/general-layouts.php:107, inc/widgets/button/config.php:116, inc/widgets/button/config.php:279, inc/widgets/heading/class-so-heading.php:155, inc/widgets/heading/class-so-heading.php:180, inc/widgets/heading/config.php:194, inc/widgets/heading/config.php:226, inc/widgets/icon-box/class-so-icon-box.php:106, inc/widgets/icon-box/class-so-icon-box.php:182, inc/widgets/icon-box/config.php:115, inc/widgets/icon-box/config.php:202
 msgid "Normal"
 msgstr ""
 
-#: functions.php:161
+#: functions.php:160
 msgid "M"
 msgstr ""
 
-#: functions.php:166, thim-elementor-kit/button/button.php:167, inc/widgets/button/config.php:282
+#: functions.php:165, thim-elementor-kit/button/button.php:167, inc/widgets/button/config.php:282
 msgid "Large"
 msgstr ""
 
-#: functions.php:167
+#: functions.php:166
 msgid "L"
 msgstr ""
 
-#: functions.php:172
+#: functions.php:171
 msgid "Huge"
 msgstr ""
 
-#: functions.php:173
+#: functions.php:172
 msgid "XL"
 msgstr ""
 
-#: functions.php:202, inc/admin/customizer-sections/general-sidebar.php:13, inc/admin/customizer-sections/general-sidebar.php:41
+#: functions.php:201, inc/admin/customizer-sections/general-sidebar.php:13, inc/admin/customizer-sections/general-sidebar.php:41
 msgid "Sidebar"
 msgstr ""
 
-#: functions.php:204, inc/tax-meta.php:95
+#: functions.php:203, inc/tax-meta.php:95
 msgid "Right Sidebar"
 msgstr ""
 
-#: functions.php:214, inc/admin/customizer-sections/header-toolbar.php:9
+#: functions.php:213, inc/admin/customizer-sections/header-toolbar.php:9
 msgid "Toolbar"
 msgstr ""
 
-#: functions.php:216
+#: functions.php:215
 msgid "Toolbar Header"
 msgstr ""
 
-#: functions.php:226, functions.php:228
+#: functions.php:225, functions.php:227
 msgid "Menu Right"
 msgstr ""
 
-#: functions.php:238
+#: functions.php:237
 msgid "Menu Top"
 msgstr ""
 
-#: functions.php:240
+#: functions.php:239
 msgid "Menu top only display with header version 2"
 msgstr ""
 
-#: functions.php:251
+#: functions.php:250
 msgid "Footer Top"
 msgstr ""
 
-#: functions.php:253
+#: functions.php:252
 msgid "Footer Top Sidebar"
 msgstr ""
 
-#: functions.php:263, inc/admin/customizer-sections/footer.php:12
+#: functions.php:262, inc/admin/customizer-sections/footer.php:12
 msgid "Footer"
 msgstr ""
 
-#: functions.php:265
+#: functions.php:264
 msgid "Footer Sidebar"
 msgstr ""
 
-#: functions.php:276
+#: functions.php:275
 msgid "Footer Bottom"
 msgstr ""
 
-#: functions.php:278
+#: functions.php:277
 msgid "Footer Bottom Sidebar"
 msgstr ""
 
-#: functions.php:290, functions.php:292, inc/admin/customizer-sections/footer-copyright.php:11
+#: functions.php:289, functions.php:291, inc/admin/customizer-sections/footer-copyright.php:11
 msgid "Copyright"
 msgstr ""
 
-#: functions.php:304, functions.php:306
+#: functions.php:303, functions.php:305
 msgid "Sidebar Shop"
 msgstr ""
 
-#: functions.php:318, functions.php:320
+#: functions.php:317, functions.php:319
 msgid "Sidebar Courses"
 msgstr ""
 
-#: functions.php:332, functions.php:334
+#: functions.php:331, functions.php:333
 msgid "Sidebar Events"
 msgstr ""
 
-#: functions.php:345, inc/admin/customizer-sections/header.php:13
+#: functions.php:344, inc/admin/customizer-sections/header.php:13
 msgid "Header"
 msgstr ""
 
-#: functions.php:347
+#: functions.php:346
 msgid "Sidebar display on header version 3"
 msgstr ""
 
-#: functions.php:365
+#: functions.php:364
 msgid "Custom widgets area."
 msgstr ""
 
@@ -475,7 +475,7 @@ msgstr ""
 msgid "Button Text"
 msgstr ""
 
-#: inc/custom-functions.php:2775, thim-elementor-kit/button/button.php:311, thim-elementor-kit/countdown-box/countdown-box.php:211, thim-elementor-kit/counters-box/counters-box.php:489, thim-elementor-kit/course-categories/course-categories.php:627, thim-elementor-kit/course-categories/course-categories.php:706, thim-elementor-kit/course-categories/course-categories.php:992, thim-elementor-kit/courses-searching/courses-searching.php:486, thim-elementor-kit/gallery-images/gallery-images.php:398, thim-elementor-kit/gallery-images/gallery-images.php:473, thim-elementor-kit/gallery-images/gallery-images.php:760, thim-elementor-kit/gallery-images/gallery-images.php:808, thim-elementor-kit/image-accordion/image-accordion.php:354, thim-elementor-kit/list-event/list-event.php:1494, thim-elementor-kit/list-event/list-event.php:1542, thim-elementor-kit/list-instructors/list-instructors.php:1341, thim-elementor-kit/list-instructors/list-instructors.php:1390, thim-elementor-kit/tab-event/tab-event.php:391, thim-elementor-kit/tabs-post/tabs-post.php:502, thim-elementor-kit/tabs-post/tabs-post.php:544
+#: inc/custom-functions.php:2775, thim-elementor-kit/button/button.php:311, thim-elementor-kit/countdown-box/countdown-box.php:211, thim-elementor-kit/counters-box/counters-box.php:489, thim-elementor-kit/course-categories/course-categories.php:627, thim-elementor-kit/course-categories/course-categories.php:706, thim-elementor-kit/course-categories/course-categories.php:992, thim-elementor-kit/courses-searching/courses-searching.php:486, thim-elementor-kit/gallery-images/gallery-images.php:398, thim-elementor-kit/gallery-images/gallery-images.php:473, thim-elementor-kit/gallery-images/gallery-images.php:760, thim-elementor-kit/gallery-images/gallery-images.php:808, thim-elementor-kit/image-accordion/image-accordion.php:354, thim-elementor-kit/list-event/list-event.php:1494, thim-elementor-kit/list-event/list-event.php:1542, thim-elementor-kit/list-instructors/list-instructors.php:1341, thim-elementor-kit/list-instructors/list-instructors.php:1390, thim-elementor-kit/tab-event/tab-event.php:391, thim-elementor-kit/tabs-post/tabs-post.php:507, thim-elementor-kit/tabs-post/tabs-post.php:549
 msgid "Border"
 msgstr ""
 
@@ -589,7 +589,7 @@ msgstr ""
 msgid "Course Features"
 msgstr ""
 
-#: inc/learnpress-functions.php:481, learnpress-v4/loop/single-course/loop-section-item.php:49
+#: inc/learnpress-functions.php:481
 msgid "Lecture"
 msgstr ""
 
@@ -597,7 +597,7 @@ msgstr ""
 msgid "Lectures"
 msgstr ""
 
-#: inc/learnpress-functions.php:499, learnpress-v4/loop/single-course/loop-section-item.php:43
+#: inc/learnpress-functions.php:499
 msgid "Quiz"
 msgstr ""
 
@@ -867,7 +867,7 @@ msgstr ""
 msgid "Category Meta Box"
 msgstr ""
 
-#: inc/tax-meta.php:46, inc/tax-meta.php:62, inc/admin/meta_boxes.php:247, thim-elementor-kit/accordion/accordion.php:161, thim-elementor-kit/accordion/accordion.php:342, thim-elementor-kit/button/button.php:228, thim-elementor-kit/button/button.php:272, thim-elementor-kit/counters-box/counters-box.php:252, thim-elementor-kit/counters-box/counters-box.php:262, thim-elementor-kit/counters-box/counters-box.php:324, thim-elementor-kit/counters-box/counters-box.php:408, thim-elementor-kit/counters-box/counters-box.php:464, thim-elementor-kit/course-categories/course-categories.php:415, thim-elementor-kit/course-categories/course-categories.php:612, thim-elementor-kit/course-categories/course-categories.php:676, thim-elementor-kit/course-categories/course-categories.php:963, thim-elementor-kit/courses/courses.php:408, thim-elementor-kit/courses/courses.php:509, thim-elementor-kit/courses/courses.php:570, thim-elementor-kit/courses-collection/courses-collection.php:167, thim-elementor-kit/courses-searching/courses-searching.php:354, thim-elementor-kit/courses-searching/courses-searching.php:412, thim-elementor-kit/courses-searching/courses-searching.php:463, thim-elementor-kit/courses-searching/courses-searching.php:668, thim-elementor-kit/gallery-images/gallery-images.php:227, thim-elementor-kit/heading/heading.php:192, thim-elementor-kit/heading/heading.php:251, thim-elementor-kit/icon-box/icon-box.php:298, thim-elementor-kit/icon-box/icon-box.php:412, thim-elementor-kit/icon-box/icon-box.php:919, thim-elementor-kit/icon-box/icon-box.php:977, thim-elementor-kit/image-accordion/image-accordion.php:546, thim-elementor-kit/image-accordion/image-accordion.php:607, thim-elementor-kit/image-box/image-box.php:389, thim-elementor-kit/image-box/image-box.php:440, thim-elementor-kit/image-box/image-box.php:593, thim-elementor-kit/list-event/list-event.php:1588, thim-elementor-kit/list-event/list-event.php:1727, thim-elementor-kit/list-event/list-event.php:1757, thim-elementor-kit/list-event/list-event.php:1787, thim-elementor-kit/list-event/list-event.php:1844, thim-elementor-kit/list-event/list-event.php:1986, thim-elementor-kit/list-event/list-event.php:2004, thim-elementor-kit/list-event/list-event.php:2121, thim-elementor-kit/list-event/list-event.php:2353, thim-elementor-kit/list-event/list-event.php:2568, thim-elementor-kit/list-event/list-event.php:2741, thim-elementor-kit/list-event/list-event.php:2801, thim-elementor-kit/list-instructors/list-instructors.php:235, thim-elementor-kit/list-instructors/list-instructors.php:303, thim-elementor-kit/list-instructors/list-instructors.php:356, thim-elementor-kit/list-post/list-post.php:275, thim-elementor-kit/list-post/list-post.php:404, thim-elementor-kit/list-post/list-post.php:465, thim-elementor-kit/login-popup/login-popup.php:356, thim-elementor-kit/login-popup/login-popup.php:417, thim-elementor-kit/navigation-menu/navigation-menu.php:110, thim-elementor-kit/navigation-menu/navigation-menu.php:214, thim-elementor-kit/navigation-menu/navigation-menu.php:232, thim-elementor-kit/our-team/our-team.php:207, thim-elementor-kit/our-team/our-team.php:257, thim-elementor-kit/our-team/our-team.php:349, thim-elementor-kit/our-team/our-team.php:409, thim-elementor-kit/portfolio/portfolio.php:240, thim-elementor-kit/portfolio/portfolio.php:258, thim-elementor-kit/portfolio/portfolio.php:364, thim-elementor-kit/portfolio/portfolio.php:424, thim-elementor-kit/tab/tab.php:162, thim-elementor-kit/tab/tab.php:200, thim-elementor-kit/tab/tab.php:417, thim-elementor-kit/tab/tab.php:477, thim-elementor-kit/tab-event/tab-event.php:80, thim-elementor-kit/tab-event/tab-event.php:138, thim-elementor-kit/tab-event/tab-event.php:176, thim-elementor-kit/tab-event/tab-event.php:228, thim-elementor-kit/tab-event/tab-event.php:276, thim-elementor-kit/tab-event/tab-event.php:295, thim-elementor-kit/tab-event/tab-event.php:339, thim-elementor-kit/tab-event/tab-event.php:380, thim-elementor-kit/tabs-post/tabs-post.php:478, thim-elementor-kit/tabs-post/tabs-post.php:520, thim-elementor-kit/timetable/timetable.php:174, thim-elementor-kit/twitter/twitter.php:142, inc/admin/customizer-sections/course-single.php:60, inc/admin/customizer-sections/header-main-menu.php:135, inc/admin/customizer-sections/header-mobile-menu.php:55, inc/admin/customizer-sections/header-sticky-menu.php:105, inc/admin/customizer-sections/header-sub-menu.php:86, inc/admin/customizer-sections/header-toolbar.php:175
+#: inc/tax-meta.php:46, inc/tax-meta.php:62, inc/admin/meta_boxes.php:247, thim-elementor-kit/accordion/accordion.php:161, thim-elementor-kit/accordion/accordion.php:342, thim-elementor-kit/button/button.php:228, thim-elementor-kit/button/button.php:272, thim-elementor-kit/counters-box/counters-box.php:252, thim-elementor-kit/counters-box/counters-box.php:262, thim-elementor-kit/counters-box/counters-box.php:324, thim-elementor-kit/counters-box/counters-box.php:408, thim-elementor-kit/counters-box/counters-box.php:464, thim-elementor-kit/course-categories/course-categories.php:415, thim-elementor-kit/course-categories/course-categories.php:612, thim-elementor-kit/course-categories/course-categories.php:676, thim-elementor-kit/course-categories/course-categories.php:963, thim-elementor-kit/courses/courses.php:408, thim-elementor-kit/courses/courses.php:509, thim-elementor-kit/courses/courses.php:570, thim-elementor-kit/courses-collection/courses-collection.php:167, thim-elementor-kit/courses-searching/courses-searching.php:354, thim-elementor-kit/courses-searching/courses-searching.php:412, thim-elementor-kit/courses-searching/courses-searching.php:463, thim-elementor-kit/courses-searching/courses-searching.php:668, thim-elementor-kit/gallery-images/gallery-images.php:227, thim-elementor-kit/heading/heading.php:192, thim-elementor-kit/heading/heading.php:251, thim-elementor-kit/icon-box/icon-box.php:298, thim-elementor-kit/icon-box/icon-box.php:412, thim-elementor-kit/icon-box/icon-box.php:919, thim-elementor-kit/icon-box/icon-box.php:977, thim-elementor-kit/image-accordion/image-accordion.php:546, thim-elementor-kit/image-accordion/image-accordion.php:607, thim-elementor-kit/image-box/image-box.php:389, thim-elementor-kit/image-box/image-box.php:440, thim-elementor-kit/image-box/image-box.php:593, thim-elementor-kit/list-event/list-event.php:1588, thim-elementor-kit/list-event/list-event.php:1727, thim-elementor-kit/list-event/list-event.php:1757, thim-elementor-kit/list-event/list-event.php:1787, thim-elementor-kit/list-event/list-event.php:1844, thim-elementor-kit/list-event/list-event.php:1986, thim-elementor-kit/list-event/list-event.php:2004, thim-elementor-kit/list-event/list-event.php:2121, thim-elementor-kit/list-event/list-event.php:2353, thim-elementor-kit/list-event/list-event.php:2568, thim-elementor-kit/list-event/list-event.php:2741, thim-elementor-kit/list-event/list-event.php:2801, thim-elementor-kit/list-instructors/list-instructors.php:235, thim-elementor-kit/list-instructors/list-instructors.php:303, thim-elementor-kit/list-instructors/list-instructors.php:356, thim-elementor-kit/list-post/list-post.php:275, thim-elementor-kit/list-post/list-post.php:404, thim-elementor-kit/list-post/list-post.php:465, thim-elementor-kit/login-popup/login-popup.php:356, thim-elementor-kit/login-popup/login-popup.php:417, thim-elementor-kit/navigation-menu/navigation-menu.php:110, thim-elementor-kit/navigation-menu/navigation-menu.php:214, thim-elementor-kit/navigation-menu/navigation-menu.php:232, thim-elementor-kit/our-team/our-team.php:207, thim-elementor-kit/our-team/our-team.php:257, thim-elementor-kit/our-team/our-team.php:349, thim-elementor-kit/our-team/our-team.php:409, thim-elementor-kit/portfolio/portfolio.php:240, thim-elementor-kit/portfolio/portfolio.php:258, thim-elementor-kit/portfolio/portfolio.php:364, thim-elementor-kit/portfolio/portfolio.php:424, thim-elementor-kit/tab/tab.php:162, thim-elementor-kit/tab/tab.php:200, thim-elementor-kit/tab/tab.php:417, thim-elementor-kit/tab/tab.php:477, thim-elementor-kit/tab-event/tab-event.php:80, thim-elementor-kit/tab-event/tab-event.php:138, thim-elementor-kit/tab-event/tab-event.php:176, thim-elementor-kit/tab-event/tab-event.php:228, thim-elementor-kit/tab-event/tab-event.php:276, thim-elementor-kit/tab-event/tab-event.php:295, thim-elementor-kit/tab-event/tab-event.php:339, thim-elementor-kit/tab-event/tab-event.php:380, thim-elementor-kit/tabs-post/tabs-post.php:483, thim-elementor-kit/tabs-post/tabs-post.php:525, thim-elementor-kit/timetable/timetable.php:174, thim-elementor-kit/twitter/twitter.php:142, inc/admin/customizer-sections/course-single.php:60, inc/admin/customizer-sections/header-main-menu.php:135, inc/admin/customizer-sections/header-mobile-menu.php:55, inc/admin/customizer-sections/header-sticky-menu.php:105, inc/admin/customizer-sections/header-sub-menu.php:86, inc/admin/customizer-sections/header-toolbar.php:175
 msgid "Text Color"
 msgstr ""
 
@@ -883,7 +883,7 @@ msgstr ""
 msgid "Thumbnail"
 msgstr ""
 
-#: inc/tax-meta.php:85, inc/tax-meta.php:83, thim-elementor-kit/button/button.php:41, thim-elementor-kit/gallery-images/gallery-images.php:40, thim-elementor-kit/heading/heading.php:40, thim-elementor-kit/image-accordion/image-accordion.php:194, thim-elementor-kit/image-accordion/image-accordion.php:209, thim-elementor-kit/image-accordion/image-accordion.php:366, thim-elementor-kit/image-accordion/image-accordion.php:428, thim-elementor-kit/link/link.php:88, thim-elementor-kit/link/link.php:157, thim-elementor-kit/list-event/list-event.php:250, thim-elementor-kit/list-event/list-event.php:324, thim-elementor-kit/list-post/list-post.php:515, thim-elementor-kit/portfolio/portfolio.php:480, thim-elementor-kit/tab/tab.php:72, thim-elementor-kit/tabs-post/tabs-post.php:203, thim-elementor-kit/tabs-post/tabs-post.php:722, thim-elementor-kit/video/video.php:158, inc/admin/customizer-sections/general-404-page.php:193, inc/widgets/accordion/class-vc-accordion.php:61, inc/widgets/accordion/config.php:79, inc/widgets/tab/config.php:73
+#: inc/tax-meta.php:85, inc/tax-meta.php:83, thim-elementor-kit/button/button.php:41, thim-elementor-kit/gallery-images/gallery-images.php:40, thim-elementor-kit/heading/heading.php:40, thim-elementor-kit/image-accordion/image-accordion.php:194, thim-elementor-kit/image-accordion/image-accordion.php:209, thim-elementor-kit/image-accordion/image-accordion.php:366, thim-elementor-kit/image-accordion/image-accordion.php:428, thim-elementor-kit/link/link.php:88, thim-elementor-kit/link/link.php:157, thim-elementor-kit/list-event/list-event.php:250, thim-elementor-kit/list-event/list-event.php:324, thim-elementor-kit/list-post/list-post.php:515, thim-elementor-kit/portfolio/portfolio.php:480, thim-elementor-kit/tab/tab.php:72, thim-elementor-kit/tabs-post/tabs-post.php:203, thim-elementor-kit/tabs-post/tabs-post.php:727, thim-elementor-kit/video/video.php:158, inc/admin/customizer-sections/general-404-page.php:193, inc/widgets/accordion/class-vc-accordion.php:61, inc/widgets/accordion/config.php:79, inc/widgets/tab/config.php:73
 msgid "Content"
 msgstr ""
 
@@ -935,7 +935,7 @@ msgstr ""
 msgid "Hide Breadcrumbs"
 msgstr ""
 
-#: inc/tax-meta.php:55, portfolio/portfolio.php:100, thim-elementor-kit/accordion/accordion.php:150, thim-elementor-kit/accordion/accordion.php:331, thim-elementor-kit/button/button.php:251, thim-elementor-kit/button/button.php:295, thim-elementor-kit/countdown-box/countdown-box.php:156, thim-elementor-kit/course-categories/course-categories.php:588, thim-elementor-kit/course-categories/course-categories.php:660, thim-elementor-kit/courses/courses.php:534, thim-elementor-kit/courses/courses.php:593, thim-elementor-kit/courses-collection/courses-collection.php:153, thim-elementor-kit/courses-searching/courses-searching.php:222, thim-elementor-kit/courses-searching/courses-searching.php:285, thim-elementor-kit/courses-searching/courses-searching.php:474, thim-elementor-kit/courses-searching/courses-searching.php:602, thim-elementor-kit/courses-searching/courses-searching.php:633, thim-elementor-kit/courses-searching/courses-searching.php:680, thim-elementor-kit/gallery-images/gallery-images.php:386, thim-elementor-kit/gallery-images/gallery-images.php:461, thim-elementor-kit/gallery-images/gallery-images.php:738, thim-elementor-kit/gallery-images/gallery-images.php:787, thim-elementor-kit/icon-box/icon-box.php:167, thim-elementor-kit/icon-box/icon-box.php:941, thim-elementor-kit/icon-box/icon-box.php:997, thim-elementor-kit/image-accordion/image-accordion.php:571, thim-elementor-kit/image-accordion/image-accordion.php:630, thim-elementor-kit/image-box/image-box.php:401, thim-elementor-kit/image-box/image-box.php:452, thim-elementor-kit/list-event/list-event.php:563, thim-elementor-kit/list-event/list-event.php:591, thim-elementor-kit/list-event/list-event.php:1006, thim-elementor-kit/list-event/list-event.php:1128, thim-elementor-kit/list-event/list-event.php:1472, thim-elementor-kit/list-event/list-event.php:1521, thim-elementor-kit/list-event/list-event.php:1737, thim-elementor-kit/list-event/list-event.php:1768, thim-elementor-kit/list-event/list-event.php:1798, thim-elementor-kit/list-event/list-event.php:2751, thim-elementor-kit/list-event/list-event.php:2811, thim-elementor-kit/list-instructors/list-instructors.php:851, thim-elementor-kit/list-instructors/list-instructors.php:973, thim-elementor-kit/list-instructors/list-instructors.php:1319, thim-elementor-kit/list-instructors/list-instructors.php:1369, thim-elementor-kit/list-post/list-post.php:429, thim-elementor-kit/list-post/list-post.php:488, thim-elementor-kit/list-post/list-post.php:613, thim-elementor-kit/login-popup/login-popup.php:381, thim-elementor-kit/login-popup/login-popup.php:440, thim-elementor-kit/our-team/our-team.php:359, thim-elementor-kit/our-team/our-team.php:419, thim-elementor-kit/portfolio/portfolio.php:374, thim-elementor-kit/portfolio/portfolio.php:434, thim-elementor-kit/tab/tab.php:172, thim-elementor-kit/tab/tab.php:210, thim-elementor-kit/tab/tab.php:427, thim-elementor-kit/tab/tab.php:487, thim-elementor-kit/tab-event/tab-event.php:148, thim-elementor-kit/tab-event/tab-event.php:186, thim-elementor-kit/tabs-post/tabs-post.php:490, thim-elementor-kit/tabs-post/tabs-post.php:532, thim-elementor-kit/timetable/timetable.php:93, thim-elementor-kit/timetable/timetable.php:164, thim-elementor-kit/video/video.php:326, thim-elementor-kit/video/video.php:370, inc/admin/customizer-sections/blog-archive.php:147, inc/admin/customizer-sections/blog-front.php:124, inc/admin/customizer-sections/blog-singular.php:106, inc/admin/customizer-sections/course-archive.php:302, inc/admin/customizer-sections/course-collection.php:99, inc/admin/customizer-sections/course-package.php:69, inc/admin/customizer-sections/course-single.php:59, inc/admin/customizer-sections/course-single.php:181, inc/admin/customizer-sections/event-archive.php:99, inc/admin/customizer-sections/event-single.php:99, inc/admin/customizer-sections/footer-copyright.php:52, inc/admin/customizer-sections/footer-options.php:49, inc/admin/customizer-sections/forum-archive.php:88, inc/admin/customizer-sections/general-404-page.php:71, inc/admin/customizer-sections/header-main-menu.php:110, inc/admin/customizer-sections/header-mobile-menu.php:31, inc/admin/customizer-sections/header-sticky-menu.php:74, inc/admin/customizer-sections/header-sub-menu.php:33, inc/admin/customizer-sections/header-toolbar.php:141, inc/admin/customizer-sections/portfolio-archive.php:114, inc/admin/customizer-sections/portfolio-single.php:88, inc/admin/customizer-sections/product-archive.php:152, inc/admin/customizer-sections/product-single.php:124, inc/admin/customizer-sections/team-archive.php:106, inc/admin/customizer-sections/team-single.php:88, inc/admin/customizer-sections/testimonials-archive.php:88, inc/admin/customizer-sections/testimonials-single.php:88, inc/widgets/counters-box/config.php:92, inc/widgets/icon-box/class-so-icon-box.php:651, inc/widgets/icon-box/config.php:727, inc/widgets/timetable/config.php:90
+#: inc/tax-meta.php:55, portfolio/portfolio.php:100, thim-elementor-kit/accordion/accordion.php:150, thim-elementor-kit/accordion/accordion.php:331, thim-elementor-kit/button/button.php:251, thim-elementor-kit/button/button.php:295, thim-elementor-kit/countdown-box/countdown-box.php:156, thim-elementor-kit/course-categories/course-categories.php:588, thim-elementor-kit/course-categories/course-categories.php:660, thim-elementor-kit/courses/courses.php:534, thim-elementor-kit/courses/courses.php:593, thim-elementor-kit/courses-collection/courses-collection.php:153, thim-elementor-kit/courses-searching/courses-searching.php:222, thim-elementor-kit/courses-searching/courses-searching.php:285, thim-elementor-kit/courses-searching/courses-searching.php:474, thim-elementor-kit/courses-searching/courses-searching.php:602, thim-elementor-kit/courses-searching/courses-searching.php:633, thim-elementor-kit/courses-searching/courses-searching.php:680, thim-elementor-kit/gallery-images/gallery-images.php:386, thim-elementor-kit/gallery-images/gallery-images.php:461, thim-elementor-kit/gallery-images/gallery-images.php:738, thim-elementor-kit/gallery-images/gallery-images.php:787, thim-elementor-kit/icon-box/icon-box.php:167, thim-elementor-kit/icon-box/icon-box.php:941, thim-elementor-kit/icon-box/icon-box.php:997, thim-elementor-kit/image-accordion/image-accordion.php:571, thim-elementor-kit/image-accordion/image-accordion.php:630, thim-elementor-kit/image-box/image-box.php:401, thim-elementor-kit/image-box/image-box.php:452, thim-elementor-kit/list-event/list-event.php:563, thim-elementor-kit/list-event/list-event.php:591, thim-elementor-kit/list-event/list-event.php:1006, thim-elementor-kit/list-event/list-event.php:1128, thim-elementor-kit/list-event/list-event.php:1472, thim-elementor-kit/list-event/list-event.php:1521, thim-elementor-kit/list-event/list-event.php:1737, thim-elementor-kit/list-event/list-event.php:1768, thim-elementor-kit/list-event/list-event.php:1798, thim-elementor-kit/list-event/list-event.php:2751, thim-elementor-kit/list-event/list-event.php:2811, thim-elementor-kit/list-instructors/list-instructors.php:851, thim-elementor-kit/list-instructors/list-instructors.php:973, thim-elementor-kit/list-instructors/list-instructors.php:1319, thim-elementor-kit/list-instructors/list-instructors.php:1369, thim-elementor-kit/list-post/list-post.php:429, thim-elementor-kit/list-post/list-post.php:488, thim-elementor-kit/list-post/list-post.php:613, thim-elementor-kit/login-popup/login-popup.php:381, thim-elementor-kit/login-popup/login-popup.php:440, thim-elementor-kit/our-team/our-team.php:359, thim-elementor-kit/our-team/our-team.php:419, thim-elementor-kit/portfolio/portfolio.php:374, thim-elementor-kit/portfolio/portfolio.php:434, thim-elementor-kit/tab/tab.php:172, thim-elementor-kit/tab/tab.php:210, thim-elementor-kit/tab/tab.php:427, thim-elementor-kit/tab/tab.php:487, thim-elementor-kit/tab-event/tab-event.php:148, thim-elementor-kit/tab-event/tab-event.php:186, thim-elementor-kit/tabs-post/tabs-post.php:495, thim-elementor-kit/tabs-post/tabs-post.php:537, thim-elementor-kit/timetable/timetable.php:93, thim-elementor-kit/timetable/timetable.php:164, thim-elementor-kit/video/video.php:326, thim-elementor-kit/video/video.php:370, inc/admin/customizer-sections/blog-archive.php:147, inc/admin/customizer-sections/blog-front.php:124, inc/admin/customizer-sections/blog-singular.php:106, inc/admin/customizer-sections/course-archive.php:302, inc/admin/customizer-sections/course-collection.php:99, inc/admin/customizer-sections/course-package.php:69, inc/admin/customizer-sections/course-single.php:59, inc/admin/customizer-sections/course-single.php:181, inc/admin/customizer-sections/event-archive.php:99, inc/admin/customizer-sections/event-single.php:99, inc/admin/customizer-sections/footer-copyright.php:52, inc/admin/customizer-sections/footer-options.php:49, inc/admin/customizer-sections/forum-archive.php:88, inc/admin/customizer-sections/general-404-page.php:71, inc/admin/customizer-sections/header-main-menu.php:110, inc/admin/customizer-sections/header-mobile-menu.php:31, inc/admin/customizer-sections/header-sticky-menu.php:74, inc/admin/customizer-sections/header-sub-menu.php:33, inc/admin/customizer-sections/header-toolbar.php:141, inc/admin/customizer-sections/portfolio-archive.php:114, inc/admin/customizer-sections/portfolio-single.php:88, inc/admin/customizer-sections/product-archive.php:152, inc/admin/customizer-sections/product-single.php:124, inc/admin/customizer-sections/team-archive.php:106, inc/admin/customizer-sections/team-single.php:88, inc/admin/customizer-sections/testimonials-archive.php:88, inc/admin/customizer-sections/testimonials-single.php:88, inc/widgets/counters-box/config.php:92, inc/widgets/icon-box/class-so-icon-box.php:651, inc/widgets/icon-box/config.php:727, inc/widgets/timetable/config.php:90
 msgid "Background Color"
 msgstr ""
 
@@ -1846,7 +1846,7 @@ msgstr ""
 msgid "Accordion"
 msgstr ""
 
-#: thim-elementor-kit/accordion/accordion.php:43, thim-elementor-kit/carousel-post/carousel-post.php:92, thim-elementor-kit/course-categories/course-categories.php:47, thim-elementor-kit/course-categories/course-categories.php:382, thim-elementor-kit/course-categories/course-categories.php:827, thim-elementor-kit/courses/courses.php:381, thim-elementor-kit/courses-searching/courses-searching.php:59, thim-elementor-kit/courses-searching/courses-searching.php:313, thim-elementor-kit/gallery-images/gallery-images.php:209, thim-elementor-kit/google-map/google-map.php:44, thim-elementor-kit/heading/heading.php:47, thim-elementor-kit/heading/heading.php:165, thim-elementor-kit/icon-box/icon-box.php:219, thim-elementor-kit/icon-box/icon-box.php:226, thim-elementor-kit/icon-box/icon-box.php:271, thim-elementor-kit/image-accordion/image-accordion.php:183, thim-elementor-kit/image-accordion/image-accordion.php:384, thim-elementor-kit/image-box/image-box.php:56, thim-elementor-kit/image-box/image-box.php:260, thim-elementor-kit/link/link.php:103, thim-elementor-kit/list-event/list-event.php:322, thim-elementor-kit/list-event/list-event.php:1558, thim-elementor-kit/list-event/list-event.php:1952, thim-elementor-kit/list-instructors/list-instructors.php:202, thim-elementor-kit/list-post/list-post.php:48, thim-elementor-kit/list-post/list-post.php:167, thim-elementor-kit/list-post/list-post.php:245, thim-elementor-kit/list-post/list-post.php:537, thim-elementor-kit/navigation-menu/navigation-menu.php:55, thim-elementor-kit/navigation-menu/navigation-menu.php:83, thim-elementor-kit/our-team/our-team.php:180, thim-elementor-kit/tab-event/tab-event.php:54, thim-elementor-kit/tab-event/tab-event.php:240, thim-elementor-kit/tabs-post/tabs-post.php:132, thim-elementor-kit/tabs-post/tabs-post.php:596, thim-elementor-kit/timetable/timetable.php:43, thim-elementor-kit/timetable/timetable.php:138, thim-elementor-kit/twitter/twitter.php:48, thim-elementor-kit/twitter/twitter.php:115, thim-elementor-kit/video/video.php:126, inc/admin/customizer-sections/footer-options.php:77, inc/admin/customizer-sections/general-404-page.php:182, inc/widgets/accordion/class-vc-accordion.php:39, inc/widgets/accordion/class-vc-accordion.php:54, inc/widgets/accordion/class-vc-accordion.php:55, inc/widgets/accordion/config.php:46, inc/widgets/accordion/config.php:71, inc/widgets/accordion/config.php:72, inc/widgets/carousel-post/config.php:46, inc/widgets/carousel-post/config.php:134, inc/widgets/course-categories/class-so-course-categories.php:39, inc/widgets/course-categories/config.php:45, inc/widgets/courses-searching/config.php:71, inc/widgets/google-map/class-so-google-map.php:39, inc/widgets/google-map/config.php:46, inc/widgets/heading/class-so-heading.php:39, inc/widgets/heading/config.php:45, inc/widgets/image-box/config.php:55, inc/widgets/landing-image/config.php:45, inc/widgets/link/class-vc-link.php:39, inc/widgets/link/config.php:44, inc/widgets/list-event/config.php:45, inc/widgets/list-post/config.php:45, inc/widgets/list-post/config.php:86, inc/widgets/social/config.php:45, inc/widgets/tab/config.php:64, inc/widgets/tab/config.php:65, inc/widgets/tab-event/config.php:44, inc/widgets/testimonials/config.php:46, inc/widgets/timetable/config.php:45, inc/widgets/twitter/class-vc-twitter.php:39, inc/widgets/twitter/config.php:45, inc/widgets/video/config.php:127
+#: thim-elementor-kit/accordion/accordion.php:43, thim-elementor-kit/carousel-post/carousel-post.php:92, thim-elementor-kit/course-categories/course-categories.php:47, thim-elementor-kit/course-categories/course-categories.php:382, thim-elementor-kit/course-categories/course-categories.php:827, thim-elementor-kit/courses/courses.php:381, thim-elementor-kit/courses-searching/courses-searching.php:59, thim-elementor-kit/courses-searching/courses-searching.php:313, thim-elementor-kit/gallery-images/gallery-images.php:209, thim-elementor-kit/google-map/google-map.php:44, thim-elementor-kit/heading/heading.php:47, thim-elementor-kit/heading/heading.php:165, thim-elementor-kit/icon-box/icon-box.php:219, thim-elementor-kit/icon-box/icon-box.php:226, thim-elementor-kit/icon-box/icon-box.php:271, thim-elementor-kit/image-accordion/image-accordion.php:183, thim-elementor-kit/image-accordion/image-accordion.php:384, thim-elementor-kit/image-box/image-box.php:56, thim-elementor-kit/image-box/image-box.php:260, thim-elementor-kit/link/link.php:103, thim-elementor-kit/list-event/list-event.php:322, thim-elementor-kit/list-event/list-event.php:1558, thim-elementor-kit/list-event/list-event.php:1952, thim-elementor-kit/list-instructors/list-instructors.php:202, thim-elementor-kit/list-post/list-post.php:48, thim-elementor-kit/list-post/list-post.php:167, thim-elementor-kit/list-post/list-post.php:245, thim-elementor-kit/list-post/list-post.php:537, thim-elementor-kit/navigation-menu/navigation-menu.php:55, thim-elementor-kit/navigation-menu/navigation-menu.php:83, thim-elementor-kit/our-team/our-team.php:180, thim-elementor-kit/tab-event/tab-event.php:54, thim-elementor-kit/tab-event/tab-event.php:240, thim-elementor-kit/tabs-post/tabs-post.php:132, thim-elementor-kit/tabs-post/tabs-post.php:601, thim-elementor-kit/timetable/timetable.php:43, thim-elementor-kit/timetable/timetable.php:138, thim-elementor-kit/twitter/twitter.php:48, thim-elementor-kit/twitter/twitter.php:115, thim-elementor-kit/video/video.php:126, inc/admin/customizer-sections/footer-options.php:77, inc/admin/customizer-sections/general-404-page.php:182, inc/widgets/accordion/class-vc-accordion.php:39, inc/widgets/accordion/class-vc-accordion.php:54, inc/widgets/accordion/class-vc-accordion.php:55, inc/widgets/accordion/config.php:46, inc/widgets/accordion/config.php:71, inc/widgets/accordion/config.php:72, inc/widgets/carousel-post/config.php:46, inc/widgets/carousel-post/config.php:134, inc/widgets/course-categories/class-so-course-categories.php:39, inc/widgets/course-categories/config.php:45, inc/widgets/courses-searching/config.php:71, inc/widgets/google-map/class-so-google-map.php:39, inc/widgets/google-map/config.php:46, inc/widgets/heading/class-so-heading.php:39, inc/widgets/heading/config.php:45, inc/widgets/image-box/config.php:55, inc/widgets/landing-image/config.php:45, inc/widgets/link/class-vc-link.php:39, inc/widgets/link/config.php:44, inc/widgets/list-event/config.php:45, inc/widgets/list-post/config.php:45, inc/widgets/list-post/config.php:86, inc/widgets/social/config.php:45, inc/widgets/tab/config.php:64, inc/widgets/tab/config.php:65, inc/widgets/tab-event/config.php:44, inc/widgets/testimonials/config.php:46, inc/widgets/timetable/config.php:45, inc/widgets/twitter/class-vc-twitter.php:39, inc/widgets/twitter/config.php:45, inc/widgets/video/config.php:127
 msgid "Title"
 msgstr ""
 
@@ -1874,11 +1874,11 @@ msgstr ""
 msgid "Panel List"
 msgstr ""
 
-#: thim-elementor-kit/accordion/accordion.php:112, thim-elementor-kit/accordion/accordion.php:293, thim-elementor-kit/button/button.php:211, thim-elementor-kit/counters-box/counters-box.php:214, thim-elementor-kit/counters-box/counters-box.php:284, thim-elementor-kit/counters-box/counters-box.php:361, thim-elementor-kit/counters-box/counters-box.php:446, thim-elementor-kit/course-categories/course-categories.php:390, thim-elementor-kit/course-categories/course-categories.php:605, thim-elementor-kit/course-categories/course-categories.php:839, thim-elementor-kit/course-categories/course-categories.php:953, thim-elementor-kit/courses/courses.php:401, thim-elementor-kit/courses/courses.php:460, thim-elementor-kit/courses-collection/courses-collection.php:145, thim-elementor-kit/courses-searching/courses-searching.php:347, thim-elementor-kit/courses-searching/courses-searching.php:405, thim-elementor-kit/courses-searching/courses-searching.php:443, thim-elementor-kit/courses-searching/courses-searching.php:660, thim-elementor-kit/gallery-images/gallery-images.php:220, thim-elementor-kit/heading/heading.php:185, thim-elementor-kit/heading/heading.php:244, thim-elementor-kit/icon-box/icon-box.php:291, thim-elementor-kit/icon-box/icon-box.php:405, thim-elementor-kit/icon-box/icon-box.php:870, thim-elementor-kit/image-accordion/image-accordion.php:497, thim-elementor-kit/image-box/image-box.php:297, thim-elementor-kit/image-box/image-box.php:586, thim-elementor-kit/list-event/list-event.php:1581, thim-elementor-kit/list-event/list-event.php:1711, thim-elementor-kit/list-event/list-event.php:1961, thim-elementor-kit/list-event/list-event.php:2052, thim-elementor-kit/list-event/list-event.php:2692, thim-elementor-kit/list-post/list-post.php:268, thim-elementor-kit/list-post/list-post.php:355, thim-elementor-kit/login-popup/login-popup.php:294, thim-elementor-kit/navigation-menu/navigation-menu.php:103, thim-elementor-kit/navigation-menu/navigation-menu.php:199, thim-elementor-kit/our-team/our-team.php:200, thim-elementor-kit/our-team/our-team.php:250, thim-elementor-kit/our-team/our-team.php:301, thim-elementor-kit/portfolio/portfolio.php:224, thim-elementor-kit/portfolio/portfolio.php:316, thim-elementor-kit/single-images/single-images.php:181, thim-elementor-kit/tab/tab.php:148, thim-elementor-kit/tab/tab.php:329, thim-elementor-kit/tab/tab.php:369, thim-elementor-kit/tab-event/tab-event.php:73, thim-elementor-kit/tab-event/tab-event.php:124, thim-elementor-kit/tab-event/tab-event.php:250, thim-elementor-kit/tabs-post/tabs-post.php:570, thim-elementor-kit/tabs-post/tabs-post.php:675, thim-elementor-kit/timetable/timetable.php:157, thim-elementor-kit/timetable/timetable.php:214, thim-elementor-kit/twitter/twitter.php:135, inc/admin/customizer-sections/general-typography.php:13
+#: thim-elementor-kit/accordion/accordion.php:112, thim-elementor-kit/accordion/accordion.php:293, thim-elementor-kit/button/button.php:211, thim-elementor-kit/counters-box/counters-box.php:214, thim-elementor-kit/counters-box/counters-box.php:284, thim-elementor-kit/counters-box/counters-box.php:361, thim-elementor-kit/counters-box/counters-box.php:446, thim-elementor-kit/course-categories/course-categories.php:390, thim-elementor-kit/course-categories/course-categories.php:605, thim-elementor-kit/course-categories/course-categories.php:839, thim-elementor-kit/course-categories/course-categories.php:953, thim-elementor-kit/courses/courses.php:401, thim-elementor-kit/courses/courses.php:460, thim-elementor-kit/courses-collection/courses-collection.php:145, thim-elementor-kit/courses-searching/courses-searching.php:347, thim-elementor-kit/courses-searching/courses-searching.php:405, thim-elementor-kit/courses-searching/courses-searching.php:443, thim-elementor-kit/courses-searching/courses-searching.php:660, thim-elementor-kit/gallery-images/gallery-images.php:220, thim-elementor-kit/heading/heading.php:185, thim-elementor-kit/heading/heading.php:244, thim-elementor-kit/icon-box/icon-box.php:291, thim-elementor-kit/icon-box/icon-box.php:405, thim-elementor-kit/icon-box/icon-box.php:870, thim-elementor-kit/image-accordion/image-accordion.php:497, thim-elementor-kit/image-box/image-box.php:297, thim-elementor-kit/image-box/image-box.php:586, thim-elementor-kit/list-event/list-event.php:1581, thim-elementor-kit/list-event/list-event.php:1711, thim-elementor-kit/list-event/list-event.php:1961, thim-elementor-kit/list-event/list-event.php:2052, thim-elementor-kit/list-event/list-event.php:2692, thim-elementor-kit/list-post/list-post.php:268, thim-elementor-kit/list-post/list-post.php:355, thim-elementor-kit/login-popup/login-popup.php:294, thim-elementor-kit/navigation-menu/navigation-menu.php:103, thim-elementor-kit/navigation-menu/navigation-menu.php:199, thim-elementor-kit/our-team/our-team.php:200, thim-elementor-kit/our-team/our-team.php:250, thim-elementor-kit/our-team/our-team.php:301, thim-elementor-kit/portfolio/portfolio.php:224, thim-elementor-kit/portfolio/portfolio.php:316, thim-elementor-kit/single-images/single-images.php:181, thim-elementor-kit/tab/tab.php:148, thim-elementor-kit/tab/tab.php:329, thim-elementor-kit/tab/tab.php:369, thim-elementor-kit/tab-event/tab-event.php:73, thim-elementor-kit/tab-event/tab-event.php:124, thim-elementor-kit/tab-event/tab-event.php:250, thim-elementor-kit/tabs-post/tabs-post.php:575, thim-elementor-kit/tabs-post/tabs-post.php:680, thim-elementor-kit/timetable/timetable.php:157, thim-elementor-kit/timetable/timetable.php:214, thim-elementor-kit/twitter/twitter.php:135, inc/admin/customizer-sections/general-typography.php:13
 msgid "Typography"
 msgstr ""
 
-#: thim-elementor-kit/accordion/accordion.php:120, thim-elementor-kit/accordion/accordion.php:301, thim-elementor-kit/button/button.php:198, thim-elementor-kit/course-categories/course-categories.php:471, thim-elementor-kit/course-categories/course-categories.php:511, thim-elementor-kit/course-categories/course-categories.php:779, thim-elementor-kit/course-categories/course-categories.php:938, thim-elementor-kit/courses/courses.php:435, thim-elementor-kit/courses-collection/courses-collection.php:129, thim-elementor-kit/courses-searching/courses-searching.php:116, thim-elementor-kit/courses-searching/courses-searching.php:451, thim-elementor-kit/icon-box/icon-box.php:845, thim-elementor-kit/image-accordion/image-accordion.php:373, thim-elementor-kit/image-accordion/image-accordion.php:484, thim-elementor-kit/image-box/image-box.php:306, thim-elementor-kit/image-box/image-box.php:543, thim-elementor-kit/list-event/list-event.php:515, thim-elementor-kit/list-event/list-event.php:869, thim-elementor-kit/list-event/list-event.php:1685, thim-elementor-kit/list-event/list-event.php:2679, thim-elementor-kit/list-instructors/list-instructors.php:378, thim-elementor-kit/list-instructors/list-instructors.php:714, thim-elementor-kit/list-post/list-post.php:330, thim-elementor-kit/login-popup/login-popup.php:241, thim-elementor-kit/our-team/our-team.php:289, thim-elementor-kit/portfolio/portfolio.php:304, thim-elementor-kit/single-images/single-images.php:213, thim-elementor-kit/tab/tab.php:357, thim-elementor-kit/tabs-post/tabs-post.php:447, thim-elementor-kit/tabs-post/tabs-post.php:706, thim-elementor-kit/video/video.php:169
+#: thim-elementor-kit/accordion/accordion.php:120, thim-elementor-kit/accordion/accordion.php:301, thim-elementor-kit/button/button.php:198, thim-elementor-kit/course-categories/course-categories.php:471, thim-elementor-kit/course-categories/course-categories.php:511, thim-elementor-kit/course-categories/course-categories.php:779, thim-elementor-kit/course-categories/course-categories.php:938, thim-elementor-kit/courses/courses.php:435, thim-elementor-kit/courses-collection/courses-collection.php:129, thim-elementor-kit/courses-searching/courses-searching.php:116, thim-elementor-kit/courses-searching/courses-searching.php:451, thim-elementor-kit/icon-box/icon-box.php:845, thim-elementor-kit/image-accordion/image-accordion.php:373, thim-elementor-kit/image-accordion/image-accordion.php:484, thim-elementor-kit/image-box/image-box.php:306, thim-elementor-kit/image-box/image-box.php:543, thim-elementor-kit/list-event/list-event.php:515, thim-elementor-kit/list-event/list-event.php:869, thim-elementor-kit/list-event/list-event.php:1685, thim-elementor-kit/list-event/list-event.php:2679, thim-elementor-kit/list-instructors/list-instructors.php:378, thim-elementor-kit/list-instructors/list-instructors.php:714, thim-elementor-kit/list-post/list-post.php:330, thim-elementor-kit/login-popup/login-popup.php:241, thim-elementor-kit/our-team/our-team.php:289, thim-elementor-kit/portfolio/portfolio.php:304, thim-elementor-kit/single-images/single-images.php:213, thim-elementor-kit/tab/tab.php:357, thim-elementor-kit/tabs-post/tabs-post.php:452, thim-elementor-kit/tabs-post/tabs-post.php:711, thim-elementor-kit/video/video.php:169
 msgid "Padding"
 msgstr ""
 
@@ -1890,7 +1890,7 @@ msgstr ""
 msgid "Text Color Active"
 msgstr ""
 
-#: thim-elementor-kit/accordion/accordion.php:185, thim-elementor-kit/accordion/accordion.php:354, thim-elementor-kit/button/button.php:373, thim-elementor-kit/button/button.php:412, thim-elementor-kit/countdown-box/countdown-box.php:222, thim-elementor-kit/counters-box/counters-box.php:548, thim-elementor-kit/counters-box/counters-box.php:584, thim-elementor-kit/counters-box/counters-box.php:892, thim-elementor-kit/counters-box/counters-box.php:955, thim-elementor-kit/course-categories/course-categories.php:561, thim-elementor-kit/course-categories/course-categories.php:1031, thim-elementor-kit/courses/courses.php:545, thim-elementor-kit/courses/courses.php:603, thim-elementor-kit/courses-searching/courses-searching.php:233, thim-elementor-kit/courses-searching/courses-searching.php:296, thim-elementor-kit/courses-searching/courses-searching.php:493, thim-elementor-kit/courses-searching/courses-searching.php:571, thim-elementor-kit/gallery-images/gallery-images.php:658, thim-elementor-kit/icon-box/icon-box.php:693, thim-elementor-kit/icon-box/icon-box.php:750, thim-elementor-kit/icon-box/icon-box.php:952, thim-elementor-kit/icon-box/icon-box.php:1007, thim-elementor-kit/image-accordion/image-accordion.php:330, thim-elementor-kit/image-accordion/image-accordion.php:582, thim-elementor-kit/list-event/list-event.php:605, thim-elementor-kit/list-event/list-event.php:1392, thim-elementor-kit/list-event/list-event.php:2775, thim-elementor-kit/list-event/list-event.php:2835, thim-elementor-kit/list-instructors/list-instructors.php:408, thim-elementor-kit/list-instructors/list-instructors.php:1238, thim-elementor-kit/list-post/list-post.php:440, thim-elementor-kit/list-post/list-post.php:498, thim-elementor-kit/login-popup/login-popup.php:392, thim-elementor-kit/login-popup/login-popup.php:450, thim-elementor-kit/our-team/our-team.php:383, thim-elementor-kit/our-team/our-team.php:443, thim-elementor-kit/portfolio/portfolio.php:398, thim-elementor-kit/portfolio/portfolio.php:458, thim-elementor-kit/tab/tab.php:451, thim-elementor-kit/tab/tab.php:511, thim-elementor-kit/tabs-post/tabs-post.php:557, inc/admin/customizer-sections/general-features.php:148
+#: thim-elementor-kit/accordion/accordion.php:185, thim-elementor-kit/accordion/accordion.php:354, thim-elementor-kit/button/button.php:373, thim-elementor-kit/button/button.php:412, thim-elementor-kit/countdown-box/countdown-box.php:222, thim-elementor-kit/counters-box/counters-box.php:548, thim-elementor-kit/counters-box/counters-box.php:584, thim-elementor-kit/counters-box/counters-box.php:892, thim-elementor-kit/counters-box/counters-box.php:955, thim-elementor-kit/course-categories/course-categories.php:561, thim-elementor-kit/course-categories/course-categories.php:1031, thim-elementor-kit/courses/courses.php:545, thim-elementor-kit/courses/courses.php:603, thim-elementor-kit/courses-searching/courses-searching.php:233, thim-elementor-kit/courses-searching/courses-searching.php:296, thim-elementor-kit/courses-searching/courses-searching.php:493, thim-elementor-kit/courses-searching/courses-searching.php:571, thim-elementor-kit/gallery-images/gallery-images.php:658, thim-elementor-kit/icon-box/icon-box.php:693, thim-elementor-kit/icon-box/icon-box.php:750, thim-elementor-kit/icon-box/icon-box.php:952, thim-elementor-kit/icon-box/icon-box.php:1007, thim-elementor-kit/image-accordion/image-accordion.php:330, thim-elementor-kit/image-accordion/image-accordion.php:582, thim-elementor-kit/list-event/list-event.php:605, thim-elementor-kit/list-event/list-event.php:1392, thim-elementor-kit/list-event/list-event.php:2775, thim-elementor-kit/list-event/list-event.php:2835, thim-elementor-kit/list-instructors/list-instructors.php:408, thim-elementor-kit/list-instructors/list-instructors.php:1238, thim-elementor-kit/list-post/list-post.php:440, thim-elementor-kit/list-post/list-post.php:498, thim-elementor-kit/login-popup/login-popup.php:392, thim-elementor-kit/login-popup/login-popup.php:450, thim-elementor-kit/our-team/our-team.php:383, thim-elementor-kit/our-team/our-team.php:443, thim-elementor-kit/portfolio/portfolio.php:398, thim-elementor-kit/portfolio/portfolio.php:458, thim-elementor-kit/tab/tab.php:451, thim-elementor-kit/tab/tab.php:511, thim-elementor-kit/tabs-post/tabs-post.php:562, inc/admin/customizer-sections/general-features.php:148
 msgid "Border Radius"
 msgstr ""
 
@@ -2334,7 +2334,7 @@ msgstr ""
 msgid "Height Icon (px)"
 msgstr ""
 
-#: thim-elementor-kit/counters-box/counters-box.php:815, thim-elementor-kit/course-categories/course-categories.php:397, thim-elementor-kit/course-categories/course-categories.php:878, thim-elementor-kit/course-categories/course-categories.php:912, thim-elementor-kit/courses/courses.php:388, thim-elementor-kit/courses/courses.php:447, thim-elementor-kit/courses-collection/courses-collection.php:115, thim-elementor-kit/gallery-images/gallery-images.php:249, thim-elementor-kit/gallery-images/gallery-images.php:299, thim-elementor-kit/heading/heading.php:172, thim-elementor-kit/heading/heading.php:231, thim-elementor-kit/icon-box/icon-box.php:278, thim-elementor-kit/icon-box/icon-box.php:392, thim-elementor-kit/icon-box/icon-box.php:857, thim-elementor-kit/image-accordion/image-accordion.php:318, thim-elementor-kit/image-box/image-box.php:321, thim-elementor-kit/image-box/image-box.php:558, thim-elementor-kit/list-event/list-event.php:526, thim-elementor-kit/list-event/list-event.php:1568, thim-elementor-kit/list-event/list-event.php:2668, thim-elementor-kit/list-instructors/list-instructors.php:389, thim-elementor-kit/list-post/list-post.php:255, thim-elementor-kit/list-post/list-post.php:342, thim-elementor-kit/login-popup/login-popup.php:254, thim-elementor-kit/navigation-menu/navigation-menu.php:90, thim-elementor-kit/our-team/our-team.php:187, thim-elementor-kit/our-team/our-team.php:237, thim-elementor-kit/our-team/our-team.php:278, thim-elementor-kit/portfolio/portfolio.php:211, thim-elementor-kit/portfolio/portfolio.php:293, thim-elementor-kit/portfolio/portfolio.php:559, thim-elementor-kit/portfolio/portfolio.php:605, thim-elementor-kit/portfolio/portfolio.php:654, thim-elementor-kit/tab/tab.php:346, thim-elementor-kit/tab-event/tab-event.php:61, thim-elementor-kit/tab-event/tab-event.php:101, thim-elementor-kit/tabs-post/tabs-post.php:428, thim-elementor-kit/tabs-post/tabs-post.php:730, thim-elementor-kit/tabs-post/tabs-post.php:779, thim-elementor-kit/twitter/twitter.php:122, thim-elementor-kit/video/video.php:411
+#: thim-elementor-kit/counters-box/counters-box.php:815, thim-elementor-kit/course-categories/course-categories.php:397, thim-elementor-kit/course-categories/course-categories.php:878, thim-elementor-kit/course-categories/course-categories.php:912, thim-elementor-kit/courses/courses.php:388, thim-elementor-kit/courses/courses.php:447, thim-elementor-kit/courses-collection/courses-collection.php:115, thim-elementor-kit/gallery-images/gallery-images.php:249, thim-elementor-kit/gallery-images/gallery-images.php:299, thim-elementor-kit/heading/heading.php:172, thim-elementor-kit/heading/heading.php:231, thim-elementor-kit/icon-box/icon-box.php:278, thim-elementor-kit/icon-box/icon-box.php:392, thim-elementor-kit/icon-box/icon-box.php:857, thim-elementor-kit/image-accordion/image-accordion.php:318, thim-elementor-kit/image-box/image-box.php:321, thim-elementor-kit/image-box/image-box.php:558, thim-elementor-kit/list-event/list-event.php:526, thim-elementor-kit/list-event/list-event.php:1568, thim-elementor-kit/list-event/list-event.php:2668, thim-elementor-kit/list-instructors/list-instructors.php:389, thim-elementor-kit/list-post/list-post.php:255, thim-elementor-kit/list-post/list-post.php:342, thim-elementor-kit/login-popup/login-popup.php:254, thim-elementor-kit/navigation-menu/navigation-menu.php:90, thim-elementor-kit/our-team/our-team.php:187, thim-elementor-kit/our-team/our-team.php:237, thim-elementor-kit/our-team/our-team.php:278, thim-elementor-kit/portfolio/portfolio.php:211, thim-elementor-kit/portfolio/portfolio.php:293, thim-elementor-kit/portfolio/portfolio.php:559, thim-elementor-kit/portfolio/portfolio.php:605, thim-elementor-kit/portfolio/portfolio.php:654, thim-elementor-kit/tab/tab.php:346, thim-elementor-kit/tab-event/tab-event.php:61, thim-elementor-kit/tab-event/tab-event.php:101, thim-elementor-kit/tabs-post/tabs-post.php:433, thim-elementor-kit/tabs-post/tabs-post.php:735, thim-elementor-kit/tabs-post/tabs-post.php:784, thim-elementor-kit/twitter/twitter.php:122, thim-elementor-kit/video/video.php:411
 msgid "Margin"
 msgstr ""
 
@@ -2558,7 +2558,7 @@ msgstr ""
 msgid "Latest"
 msgstr ""
 
-#: thim-elementor-kit/courses/courses.php:128, thim-elementor-kit/tabs-post/tabs-post.php:279, thim-elementor-kit/tabs-post/tabs-post.php:582, inc/admin/customizer-sections/blog-meta.php:34, inc/admin/customizer-sections/blog-setting.php:205, inc/widgets/courses/config.php:81
+#: thim-elementor-kit/courses/courses.php:128, thim-elementor-kit/tabs-post/tabs-post.php:279, thim-elementor-kit/tabs-post/tabs-post.php:587, inc/admin/customizer-sections/blog-meta.php:34, inc/admin/customizer-sections/blog-setting.php:205, inc/widgets/courses/config.php:81
 msgid "Category"
 msgstr ""
 
@@ -2766,7 +2766,7 @@ msgstr ""
 msgid "Dot"
 msgstr ""
 
-#: thim-elementor-kit/gallery-images/gallery-images.php:276, thim-elementor-kit/link/link.php:137, thim-elementor-kit/list-event/list-event.php:832, thim-elementor-kit/list-instructors/list-instructors.php:219, thim-elementor-kit/list-instructors/list-instructors.php:340, thim-elementor-kit/list-instructors/list-instructors.php:677, thim-elementor-kit/list-post/list-post.php:576, thim-elementor-kit/list-post/list-post.php:635, thim-elementor-kit/list-post/list-post.php:679, thim-elementor-kit/list-post/list-post.php:732, thim-elementor-kit/tabs-post/tabs-post.php:409, thim-elementor-kit/tabs-post/tabs-post.php:623, thim-elementor-kit/tabs-post/tabs-post.php:684
+#: thim-elementor-kit/gallery-images/gallery-images.php:276, thim-elementor-kit/link/link.php:137, thim-elementor-kit/list-event/list-event.php:832, thim-elementor-kit/list-instructors/list-instructors.php:219, thim-elementor-kit/list-instructors/list-instructors.php:340, thim-elementor-kit/list-instructors/list-instructors.php:677, thim-elementor-kit/list-post/list-post.php:576, thim-elementor-kit/list-post/list-post.php:635, thim-elementor-kit/list-post/list-post.php:679, thim-elementor-kit/list-post/list-post.php:732, thim-elementor-kit/tabs-post/tabs-post.php:414, thim-elementor-kit/tabs-post/tabs-post.php:628, thim-elementor-kit/tabs-post/tabs-post.php:689
 msgid "Spacing"
 msgstr ""
 
@@ -2778,7 +2778,7 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
-#: thim-elementor-kit/gallery-images/gallery-images.php:408, thim-elementor-kit/list-event/list-event.php:1069, thim-elementor-kit/list-instructors/list-instructors.php:914, thim-elementor-kit/tab/tab.php:194, thim-elementor-kit/tab-event/tab-event.php:170, thim-elementor-kit/tabs-post/tabs-post.php:514
+#: thim-elementor-kit/gallery-images/gallery-images.php:408, thim-elementor-kit/list-event/list-event.php:1069, thim-elementor-kit/list-instructors/list-instructors.php:914, thim-elementor-kit/tab/tab.php:194, thim-elementor-kit/tab-event/tab-event.php:170, thim-elementor-kit/tabs-post/tabs-post.php:519
 msgid "Active"
 msgstr ""
 
@@ -3766,7 +3766,7 @@ msgstr ""
 msgid "Absolute"
 msgstr ""
 
-#: thim-elementor-kit/list-post/list-post.php:557, thim-elementor-kit/tabs-post/tabs-post.php:605
+#: thim-elementor-kit/list-post/list-post.php:557, thim-elementor-kit/tabs-post/tabs-post.php:610
 msgid "Typography Feature"
 msgstr ""
 
@@ -3878,7 +3878,7 @@ msgstr ""
 msgid "List"
 msgstr ""
 
-#: thim-elementor-kit/navigation-menu/navigation-menu.php:140, thim-elementor-kit/tabs-post/tabs-post.php:659, thim-elementor-kit/tabs-post/tabs-post.php:762
+#: thim-elementor-kit/navigation-menu/navigation-menu.php:140, thim-elementor-kit/tabs-post/tabs-post.php:664, thim-elementor-kit/tabs-post/tabs-post.php:767
 msgid "Inline"
 msgstr ""
 
@@ -4246,19 +4246,19 @@ msgstr ""
 msgid "Course Tab"
 msgstr ""
 
-#: thim-elementor-kit/tabs-post/tabs-post.php:643
+#: thim-elementor-kit/tabs-post/tabs-post.php:648
 msgid "Meta data"
 msgstr ""
 
-#: thim-elementor-kit/tabs-post/tabs-post.php:651, thim-elementor-kit/tabs-post/tabs-post.php:754
+#: thim-elementor-kit/tabs-post/tabs-post.php:656, thim-elementor-kit/tabs-post/tabs-post.php:759
 msgid "Display"
 msgstr ""
 
-#: thim-elementor-kit/tabs-post/tabs-post.php:655, thim-elementor-kit/tabs-post/tabs-post.php:758
+#: thim-elementor-kit/tabs-post/tabs-post.php:660, thim-elementor-kit/tabs-post/tabs-post.php:763
 msgid "Block"
 msgstr ""
 
-#: thim-elementor-kit/tabs-post/tabs-post.php:850, thim-elementor-kit/tabs-post/tabs-post.php:893
+#: thim-elementor-kit/tabs-post/tabs-post.php:855, thim-elementor-kit/tabs-post/tabs-post.php:898
 msgid "No data were found matching your selection, you need to create Post or select Category of Widget."
 msgstr ""
 
@@ -7695,10 +7695,6 @@ msgstr ""
 
 #: learnpress-v4/loop/course/students.php:29
 msgid "student"
-msgstr ""
-
-#: learnpress-v4/loop/single-course/loop-section-item.php:46
-msgid "Assignment"
 msgstr ""
 
 #: learnpress-v4/single-course/sidebar/user-progress.php:31
