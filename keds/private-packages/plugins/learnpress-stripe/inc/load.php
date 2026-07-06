@@ -82,11 +82,18 @@ if ( ! class_exists( 'LP_Addon_Stripe_Payment' ) ) {
 		 * Init hooks.
 		 */
 		protected function hooks() {
+
 			// add payment gateway class
 			add_filter( 'learn-press/payment-methods', array( $this, 'add_payment' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-
-			// Listen callback from stripe.
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
+			/**
+			 * Listen callback from Stripe.
+			 *
+			 * Set priority 11 to run after hook "lp/order-completed/update/user-item"
+			 * in learnpress-upsell, certificate plugins,
+			 * its call handle_item_manual_order_completed on it.
+			 */
 			add_action(
 				'learn-press/ready',
 				function () {
@@ -99,7 +106,7 @@ if ( ! class_exists( 'LP_Addon_Stripe_Payment' ) ) {
 					}
 				},
 				11
-			); // Set priority 11 to run after hook upsell is 10
+			);
 		}
 
 		/**
@@ -108,6 +115,7 @@ if ( ! class_exists( 'LP_Addon_Stripe_Payment' ) ) {
 		 * @since 3.0.0
 		 */
 		public function enqueue_assets() {
+
 			$ver = LP_ADDON_STRIPE_PAYMENT_VER;
 			$min = '.min';
 			if ( LP_Debug::is_debug() ) {
@@ -118,24 +126,28 @@ if ( ! class_exists( 'LP_Addon_Stripe_Payment' ) ) {
 			wp_register_script(
 				'learn-press-stripe',
 				$this->get_plugin_url( 'assets/dist/js/stripe-api' . $min . '.js' ),
-				[],
+				array(),
 				$ver,
-				[ 'strategy' => 'defer' ]
+				array( 'strategy' => 'defer' )
 			);
 
 			if ( LP_Page_Controller::is_page_checkout() && LP_Gateway_Stripe::instance()->is_enabled() ) {
-				$publish_key = LP_Gateway_Stripe::instance()->publish_key;
+				$lp_stripe             = LP_Gateway_Stripe::instance();
+				$publish_key           = $lp_stripe->publish_key;
+				$subscription_checkout = $lp_stripe->cart_needs_subscription_checkout();
 
 				$data_localize = array(
 					'publish_key' => $publish_key,
 					'nonce'       => wp_create_nonce( 'wp_rest' ),
 				);
 
-				if ( ! LP_Gateway_Stripe::instance()->is_direct_pay_on_stripe_page() ) {
+				// The in-page Payment Element is used only for one-time checkout. Both
+				// direct-pay and subscription carts are paid on the Stripe-hosted page
+				// (Checkout Session redirect), so skip the iframe + PaymentIntent there.
+				if ( ! $lp_stripe->is_direct_pay_on_stripe_page() && ! $subscription_checkout ) {
 					wp_enqueue_script( 'learn-press-stripe' );
 
 					// Create payment intent for Stripe JS use.
-					$lp_stripe             = LP_Gateway_Stripe::instance();
 					$stripe_payment_intent = $lp_stripe->create_payment_intent();
 					if ( $stripe_payment_intent instanceof WP_Error ) {
 						$data_localize['error'] = $stripe_payment_intent->get_error_message();
@@ -146,6 +158,51 @@ if ( ! class_exists( 'LP_Addon_Stripe_Payment' ) ) {
 				}
 				wp_localize_script( 'learn-press-stripe', 'lpStripeSetting', $data_localize );
 			}
+		}
+
+		/**
+		 * Enqueue admin settings assets.
+		 *
+		 * @since 4.0.2
+		 */
+		public function enqueue_admin_assets( $hook_suffix = '' ) {
+
+			$page    = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+			$tab     = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+			$section = isset( $_GET['section'] ) ? sanitize_key( wp_unslash( $_GET['section'] ) ) : '';
+
+			if ( 'learn-press-settings' !== $page || 'payments' !== $tab || 'stripe' !== $section ) {
+				return;
+			}
+
+			$ver = LP_ADDON_STRIPE_PAYMENT_VER;
+			$min = '.min';
+			if ( LP_Debug::is_debug() ) {
+				$min = '';
+				$ver = uniqid();
+			}
+
+			$handle = 'learn-press-stripe-admin-settings';
+
+			wp_register_script(
+				$handle,
+				$this->get_plugin_url( 'assets/dist/js/admin-settings' . $min . '.js' ),
+				array(),
+				$ver,
+				array( 'strategy' => 'defer' )
+			);
+
+			wp_localize_script(
+				$handle,
+				'lpStripeAdminSettings',
+				array(
+					'liveTitle'     => __( 'Live', 'learnpress-stripe' ),
+					'testTitle'     => __( 'Test', 'learnpress-stripe' ),
+					'testModeField' => 'learn_press_stripe[test_mode]',
+				)
+			);
+
+			wp_enqueue_script( $handle );
 		}
 
 		/**

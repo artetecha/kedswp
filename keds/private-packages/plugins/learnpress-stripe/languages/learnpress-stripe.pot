@@ -1,107 +1,246 @@
-# Copyright (C) 2025 ThimPress
+# Copyright (C) 2026 ThimPress
 # This file is distributed under the same license as the LearnPress - Stripe Payment plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LearnPress - Stripe Payment 4.0.5\n"
+"Project-Id-Version: LearnPress - Stripe Payment 4.0.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-stripe\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-05T14:40:05+03:00\n"
+"POT-Creation-Date: 2026-07-01T03:52:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: learnpress-stripe\n"
 
 #. Plugin Name of the plugin
+#: learnpress-stripe.php
 msgid "LearnPress - Stripe Payment"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "http://thimpress.com/learnpress"
+#: learnpress-stripe.php
+msgid "https://thimpress.com/product/stripe-add-on-for-learnpress/"
 msgstr ""
 
 #. Description of the plugin
+#: learnpress-stripe.php
 msgid "Stripe payment gateway for LearnPress."
 msgstr ""
 
 #. Author of the plugin
+#: learnpress-stripe.php
 msgid "ThimPress"
 msgstr ""
 
 #. Author URI of the plugin
+#: learnpress-stripe.php
 msgid "http://thimpress.com"
 msgstr ""
 
-#: config/settings.php:11
+#: config/settings.php:10
+msgid "General"
+msgstr ""
+
+#: config/settings.php:14
 msgid "Enable"
 msgstr ""
 
-#: config/settings.php:17
+#: config/settings.php:20
 msgid "Redirect Payment to Stripe Page"
 msgstr ""
 
-#: config/settings.php:34
+#: config/settings.php:36
+msgid "Enable subscriptions"
+msgstr ""
+
+#: config/settings.php:40
+msgid "Use Stripe Checkout subscriptions for LearnPress subscription orders."
+msgstr ""
+
+#: config/settings.php:54
 msgid "Description"
 msgstr ""
 
-#: config/settings.php:35
+#: config/settings.php:55
 msgid "Pay with Stripe"
 msgstr ""
 
-#: config/settings.php:53
-msgid "Live secret key"
-msgstr ""
-
-#: config/settings.php:74
-msgid "Live publish key"
-msgstr ""
-
-#: config/settings.php:94
+#: config/settings.php:73
 msgid "Enable test mode"
 msgstr ""
 
-#: config/settings.php:111
-msgid "Test secret key"
+#: config/settings.php:92
+#: inc/load.php:199
+msgid "Live"
 msgstr ""
 
-#: config/settings.php:132
+#: config/settings.php:96
+msgid "Live secret key"
+msgstr ""
+
+#: config/settings.php:116
+msgid "Live webhook signing secret"
+msgstr ""
+
+#. translators: %s: webhook endpoint URL
+#: config/settings.php:123
+#: config/settings.php:225
+#, php-format
+msgid "Stripe endpoint signing secret for this webhook URL: %s"
+msgstr ""
+
+#: config/settings.php:149
+msgid "Live publish key"
+msgstr ""
+
+#: config/settings.php:172
+#: inc/load.php:200
+msgid "Test"
+msgstr ""
+
+#: config/settings.php:177
 msgid "Test publish key"
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:66
+#: config/settings.php:198
+msgid "Test secret key"
+msgstr ""
+
+#: config/settings.php:218
+msgid "Test webhook signing secret"
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:86
 msgid "Make a payment with Stripe."
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:134
+#: inc/class-lp-gateway-stripe.php:169
 msgid "You will be redirected to Stripe to complete your payment."
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:142
+#: inc/class-lp-gateway-stripe.php:177
 msgid "Test mode is enabled. You can use the card number 4242424242424242 with any CVC and a valid expiration date for testing purpose."
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:212
+#: inc/class-lp-gateway-stripe.php:245
 msgid "Order not found!"
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:222
+#: inc/class-lp-gateway-stripe.php:260
+#: inc/class-lp-gateway-stripe.php:451
+msgid "Invalid Stripe subscription checkout response."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:267
+#: inc/class-lp-gateway-stripe.php:279
 msgid "Redirecting to Stripe."
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:240
+#: inc/class-lp-gateway-stripe.php:297
 msgid "The payment is processing."
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:273
+#: inc/class-lp-gateway-stripe.php:331
+#, php-format
 msgid "Order %s"
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:324
+#: inc/class-lp-gateway-stripe.php:360
+#: inc/class-lp-gateway-stripe.php:489
+#: inc/class-lp-gateway-stripe.php:561
+#: inc/class-lp-gateway-stripe.php:603
+#: inc/class-lp-gateway-stripe.php:722
+msgid "Stripe subscriptions are disabled."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:364
+#: inc/class-lp-gateway-stripe.php:493
+#: inc/class-lp-gateway-stripe.php:565
+#: inc/class-lp-gateway-stripe.php:607
+#: inc/class-lp-gateway-stripe.php:726
+msgid "Stripe secret key is missing."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:368
+msgid "Stripe webhook signing secret is missing."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:377
+msgid "Stripe subscription price ID is invalid."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:539
+#: inc/class-lp-gateway-stripe.php:661
+msgid "Invalid Stripe price response."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:546
+msgid "Stripe subscription price created."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:583
+msgid "Stripe subscription price fetched."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:612
+#: inc/class-lp-gateway-stripe.php:731
+msgid "Missing Stripe price ID."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:627
+msgid "Missing Stripe product ID."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:676
+msgid "Stripe subscription price replaced."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:687
+msgid "Invalid Stripe price status."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:703
+msgid "Stripe subscription price updated."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:746
+msgid "Stripe subscription price archived."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:764
+msgid "Invalid Stripe webhook request."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:1549
 msgid "Cart is empty."
 msgstr ""
 
-#: inc/class-lp-gateway-stripe.php:329
+#: inc/class-lp-gateway-stripe.php:1554
 msgid "Total amount must be greater than 0."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:1696
+msgid "Manage subscription"
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:1716
+msgid "Invalid subscription management request."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:1721
+msgid "You are not allowed to manage this subscription."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:1726
+msgid "Stripe customer is missing for this subscription."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:1745
+msgid "Invalid Stripe Billing Portal URL."
+msgstr ""
+
+#: inc/class-lp-gateway-stripe.php:1753
+msgid "Unable to open Stripe Billing Portal."
 msgstr ""

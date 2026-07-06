@@ -9,7 +9,11 @@ Stable tag: 4.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-== Change log ==
+== Changelog ==
+
+= 4.0.6 (2025-07-01) =
+~ Updated: library stripe to latest.
+~ Feature: support payment subscription for Stripe.
 
 = 4.0.5 (2025-02-05) =
 ~ Fixed: minor bugs.

@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -133,28 +133,57 @@ const lpAjaxParseJsonOld = data => {
 };
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@stripe/stripe-js/dist/index.mjs":
+/***/ "./node_modules/@stripe/stripe-js/dist/index.mjs"
 /*!*******************************************************!*\
   !*** ./node_modules/@stripe/stripe-js/dist/index.mjs ***!
   \*******************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   loadStripe: () => (/* binding */ loadStripe)
 /* harmony export */ });
-var V3_URL = 'https://js.stripe.com/v3';
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+var RELEASE_TRAIN = 'dahlia';
+
+var runtimeVersionToUrlVersion = function runtimeVersionToUrlVersion(version) {
+  return version === 3 ? 'v3' : version;
+};
+
+var ORIGIN = 'https://js.stripe.com';
+var STRIPE_JS_URL = "".concat(ORIGIN, "/").concat(RELEASE_TRAIN, "/stripe.js");
 var V3_URL_REGEX = /^https:\/\/js\.stripe\.com\/v3\/?(\?.*)?$/;
+var STRIPE_JS_URL_REGEX = /^https:\/\/js\.stripe\.com\/(v3|[a-z]+)\/stripe\.js(\?.*)?$/;
 var EXISTING_SCRIPT_MESSAGE = 'loadStripe.setLoadParameters was called but an existing Stripe.js script already exists in the document; existing script parameters will be used';
+
+var isStripeJSURL = function isStripeJSURL(url) {
+  return V3_URL_REGEX.test(url) || STRIPE_JS_URL_REGEX.test(url);
+};
+
 var findScript = function findScript() {
-  var scripts = document.querySelectorAll("script[src^=\"".concat(V3_URL, "\"]"));
+  var scripts = document.querySelectorAll("script[src^=\"".concat(ORIGIN, "\"]"));
 
   for (var i = 0; i < scripts.length; i++) {
     var script = scripts[i];
 
-    if (!V3_URL_REGEX.test(script.src)) {
+    if (!isStripeJSURL(script.src)) {
       continue;
     }
 
@@ -167,7 +196,7 @@ var findScript = function findScript() {
 var injectScript = function injectScript(params) {
   var queryString = params && !params.advancedFraudSignals ? '?advancedFraudSignals=false' : '';
   var script = document.createElement('script');
-  script.src = "".concat(V3_URL).concat(queryString);
+  script.src = "".concat(STRIPE_JS_URL).concat(queryString);
   var headOrBody = document.head || document.body;
 
   if (!headOrBody) {
@@ -185,7 +214,7 @@ var registerWrapper = function registerWrapper(stripe, startTime) {
 
   stripe._registerWrapper({
     name: 'stripe-js',
-    version: "5.6.0",
+    version: "9.8.0",
     startTime: startTime
   });
 };
@@ -195,8 +224,10 @@ var onErrorListener = null;
 var onLoadListener = null;
 
 var onError = function onError(reject) {
-  return function () {
-    reject(new Error('Failed to load Stripe.js'));
+  return function (cause) {
+    reject(new Error('Failed to load Stripe.js', {
+      cause: cause
+    }));
   };
 };
 
@@ -272,6 +303,21 @@ var initStripe = function initStripe(maybeStripe, args, startTime) {
     return null;
   }
 
+  var pk = args[0];
+
+  if (typeof pk !== 'string') {
+    throw new Error("Expected publishable key to be of type string, got type ".concat(_typeof(pk), " instead."));
+  }
+
+  var isTestKey = pk.match(/^pk_test/); // @ts-expect-error this is not publicly typed
+
+  var version = runtimeVersionToUrlVersion(maybeStripe.version);
+  var expectedVersion = RELEASE_TRAIN;
+
+  if (isTestKey && version !== expectedVersion) {
+    console.warn("Stripe.js@".concat(version, " was loaded on the page, but @stripe/stripe-js@").concat("9.8.0", " expected Stripe.js@").concat(expectedVersion, ". This may result in unexpected behavior. For more information, see https://docs.stripe.com/sdks/stripejs-versioning"));
+  }
+
   var stripe = maybeStripe.apply(undefined, args);
   registerWrapper(stripe, startTime);
   return stripe;
@@ -318,13 +364,13 @@ var loadStripe = function loadStripe() {
 
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@stripe/stripe-js/lib/index.mjs":
+/***/ "./node_modules/@stripe/stripe-js/lib/index.mjs"
 /*!******************************************************!*\
   !*** ./node_modules/@stripe/stripe-js/lib/index.mjs ***!
   \******************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -334,28 +380,34 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
+/******/ 	const __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		const cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 		const module = __webpack_module_cache__[moduleId] = {
 /******/ 			// no module.id needed
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			const e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -365,11 +417,26 @@ __webpack_require__.r(__webpack_exports__);
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
+/******/ 		// define getter/value functions for harmony exports
 /******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			if(Array.isArray(definition)) {
+/******/ 				var i = 0;
+/******/ 				while(i < definition.length) {
+/******/ 					var key = definition[i++];
+/******/ 					var binding = definition[i++];
+/******/ 					if(!__webpack_require__.o(exports, key)) {
+/******/ 						if(binding === 0) {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
+/******/ 						} else {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
+/******/ 						}
+/******/ 					} else if(binding === 0) { i++; }
+/******/ 				}
+/******/ 			} else {
+/******/ 				for(var key in definition) {
+/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 					}
 /******/ 				}
 /******/ 			}
 /******/ 		};
@@ -377,14 +444,14 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.hasOwn(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
 /******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			if(Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
@@ -392,7 +459,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
+let __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
 /*!*************************************!*\
@@ -580,7 +647,9 @@ const lpStripe = (() => {
                   elBtnPlaceHolder.classList.remove('loading');
                   elBtnPlaceHolder.disabled = false;
                   elBtnPlaceHolder.innerText = lpCheckoutSettings.i18n_place_order;
-                  setMessageError(res.messages);
+                  // data.messages for LP version < 4.2.7.8
+                  const errorMessage = undefined === res.messages ? res.message : res.messages;
+                  setMessageError(errorMessage);
                 } else if ('processing' === res.result) {
                   elBtnPlaceHolder.innerText = lpCheckoutSettings.i18n_redirecting;
                   confirmStripePayment(res.redirect, result => {
