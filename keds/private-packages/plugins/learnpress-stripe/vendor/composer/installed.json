@@ -2,31 +2,31 @@
     "packages": [
         {
             "name": "stripe/stripe-php",
-            "version": "v16.3.0",
-            "version_normalized": "16.3.0.0",
+            "version": "v20.3.0",
+            "version_normalized": "20.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "48af6bc64ca8157b3fdce100e856069963bac466"
+                "reference": "266f0b05890172184cca66a0688abaf1a96b08d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/48af6bc64ca8157b3fdce100e856069963bac466",
-                "reference": "48af6bc64ca8157b3fdce100e856069963bac466",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/266f0b05890172184cca66a0688abaf1a96b08d8",
+                "reference": "266f0b05890172184cca66a0688abaf1a96b08d8",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=5.6.0"
+                "php": ">=7.2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.5.0",
+                "friendsofphp/php-cs-fixer": "3.94.0",
                 "phpstan/phpstan": "^1.2",
-                "phpunit/phpunit": "^5.7 || ^9.0"
+                "phpunit/phpunit": "^8.0 || ^9.0"
             },
-            "time": "2024-11-20T23:30:16+00:00",
+            "time": "2026-06-24T22:45:28+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -35,6 +35,9 @@
             },
             "installation-source": "dist",
             "autoload": {
+                "files": [
+                    "lib/version_check.php"
+                ],
                 "psr-4": {
                     "Stripe\\": "lib/"
                 }
@@ -58,7 +61,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v16.3.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v20.3.0"
             },
             "install-path": "../stripe/stripe-php"
         }

@@ -413,11 +413,11 @@
         },
         {
             "name": "keds-plugin/learnpress-stripe",
-            "version": "4.0.5",
+            "version": "4.0.6",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/learnpress-stripe",
-                "reference": "9d56bc8f27ad2963b163fb53d78e332c74a7d0bd"
+                "reference": "9954caace8c21fbb5e21f0bd01ea4c91a528e1f1"
             },
             "type": "wordpress-plugin",
             "transport-options": {

@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: LearnPress - Stripe Payment
- * Plugin URI: http://thimpress.com/learnpress
+ * Plugin URI: https://thimpress.com/product/stripe-add-on-for-learnpress/
  * Description: Stripe payment gateway for LearnPress.
  * Author: ThimPress
- * Version: 4.0.5
+ * Version: 4.0.6
  * Author URI: http://thimpress.com
  * Tags: learnpress, lms, add-on, stripe
  * Text Domain: learnpress-stripe
@@ -17,6 +17,7 @@
 defined( 'ABSPATH' ) || exit;
 
 const LP_ADDON_STRIPE_PAYMENT_FILE = __FILE__;
+const LP_ADDON_STRIPE_PAYMENT_PATH = __DIR__;
 
 /**
  * Class LP_Addon_Stripe_Payment_Preload
@@ -64,7 +65,6 @@ class LP_Addon_Stripe_Payment_Preload {
 			)
 		);
 
-		define( 'LP_ADDON_STRIPE_PAYMENT_PATH', dirname( LP_ADDON_STRIPE_PAYMENT_FILE ) );
 		define( 'LP_ADDON_STRIPE_PAYMENT_VER', self::$addon_info['Version'] );
 		define( 'LP_ADDON_STRIPE_PAYMENT_REQUIRE_VER', self::$addon_info['Require_LP_Version'] );
 
@@ -77,14 +77,16 @@ class LP_Addon_Stripe_Payment_Preload {
 
 		if ( ! $can_load ) {
 			add_action( 'admin_notices', array( $this, 'show_note_errors_require_lp' ) );
-			deactivate_plugins( LP_ADDON_STRIPE_BASENAME );
+			/*deactivate_plugins( LP_ADDON_STRIPE_BASENAME );
 
 			if ( isset( $_GET['activate'] ) ) {
 				unset( $_GET['activate'] );
 			}
 
-			return;
+			return;*/
 		}
+
+		include_once LP_ADDON_STRIPE_PAYMENT_PATH . '/vendor/autoload.php';
 
 		// Sure LP loaded.
 		add_action( 'learn-press/ready', array( $this, 'load' ) );
@@ -94,7 +96,7 @@ class LP_Addon_Stripe_Payment_Preload {
 	 * Load addon
 	 */
 	public function load() {
-		include_once 'inc/load.php';
+		include_once LP_ADDON_STRIPE_PAYMENT_PATH . '/inc/load.php';
 		LP_Addon_Stripe_Payment::instance();
 	}
 
