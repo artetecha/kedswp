@@ -28,6 +28,15 @@ on:
   schedule:
     # Off the :00/:30 marks — GitHub drops cron runs scheduled at busy minutes.
     - cron: '43 5 * * 1-5'
+  # A push to main touching composer.lock is the fingerprint of a
+  # composer-coupled merge landing — rebuild the now-conflicted sibling
+  # PRs immediately instead of waiting for the next scheduled run.
+  # (push events on main are collaborator-only; concurrency serializes.)
+  push:
+    branches:
+      - main
+    paths:
+      - keds/composer.lock
   workflow_dispatch:
     inputs:
       slugs:
