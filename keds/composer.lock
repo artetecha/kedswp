@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2839f18fc48a09da31d3907d802bfc85",
+    "content-hash": "f4c50a7b0dc4c2ad2110baaa25bedf88",
     "packages": [
         {
             "name": "composer/installers",
@@ -732,15 +732,15 @@
         },
         {
             "name": "wpackagist-plugin/elementor",
-            "version": "4.1.1",
+            "version": "4.1.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/elementor/",
-                "reference": "tags/4.1.1"
+                "reference": "tags/4.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/elementor.4.1.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/elementor.4.1.4.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -768,15 +768,15 @@
         },
         {
             "name": "wpackagist-plugin/fluent-crm",
-            "version": "3.1.0",
+            "version": "3.1.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/fluent-crm/",
-                "reference": "tags/3.1.0"
+                "reference": "tags/3.1.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/fluent-crm.3.1.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/fluent-crm.3.1.8.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -786,15 +786,15 @@
         },
         {
             "name": "wpackagist-plugin/fluentform",
-            "version": "6.2.4",
+            "version": "6.2.5",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/fluentform/",
-                "reference": "tags/6.2.4"
+                "reference": "tags/6.2.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/fluentform.6.2.4.zip"
+                "url": "https://downloads.wordpress.org/plugin/fluentform.6.2.5.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -804,15 +804,15 @@
         },
         {
             "name": "wpackagist-plugin/google-listings-and-ads",
-            "version": "3.7.0",
+            "version": "3.7.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/google-listings-and-ads/",
-                "reference": "tags/3.7.0"
+                "reference": "tags/3.7.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-listings-and-ads.3.7.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/google-listings-and-ads.3.7.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -822,15 +822,15 @@
         },
         {
             "name": "wpackagist-plugin/google-site-kit",
-            "version": "1.179.0",
+            "version": "1.182.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/google-site-kit/",
-                "reference": "tags/1.179.0"
+                "reference": "tags/1.182.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.179.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.182.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -840,15 +840,15 @@
         },
         {
             "name": "wpackagist-plugin/honeypot",
-            "version": "2.3.04",
+            "version": "2.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/honeypot/",
-                "reference": "tags/2.3.04"
+                "reference": "tags/2.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/honeypot.2.3.04.zip"
+                "url": "https://downloads.wordpress.org/plugin/honeypot.2.4.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -858,15 +858,15 @@
         },
         {
             "name": "wpackagist-plugin/host-webfonts-local",
-            "version": "6.3.5",
+            "version": "6.3.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/host-webfonts-local/",
-                "reference": "tags/6.3.5"
+                "reference": "tags/6.3.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/host-webfonts-local.6.3.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/host-webfonts-local.6.3.8.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -894,15 +894,15 @@
         },
         {
             "name": "wpackagist-plugin/learnpress",
-            "version": "4.3.7",
+            "version": "4.4.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/learnpress/",
-                "reference": "tags/4.3.7"
+                "reference": "tags/4.4.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/learnpress.4.3.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/learnpress.4.4.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -912,15 +912,15 @@
         },
         {
             "name": "wpackagist-plugin/mailchimp-for-wp",
-            "version": "4.12.6",
+            "version": "4.13.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/mailchimp-for-wp/",
-                "reference": "tags/4.12.6"
+                "reference": "tags/4.13.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-wp.4.12.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-wp.4.13.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -948,15 +948,15 @@
         },
         {
             "name": "wpackagist-plugin/performance-lab",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/performance-lab/",
-                "reference": "tags/4.1.0"
+                "reference": "tags/4.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/performance-lab.4.1.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/performance-lab.4.2.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -966,15 +966,15 @@
         },
         {
             "name": "wpackagist-plugin/redirection",
-            "version": "5.7.5",
+            "version": "5.8.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/redirection/",
-                "reference": "tags/5.7.5"
+                "reference": "tags/5.8.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/redirection.5.7.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/redirection.5.8.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -1038,15 +1038,15 @@
         },
         {
             "name": "wpackagist-plugin/webp-uploads",
-            "version": "2.6.1",
+            "version": "2.7.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/webp-uploads/",
-                "reference": "tags/2.6.1"
+                "reference": "tags/2.7.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/webp-uploads.2.6.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/webp-uploads.2.7.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -1056,15 +1056,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce",
-            "version": "10.8.1",
+            "version": "10.9.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/10.8.1"
+                "reference": "tags/10.9.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.8.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.9.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -1074,15 +1074,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-gateway-stripe",
-            "version": "10.7.0",
+            "version": "10.8.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
-                "reference": "tags/10.7.0"
+                "reference": "tags/10.8.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.10.7.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.10.8.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -1092,15 +1092,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-mail-smtp",
-            "version": "4.8.0",
+            "version": "4.9.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-mail-smtp/",
-                "reference": "tags/4.8.0"
+                "reference": "tags/4.9.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.4.8.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.4.9.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
