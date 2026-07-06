@@ -136,6 +136,10 @@ if(!defined('ABSPATH')) exit();
 				<sr-sp h="15"></sr-sp>
 
 			</sr-wrap-dep>
-		</sr-separator-body>		
+		</sr-separator-body>
 	</sr-separator>
+	<!-- Slot for addon-registered position modes (see SR7.editor.registerPositionMode).
+	     Placed OUTSIDE the Position separator so each mode body is its own top-level
+	     section (with its own divider line). Shown only when layer.rTo === mode.value. -->
+	<sr-rto-bodies></sr-rto-bodies>
 </sr-wrap-dep>

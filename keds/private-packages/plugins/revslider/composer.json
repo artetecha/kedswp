@@ -1,1 +1,5 @@
-{"name":"keds-plugin/revslider","type":"wordpress-plugin","version":"7.0.9"}
+{
+ "name": "keds-plugin/revslider",
+ "type": "wordpress-plugin",
+ "version": "7.1.1"
+}

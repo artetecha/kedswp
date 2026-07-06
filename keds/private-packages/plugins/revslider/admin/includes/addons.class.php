@@ -15,24 +15,27 @@ class RevSliderAddons extends RevSliderFunctions {
 	private $addons_list			= [];
 	private $addons_list_short		= [];
 
+	//Minimum addon version required by the CURRENT core version (keys = official addon slugs from the rs-addons list). Baseline 7.0.0 = "any SR7 build is fine"; raise an entry only when a core change drops backward compatibility for that addon. Alphabetical, one line per official addon.
 	private $addon_version_required = [
 		'revslider-404-addon'				=> '7.0.0',
+		'revslider-aitranslate-addon'		=> '7.0.0',
 		'revslider-backup-addon'			=> '7.0.0',
-		'revslider-distortion-addon'		=> '7.0.0',
-		'revslider-featured-addon'			=> '7.0.0',
-		'revslider-gallery-addon'			=> '7.0.0',
-		'revslider-login-addon'				=> '7.0.0',
-		'revslider-prevnext-posts-addon'	=> '7.0.0',
-		'revslider-rel-posts-addon'			=> '7.0.0',
 		'revslider-beforeafter-addon'		=> '7.0.0',
 		'revslider-bubblemorph-addon'		=> '7.0.0',
+		'revslider-carouselx-addon'			=> '7.1.0', //the harmonized core dropped carouselx's hardcoded 3dshowcase/fade support - it now lives in the addon's srCarExt hooks, so an older carouselx renders wrong (Track 2 R1f). Force the update.
 		'revslider-charts-addon'			=> '7.0.0',
+		'revslider-commerce-addon'			=> '7.0.0',
+		'revslider-depthforge-addon'		=> '7.0.0',
+		'revslider-distortion-addon'		=> '7.0.0',
+		'revslider-domainswitch-addon'		=> '7.0.0',
 		'revslider-duotonefilters-addon'	=> '7.0.0',
 		'revslider-explodinglayers-addon'	=> '7.0.0',
-		'revslider-filmstrip-addon'			=> '7.0.0',
+		'revslider-featured-addon'			=> '7.0.0',
+		'revslider-filmstrip-addon'			=> '7.1.1', //7.1.0 had a regression (blank, no error) + needs SR7.t() from core 7.1.1; force the update
 		'revslider-fluiddynamics-addon'		=> '7.0.0',
+		'revslider-gallery-addon'			=> '7.0.0',
 		'revslider-hovermorph-addon'		=> '7.0.0',
-		'revslider-liquideffect-addon'		=> '7.0.0',
+		'revslider-login-addon'				=> '7.0.0',
 		'revslider-lottie-addon'			=> '7.0.0',
 		'revslider-maintenance-addon'		=> '7.0.0',
 		'revslider-mousetrap-addon'			=> '7.0.0',
@@ -41,13 +44,17 @@ class RevSliderAddons extends RevSliderFunctions {
 		'revslider-particles-addon'			=> '7.0.0',
 		'revslider-particlewave-addon'		=> '7.0.0',
 		'revslider-polyfold-addon'			=> '7.0.0',
+		'revslider-prevnextposts-addon'		=> '7.0.0',
 		'revslider-refresh-addon'			=> '7.0.0',
+		'revslider-relposts-addon'			=> '7.0.0',
 		'revslider-revealer-addon'			=> '7.0.0',
 		'revslider-scrollvideo-addon'		=> '7.0.0',
 		'revslider-shapeburst-addon'		=> '7.0.6',
 		'revslider-sharing-addon'			=> '7.0.0',
 		'revslider-slicey-addon'			=> '7.0.0',
 		'revslider-snow-addon'				=> '7.0.0',
+		'revslider-spectrumlines-addon'		=> '7.0.0',
+		'revslider-sunbeam-addon'			=> '7.0.0',
 		'revslider-thecluster-addon'		=> '7.0.0',
 		'revslider-transitionpack-addon'	=> '7.0.0',
 		'revslider-typewriter-addon'		=> '7.0.0',
@@ -194,6 +201,8 @@ class RevSliderAddons extends RevSliderFunctions {
 	 */
 
 	public function install_addon($addon, $force = false){
+		if(empty($addon) || 0 !== strpos($addon, 'revslider-')) return false;
+		
 		if(!function_exists('get_plugins')) require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		
 		if($this->_truefalse($this->get_options(['system', 'valid'], 'false')) !== true) return __('Please activate Slider Revolution', 'revslider');
@@ -289,7 +298,7 @@ class RevSliderAddons extends RevSliderFunctions {
 	 * Activates Installed Add-On/Plugin
 	 */
 	public function activate_addon($candidate, $network_wide = null){
-		if($candidate === null) return false;
+		if(empty($candidate) || 0 !== strpos($candidate, 'revslider-')) return false;
 		
 		// Determine network_wide default
 		if($network_wide === null) $network_wide = is_multisite() && is_network_admin();
@@ -311,13 +320,6 @@ class RevSliderAddons extends RevSliderFunctions {
 	}
 
 	/**
-	 * Deactivates Installed Add-On/Plugin
-	 */
-	/*public function deactivate_addon($addon){
-		deactivate_plugins($addon);
-		return true;
-	}*/
-	/**
 	 * Deactivate an addon by handle or plugin path.
 	 *
 	 * @param string      $addon         Handle like 'revslider-404-addon' OR full plugin path 'revslider-404-addon/index.php'
@@ -325,6 +327,8 @@ class RevSliderAddons extends RevSliderFunctions {
 	 * @return bool
 	 */
 	public function deactivate_addon($addon, $network_wide = null){
+		if(empty($addon) || 0 !== strpos($addon, 'revslider-')) return false;
+		
 		$candidate = $this->find_addon_path($addon);
 		if($candidate === null) return false;
 
@@ -405,17 +409,20 @@ class RevSliderAddons extends RevSliderFunctions {
 	 * check if image was uploaded, if yes, return path or url
 	 */
 	public function _check_file_path($image, $url = false, $download = true){
+		if(!wp_mkdir_p($this->addons_basedir)) return $image;
+		
 		$base_url = ($url) ? $this->addons_baseurl : $this->addons_basedir;
 		$file     = $this->addons_basedir . $image;
 		if(file_exists($file)){
 			if(!$this->check_checksum($image, $file)) {
-				$this->rslb->download_url( $image, $file, 'updates' );
+				$this->rslb->download_url( $image, $file, 'updates', false, $this->addons_basedir);
 			}
 			return $base_url . $image;
 		}
 		
 		if($download !== true) return $image;
-		$this->rslb->download_url($image, $file, 'updates');
+		
+		$this->rslb->download_url($image, $file, 'updates', false, $this->addons_basedir);
 
 		return (file_exists($file)) ? $base_url . $image : $image;
 	}

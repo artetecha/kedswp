@@ -53,14 +53,15 @@
 				this.loadDetails(sliderSelector, select.value);
 			}
 
-			selectButton.addEventListener("click", e => SR7.B.shortcode.openSelectModule(data => {
-				console.log(data);
-				if (!data?.alias) return;
-				select.value = data.alias;
-				select.dispatchEvent(new Event("change", {bubbles: true}));
-				this.loadDetails(sliderSelector, select.value);
-				selectButton.disabled = false;
-			}));
+			selectButton.addEventListener("click", e => {
+				SR7.B.shortcode.openSelectModule(data => {
+					if (!data?.alias) return;
+					select.value = data.alias;
+					select.dispatchEvent(new Event("change", {bubbles: true}));
+					this.loadDetails(sliderSelector, select.value);
+					selectButton.disabled = false;
+				});
+			});
 		},
 		injectIntoItemsList(sourceItem) {
 			const newItem = sourceItem.cloneNode(true);

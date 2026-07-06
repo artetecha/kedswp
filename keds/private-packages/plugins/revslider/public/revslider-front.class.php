@@ -50,9 +50,9 @@ class RevSliderFront extends RevSliderFunctions {
 			wp_deregister_script('tp-tools');
 			wp_dequeue_script('tp-tools');
 		}
-		wp_enqueue_script('tp-tools', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', RS_REVISION, ['strategy' => 'async']);
-		wp_enqueue_script('sr7', RS_PLUGIN_URL_CLEAN . 'public/js/sr7.js', '', RS_REVISION, ['strategy' => 'async']);			
-		wp_enqueue_style('sr7css', RS_PLUGIN_URL_CLEAN . 'public/css/sr7.css', '', RS_REVISION);
+		wp_enqueue_script('tp-tools', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', $this->asset_time('public/js/libs/tptools.js'), ['strategy' => 'async']);
+		wp_enqueue_script('sr7', RS_PLUGIN_URL_CLEAN . 'public/js/sr7.js', '', $this->asset_time('public/js/sr7.js'), ['strategy' => 'async']);			
+		wp_enqueue_style('sr7css', RS_PLUGIN_URL_CLEAN . 'public/css/sr7.css', '', $this->asset_time('public/css/sr7.css'));
 		
 		do_action('sr_front_add_scripts', $this);
 	}
@@ -536,25 +536,21 @@ class RevSliderFront extends RevSliderFunctions {
 			}
 			
 			require_once(RS_PLUGIN_PATH . 'admin/includes/shortcode_generator/shortcode_generator.class.php');
-			//add_action('enqueue_block_assets', ['RevSliderShortcodeWizard', 'sr_theme_block_editor_assets']);
 
 			//Shortcode Wizard Includes
 			//WPB Functionality
 			require_once(RS_PLUGIN_PATH . 'admin/includes/shortcode_generator/wpbakery/wpbakery.class.php');
 			add_action('vc_before_init', ['RevSliderWpbakeryShortcode', 'visual_composer_include']);
 			add_action('vc_before_init', ['RevSliderShortcodeWizard', 'enqueue_wpbakery_styles']);
-			add_action('vc_before_init', ['RevSliderShortcodeWizard', 'enqueue_wpbakery_files']);
 			add_action('admin_enqueue_scripts', ['RevSliderShortcodeWizard', 'enqueue_scripts']);
-			add_action('admin_footer', ['RevSliderShortcodeWizard', 'enqueue_files']);
-			
-			add_action('elementor/editor/before_enqueue_scripts', ['RevSliderShortcodeWizard', 'enqueue_files']);
 
 			// BeBuilder Functionality
 			require_once(RS_PLUGIN_PATH . 'admin/includes/shortcode_generator/bebuilder/bebuilder.class.php');
 			RevSliderBeBuilder::init();
 
-			// Divi Module Functionality
-			add_action('et_builder_ready', ['RevSliderShortcodeWizard', 'enqueue_divi_builder_files']);
+			// Avada Builder Functionality
+			require_once(RS_PLUGIN_PATH . 'admin/includes/shortcode_generator/avada/avada.class.php');
+			RevSliderAvada::init(RevSliderShortcodeWizard::is_registered());
 		}
 
 		//Elementor Global

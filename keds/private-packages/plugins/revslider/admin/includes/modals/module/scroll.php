@@ -61,7 +61,7 @@ if(!defined('ABSPATH')) exit();
             <sr-separator topborder dark>
                 <sr-separator-head notoggle>
                     <sr-separator-title><?php _e('Active','revslider'); ?></sr-separator-title>
-                    <sr-onoff class="sr--mr--10" data-sh="#sr_sbt_settings" r="sbt.use" data-onchange="forms.populate" viewchild="module_sbt"></sr-onoff>
+                    <sr-onoff class="sr--mr--10" data-sh="#sr_sbt_settings" r="sbt.use" data-onchange="forms.populate,editor.module.submenu" data-onundoredo="editor.module.submenu" viewchild="module_sbt"></sr-onoff>
                 </sr-separator-head>
             </sr-separator>
             <sr-separator id="sr_sbt_settings">   

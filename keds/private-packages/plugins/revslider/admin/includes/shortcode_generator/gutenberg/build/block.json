@@ -12,8 +12,7 @@
   ],
   "example": {
     "attributes": {
-      "title": "Demo title",
-      "slider": "default"
+      "previewMode": true
     }
   },
   "attributes": {
@@ -72,6 +71,10 @@
     "color": {
       "type": "string",
       "default": "transparent"
+    },
+    "previewMode": {
+      "type": "boolean",
+      "default": false
     }
   },
   "editorScript": "file:./index.js",

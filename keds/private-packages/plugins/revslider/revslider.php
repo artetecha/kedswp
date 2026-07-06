@@ -6,7 +6,7 @@ Description: Slider Revolution - More than just a WordPress Slider
 Author: ThemePunch
 Text Domain: revslider
 Domain Path: /languages
-Version: 7.0.9
+Version: 7.1.1
 Author URI: https://themepunch.com/?utm_source=admin&utm_medium=button&utm_campaign=srusers&utm_content=info
 */
 
@@ -17,7 +17,7 @@ if(class_exists('RevSliderFront')){
 	die('ERROR: It looks like you have more than one instance of Slider Revolution installed. Please remove additional instances for this plugin to work again.');
 }
 
-define('RS_REVISION',			'7.0.9');
+define('RS_REVISION',			'7.1.1');
 define('RS_PLUGIN_PATH',		plugin_dir_path(__FILE__));
 define('RS_PLUGIN_SLUG_PATH',	plugin_basename(__FILE__));
 define('RS_PLUGIN_FILE_PATH',	__FILE__);
@@ -25,7 +25,7 @@ define('RS_PLUGIN_SLUG',		apply_filters('set_revslider_slug', 'revslider'));
 define('RS_PLUGIN_URL',			get_sr_plugin_url());
 define('RS_PLUGIN_URL_CLEAN',	str_replace(['http://', 'https://'], '//', RS_PLUGIN_URL));
 define('RS_DEMO',				false);
-define('RS_TP_TOOLS',			'7.0.7'); //holds the version of the tp-tools script, load only the latest!
+define('RS_TP_TOOLS',			'7.1.0'); //holds the version of the tp-tools script, load only the latest!
 
 global $SR_GLOBALS;
 
@@ -82,6 +82,7 @@ $SR_GLOBALS = [
 require_once(RS_PLUGIN_PATH . 'includes/globals.class.php');
 require_once(RS_PLUGIN_PATH . 'includes/data.class.php');
 require_once(RS_PLUGIN_PATH . 'includes/functions.class.php');
+require_once(RS_PLUGIN_PATH . 'includes/addon-base.class.php');
 require_once(RS_PLUGIN_PATH . 'includes/cache.class.php');
 require_once(RS_PLUGIN_PATH . 'includes/optimizer.class.php');
 
@@ -248,6 +249,12 @@ try{
 		$sr_admin	= RevSliderGlobals::instance()->get('RevSliderAdmin');
 	}else{
 		$rev_slider_front = new RevSliderFront();
+
+		//load the update class outside the admin so wp-cron's automatic updater
+		//sees Slider Revolution in the update_plugins transient and can run
+		//background auto-updates the same way it does for plugins hosted on wp.org
+		require_once(RS_PLUGIN_PATH . 'includes/update.class.php');
+		RevSliderUpdate::init_auto_updates();
 	}
 	
 	register_activation_hook(__FILE__, ['RevSliderFront', 'create_tables']);
@@ -257,6 +264,7 @@ try{
 	add_action('plugins_loaded', ['RevSliderPluginUpdate', 'do_update_checks']);
 	add_action('plugins_loaded', ['RevSliderPluginUpdate', 'do_remove_addon_checks']);
 	add_action('plugins_loaded', ['RevSliderPluginUpdate', 'do_update_addon_checks']);
+	add_action('admin_init', ['RevSliderPluginUpdate', 'do_wpml_addon_check']);
 	add_action('plugins_loaded', ['RevSliderFront', 'create_tables']);
 	add_action('plugins_loaded', ['RevSliderPageTemplate', 'get_instance']);
 	add_action('plugins_loaded', ['RevSliderFront', 'add_post_editor']);

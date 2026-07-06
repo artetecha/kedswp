@@ -186,8 +186,7 @@ $classes = [
 						<sr-drops data-v="zoomout"><?php _e('Zoom Out','revslider'); ?></sr-drops>
                     </sr-drop>
                     <sr-input wide class="sr--mr--10"><input name="Animation Speed" replace r="nav.arrows.s" viewchild="sr_nav_a_behavior" type="text" number="true" min="0" max="10000" suffix="ms" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Animation Speed','revslider'); ?></span></sr-input>
-                    <sr-input wide class="sr--mr--10"><input name="Delay to Show" replace responsive="inherit" respfix="round" respshow="below"  r="nav.arrows.dIn.#LEV#" viewchild="sr_nav_a_behavior" type="text" number="true" min="0" max="10000" suffix="ms" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Delay to Show','revslider'); ?></span></sr-input><!--
-                    --><sr-wrap wide basic class="sr--form--grp sr--mb--15"><sr-onoff viewchild="sr_nav_a_behavior" r="nav.arrows.i" class="sr--mr--10"></sr-onoff><span><?php _e('RTL Direction','revslider'); ?></span></sr-wrap>
+                    <sr-input wide class="sr--mr--10"><input name="Delay to Show" replace responsive="inherit" respfix="round" respshow="below"  r="nav.arrows.dIn.#LEV#" viewchild="sr_nav_a_behavior" type="text" number="true" min="0" max="10000" suffix="ms" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Delay to Show','revslider'); ?></span></sr-input>
 
                     <sr-drop  wide multiselect="truefalse" multilen="5" usecheck="" r="nav.arrows.show" viewchild="sr_nav_a_behavior" data-v="" dropsw="190" dropsh="200"> 
                         <sr-drop-view>

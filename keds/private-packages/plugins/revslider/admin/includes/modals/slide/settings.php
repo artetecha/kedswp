@@ -35,6 +35,16 @@ if(!defined('ABSPATH')) exit();
             <sr-separator-body>
                 <sr-wrap basic wide><span class="sr--form--grp"><sr-onoff r="#MODULE#.eVis" viewchild="staticslidesettings" class="sr--mr--10"></sr-onoff><span><?php _e('Visibility in Editor','revslider'); ?></span><sr-tooltip key="globallayersvisibility"></sr-tooltip></span></sr-wrap>
                 <sr-sp h="15"></sr-sp>
+                <sr-wrap basic wide>
+                    <sr-drop wide r="#MODULE#.eVisSlide" data-source="moduleslides" data-sourceparams="real" data-novalue='<?php _e('No Reference Slide','revslider'); ?>' data-onchange="editor.elements.drawReference" viewchild="staticslidesettings" ignoreredraw dropsw="340" dropsh="340">
+                        <sr-drop-view>
+                            <span class="sr--drop--value" style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:70px; min-height:26px;"></span>
+                            <span class="sr--form--otitle"><?php _e('Reference Slide Layers','revslider'); ?></span>
+                            <span class="sr--drop--icon"><svg width="10" height="6" transform="translate(0, -1)"><use xlink:href="#Drop_Down"></use></svg></span>
+                        </sr-drop-view>
+                    </sr-drop>
+                </sr-wrap>
+                <sr-sp h="15"></sr-sp>
             </sr-separator-body>
         </sr-separator>        
     </sr-modal-content>
@@ -150,7 +160,7 @@ if(!defined('ABSPATH')) exit();
                 </sr-separator-head>
                 <sr-separator-body>
                     <sr-wrap basic>
-                        <sr-drop data-v="" r="publish.state" viewchild="slide_schedule"  wide>
+                        <sr-drop data-v="" r="publish.state" viewchild="slide_schedule" data-onchange="editor.slides.showList"  wide>
                             <sr-drop-view>
                                     <span class="sr--drop--value"></span>
                                     <span class="sr--form--otitle"><?php _e('Status','revslider'); ?></span>
@@ -166,7 +176,7 @@ if(!defined('ABSPATH')) exit();
             <sr-separator>
                 <sr-separator-head notoggle>
                     <sr-separator-title><?php _e('Schedule','revslider'); ?></sr-separator-title>  
-                    <sr-onoff style="right:0px" r="publish.sch" data-sh="#slide_schedule_fromto" data-shdep="checked" viewchild="slide_schedule" ></sr-onoff>
+                    <sr-onoff style="right:0px" r="publish.sch" data-sh="#slide_schedule_fromto" data-onchange="editor.slides.showList" data-shdep="checked" viewchild="slide_schedule" ></sr-onoff>
                 </sr-separator-head>
                 <sr-separator-body id="slide_schedule_fromto">
                     <sr-wrap basic>

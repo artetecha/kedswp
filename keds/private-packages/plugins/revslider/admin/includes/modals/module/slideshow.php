@@ -195,7 +195,7 @@ if(!defined('ABSPATH')) exit();
                 </sr-separator-head>
                 <sr-separator-body>     
                     <sr-input wide><input name="Start After DOM Loaded" replace r="slideshow.initDelay" viewchild="module_timing" type="text" number="true" min="0" max="10000" suffix="ms" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('After DOM Loaded','revslider'); ?></span></sr-input>
-                    <sr-input wide><input name="ViewPort Treshold" responsive respshow="below" replace r="vPort.#LEV#" viewchild="module_timing" type="text" number="true" min="-1000" max="1000" suffix="px" lastsuffix="px" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Viewport Threshold (+/-)','revslider'); ?></span></sr-input>   
+                    <sr-input wide><input name="ViewPort Threshold"  replace r="vPort" viewchild="module_timing" type="text" number="true" min="-1000" max="1000" suffix="px" lastsuffix="px" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Viewport Threshold (+/-)','revslider'); ?></span></sr-input>   
                     <sr-wrap basic class="sr--form--grp sr--mb--15"><sr-onoff r="slideshow.waitApi" viewchild="module_timing" class="sr--mr--10 checked"></sr-onoff><span><?php _e('Wait for API Call','revslider'); ?></span></sr-wrap>
                     <sr-sp h="5"></sr-sp>
                 </sr-separator-body>

@@ -1,4 +1,214 @@
-<div class="slider-revolution-update-list">		
+<div class="slider-revolution-update-list">			
+	<h3 class="version-number">Version 7.1.1 (24th June 2026)</h3>
+	<div class="newfeature"><strong style="font-weight:700">New Features</strong></div>
+	<ul>
+		<li>Static Slides: optionally show a chosen regular slide's layers as a dimmed reference behind the static slide while editing, to help align global layers (Static Slide Settings)</li>
+	</ul>
+	<div class="change"><strong style="font-weight:700">Changes</strong></div>
+	<ul>
+		<li>Added new custom JavaScript examples to the Custom Scripts section of the Editor</li>
+		<li>Admin and editor stylesheets are now minified in the release build for faster editor loading</li>
+	</ul>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Fixed an issue causing unnecessary module reloading on WPBakery-built pages</li>
+		<li>Fixed initial module rendering in the WPBakery Live Builder</li>
+		<li>Prevented the user-select: none style from affecting headings outside the plugin</li>
+		<li>Fixed layer list item alignment in name editing mode</li>
+		<li>RTL: fixed the rotating loading spinner not applying its reversed direction</li>
+		<li>Fixed border width settings not resetting correctly in Hover Style</li>
+		<li>Vimeo videos in cover mode now fill the area for non-16:9 formats by using the video's real aspect ratio</li>
+	</ul>
+	<h3 class="version-number">Version 7.1.0 (22nd June 2026)</h3>
+	<div class="newfeature"><strong style="font-weight:700">New Features</strong></div>
+	<ul>
+		<li>Smart Spacing Guides: equal-spacing detection while dragging layers - gap rulers with pixel labels show when a layer has the same distance to its neighbours or repeats a sibling gap, with optional snapping (configurable in Global Settings)</li>
+		<li>Arrange toolbar for multi-selections: align left / center / right / top / middle / bottom, distribute horizontally or vertically with equal gaps, and one-click Row, Column and Grid layouts</li>
+		<li>Stage Zoom: zoom the editor stage in and out for precise editing, with a zoom hint that can be re-shown on demand</li>
+		<li>Timeline Zoom for fine-grained keyframe editing on long animations</li>
+		<li>Keyboard Shortcuts list: a quick reference of all editor shortcuts</li>
+		<li>Custom Shape Builder: create parametric, generative shape layers (blobs, waves and more) directly in the editor, including a reusable Custom Shape symbol</li>
+		<li>Layer Interactions: new cursor-driven effects for any layer - Magnetic, Attract, Repel, Squeeze and Tilt - that compose with existing animations</li>
+		<li>RTL Support for the backend: the editor, dashboard, popups and panels now mirror correctly on RTL WordPress installs, plus a Use Editor in LTR Mode global setting to keep the default layout while the admin stays RTL</li>
+		<li>Move to Folder: organise modules from the dashboard via a new Move to Folder function</li>
+		<li>Grouped Add-Ons: Slider Revolution add-ons are now grouped behind a single Slider Revolution Add-ons view in the WP plugins list instead of cluttering it - add-ons with pending updates stay visible, and the behavior can be disabled in Global Settings &rarr; System</li>
+		<li>Added the ability to import multiple slides at once from other modules</li>
+		<li>Liquid Glass: a frosted backdrop-blur glass effect for layers, with blur and intensity controls (Extra Style)</li>
+		<li>Progressive Blur: gradient (iOS-style) blur that ramps along a direction - as a backdrop overlay or on image content, with direction, max blur, fade and tint controls (Extra Style)</li>
+		<li>Custom Font Upload: upload your own font files (WOFF2, WOFF, TTF, OTF) in Global Settings - Fonts, with automatic weight and style detection and generated font-face CSS, so no manual hosting is needed</li>
+		<li>Image Editor: edit layer and background images right in the editor - crop, rotate, flip, light - colour adjustments, curves, blur and filters, plus saveable presets - the result is stored in the Media Library as a new image and applied to the layer</li>
+	</ul>
+	<div class="change"><strong style="font-weight:700">Changes</strong></div>
+	<ul>
+		<li>Dashboard folder listing can now be sorted by Most Recent and by Date</li>
+		<li>Extended preset support for add-ons and made the Position and Size panel aware of add-on driven changes</li>
+		<li>Eliminated unnecessary re-authentication requests in the Select Module modal for builder integrations</li>
+		<li>New Force Swipe over Effects navigation option (Touch settings, off by default): when enabled a horizontal swipe over a WebGL/effect layer changes slides instead of being captured by the effect</li>
+		<li>Module imports now include add-on media - add-on file types such as Lottie (.json) and DepthForge (.glb) are allowed</li>
+		<li>Reworked the add-on framework for better stability and performance when running several add-ons or WebGL effects together: a shared WebGL rendering budget prevents browser context limits, with unified add-on registration and settings handling</li>
+		<li>Updated the bundled 3D / WebGL engine to Three.js r184</li>
+		<li>Added an Edit Image pen to the layer toolbar for image layers and image shapes, opening the Image Editor directly</li>
+	</ul>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Improved layer toolbar click reliability: icons no longer swallow clicks, the toolbar stays in place during consecutive actions, and toolbar presses can no longer trigger an unintended layer drag</li>
+		<li>Fixed shape presets, compiler handling and preloading for shape layers</li>
+		<li>RTL: fixed dashboard toolbar spacing and notification badge, the layer list panel, and dropdown arrows overlapping their labels</li>
+		<li>Fixed the Check for Add-On Updates feature when used from the Editor</li>
+		<li>Show "No Title" for page selection options that do not have a title</li>
+		<li>Fixed a JavaScript error in the calendar control when used on the Overview page</li>
+		<li>Fixed carousel videos failing to autoplay on mobile (muted before autoplay)</li>
+		<li>Fixed modals reopening on the wrong slide when the trigger's target slide is not part of the modal</li>
+		<li>Fixed full-height layers rendering at zero height on slow editor loads (e.g. WebGL effect layers staying blank until a slide swap)</li>
+		<li>Fixed a 500 error when editing pages in Gutenberg, Elementor, Divi, Avada, WPBakery and BeBuilder caused by an asset-timestamp call</li>
+		<li>Fixed the editor occasionally getting stuck on Loading Editor Resources on slow connections</li>
+		<li>Fixed slides occasionally getting stuck while preparing (no drawing or animations) on slow loads with WebGL effects</li>
+		<li>Fixed rapid navigation clicks being dropped when triggered in quick succession</li>
+		<li>Fixed add-ons and effects not re-initializing after Ajax / PJAX page navigation</li>
+		<li>Accessibility: interactive link and button layers are no longer left hidden from screen readers</li>
+		<li>Fixed the dashboard module list loading duplicate entries (and a possible divide-by-zero) on large libraries</li>
+		<li>Added SVG sanitization for media uploaded through Slider Revolution</li>
+		<li>Module registration errors no longer silently stop the remaining modules on a page from loading</li>
+		<li>Fixed a module rendering error caused by Scroll-Based Timeline being enabled for autoplay and multi-slide modules</li>
+		<li>Fixed the incorrect navigation style displayed in the Editor when navigation is enabled for the first time</li>
+		<li>Fixed Cross Site Scripting vulnerability due to unprotected message content</li>
+		<li>Fixed the editor freezing when selecting or adding a layer with the Layers list open</li>
+		<li>Fixed Google Fonts not loading (stylesheet MIME type error) when font caching/download was enabled</li>
+		<li>Unified the add-on framework so add-ons share one registration, update and resource system; fixed add-on stylesheets not loading on the front end or being left out of HTML exports, and prevented some add-ons from loading their assets twice</li>
+	</ul>
+	<h3 class="version-number">Version 7.0.16 (9th June 2026)</h3>
+	<div class="newfeature"><strong style="font-weight:700">New Features</strong></div>
+	<ul>
+		<li>Filmstrip 7.1.0: New 3D layout modes alongside the classic Marquee - Coverflow, Path, Stack, Cascade, Zoom Slide and 3D Showcase - with real CSS 3D perspective</li>
+		<li>Filmstrip 7.1.0: Drag and throw, mouse wheel, autoplay and snap interaction on every layout (the marquee now supports drag, wheel and pause on hover, too)</li>
+		<li>Filmstrip 7.1.0: Item sizing (Auto, Aspect Ratio or Fixed), drop shadows and Marquee edge fade-out, plus a reorganised settings / slides panel</li>
+		<li>CarouselX: New SVG Path carousel type - arrange slides along a custom path shape (Line, Wave, Arc, S-Curve, Circle, Zig-Zag and more) with optional path-tangent rotation and a visible guide line</li>
+	</ul>
+	<div class="change"><strong style="font-weight:700">Changes</strong></div>
+	<ul>
+		<li>Added Mouse Wheel navigation for carousel modules, with auto trackpad/mouse detection and sequential or infinite looping via the wheel scroll setting</li>
+		<li>Added WPML compatibility: detects an active WPML install, auto-enables the AI Translate add-on for modules, and shows a dashboard notice</li>
+		<li>Timeline now stays synced to the selected keyframe, layer and animation part, highlighting the active frame</li>
+		<li>Fixed overlapping text and slide icons for unpublished slides in the editor sidebar</li>
+		<li>Removed global slides from the import slides selection list</li>
+		<li>Slide list and dashboard thumbnails now follow the slide background automatically, while keeping manually chosen thumbnails</li>
+		<li>Disabled Scroll-Based timeline for autoplay and multi-slide modules to avoid unexpected behavior</li>
+	</ul>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Fixed horizontal layer alignment and offsets in full width modules using a vertical CarouselX 3D Showcase</li>
+		<li>Changed duplicated layers to be inserted above the original instead of at the end of the list</li>
+		<li>Removed broken Slide Range repeater, which is not used any more in SR7</li>
+		<li>The dashboard module thumbnail now correctly follows the first slide after reordering slides</li>
+		<li>Fixed incorrect preview URL argument handling in the Overview modules list that could cause preview errors</li>
+		<li>Fixed misaligned tags in the elements library details modal</li>
+		<li>Increased saving speed by better handling of cache clearing</li>
+	</ul>
+	<h3 class="version-number">Version 7.0.15 (25th May 2026)</h3>
+	<div class="change"><strong style="font-weight:700">Changes</strong></div>
+	<ul>
+		<li>Removed ThemePunch Cookie option from the Consent Management plugin list</li>
+	</ul>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Improved editing behavior for align and snap threshold values in Global Settings</li>
+		<li>Updated the AI image generator background removal workflow to properly refresh credits</li>
+		<li>Resolved an issue preventing the context menu from opening in empty static slides</li>
+		<li>Enhanced support for loading custom fonts from external CSS providers such as Bunny Fonts</li>
+		<li>Corrected an Incorrect Authorization to Authenticated (Contributor+) Sensitive Information Exposure vulnerability</li>
+		<li>Addressed a Missing Authorization to Authenticated (Contributor+) Arbitrary Plugin Deactivation vulnerability</li>
+		<li>Refined Gutenberg block previews inside the Add Block sidebar</li>
+		<li>Adjusted the Back to Parent navigation link in the module selector</li>
+		<li>Updated required version validation for the Divi 4 module</li>
+		<li>Removed duplicate popup markup injection on post edit pages</li>
+		<li>Corrected pause-on-hover behavior on mobile devices</li>
+		<li>Fixed incorrect layer order after duplication</li>
+	</ul>
+	<h3 class="version-number">Version 7.0.14 (18th May 2026)</h3>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Fixed an issue with pasting rows into static slides</li>
+		<li>Fixed errors when pasting content into a static slide containing a single layer</li>
+		<li>Fixed sizing issue of progress bullet navigation elements</li>
+		<li>Resolved PHP deprecation warnings in Divi 4 module integration</li>
+		<li>Action mouse events were not recognised on Looped animations</li>
+	</ul>	
+	<h3 class="version-number">Version 7.0.13 (11th May 2026)</h3>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Slide Background Animation presets were animating in the wrong direction when certain slide transition effects were selected</li>
+		<li>Improved RTL Navigation handling with new Auto, On, and Off modes for global navigation RTL settings</li>
+		<li>Fixed dragging of navigation elements in the editor</li>
+		<li>Fixed missing static layers during slide and layer imports</li>
+		<li>Fixed popup content not updating correctly between the Import Slides and Import Layers dialogs</li>
+		<li>Fixed incorrect display of navigation tabs when first added in the editor</li>
+		<li>Fixed escaped slashes appearing in navigation skin markup</li>
+		<li>Fixed alignment issues of navigation ghost layers</li>
+		<li>Fixed incorrect navigation skin selection in the dropdown for modules using custom navigation skins</li>
+		<li>The currently selected navigation item is now highlighted in the editor</li>
+		<li>Fixed an error when switching slides while a text layer was selected</li>
+	</ul>
+	<h3 class="version-number">Version 7.0.12 (7th May 2026)</h3>
+	<div class="change"><strong style="font-weight:700">Changes</strong></div>
+	<ul>
+		<li>Scheduled and unpublished slides are now displayed in the slide list with additional icons and red highlighting for easier identification.</li>
+		<li>Migration labels and panels are now more prominent to better catch the customers attention during the migration process.</li>
+	</ul>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Fixed an issue where the migration process could break when migrating from versions older than 6.7.14 to 7.0.x.</li>
+		<li>Fixed an issue where undefined module height and width values on device sizes could break the Editor loading process.</li>			
+		<li>Fixed an issue where slide auto-rotation was not working when the progress bar was enabled.</li>
+		<li>Fixed a migration issue where Mobile Device Mode could become unexpectedly deactivated.</li>
+		<li>Fixed an issue where Mobile Size could not be deactivated and became active again after reloading the Editor.</li>	
+	</ul>
+	<h3 class="version-number">Version 7.0.11 (4th May 2026)</h3>
+	<div class="newfeature"><strong style="font-weight:700">New Features</strong></div>	
+	<ul>
+		<li>Improved integration with Avada Fusion Builder</li>
+		<li>Added support for progress bars in scroll-based timelines</li>
+		<li>Carousel slides now support shadow effects</li>
+		<li>Carousel X Addon introduced - extending the Carousel with Accordion, Cascade, 3D Showcase and ZoomSlide Types</li>
+	</ul>
+	<div class="change"><strong style="font-weight:700">Changes</strong></div>
+	<ul>
+		<li>Optimized loading of required dependencies for builder modules</li>
+		<li>Added line-height option for Groups</li>
+		<li>Removed text clipping for SVG and Audio layers</li>
+		<li>Added en_US translation file to support backend localization</li>
+		<li>Module height calculation for Carousels now respects padding and content height</li>
+	</ul>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>Fixed issue preventing template installation without pre-installed add-ons</li>
+		<li>Resolved empty template library after upgrading from version 6.x</li>
+		<li>Fixed occasional meta box error messages appearing in the editor</li>
+		<li>Prevented warnings from external output buffers from breaking layouts in some themes</li>
+		<li>Fixed module not displaying when Fixed on Top option was enabled</li>
+		<li>Fixed Auto Infinity Loop not starting when Slide Progress was set to Auto</li>
+		<li>Prevented duplicate items from appearing in builder module selectors</li>
+		<li>Fixed an error caused by third-party elements injected into the image list</li>
+		<li>Unpublished slides if hero is set in module settings will now be properly ignored</li>
+		<li>Vertical Carousel height and first draw was calculated with NaN values</li>
+	</ul>
+	<h3 class="version-number">Version 7.0.10 (22nd April 2026)</h3>
+	<div class="newfeature"><strong style="font-weight:700">New Features</strong></div>	
+	<ul>
+		<li>Slide background layer can be deleted now</li>
+		<li>Alt text from image sources is now applied to non-image elements as aria-label with role="img" when available</li>
+	</ul>
+	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
+	<ul>
+		<li>YouTube background was breaking since 7.0.9 update in preview</li>
+		<li>Timeline states were always showing the state markers from the IN Scene</li>
+		<li>Removed unnecessary editor assets from the frontend</li>
+		<li>Since version 7.0.9 you could not add or create new slides</li>
+		<li>New slides (imported, or created from scratch) had no admin thumbnail until reload</li>
+		<li>Unauthenticated sensitive information exposure via 'sliders/stream'</li>
+		<li>Arbitrary file upload via _get_media_url</li>
+		<li>Fixed potential errors caused by missing frontend scripts in Elementor frontend mode</li>
+		<li>Fix for unpublished on schedule beeing pushed to frontend</li>
+	</ul>
 	<h3 class="version-number">Version 7.0.9 (17th April 2026)</h3>
 	<div class="newfeature"><strong style="font-weight:700">New Features</strong></div>	
 	<ul>
@@ -10,7 +220,7 @@
 	</ul>
 	<div class="change"><strong style="font-weight:700">Changes</strong></div>
 	<ul>
-		<li>Renamed “Element” to “Layer” for consistent terminology</li>
+		<li>Renamed Element to Layer for consistent terminology</li>
 		<li>Removed none working WPML class and replaced it with a new WPML functionality through the AI Translate AddOn</li>
 	</ul>
 	<div class="bugfix"><strong style="font-weight:700">Bug Fixes</strong></div>
@@ -24,15 +234,15 @@
 		<li>Improved stability on fast Ajax/PJAX sites where SR7 could fail to start after navigation.</li>
 		<li>Fixed modules failing to load in the Divi Builder after upgrading.</li>
 		<li>Fixed a typo in the video settings.</li>
-		<li>Removed the full-screen button from video controls when “Allow Full Screen” is disabled.</li>
-		<li>Fixed “Uniform Gaps” not appearing in preview and preventing unexpected spacing issues.</li>
+		<li>Removed the full-screen button from video controls when Allow Full Screen is disabled.</li>
+		<li>Fixed Uniform Gaps not appearing in preview and preventing unexpected spacing issues.</li>
 		<li>Fixed a bug where video thumbnails were regenerated whenever the source changed, even if a matching thumbnail already existed in the WordPress Media Library.</li>
 		<li>YouTube, HTML5, and Vimeo videos now support contain/cover sizing based on the selected aspect ratio while keeping the original layer dimensions.</li>
 		<li>Fixed a backward compatibility issue caused by themes/plugins calling the removed getAllSliderAliases() function.</li>
 		<li>Fixed scroll-based filters and transforms rendering even when scroll effects were disabled globally.</li>
 		<li>Fixed an issue where a missing canvas could break nested modals and render content with unwanted empty space.</li>
-		<li>Fixed duplicated layers in the editor sometimes receiving multiple chained “_DBL_” random suffixes.</li>
-		<li>Fixed an issue where “Disabled on Mobile” could disable the entire module, even when the module was not set to run on mobile.</li>
+		<li>Fixed duplicated layers in the editor sometimes receiving multiple chained _DBL_ random suffixes.</li>
+		<li>Fixed an issue where Disabled on Mobile could disable the entire module, even when the module was not set to run on mobile.</li>
 		<li>Fixed missing Alt and Title attributes in noscript image elements generated by Slide Background layers.</li>
 		<li>Improved Slide ID handling: duplicate Slide IDs are now updated in the editor and frontend to prevent broken processing.</li>
 		<li>Scroll Based Timeline interactions were not started in some situations</li>

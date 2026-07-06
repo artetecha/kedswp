@@ -39,8 +39,8 @@ class RevSliderCache extends RevSliderFunctions {
 	public function clear_all_transients(){
 		global $wpdb;
 		
-		$return = $wpdb->query("DELETE FROM ". $wpdb->prefix . 'options' ." WHERE `option_name` LIKE '_transient_revslider_slider_%'");
-		$wpdb->query("DELETE FROM ". $wpdb->prefix . 'options' ." WHERE `option_name` LIKE '_transient_timeout_revslider_slider_%'");
+		$return = $wpdb->query("DELETE FROM ". $wpdb->prefix . "options WHERE `option_name` LIKE '\\_transient\\_revslider\\_slider\\_%'");
+		$wpdb->query("DELETE FROM ". $wpdb->prefix . "options WHERE `option_name` LIKE '\\_transient\\_timeout\\_revslider\\_slider\\_%'");
 		return $return;
 	}
 	
@@ -56,14 +56,38 @@ class RevSliderCache extends RevSliderFunctions {
 		
 		$sid = intval($sid);
 		if($sid > 0){
-			$return = $wpdb->query($wpdb->prepare("DELETE FROM ". $wpdb->prefix . 'options' ." WHERE `option_name` LIKE '_transient_revslider_slider_%d%%'", $sid));
-			$wpdb->query($wpdb->prepare("DELETE FROM ". $wpdb->prefix . 'options' ." WHERE `option_name` LIKE '_transient_timeout_revslider_slider_%d%%'", $sid));
+			$return = $wpdb->query($wpdb->prepare("DELETE FROM ". $wpdb->prefix . "options WHERE `option_name` LIKE '\\_transient\\_revslider\\_slider\\_%d%%'", $sid));
+			$wpdb->query($wpdb->prepare("DELETE FROM ". $wpdb->prefix . "options WHERE `option_name` LIKE '\\_transient\\_timeout\\_revslider\\_slider\\_%d%%'", $sid));
 		}
 		
 		return $return;
 	}
 	
 	
+	/**
+	 * clears transients for multiple sliders in two queries instead of 2×N
+	 * @since: 6.4.8
+	 **/
+	public function clear_transients_by_sliders($ids = []){
+		global $wpdb;
+
+		$ids = array_unique(array_filter(array_map('intval', $ids), function($id){ return $id > 0; }));
+		if(empty($ids)) return false;
+		$likes_main		= [];
+		$likes_timeout	= [];
+
+		foreach($ids as $id){
+			$likes_main[]    = "option_name LIKE '\\_transient\\_revslider\\_slider\\_{$id}%'";
+			$likes_timeout[] = "option_name LIKE '\\_transient\\_timeout\\_revslider\\_slider\\_{$id}%'";
+		}
+
+		$return = $wpdb->query("DELETE FROM ". $wpdb->prefix . "options WHERE " . implode(' OR ', $likes_main));
+		$wpdb->query("DELETE FROM ". $wpdb->prefix . "options WHERE " . implode(' OR ', $likes_timeout));
+
+		return $return;
+	}
+
+
 	public function get_additions(){
 		return $this->cache_additions;
 	}
@@ -196,11 +220,11 @@ class RevSliderCache extends RevSliderFunctions {
 		
 		$slider = $_slider->get_slider_by_param_string($post_types, true);
 		
-		//clear cache for all of these sliders
+		//clear cache for all of these sliders in a single bulk operation
 		if(!empty($slider) && is_array($slider)){
-			foreach($slider as $s){
-				$this->clear_transients_by_slider($this->get_val($s, 'id'));
-			}
+			$_self = $this;
+			$ids   = array_map(function($s) use($_self){ return $_self->get_val($s, 'id'); }, $slider);
+			$this->clear_transients_by_sliders($ids);
 		}
 	}
 	

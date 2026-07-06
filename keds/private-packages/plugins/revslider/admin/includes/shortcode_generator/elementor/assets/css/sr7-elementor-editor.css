@@ -54,6 +54,7 @@
     margin-right: 8px;
     vertical-align: middle;
     fill: var(--e-a-btn-color-invert);
+    display: inline-block;
 }
 
 .sr--offset--row {

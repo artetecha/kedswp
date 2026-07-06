@@ -578,13 +578,13 @@ class RevSliderSlide extends RevSliderFunctions {
 	 * check slide settings, if the slide should be printed or not
 	 */
 	public function check_use_slide(){
+		if($this->get_param(['publish', 'state'], 'published') === 'unpublished') return false;
+		
 		$ts			= current_time('timestamp');
 		$schedule	= $this->get_param(['publish', 'sch'], false);
 		$date_from	= $this->get_param(['publish', 'from'], '');
 		$date_to	= $this->get_param(['publish', 'to'], '');
-		if($schedule === false){
-			return ($this->get_param(['publish', 'state'], 'published') === 'unpublished') ? false : true;
-		}
+		if($schedule === false) return true;
 
 		if($date_from != '' && $ts < strtotime($date_from)) return false;
 		if($date_to != '' && $ts > strtotime($date_to)) return false;
@@ -1840,7 +1840,7 @@ class RevSliderSlide extends RevSliderFunctions {
 		$this->params = apply_filters('revslider_slide_saveParams', $this->params, $this->static_slide, $this);
 
 		if(!empty($this->params)){
-			if(!current_user_can('administrator') && apply_filters('revslider_restrict_role', true)){
+			if($this->current_user_can_not('administrator')){
 				$actions = $this->get_val($this->params, 'actions', []);
 				if(!empty($actions)){
 					foreach($actions ?? [] as $k => $action){
@@ -2189,8 +2189,10 @@ class RevSliderSlide extends RevSliderFunctions {
 			$slide	= new RevSliderSlide();
 			$slide->init_layer = $init_layer;
 			$slide->init_by_data($slide_data);
+			$state = $slide->get_param(['publish', 'state'], 'published');
 
-			if($published == true && $slide->get_param(['publish', 'state'], 'published') == 'unpublished') continue;
+			if($first && $state == 'unpublished') continue;
+			if($published == true && $state == 'unpublished') continue;
 			
 			$slides[$slide->get_id()] = $slide;
 			

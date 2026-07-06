@@ -9,8 +9,8 @@ if(!defined('ABSPATH')) exit();
 
 class RevSliderApi extends RevSliderFunctions {
 	private $global_settings	= [];
-	public $user_allowed		= ['addon.activate', 'addon.deactivate', 'addon.get', 'ai.credits', 'ai.gettext', 'editor.get.all', 'editor.get.navigation', 'fonts.get', 'fonts.get.google', 'get_list_of', 'library.get', 'library.load.image', 'library.load.object', 'library.preload', 'module.load', 'plugin.activate', 'plugin.check.system', 'plugin.check.upgrade', 'plugin.deactivate', 'plugin.dismiss.deregister', 'plugin.dismiss.notice', 'plugin.get.animations', 'plugin.get.help', 'plugin.get.settings', 'plugin.get.sliders', 'plugin.get.tooltips', 'plugin.get_settings', 'plugin.load_builder', 'plugin.modal.*', 'plugin.modals', 'plugin.panel.*', 'plugin.panels', 'plugin.save.tooltip', 'plugin.subscribe', 'revslider-*-addon.all.get', 'revslider-*-addon.lang.get', 'revslider-*-addon.template.list',  'revslider-*-addon.transitions.get', 'revslider-*-addon.values.get', 'slide.get', 'slide.get.by_slider_id', 'slide.get.layers', 'slider.get', 'slider.get.alias', 'slider.get.full', 'slider.get.full_object', 'slider.get.image', 'slider.get.layout', 'slider.get.post_templates', 'slider.upgrade', 'stream.facebook.login-url', 'stream.facebook.photosets', 'stream.flickr.photosets', 'stream.instagram.login-url', 'stream.youtube.playlists', 'template.import.media', 'wordpress.create.image', 'wordpress.create.image_from_url', 'wordpress.get.image', 'wordpress.get.image_id', 'wordpress.get.object', 'wordpress.get.pages', 'wordpress.get.post-data', 'wordpress.get.same_aspect_ratio'];
-	public $no_cache			= ['template.get_short', 'slider.export', 'slider.export_html', 'slider.get_image', 'slider.get_fullheight', 'get_list_of', 'wordpress.get.object', 'plugin.get_settings', 'slide.get.by_slider_id', 'slider.get.full', 'slider.get.full_object', 'plugin.load_builder', 'plugin.subscribe', 'plugin.check.system', 'slide.get_layers', 'layers.export', 'wordpress.get_image', 'library.load_image', 'plugin.get_help', 'plugin.get.tooltips', 'addon.get_sizes', 'editor.get.all'];
+	public $user_allowed		= ['fonts.get', 'fonts.get.google', 'library.get', 'library.load.image', 'library.load.object', 'module.load', 'plugin.modal.*', 'plugin.modals', 'plugin.panel.*', 'plugin.panels', 'plugin.get.nonce', 'plugin.get.popups', 'revslider-*-addon.all.get', 'revslider-*-addon.lang.get', 'revslider-*-addon.template.list',  'revslider-*-addon.transitions.get', 'revslider-*-addon.values.get', 'slide.get', 'slide.get.by_slider_id', 'slide.get.layers', 'slider.get', 'slider.get.alias', 'slider.get.image', 'slider.get.layout', 'slider.get.post_templates' ];
+	public $no_cache			= ['template.get_short', 'slider.export', 'slider.export_html', 'slider.get_image', 'slider.get_fullheight', 'wordpress.get.object', 'plugin.get_settings', 'slide.get.by_slider_id', 'slider.get.full', 'slider.get.full_object', 'plugin.subscribe', 'plugin.check.system', 'slide.get_layers', 'layers.export', 'wordpress.get_image', 'library.load_image', 'plugin.get_help', 'plugin.get.tooltips', 'addon.get_sizes', 'editor.get.all'];
 	
 	public $REST				= false;
 	public $slider				= false;
@@ -109,8 +109,7 @@ class RevSliderApi extends RevSliderFunctions {
 			exit;
 		}
 
-		$sr_admin = RevSliderGlobals::instance()->get('RevSliderAdmin');
-		if(!current_user_can($sr_admin->get_user_role()) && apply_filters('revslider_restrict_role', true)){
+		if($this->current_user_can_not()){
 			$this->ajax_response_error(__('Bad Request', 'revslider'));
 			exit;
 		}
@@ -157,8 +156,10 @@ class RevSliderApi extends RevSliderFunctions {
 
 		try{
 			$sr_admin = RevSliderGlobals::instance()->get('RevSliderAdmin');
-			if(!current_user_can($sr_admin->get_user_role()) && apply_filters('revslider_restrict_role', true)){
-				if(!in_array($module_full, $this->user_allowed) && !$this->ajax_check_allowed($module_full, $this->user_allowed)){
+			if($this->current_user_can_not()){
+				// apply restrictions to $user_allowed list similar to shortcode_generator
+				$can_use_limited_ajax = current_user_can('edit_posts') || current_user_can('edit_pages');
+				if(!$can_use_limited_ajax || (!in_array($module_full, $this->user_allowed) && !$this->ajax_check_allowed($module_full, $this->user_allowed))){
 					$return = apply_filters('revslider_admin_onAjaxAction_user_restriction', false, $module, $data, $this->slider, $this->slide);
 					if($return === false){
 						$this->ajax_response_error(__('Function only available for administrators', 'revslider'));
@@ -366,10 +367,16 @@ class RevSliderApi extends RevSliderFunctions {
 								break;
 							}
 						break;
+							case 'upload': //upload_custom_font
+								$this->upload_custom_font();
+							break;
 						case 'delete':
 							switch($suboperation){
 								case 'cache': //delete_full_fonts_cache
 									$this->delete_google_fonts();
+								break;
+								case 'custom': //delete_custom_font_files
+									$this->delete_custom_font_files($data);
 								break;
 							}
 						break;
@@ -484,7 +491,7 @@ class RevSliderApi extends RevSliderFunctions {
 								case 'settings': //get_global_settings
 									$this->get_plugin_settings();
 								break;
-								case 'sliders': //get_list_of.sliders
+								case 'sliders':
 									$this->get_plugin_sliders();
 								break;
 								case 'animations':
@@ -495,7 +502,7 @@ class RevSliderApi extends RevSliderFunctions {
 									$this->ajax_response_data(['nonce' => wp_create_nonce('revslider_actions')]);
 								break;
 								case 'popups':
-									$this->ajax_response_data(['html' => $this->get_popups_markup()]);
+									$this->ajax_response_data(['html' => $this->get_popups_markup($data)]);
 								break;
 							}
 						break;
@@ -781,19 +788,19 @@ class RevSliderApi extends RevSliderFunctions {
 								case 'same_aspect_ratio': //get_same_aspect_ratio
 									$this->get_wordpress_same_aspect_ratio($data);
 								break;
-								case 'pages': //get_list_of.pages
+								case 'pages':
 									$this->get_wordpress_pages();
 								break;
-								case 'post-types': //get_list_of.post-types
+								case 'post-types':
 									$this->get_wordpress_post_types();
 								break;
-								case 'post-data': //get_list_of.post-data
+								case 'post-data':
 									$this->get_wordpress_post_data();
 								break;
-								case 'post-popular': //get_list_of.post-popular
+								case 'post-popular':
 									$this->get_wordpress_post_popular();
 								break;
-								case 'post-latest': //get_list_of.post-latest
+								case 'post-latest':
 									$this->get_wordpress_post_latest();
 								break;
 							}
@@ -1152,6 +1159,11 @@ class RevSliderApi extends RevSliderFunctions {
 			$this->slider->init_by_id($slider_id);
 		}
 
+		if($this->current_user_can_not()){
+			// update modify var if user role not enough to get full json with sources
+			$modify = true;
+		}
+
 		$JSON = $this->slider->get_full_slider_JSON(false, true, $slide_ids, [], $raw, $modify);
 		
 		$this->ajax_response_data(apply_filters('sr_get_full_slider_object', $JSON, $this->slider));
@@ -1356,13 +1368,20 @@ class RevSliderApi extends RevSliderFunctions {
 			$this->slider->init_by_id($slider_id);
 		}
 
-		return [
+		$return = [
 			'id'		=> $slider_id,
 			'title'		=> $this->slider->get_title(),
 			'alias'		=> $this->slider->get_alias(),
 			'settings'	=> $this->slider->get_params(),
 			'slides'	=> $slides
 		];
+
+		if($this->current_user_can_not()){
+			// modify sources if user role not enough to get full json with sources
+			$return = $this->slider->modify_slider_data($return);
+		}
+		
+		return $return;
 	}
 
 	public function get_module($data = false){
@@ -1569,7 +1588,8 @@ class RevSliderApi extends RevSliderFunctions {
 		$id		= $this->get_val($data, 'id');
 		$upd	= RevSliderGlobals::instance()->get('RevSliderPluginUpdateV6');
 		$return = $upd->upgrade_next_slider_v6($id);
-		
+		if($return === false) $this->ajax_response_error('Migration failed, module older than v6', 'revslider');
+
 		$this->ajax_response_data($return);
 	}
 
@@ -2215,17 +2235,23 @@ class RevSliderApi extends RevSliderFunctions {
 	}
 
 	public function activate_addon($data = false){
-		$data		= $this->get_data($data);
-		$handle = $this->get_val($data, 'addon');
-		$update = $this->get_val($data, 'update', false);
-		$addon	= RevSliderGlobals::instance()->get('RevSliderAddons');
-		if(!empty($handle) && strpos($handle, 'revslider-') === false) $handle = 'revslider-'.$handle.'-addon';
+		$return = false;
+		
+		if ( current_user_can( 'activate_plugins' ) && current_user_can( 'install_plugins' ) ) {
+			$data   = $this->get_data( $data );
+			$handle = $this->get_val( $data, 'addon' );
+			$update = $this->get_val( $data, 'update', false );
+			$addon  = RevSliderGlobals::instance()->get( 'RevSliderAddons' );
+			if ( ! empty( $handle ) && strpos( $handle, 'revslider-' ) === false ) {
+				$handle = 'revslider-' . $handle . '-addon';
+			}
 
-		$return = $addon->install_addon($handle, $update);
+			$return = $addon->install_addon( $handle, $update );
 
-		if($return === true){
-			$addon_data = $addon->get_addon_data($handle, true);
-			$this->ajax_response_data(['addon' => $addon_data]);
+			if ( $return === true ) {
+				$addon_data = $addon->get_addon_data( $handle, true );
+				$this->ajax_response_data( [ 'addon' => $addon_data ] );
+			}
 		}
 
 		$error = ($return === false) ? __('Addon could not be activated', 'revslider') : $return;
@@ -2234,12 +2260,16 @@ class RevSliderApi extends RevSliderFunctions {
 	}
 
 	public function deactivate_addon($data = false){
-		$data	= $this->get_data($data);
-		$handle = $this->get_val($data, 'addon');
-		$addon	= RevSliderGlobals::instance()->get('RevSliderAddons');
+		if ( current_user_can( 'activate_plugins' ) ) {
+			$data   = $this->get_data( $data );
+			$handle = $this->get_val( $data, 'addon' );
+			$addon  = RevSliderGlobals::instance()->get( 'RevSliderAddons' );
 
-		if($addon->deactivate_addon($handle)) $this->ajax_response_success(__('Addon deactivated', 'revslider'));
-
+			if ( $addon->deactivate_addon( $handle ) ) {
+				$this->ajax_response_success( __( 'Addon deactivated', 'revslider' ) );
+			}
+		}
+		
 		$this->ajax_response_error(__('Addon could not be deactivated', 'revslider'));
 	}
 
@@ -2369,7 +2399,10 @@ class RevSliderApi extends RevSliderFunctions {
 	}
 
 	public function save_navigation($data = false){
-		if(!current_user_can('administrator') && apply_filters('revslider_restrict_role', true)) $this->ajax_response_error(__('Function only available for administrators', 'revslider'));
+		if($this->current_user_can_not('administrator')){
+			$this->ajax_response_error(__('Function only available for administrators', 'revslider'));
+			exit;
+		}
 
 		$data		= $this->get_data($data);
 		$_nav		= new RevSliderNavigation();
@@ -2384,7 +2417,10 @@ class RevSliderApi extends RevSliderFunctions {
 	}
 
 	public function delete_navigation($data = false){
-		if(!current_user_can('administrator') && apply_filters('revslider_restrict_role', true)) $this->ajax_response_error(__('Function only available for administrators', 'revslider'));
+		if($this->current_user_can_not('administrator')){
+			$this->ajax_response_error(__('Function only available for administrators', 'revslider'));
+			exit;
+		}
 
 		$data		 = $this->get_data($data);
 		$_nav		 = new RevSliderNavigation();
@@ -2536,11 +2572,54 @@ class RevSliderApi extends RevSliderFunctions {
 		$global = $this->get_val($data, 'settings', []);
 		if(empty($global)) $this->ajax_response_error(__('No settings sent', 'revslider'));
 
+		//sync uploaded custom fonts: (re)build their @font-face css + prune removed ones
+		if(isset($global['fonts']['list'])){
+			$rsf		= RevSliderGlobals::instance()->get('RevSliderFonts');
+			$old_list	= $this->get_val($this->global_settings, ['fonts', 'list'], []);
+			$global['fonts']['list'] = $rsf->sync_uploaded_fonts($global['fonts']['list'], $old_list);
+		}
+
 		$update = $this->get_val($data, 'update', false);
 		$return = $this->set_global_settings($global, $update);
-		if($return === true) $this->ajax_response_success(__('Global Settings saved/updated', 'revslider'));
-		
+		if($return === true) $this->ajax_response_success(__('Global Settings saved/updated', 'revslider'), ['settings' => $global]);
+
 		$this->ajax_response_error(__('Global Settings not saved/updated', 'revslider'));
+	}
+
+	/**
+	 * handle a single custom font file upload (Global Settings > Fonts > Custom Fonts)
+	 * the file is stored now; the generated @font-face css is (re)built on the following settings save
+	 */
+	public function upload_custom_font(){
+		$family = $this->get_request_var('family', '');
+		if(is_array($family)) $family = reset($family);
+		$family = trim((string)$family);
+		if($family === '') $this->ajax_response_error(__('Please enter a font family name first', 'revslider'));
+
+		$rsf = RevSliderGlobals::instance()->get('RevSliderFonts');
+		$res = $rsf->store_uploaded_font_file($family);
+		if($this->get_val($res, 'error', false) !== false) $this->ajax_response_error($this->get_val($res, 'error'));
+
+		$this->ajax_response_data([
+			'file'		=> $this->get_val($res, 'file'),
+			'url'		=> $this->get_val($res, 'url'),
+			'ext'		=> $this->get_val($res, 'ext'),
+			'weight'	=> $this->get_val($res, 'weight'),
+			'style'		=> $this->get_val($res, 'style')
+		]);
+	}
+
+	/**
+	 * delete the stored files/folder of an uploaded custom font (Global Settings > Fonts > Custom Fonts)
+	 */
+	public function delete_custom_font_files($data = false){
+		$data	= $this->get_data($data);
+		$family = trim((string)$this->get_val($data, 'family', ''));
+		if($family === '') $this->ajax_response_error(__('No font family sent', 'revslider'));
+
+		$rsf = RevSliderGlobals::instance()->get('RevSliderFonts');
+		$rsf->delete_custom_font($family);
+		$this->ajax_response_success(__('Custom font removed', 'revslider'));
 	}
 
 	public function save_plugin_tooltip(){
@@ -2737,6 +2816,7 @@ class RevSliderApi extends RevSliderFunctions {
 			'sr_elements_audio' => 'elements/audio.php',
 			'sr_elements_video' => 'elements/video.php',
 			'sr_elements_overlay' => 'elements/overlay.php',
+			'sr_elements_customshape' => 'elements/customshape.php',
 			'sr_elements_background' => 'elements/background.php',
 			'sr_elements_parallax' => 'elements/parallax.php',
 			'sr_elements_border' => 'elements/border.php',
@@ -2755,6 +2835,7 @@ class RevSliderApi extends RevSliderFunctions {
 			'sr_elements_xstyle' => 'elements/xstyle.php',
 			'sr_elements_toggle' => 'elements/toggle.php',
 			'sr_elements_hover' => 'elements/hover.php',
+			'sr_elements_interaction' => 'elements/interaction.php',
 			'sr_elements_frames' => 'animation/frames.php',
 			'sr_elements_presets' => 'animation/presets.php',
 		];
@@ -2803,6 +2884,7 @@ class RevSliderApi extends RevSliderFunctions {
 			'sr_module_tabs'		=> 'module/navigation/tabs.php',
 			'sr_module_thumbs'		=> 'module/navigation/thumbs.php',
 			'sr_module_scripts'		=> 'module/scripts.php',
+			'sr_module_shortcuts'	=> 'module/shortcuts.php',
 			'sr_module_aislide'		=> 'ai/slide.php',
 			'sr_module_source'		=> 'module/srcs.php',
 			'sr_module_slideshow'	=> 'module/slideshow.php',
@@ -2814,12 +2896,16 @@ class RevSliderApi extends RevSliderFunctions {
 	/**
 	 * @return string
 	 */
-	public function get_popups_markup(){
+	public function get_popups_markup($data = []){
 		ob_start();
 		require_once(RS_PLUGIN_PATH . 'admin/views/popups.php');
 		$html = '<div class="sr--block--editor--popup--wrap" style="display:none;">' . ob_get_clean() . '</div>';
-		$html .= file_get_contents(RS_PLUGIN_PATH . 'admin/assets/images/sprite.svg');
-		$html .= RevSliderShortcodeWizard::get_shortcode_javascript();
+		if (!isset($data['skipIcons'])) {
+			$html .= file_get_contents(RS_PLUGIN_PATH . 'admin/assets/images/sprite.svg');
+		}
+		$html .= RevSliderShortcodeWizard::get_shortcode_javascript(true);
+		$html .= RevSliderShortcodeWizard::get_shortcode_extended_markup();
+		$html .= '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">';
 		return $html;
 	}
 
@@ -3250,7 +3336,7 @@ class RevSliderApi extends RevSliderFunctions {
 	public function get_presets($data){
 		$type = $this->get_val($data, 'type');
 		$presets = $this->get_type_presets($type);
-		return $this->ajax_response_data(['presets' => $presets]);
+		$this->ajax_response_data(['presets' => $presets]);
 	}
 
 	public function save_preset($data){
@@ -3283,14 +3369,14 @@ class RevSliderApi extends RevSliderFunctions {
 
 		$presets = $this->get_type_presets($type);
 
-		foreach ($presets as $key => $preset) if (isset($preset['value']) && $preset['value'] === $newHandle) return $this->ajax_response_error(__('Palette with this name already exists', 'revslider'));
+		foreach ($presets as $key => $preset) if (isset($preset['value']) && $preset['value'] === $newHandle) $this->ajax_response_error(__('Palette with this name already exists', 'revslider'));
 
 		foreach ($presets as $key => $preset) {
 			if (isset($preset['value']) && $preset['value'] === $handle) {
 				$presets[$key]['value'] = $newHandle;
 				$presets[$key]['title'] = $newTitle;
 				$this->save_type_presets($type, $presets);
-				return $this->ajax_response_success(__('Palette Renamed', 'revslider'));
+				$this->ajax_response_success(__('Palette Renamed', 'revslider'));
 			}
 		}
 
@@ -3307,7 +3393,7 @@ class RevSliderApi extends RevSliderFunctions {
 			if (isset($preset['value']) && $preset['value'] === $handle) {
 				unset($presets[$key]);
 				$this->save_type_presets($type, $presets);
-				return $this->ajax_response_success(__('Palette Deleted', 'revslider'));
+				$this->ajax_response_success(__('Palette Deleted', 'revslider'));
 			}
 		}
 
@@ -3360,7 +3446,7 @@ class RevSliderApi extends RevSliderFunctions {
 		$pages = get_pages([]);
 		$return = [];
 		foreach($pages ?? [] as $page){
-			if(!$page->post_password) $return[$page->ID] = ['slug' => $page->post_name, 'title' => $page->post_title];
+			if(!$page->post_password) $return[$page->ID] = ['slug' => $page->post_name, 'title' => $page->post_title ? $page->post_title : __('(no title)', 'revslider')];
 		}
 		$this->ajax_response_data(['pages' => $return]);
 	}
@@ -3461,8 +3547,16 @@ class RevSliderApi extends RevSliderFunctions {
 		$mode     = $this->get_val($data, 'mode', 'image');
 		$filename = sanitize_file_name($this->get_val($data, 'filename'));
 
-		if(empty($url) || !is_scalar($url)) $this->ajax_response_error(__('URL not set or wrong format', 'revslider'));
 		if(empty($filename)) $this->ajax_response_error(__('Filename not set', 'revslider'));
+		if (
+			empty($url) || 
+			!is_scalar($url) ||
+			!filter_var($url, FILTER_VALIDATE_URL) ||
+			!in_array(parse_url($url, PHP_URL_SCHEME), ['http','https']) 
+		) {
+			$this->ajax_response_error(__('URL not set or wrong format', 'revslider'));
+		}
+		
 
 		/* @var RevSliderAi $ai */
 		$ai = RevSliderGlobals::instance()->get( 'RevSliderAI' );

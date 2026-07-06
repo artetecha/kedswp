@@ -57,11 +57,36 @@ function d5_revslider_module_enqueue_vb_scripts() {
 				],
 			]
 		);
-
-		RevSliderShortcodeWizard::enqueue_divi_builder_files();
 	}
 }
 add_action( 'divi_visual_builder_assets_before_enqueue_scripts', 'd5_revslider_module_enqueue_vb_scripts' );
+
+
+/**
+ * Enqueue scripts for Divi Builder App Frame
+ *
+ * @since ??
+ */
+function d5_revslider_module_enqueue_vb_app_scripts() {
+	if ( et_builder_d5_enabled() && et_core_is_fb_enabled() ) {
+		RevSliderShortcodeWizard::add_scripts(false, true);
+	}
+}
+add_action( 'divi_visual_builder_assets_before_enqueue_app_window_scripts', 'd5_revslider_module_enqueue_vb_app_scripts' );
+
+
+/**
+ * Check if the request is for Divi Builder
+ */
+function revslider_divi_is_builder_request() {
+	$is_divi_4_live_builder = !empty($_GET['et_fb']);
+	$is_divi_5_builder      = function_exists('et_builder_d5_enabled')
+		&& et_builder_d5_enabled()
+		&& function_exists('et_core_is_fb_enabled')
+		&& et_core_is_fb_enabled();
+
+	return $is_divi_4_live_builder || $is_divi_5_builder;
+}
 
 /**
  * Enqueue style and scripts of Module Extension Example
@@ -69,8 +94,12 @@ add_action( 'divi_visual_builder_assets_before_enqueue_scripts', 'd5_revslider_m
  * @since ??
  */
 function d5_revslider_module_enqueue_frontend_scripts() {
+	if (! revslider_divi_is_builder_request()) {
+		return;
+	}
+
 	$plugin_dir_url = RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/divi/';
 	wp_enqueue_style( 'd5-revslider-module-builder-bundle-style', "{$plugin_dir_url}styles/bundle.css", array(), '1.0.0' );
-	wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RS_REVISION, false);
+	wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RevSliderFunctions::asset_time('admin/assets/js/tools/tools.js'), false);
 }
 add_action( 'wp_enqueue_scripts', 'd5_revslider_module_enqueue_frontend_scripts' );

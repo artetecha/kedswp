@@ -9,7 +9,8 @@ if(!defined('ABSPATH')) exit();
 ?>
 <sr-separator keepborder>
 	<sr-separator-head notoggle>
-		<sr-separator-title><?php _e('Background','revslider'); ?></sr-separator-title>		
+		<sr-separator-title><?php _e('Background','revslider'); ?></sr-separator-title>
+		<sr-button class="sr--on--par--hover sr--mini--title sr--mb--0" style="pointer-events:all;float:right" clean="" data-action="B.imgPick.edit"><svg class="sr--icon" width="13" height="13"><use xlink:href="#Toolbar_Edit"></use></svg></sr-button>
 	</sr-separator-head>
 	<sr-separator-body>  
 		<sr-wrap half class="sr--form--grp sr--mr--10" half><sr-color-mini data-v="transparent" r="bg.color" data-type="background" class="sr--mr--10" data-onchange="editor.elements.bg.color" data-onclose="editor.elements.bg.color" data-oncloseparams="final" data-undoredo="editor.elements.bg.color" viewchild="layer_style"></sr-color-mini><span class="sr--mr--30"><?php _e('BG Color','revaslider');?></span></sr-wrap><!--
@@ -88,7 +89,7 @@ if(!defined('ABSPATH')) exit();
 			<sr-wrap-dep wide dep="is[bubblemorph]">				
 				<sr-wrap basic half class="sr--mr--10"></sr-wrap><sr-wrap half basic class="sr--form--grp"><sr-onoff r="bg.fc" viewchild="layer_style" data-onchange="editor.elements.bg.forceCanvas" data-undoredo="editor.elements.bg.forceCanvas" class="sr--mr--10"></sr-onoff><span><?php _e('Force Canvas','revslider'); ?></span></sr-wrap>
 			</sr-wrap-dep>
-			<sr-wrap-dep dep="not[image,video,shape,slidebg,container]">			
+			<sr-wrap-dep dep="not[image,video,shape,slidebg,container,audio,svg]">			
 				<sr-sp h="10"></sr-sp>			
 				<sr-drop  r="bg.bClip" responsivedata-onchange="editor.elements.text.color" data-undoredo="editor.elements.text.color" viewchild="layer_style" half data-v="" dropsw="200" class="sr--mb--0 sr--mr--10">
 					<sr-drop-view>

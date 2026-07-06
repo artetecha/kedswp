@@ -21,6 +21,16 @@ if(!defined('ABSPATH')) exit();
                 <sr-separator-body>
                 <sr-input wide class="sr--mr--10"><input name="Preview IMG Width" replace r="nav.p.w" viewchild="navigation" type="text" number="true" min="32" max="1280" suffix="px" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Preview Image Width','revslider'); ?></span></sr-input>
                 <sr-input wide><input name="Preview IMG Height" replace r="nav.p.h" viewchild="navigation" type="text" number="true" min="18" max="720" suffix="px" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Preview Image Height','revslider'); ?></span></sr-input>
+                <sr-drop wide data-v="auto" r="nav.rtl" viewchild="navigation">
+                        <sr-drop-view>
+                            <span class="sr--drop--value"><?php _e('off','revslider'); ?></span>
+                            <span class="sr--form--otitle"><?php _e('RTL Mode','revslider'); ?></span>
+                            <span class="sr--drop--icon"><svg width="10" height="6" transform="translate(0, -1)"><use xlink:href="#Drop_Down"></use></svg></span>
+                        </sr-drop-view>
+                        <sr-drops data-v="on"><?php _e('On','revslider'); ?></sr-drops>
+                        <sr-drops data-v="off"><?php _e('Off','revslider'); ?></sr-drops>
+                        <sr-drops data-v="auto"><?php _e('Auto Detect','revslider'); ?></sr-drops>    
+                    </sr-drop>  
                 <sr-sp h="5"></sr-sp>
                 </sr-separator-body>
             </sr-separator>    
@@ -63,23 +73,27 @@ if(!defined('ABSPATH')) exit();
                         <sr-drops data-v="on"><?php _e('Sequential','revslider'); ?></sr-drops>    
                     </sr-drop>  
                     <sr-wrap value="infinity#;#on" class="sr_nav_wheelsettings">
-                        <sr-drop wide data-v="mouse" r="nav.m.t" viewchild="wheel">
-                            <sr-drop-view>
-                                <span class="sr--drop--value"><?php _e('html','revslider'); ?></span>
-                                <span class="sr--form--otitle"><?php _e('Scroll Overflow Target','revslider'); ?></span>
-                                <span class="sr--drop--icon"><svg width="10" height="6" transform="translate(0, -1)"><use xlink:href="#Drop_Down"></use></svg></span>
-                            </sr-drop-view>
-                            <sr-drops data-v="window"><?php _e('Window','revslider'); ?></sr-drops>
-                            <sr-drops data-v="html"><?php _e('HTML','revslider'); ?></sr-drops>
-                            <sr-drops data-v="body"><?php _e('Body','revslider'); ?></sr-drops>    
-                        </sr-drop>     
                         <sr-tabs-wrap viewchild="wheel" r="nav.m.r" class="sr--mb--15">
                             <sr-tab left half class="sr--active--tab" data-v="default"><?php _e('Normal Direction','revslider'); ?></sr-tab>
                             <sr-tab right half data-v="reverse"><?php _e('Mirrored Direction','revslider'); ?></sr-tab>
-                        </sr-tabs-wrap>    
+                        </sr-tabs-wrap>
                         <sr-input wide class="sr--mr--10"><input name="Min. Visibility" replace r="nav.m.v" viewchild="wheel" type="text" number="true" min="0" max="100" suffix="%" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Required Min. Module Visibilty','revslider'); ?></span></sr-input>
-                        <sr-input half class="sr--mr--10"><input name="Call Delay" replace r="nav.m.cd" viewchild="wheel" type="text" number="true" min="0" max="10000" suffix="ms" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Call Delay','revslider'); ?></span></sr-input><!--
-                        --><sr-input half><input name="Snap Threshold" replace r="nav.m.st" viewchild="wheel" type="text" number="true" min="0" max="1000" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Snap Treshold','revslider'); ?></span></sr-input>
+                        <?php // Page-scroll overflow options below only apply to standard/hero modules.
+                              // Carousels rotate smoothly on wheel and take infinite looping & snapping from the Carousel settings. ?>
+                        <sr-sh r="type" data-shdep="standard#;#hero" viewchild="wheel">
+                            <sr-drop wide data-v="mouse" r="nav.m.t" viewchild="wheel">
+                                <sr-drop-view>
+                                    <span class="sr--drop--value"><?php _e('html','revslider'); ?></span>
+                                    <span class="sr--form--otitle"><?php _e('Scroll Overflow Target','revslider'); ?></span>
+                                    <span class="sr--drop--icon"><svg width="10" height="6" transform="translate(0, -1)"><use xlink:href="#Drop_Down"></use></svg></span>
+                                </sr-drop-view>
+                                <sr-drops data-v="window"><?php _e('Window','revslider'); ?></sr-drops>
+                                <sr-drops data-v="html"><?php _e('HTML','revslider'); ?></sr-drops>
+                                <sr-drops data-v="body"><?php _e('Body','revslider'); ?></sr-drops>
+                            </sr-drop>
+                            <sr-input half class="sr--mr--10"><input name="Call Delay" replace r="nav.m.cd" viewchild="wheel" type="text" number="true" min="0" max="10000" suffix="ms" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Call Delay','revslider'); ?></span></sr-input><!--
+                            --><sr-input half><input name="Snap Threshold" replace r="nav.m.st" viewchild="wheel" type="text" number="true" min="0" max="1000" validate="true"><span noicon="" class="sr--form--otitle"><?php _e('Snap Threshold','revslider'); ?></span></sr-input>
+                        </sr-sh>
                     </sr-wrap>
                     <sr-sp h="5"></sr-sp>
                 </sr-separator-body>
@@ -114,7 +128,8 @@ if(!defined('ABSPATH')) exit();
                         <sr-wrap basic class="sr--form--grp"><sr-onoff r="nav.s.mobC" viewchild="touch" class="sr--mr--10 checked"></sr-onoff><span><?php _e('Carousel Swipe on Mobile','revslider'); ?></span></sr-wrap>    
                         <sr-wrap basic class="sr--form--grp"><sr-onoff r="nav.s.deskC" viewchild="touch" class="sr--mr--10 checked"></sr-onoff><span><?php _e('Carousel Swipe on Desktop','revslider'); ?></span></sr-wrap>
                     </sr-sh>
-                    <sr-wrap basic class="sr--form--grp sr--mb--10"><sr-onoff r="nav.s.bV" viewchild="touch" class="sr--mr--10 checked"></sr-onoff><span><?php _e('Block Vertical Drag from Scroll','revslider'); ?></span></sr-wrap>
+                    <sr-wrap basic class="sr--form--grp"><sr-onoff r="nav.s.bV" viewchild="touch" class="sr--mr--10 checked"></sr-onoff><span><?php _e('Block Vertical Drag from Scroll','revslider'); ?></span></sr-wrap>
+                    <sr-wrap basic class="sr--form--grp sr--mb--10"><sr-onoff r="nav.s.forceSwipe" viewchild="touch" class="sr--mr--10"></sr-onoff><span><?php _e('Force Swipe over Effects','revslider'); ?></span></sr-wrap>
                     <sr-tabs-wrap viewchild="touch" r="nav.s.d" class="sr--mb--15">
                         <sr-tab left half class="sr--active--tab" data-v="horizontal"><?php _e('Horizontal','revslider'); ?></sr-tab>
                         <sr-tab right half data-v="vertical"><?php _e('Vertical','revslider'); ?></sr-tab>

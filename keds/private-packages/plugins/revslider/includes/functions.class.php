@@ -14,6 +14,21 @@ class RevSliderFunctions extends RevSliderData {
 	}
 
 	/**
+	 * is current user can NOT perform action
+	 * 
+	 * @param string $role
+	 * @return bool
+	 */
+	public function current_user_can_not($role = ''){
+		/* @var $sr_admin RevSliderAdmin */
+		$sr_admin = RevSliderGlobals::instance()->get('RevSliderAdmin');
+		if(is_null($sr_admin)) return true;
+		
+		$role = $role ?: $sr_admin->get_user_role();
+		return !current_user_can($role) && apply_filters('revslider_restrict_role', true);
+	}
+
+	/**
 	 * attempt to load cache for _get_global_settings
 	 * @return mixed
 	 */
@@ -786,7 +801,29 @@ class RevSliderFunctions extends RevSliderData {
 
 			$paths = apply_filters('revslider_import_media_insert_attachment_before', $paths);
 
-			$file_info = getimagesize($paths['absolute']);
+			$file_info = wp_getimagesize($paths['absolute']);
+			$mime_type = $this->get_val($file_info, 'mime');
+			$allowed_mimes = array_merge($this->get_val($SR_GLOBALS, ['mime_types', 'image'], []), $this->get_val($SR_GLOBALS, ['mime_types', 'video'], []));
+			//AddOns may import non image/video media that already passed the bad_extensions gate (e.g. lottie .json objects) - let them whitelist their own types
+			$allowed_mimes = apply_filters('revslider_import_media_allowed_mimes', $allowed_mimes, $paths['filename']);
+			if(!$file_info){
+				$type_check = wp_check_filetype($paths['absolute'], $allowed_mimes);
+				if(empty($type_check['type'])){
+					$wp_filesystem->delete($paths['absolute']);
+					return [
+						'success' => false,
+						'message' => sprintf( __( 'Could not validate destination file: %s', 'revslider' ), $paths['absolute']),
+					];
+				}
+				$mime_type = $type_check['type'];
+			}
+			if(empty($mime_type) || !in_array($mime_type, $allowed_mimes, true)){
+				$wp_filesystem->delete($paths['absolute']);
+				return [
+					'success' => false,
+					'message' => sprintf( __( 'Mime type not allowed: %s', 'revslider' ), $mime_type),
+				];
+			}
 
 			// Create an array of attachment data to insert into wp_posts table
 			$artdata = [
@@ -803,13 +840,12 @@ class RevSliderFunctions extends RevSliderData {
 				'post_parent'	 => '',
 				'post_type'		 => 'attachment',
 				'guid'			 => $paths['baseurl'] . $paths['relative'],
-				'post_mime_type' => $this->get_val($file_info, 'mime'),
+				'post_mime_type' => $mime_type,
 				'post_excerpt'	 => $post_excerpt,
 				'post_content'	 => $post_content
 			];
 			//insert the database record
 			$attach_id = wp_insert_attachment($artdata, $paths['relative']);
-			
 			//generate metadata and thumbnails
 			add_filter('intermediate_image_sizes_advanced', ['RevSliderFunctions', 'temporary_remove_sizes'], 10, 2);
 			
@@ -951,7 +987,8 @@ class RevSliderFunctions extends RevSliderData {
 		$df = $this->get_val($gs, ['fonts', 'url'], '');
 		$df = (!in_array($df, ['', 'off'])) ? $df : $url;
 
-		return ($remove) ? $this->remove_http($df) : $df;
+		//force absolute https for the font CDN: a protocol-relative //host URL gets collapsed to a page-relative ?family= by some optimizers/CDNs, which then loads the (text/html) page as a stylesheet
+		return ($remove) ? $this->remove_http($df, 'https') : $df;
 	}
 	
 	/**
@@ -988,6 +1025,7 @@ class RevSliderFunctions extends RevSliderData {
 	 **/
 	public function get_biggest_device_setting_v7($obj, $enabled_devices, $default = '########'){
 		if(empty($obj)) return ($default !== '########') ? $default : '';
+		if(!is_array($obj)) return $obj;
 		
 		$devices = ['ld', 'd', 'n', 't', 'm'];
 		foreach($devices as $key => $device){
@@ -1166,6 +1204,7 @@ class RevSliderFunctions extends RevSliderData {
 				if(strpos($url, 'http://') === false) $url = 'http://'.$url;
 			break;
 			case 'https':
+				if(strpos($url, '//') === 0) $url = 'https:'.$url; //protocol-relative -> https
 				$url = str_replace('http://', 'https://', $url);
 				if(strpos($url, 'https://') === false) $url = 'https://'.$url;
 			break;
@@ -1377,7 +1416,7 @@ rs-module .material-icons {
 			$zip = new ZipArchive;
 			$success = $zip->open($zip_file);
 			
-			if($success !== true) $this->throw_error(__("Can't open zip file", 'revslider'));
+			if($success !== true) $this->throw_error(__("Can not open zip file", 'revslider'));
 
 			for($i = 0; $i < $zip->numFiles; $i++){
 				$path_info = pathinfo($zip->getNameIndex($i));
@@ -1949,6 +1988,14 @@ rs-module .material-icons {
 	 **/
 	public function _t($text) {
 		return __($text, 'revslider');
+	}
+
+	/**
+	 * return filetime or SR version for cache busting
+	 */
+	public static function asset_time($path){
+		$fullPath = RS_PLUGIN_PATH . $path;
+		return file_exists($fullPath) ? filemtime($fullPath) : RS_REVISION;
 	}
 
 }

@@ -40,24 +40,81 @@ class RevSliderUpdate extends RevSliderFunctions {
 	public function set_update_transient($transient){
 		$this->_check_updates();
 
-		if(isset($transient) && !isset($transient->response)){
-			if(!is_object($transient)) $transient = new stdClass();
-			$transient->response = [];
-		}
+		if(!is_object($transient))			$transient = new stdClass();
+		if(!isset($transient->response))	$transient->response = [];
+		if(!isset($transient->no_update))	$transient->no_update = [];
+		if(!isset($transient->checked))		$transient->checked = [];
+		$transient->checked[RS_PLUGIN_SLUG_PATH] = $this->version;
+
 		if(!isset($this->data))			return $transient;
 		if(!isset($this->data->basic))	return $transient;
-		
+
 		if(!empty($this->data->basic) && is_object($this->data->basic)){
 			$version = (isset($this->data->basic->version)) ? $this->data->basic->version : $this->data->basic->new_version;
-			if(version_compare($this->version, $version, '<')){
-				$this->data->basic->new_version = $version;
-				if(isset($this->data->basic->version)) unset($this->data->basic->version);
+			$basic	 = $this->_normalize_update_object($this->data->basic);
 
-				$transient->response[RS_PLUGIN_SLUG_PATH] = $this->data->basic;
+			if(version_compare($this->version, $version, '<')){
+				$basic->new_version = $version;
+				if(isset($basic->version)) unset($basic->version);
+
+				$transient->response[RS_PLUGIN_SLUG_PATH] = $basic;
+				if(isset($transient->no_update[RS_PLUGIN_SLUG_PATH])) unset($transient->no_update[RS_PLUGIN_SLUG_PATH]);
+			}else{
+				//required so the "enable auto-updates" toggle shows up on the plugins screen and WP's background updater considers the plugin
+				$basic->new_version = $this->version;
+				$transient->no_update[RS_PLUGIN_SLUG_PATH] = $basic;
 			}
 		}
-		
+
 		return $transient;
+	}
+
+
+	/**
+	 * make sure the update object that gets pushed into the update_plugins transient
+	 * carries every field WordPress core expects, so the auto-update flow works the
+	 * same way it does for plugins hosted on wp.org
+	 **/
+	private function _normalize_update_object($obj){
+		$obj = (is_object($obj)) ? clone $obj : new stdClass;
+		if(empty($obj->slug))			$obj->slug			= $this->plugin_slug;
+		if(empty($obj->plugin))			$obj->plugin		= RS_PLUGIN_SLUG_PATH;
+		if(empty($obj->id))				$obj->id			= $this->plugin_slug.'/'.$this->plugin_slug;
+		if(empty($obj->url))			$obj->url			= $this->plugin_url;
+		if(!isset($obj->icons))			$obj->icons			= [];
+		if(!isset($obj->banners))		$obj->banners		= [];
+		if(!isset($obj->banners_rtl))	$obj->banners_rtl	= [];
+		if(!isset($obj->tested))		$obj->tested		= '';
+		if(!isset($obj->requires))		$obj->requires		= '';
+		if(!isset($obj->requires_php))	$obj->requires_php	= '';
+		if(!isset($obj->compatibility))	$obj->compatibility	= new stdClass;
+		return $obj;
+	}
+
+
+	/**
+	 * register the update transient filters in non-admin contexts (most importantly
+	 * during wp-cron when WP's automatic updater runs). add_update_checks() already
+	 * handles the admin side via the RevSliderAdmin bootstrap.
+	 **/
+	public static function init_auto_updates(){
+		if(is_admin()) return; //admin path is handled by RevSliderAdmin::do_update_checks()
+		if(!defined('RS_REVISION')) return;
+
+		add_filter('pre_set_site_transient_update_plugins', ['RevSliderUpdate', '_filter_update_transient']);
+		add_filter('plugins_api', ['RevSliderUpdate', '_filter_plugins_api'], 10, 3);
+	}
+
+
+	public static function _filter_update_transient($transient){
+		$upgrade = new RevSliderUpdate(RS_REVISION);
+		return $upgrade->set_update_transient($transient);
+	}
+
+
+	public static function _filter_plugins_api($result, $action, $args){
+		$upgrade = new RevSliderUpdate(RS_REVISION);
+		return $upgrade->set_updates_api_results($result, $action, $args);
 	}
 
 

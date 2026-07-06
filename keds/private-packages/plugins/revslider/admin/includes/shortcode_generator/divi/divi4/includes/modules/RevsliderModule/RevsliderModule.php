@@ -13,6 +13,9 @@ class RevsliderModule extends ET_Builder_Module {
 	public $vb_support	= 'on';
 	public $name		= '';
 	public $icon_path	= '';
+    public $plugin_dir_url = '';
+    public $plugin_dir = '';
+    public $required_divi_core_version = '4.9.0';
 
 	protected $module_credits = [
 		'module_uri' => '',
@@ -25,11 +28,7 @@ class RevsliderModule extends ET_Builder_Module {
 		//compare divi version with required version
 		if (!function_exists('_et_core_find_latest')) return;
 		$divi_core_version = _et_core_find_latest('version');
-        $required_divi_core_version = "0.0.0";
-        try {
-            $required_divi_core_version = $this->required_divi_core_version;
-        } catch(Throwable $e) {};
-		if (version_compare($divi_core_version, $required_divi_core_version) < 0) {
+		if (version_compare($divi_core_version, $this->required_divi_core_version) < 0) {
 			return;
 		}
 
@@ -49,9 +48,8 @@ class RevsliderModule extends ET_Builder_Module {
             // Add filter to prevent shortcode from being processed in visual builder preview
             add_filter('revslider_divi_shortcode_output', [$this, 'handle_visual_builder_preview'], 10, 1);
         }
-		//load revslider modals html via separate ajax request
-        //divi move content from window to iframe, we need to load it once again
-        add_filter('revslider_do_ajax', [$this, 'shortcode_enqueue_files'], 10, 3);
+
+        add_action('divi_visual_builder_assets_before_enqueue_app_window_scripts', [$this, 'add_app_scripts'], 10);
 	}
 
 	public function init() {
@@ -373,7 +371,7 @@ class RevsliderModule extends ET_Builder_Module {
 
 	public function add_scripts(){
         RevSliderShortcodeWizard::add_scripts(false, true);
-        wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RS_REVISION, false);
+        wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RevSliderFunctions::asset_time('admin/assets/js/tools/tools.js'), false);
     }
 
     public function handle_visual_builder_preview( $output ) {

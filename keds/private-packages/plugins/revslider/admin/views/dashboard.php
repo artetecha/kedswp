@@ -110,9 +110,12 @@ if($time < '12'){
                         </sr-wrap>                        
                         <sr-panels-wrap id="sr_latest_news" class="sr--flex--row sr--carousel" data-minw="235" data-maxamnt="4">
                             <sr-panel id="sr_migrate_panel" class="sr--filled sr--advert--panel sr--flex--element sr--carousel--element">                                
-                                <sr-panel-content style="background-image:url(<?php echo RS_PLUGIN_URL;?>/admin/assets/images/bg/migration.webp)">
+                                <sr-panel-content class="sr--video--panel--content">
+                                    <video class="sr--image--corner--80" style="overflow: hidden;background: transparent;border-radius: 14px;"autoplay muted loop playsinline preload="auto" aria-hidden="true">
+                                        <source src="<?php echo RS_PLUGIN_URL;?>/admin/assets/images/bg/migration-loop.mp4" type="video/mp4">
+                                    </video>
                                     <h4 class="sr--text--title"><?php echo __('SR7 Data Migration','revslider');?></h4>
-                                    <p class="sr--text"><?php echo __('Automatic Data Migration is running','revslider');?></p>  
+                                    <p class="sr--text"><?php echo __('Data Migration is running.','revslider');?> <b style="font-weight:500"><?php echo __('Please Wait!','revslider');?></b></p>  
                                     <sr-sp h="20"></sr-sp>  
                                     <wrap wide>
                                         <span half class="sr--text--list sr--mr--10"><?php echo __('Progress:','revslider'); ?></span><span id="sr_migration_togo" class="sr--text--value sr--good sr--mr--30"></span><!--
@@ -120,6 +123,24 @@ if($time < '12'){
                                     </wrap>
                                 </sr-panel-content>                                
                             </sr-panel>
+                            <?php if($sr_af->is_wpml_active()){ ?>
+                            <sr-panel class="sr--filled sr--advert--panel sr--flex--element sr--carousel--element">
+                                <a class="sr--panel--link sr--wpml--news sr--wpml--news--unreg" style="cursor:pointer" data-action="B.showRegisterSliderInfo">
+                                    <sr-panel-content>
+                                        <h4 class="sr--text--title"><?php echo __('Slider Revolution is WPML compatible','revslider');?></h4>
+                                        <p class="sr--text"><?php echo __('Translate entire Slider Revolution modules or individual layers with AI in seconds. Works standalone or seamlessly with WPML for fully localized content.','revslider');?></p>
+                                        <img class="sr--image--corner--80" src="<?php echo RS_PLUGIN_URL;?>/admin/assets/images/dashboard/wpmlpost1.webp">
+                                    </sr-panel-content>
+                                </a><!--
+                                --><a class="sr--panel--link sr--wpml--news sr--wpml--news--reg" style="cursor:pointer" data-action="B.library.open" data-aparams="addon_library,sr_alib">
+                                    <sr-panel-content>
+                                        <h4 class="sr--text--title"><?php echo __('Slider Revolution is WPML compatible','revslider');?></h4>
+                                        <p class="sr--text"><?php echo __('Translate entire Slider Revolution modules or individual layers with AI in seconds. Works standalone or seamlessly with WPML for fully localized content.','revslider');?></p>
+                                        <img class="sr--image--corner--80" src="<?php echo RS_PLUGIN_URL;?>/admin/assets/images/dashboard/wpmlpost2.webp">
+                                    </sr-panel-content>
+                                </a>
+                            </sr-panel>
+                            <?php } ?>
                             <sr-panel class="sr--filled sr--advert--panel sr--flex--element sr--carousel--element">
                                 <a class="sr--panel--link" target="_blank" rel="noopener" href="https://www.sliderrevolution.com/help/how-to-use-slider-revolution-7-ai-features/?utm_source=admin&utm_medium=newsrotator&utm_campaign=srusers&utm_content=aifeatures">
                                     <sr-panel-content>
