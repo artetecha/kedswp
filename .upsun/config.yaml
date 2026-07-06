@@ -68,6 +68,11 @@ applications:
       "wordpress/wp-content/uploads":
         source: storage
         source_path: "uploads"
+      # Staging area for database imports (Pantheon content syncs). Outside
+      # the web root on purpose: dumps must never be web-accessible.
+      "db-import":
+        source: storage
+        source_path: "db-import"
 
     crons:
       wp-cron:

@@ -12,7 +12,7 @@ keds/                  Application root (Upsun source.root)
 ├── wp-config.php      Upsun-aware config (reads relationships via platformsh/config-reader)
 ├── mu-plugins/        Custom KEDS mu-plugins (copied into the build)
 ├── private-packages/  Vendored premium plugins/themes (Composer path repositories)
-├── scripts/           Deploy hook + premium update tooling
+├── scripts/           Deploy hook, premium update + content-migration tooling
 ├── deploy-migrations/ One-time runtime migrations (see its README)
 └── wordpress/         Build output — gitignored, never edit by hand
 tests/e2e/             Playwright smoke tests run against Upsun preview environments
@@ -45,6 +45,27 @@ The deploy hook ([keds/scripts/deploy.sh](keds/scripts/deploy.sh)):
 - **Other premium packages** (Fluent pro, Paid Memberships Pro, …): `keds/scripts/premium-update.sh` — same trust model, driven through WordPress's own update transients on the container.
 
 Both scripts vendor the new source into `private-packages/` and update the Composer pin; nothing is committed automatically — review `git diff` and push. They require an authenticated `upsun` CLI, `composer`, `python3`, and `unzip`.
+
+## Content migration from Pantheon
+
+Until cutover, Pantheon remains the content source of truth and the Upsun database is a periodically refreshed copy.
+
+**Importing a fresh Pantheon dump** — stage the dump in the `db-import` mount (outside the web root; dumps must never be web-accessible) and redeploy:
+
+```bash
+cat pantheon-backup.sql.gz | upsun ssh -p idpo3r4eqatcu -e <env> 'cat > db-import/pantheon.sql.gz'
+upsun environment:redeploy -p idpo3r4eqatcu -e <env>
+```
+
+The deploy hook runs [keds/scripts/db-import.sh](keds/scripts/db-import.sh) *before* `wp core update-db` and the deploy migrations: it takes a pre-import safety dump (kept in `db-import/backups/`), drops the existing WordPress tables, imports the staged dump, and flushes the object cache. Because a Pantheon dump carries no `keds_deploy_migration_*` options, every deploy migration then re-runs against the imported data in the same deployment — so migrations must stay safe against current Pantheon production data until cutover. After a successful import the dump is renamed `*.imported-<timestamp>`, so each staged dump imports exactly once and ordinary deploys are unaffected.
+
+**Verifying a sync** — [keds/scripts/db-compare.py](keds/scripts/db-compare.py) compares two SQL dumps (plain or gzipped) without needing a local database: table inventory, per-table row counts, latest content activity, key options, and recorded deploy-migration state.
+
+```bash
+keds/scripts/db-compare.py --labels pantheon,upsun pantheon-backup.sql.gz upsun-dump.sql.gz
+```
+
+Use it to measure content drift between syncs and to sanity-check an import (expected differences after a sync: `wp_pantheon_sessions` dropped, the `keds_deploy_migration_*` options present, `active_plugins` without `pantheon-sessions`).
 
 ## CI
 

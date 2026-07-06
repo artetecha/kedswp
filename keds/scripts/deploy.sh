@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# Import a staged database dump, if any (see scripts/db-import.sh). Runs
+# before update-db and the migrations so both apply to the imported data.
+bash scripts/db-import.sh
+
 cd wordpress
 
 if ! wp core is-installed; then
