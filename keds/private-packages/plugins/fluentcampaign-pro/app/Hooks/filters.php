@@ -48,10 +48,14 @@ add_filter('fluent_crm/dashboard_notices', function ($notices) {
     if (version_compare(FLUENTCAMPAIGN_CORE_MIN_VERSION, FLUENTCRM_PLUGIN_VERSION, '>')) {
         $updateUrl = admin_url('plugins.php?s=fluent-crm&plugin_status=all');
 
-        $notices[] = '<div class="notice-error fcrm_notice_error"><b>Heads UP: </b> FluentCRM Core needs to be updated to the latest version. <a href="' . esc_url($updateUrl) . '">Click here to update</a></div>';
+        $notices[] = '<div><b>Heads UP: </b> FluentCRM Core needs to be updated to the latest version. <a href="' . esc_url($updateUrl) . '">Click here to update</a></div>';
     }
     return $notices;
 });
+
+// Push the required FluentCRM core update straight from wordpress.org during the
+// WP.org update-check cool-down window (see PluginInstaller for details).
+(new \FluentCampaign\App\Services\PluginManager\PluginInstaller())->registerCoreUpdater();
 
 if (defined('WC_PLUGIN_FILE')) {
     $app->addFilter('woocommerce_checkout_fields', 'FluentCampaign\App\Hooks\Handlers\IntegrationHandler@maybeFillUpWooCheckoutFields', 99, 1);
