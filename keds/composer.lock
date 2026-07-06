@@ -525,11 +525,11 @@
         },
         {
             "name": "keds-plugin/thim-elementor-kit",
-            "version": "1.4.1",
+            "version": "1.4.4",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/thim-elementor-kit",
-                "reference": "9d9b8e58eb548f58bf83267d164c05becdf22177"
+                "reference": "c4d033118584052cda10626618c58600d2eda2f7"
             },
             "type": "wordpress-plugin",
             "transport-options": {

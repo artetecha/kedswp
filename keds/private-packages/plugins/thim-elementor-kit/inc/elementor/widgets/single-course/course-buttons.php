@@ -152,7 +152,7 @@ class Thim_Ekit_Widget_Course_Buttons extends Widget_Base {
 			)
 		);
 		$this->register_icon_button( 'external' );
-		$this->register_button_style( 'external', 'form[name="course-external-link"] button' );
+		$this->register_button_style( 'external', '.lp-button.course-btn-extra' );
 		$this->end_controls_section();
 	}
 

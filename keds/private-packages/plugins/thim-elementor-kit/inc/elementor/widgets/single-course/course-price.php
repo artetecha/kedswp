@@ -62,6 +62,7 @@ class Thim_Ekit_Widget_Course_Price extends Widget_Base {
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
+				'toggle'    => true,
 				'selectors' => array(
 					'{{WRAPPER}}' => 'text-align: {{VALUE}}',
 				),

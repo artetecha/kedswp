@@ -527,10 +527,11 @@ class Rest_API {
 			}
 
 			$id = wp_insert_post( $args );
+
 			// import content
 			if ( isset( $api_body['content'] ) && ! empty( $api_body['content'] ) ) {
 				$import = new Import();
-				$import->import( $id, $api_body['content'] );
+				$import->import( $id, $api_body );
 			}
 
 

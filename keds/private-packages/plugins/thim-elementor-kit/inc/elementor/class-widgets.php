@@ -136,7 +136,7 @@ class Widgets {
 			'loop-product-sale',
 			'loop-course-rating',
 			'loop-course-meta',
-			//'loop-course-buttons'
+			'loop-course-buttons',
 		),
 	);
 
