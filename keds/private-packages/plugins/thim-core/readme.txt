@@ -4,7 +4,7 @@ Donate link: https://thimpress.com
 Tags: admin, customize, framework
 Requires at least: 4.8
 Tested up to: 5.8
-Stable tag: 2.4.8
+Stable tag: 2.4.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

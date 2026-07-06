@@ -142,7 +142,7 @@
                             if ( result && result.success ) {
                                 var viewLink  = ThimImportElementor.siteUrl  + '/?page_id=' + pageID;
                                 var editLink  = ThimImportElementor.adminUrl + 'post.php?post=' + pageID + '&action=elementor';
-                                var $msg = $( '<div class="thim-import-success">' + title + ' ( <a href="' + viewLink + '" target="_blank" rel="noopener">View</a>, <a href="' + editLink + '" target="_blank" rel="noopener">Edit</a> )</div>' );
+                                var $msg = $( '<div class="thim-import-success">✅ ' + title + ' has been successfully created. <br/>  <a href="' + viewLink + '" target="_blank" rel="noopener">View Page</a> | <a href="' + editLink + '" target="_blank" rel="noopener">Edit Page</a></div>' );
                                 $('.thim-import-one-row').find('.thim-import-success').remove();
                                 $('.thim-import-one-row').append( $msg );
                             } else {

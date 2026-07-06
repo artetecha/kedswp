@@ -85,7 +85,7 @@ class Thim_Importer_AJAX {
 
 				if ( isset( $res_step->step_finished ) && $res_step->step_finished ) {
 					$index_step      = array_search( $step, $packages );
-					$index_step_next = ++ $index_step;
+					$index_step_next = ++$index_step;
 
 					if ( isset( $packages[ $index_step_next ] ) ) {
 						$next_step = $packages[ $index_step_next ];
@@ -369,10 +369,10 @@ class Thim_Importer_AJAX {
 
 	private function _update_demo_key_to_server( $demo_key ) {
 		try {
-			$api_url = Thim_Admin_Config::get( 'api_thim_market' ) . '/update-demo-version/';
+			$api_url   = Thim_Admin_Config::get( 'api_thim_market' ) . '/update-demo-version/';
 			$body_args = array(
-				'site_code' => Thim_Product_Registration::get_data_theme_register('purchase_token'),
-				'version'  => $demo_key,
+				'site_code' => Thim_Product_Registration::get_data_theme_register( 'purchase_token' ),
+				'version'   => $demo_key,
 			);
 
 			$args = array(
@@ -381,7 +381,7 @@ class Thim_Importer_AJAX {
 			);
 
 			$response = wp_remote_post( $api_url, $args );
-		} catch (\Throwable $th) {
+		} catch ( \Throwable $th ) {
 			//throw $th;
 		}
 	}
@@ -509,14 +509,14 @@ class Thim_Importer_AJAX {
 						$rs_active   = activate_plugin( $plugin_file, '', false, false );
 
 						if ( $rs_active instanceof WP_Error ) {
- //							throw new Exception( $rs_active->get_error_message() );
+							//                         throw new Exception( $rs_active->get_error_message() );
 							// translators: %s: plugin name.
-						$response->message = sprintf( __( "Can't install the plugin %s", 'thim-core' ), $plugin->get_name() );
-  						}
+							$response->message = sprintf( __( "Can't install the plugin %s", 'thim-core' ), $plugin->get_name() );
+						}
 
 						$response->status             = 'success';
 						$response->percentage         = $percentage;
-						$response->extra->next_plugin = ++ $index_plugin;
+						$response->extra->next_plugin = ++$index_plugin;
 					} else {
 						$messages = $plugin->get_messages();
 						$string   = implode( '. ', $messages );
@@ -534,7 +534,7 @@ class Thim_Importer_AJAX {
 					if ( $result_active ) {
 						$response->status             = 'success';
 						$response->percentage         = $percentage;
-						$response->extra->next_plugin = ++ $index_plugin;
+						$response->extra->next_plugin = ++$index_plugin;
 					} else {
 						$messages = $plugin->get_messages();
 						$string   = implode( '. ', $messages );
@@ -550,7 +550,7 @@ class Thim_Importer_AJAX {
 					$response->status             = 'success';
 					$response->message            = $status;
 					$response->percentage         = $percentage;
-					$response->extra->next_plugin = ++ $index_plugin;
+					$response->extra->next_plugin = ++$index_plugin;
 				}
 			} else {
 				throw new Exception( 'Plugin ' . $plugin->get_name() . ' not exists' );

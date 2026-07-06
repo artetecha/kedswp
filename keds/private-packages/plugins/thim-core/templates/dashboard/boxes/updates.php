@@ -11,7 +11,6 @@ $themes        = $update_themes['themes'];
 $last_checked  = $update_themes['last_checked'];
 
 $data = isset( $themes[ $template ] ) ? $themes[ $template ] : false;
-
 // Use theme name from metadata as fallback when update data is not available
 $theme_name    = ! empty( $data['name'] ) ? $data['name'] : $theme_data['name'];
 $theme_version = ! empty( $data['version'] ) ? $data['version'] : $theme_data['version'];
@@ -50,7 +49,11 @@ $site_key = Thim_Product_Registration::get_site_key();
 			if ( ! $data ) {
 				$data_info = array(
 					'title'      => __( 'Something went wrong!', 'thim-core' ),
-					'desc'       => __( 'Please try again later.', 'thim-core' ),
+					'desc'       => sprintf(
+						'<a href="%s">%s</a>',
+						esc_url( $link_check ),
+						esc_html__( 'Please try again.', 'thim-core' )
+					),
 					'class'      => 'no-info-theme',
 					'btn-update' => '',
 				);

@@ -214,7 +214,7 @@ class Thim_Add_Meta_Box {
 						case 'textarea':
 						case 'select':
 						case 'image_select':
-							$text = isset( $_POST[$field['id']] ) ? wp_unslash( $_POST[$field['id']] ) : '';
+							$text = isset( $_POST[ $field['id'] ] ) ? wp_unslash( $_POST[ $field['id'] ] ) : '';
 							if ( $text ) {
 								update_post_meta( $post_id, $field['id'], $text );
 							} else {
@@ -224,11 +224,11 @@ class Thim_Add_Meta_Box {
 							break;
 
 						case 'checkbox':
-							$checkbox = isset( $_POST[$field['id']] ) ? 1 : 0;
+							$checkbox = isset( $_POST[ $field['id'] ] ) ? 1 : 0;
 							update_post_meta( $post_id, $field['id'], $checkbox );
 							break;
 						case 'date':
-							$text = isset( $_POST[$field['id']] ) ? wp_unslash( $_POST[$field['id']] ) : '';
+							$text = isset( $_POST[ $field['id'] ] ) ? wp_unslash( $_POST[ $field['id'] ] ) : '';
 							if ( $text ) {
 								update_post_meta( $post_id, $field['id'], strtotime( $text ) );
 							} else {
@@ -236,13 +236,13 @@ class Thim_Add_Meta_Box {
 							}
 							break;
 						case 'duration':
-							$duration = isset( $_POST[$field['id']][0] ) && $_POST[$field['id']][0] !== '' ? implode( ' ', wp_unslash( $_POST[$field['id']] ) ) : '0 minute';
+							$duration = isset( $_POST[ $field['id'] ][0] ) && $_POST[ $field['id'] ][0] !== '' ? implode( ' ', wp_unslash( $_POST[ $field['id'] ] ) ) : '0 minute';
 							update_post_meta( $post_id, $field['id'], $duration );
 							break;
 
 						case 'image_advanced':
 							if ( isset( $field['max_file_uploads'] ) && $field['max_file_uploads'] > 1 ) {
-								$image_advanced = isset( $_POST[$field['id']] ) ? wp_unslash( array_filter( explode( ',', $_POST[$field['id']] ) ) ) : array();
+								$image_advanced = isset( $_POST[ $field['id'] ] ) ? wp_unslash( array_filter( explode( ',', $_POST[ $field['id'] ] ) ) ) : array();
 
 								$values = get_post_meta( $post_id, $field['id'], false );
 
@@ -262,7 +262,7 @@ class Thim_Add_Meta_Box {
 									}
 								}
 							} else {
-								$image_advanced = isset( $_POST[$field['id']] ) ? wp_unslash( $_POST[$field['id']] ) : '';
+								$image_advanced = isset( $_POST[ $field['id'] ] ) ? wp_unslash( $_POST[ $field['id'] ] ) : '';
 								if ( $image_advanced ) {
 									update_post_meta( $post_id, $field['id'], $image_advanced );
 								} else {
@@ -278,7 +278,7 @@ class Thim_Add_Meta_Box {
 							break;
 
 						default:
-							$default = isset( $_POST[$field['id']] ) ? wp_unslash( $_POST[$field['id']] ) : '';
+							$default = isset( $_POST[ $field['id'] ] ) ? wp_unslash( $_POST[ $field['id'] ] ) : '';
 							if ( $default ) {
 								update_post_meta( $post_id, $field['id'], $default );
 							} else {
@@ -286,7 +286,7 @@ class Thim_Add_Meta_Box {
 							}
 					}
 				}
- 			}
+			}
 		}
 	}
 
@@ -416,7 +416,7 @@ class Thim_Add_Meta_Box {
 						'description'       => isset( $field['description'] ) ? $field['description'] : $field['desc'],
 						'custom_attributes' => isset( $field['custom_attributes'] ) ? $field['custom_attributes'] : '',
 						'hidden'            => isset( $field['hidden'] ) ? $field['hidden'] : false,
- 					)
+					)
 				);
 				break;
 			case 'image_select':
@@ -436,7 +436,7 @@ class Thim_Add_Meta_Box {
 			case 'group':
 				if ( isset( $field['fields'] ) ) {
 					echo '<div class="form-field thimpress-meta-box-group ' . esc_attr( $field['id'] ) . '_field " data-hide="' . esc_attr( ! empty( $field['hidden'] ) ? htmlentities( wp_json_encode( $field['hidden'] ) ) : '' ) . '">';
-						foreach ( $field['fields'] as $g_fields ) {
+					foreach ( $field['fields'] as $g_fields ) {
 						$this->display( $g_fields );
 					}
 					echo '</div>';

@@ -4,7 +4,7 @@
  * Plugin Name:       Thim Core
  * Plugin URI:        https://thimpresswp.github.io/thim-core/
  * Description:       The Ultimate Core Processor of all WordPress themes by ThimPress - Manage your website easier with Thim Core.
- * Version:           2.4.8
+ * Version:           2.4.9
  * Author:            ThimPress
  * Author URI:        https://thimpress.com
  * Text Domain:       thim-core
@@ -127,7 +127,7 @@ if ( ! class_exists( 'TP' ) ) {
 			$this->define( 'THIM_CORE_URI', untrailingslashit( plugins_url( '/', THIM_CORE_FILE ) ) );
 			$this->define( 'THIM_CORE_ASSETS_URI', THIM_CORE_URI . '/assets' );
 
-			$this->define( 'THIM_CORE_VERSION', '2.4.8' );
+			$this->define( 'THIM_CORE_VERSION', '2.4.9' );
 
 			$this->define( 'THIM_CORE_ADMIN_PATH', THIM_CORE_PATH . '/admin' );
 			$this->define( 'THIM_CORE_ADMIN_URI', THIM_CORE_URI . '/admin' );

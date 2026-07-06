@@ -170,14 +170,17 @@ class Thim_Dashboard extends Thim_Singleton {
 
 		$type    = $args['type'];
 		$content = $args['content'];
-		add_action( 'thim_dashboard_notifications', function () use ( $type, $content ) {
+		add_action(
+			'thim_dashboard_notifications',
+			function () use ( $type, $content ) {
 
-			?>
+				?>
 			<div class="tc-notice tc-<?php echo esc_attr( $type ); ?>">
 				<div class="content"><?php echo wp_kses_post( $content ); ?></div>
 			</div>
-			<?php
-		} );
+				<?php
+			}
+		);
 	}
 
 	/**
@@ -227,7 +230,7 @@ class Thim_Dashboard extends Thim_Singleton {
 		Thim_Service::instance();
 		Thim_Child_Themes::instance();
 		Thim_Cookie_Consent::instance();
-  		//  Thim_For_Developer::instance();
+		//  Thim_For_Developer::instance();
 	}
 
 	/**
@@ -284,21 +287,23 @@ class Thim_Dashboard extends Thim_Singleton {
 		}
 
 		$messages = array(
-			'something_went_wrong' => __( 'Something went wrong! Please try again later.', 'thim-core' )
+			'something_went_wrong' => __( 'Something went wrong! Please try again later.', 'thim-core' ),
 		);
 		$messages = apply_filters( 'thim_core_list_error_messages', $messages );
 
-		if ( ! isset( $messages[$code] ) ) {
+		if ( ! isset( $messages[ $code ] ) ) {
 			return;
 		}
 
-		Thim_Notification::add_notification( array(
-			'id'          => 'thim_core_dashboard_error',
-			'type'        => 'error',
-			'content'     => $messages[$code],
-			'dismissible' => false,
-			'global'      => false,
-		) );
+		Thim_Notification::add_notification(
+			array(
+				'id'          => 'thim_core_dashboard_error',
+				'type'        => 'error',
+				'content'     => $messages[ $code ],
+				'dismissible' => false,
+				'global'      => false,
+			)
+		);
 	}
 
 	/**
@@ -318,8 +323,8 @@ class Thim_Dashboard extends Thim_Singleton {
 		foreach ( $plugins_required as $thim_plugin ) {
 			$plugin_file = $thim_plugin->get_plugin_file();
 
-			if ( isset( $plugins[$plugin_file] ) ) {
-				$count ++;
+			if ( isset( $plugins[ $plugin_file ] ) ) {
+				++$count;
 			}
 		}
 
@@ -336,7 +341,7 @@ class Thim_Dashboard extends Thim_Singleton {
 
 		$can_update_theme = Thim_Theme_Manager::can_update();
 		if ( $can_update_theme ) {
-			$count ++;
+			++$count;
 		}
 
 		if ( $count != 0 ) {
@@ -348,20 +353,20 @@ class Thim_Dashboard extends Thim_Singleton {
 
 	public function add_count_number_requirements_notification( $count = 0 ) {
 		$environments = Thim_System_Status::get_environment_info();
- 		if ( version_compare( phpversion(), 7.0, '<=' ) ) {
-			$count ++;
+		if ( version_compare( phpversion(), 7.0, '<=' ) ) {
+			++$count;
 		}
 		if ( $environments['memory_limit'] < 134217728 ) {
-			$count ++;
+			++$count;
 		}
 		if ( ! $environments['remote_get_successful'] ) {
-			$count ++;
+			++$count;
 		}
 		if ( ! $environments['dom_extension'] ) {
-			$count ++;
+			++$count;
 		}
 		if ( $environments['max_execution_time'] < 60 ) {
-			$count ++;
+			++$count;
 		}
 
 		return $count;
@@ -436,7 +441,7 @@ class Thim_Dashboard extends Thim_Singleton {
 	public function add_menu_admin_bar( $wp_admin_bar ) {
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			return;
-		};
+		}
 
 		if ( is_admin() ) {
 			return;
@@ -450,19 +455,21 @@ class Thim_Dashboard extends Thim_Singleton {
 		$args = array(
 			'id'    => 'thim_core',
 			'title' => $menu_title,
-			'href'  => self::get_link_main_dashboard()
+			'href'  => self::get_link_main_dashboard(),
 		);
 		$wp_admin_bar->add_node( $args );
 
 		$pages = self::get_sub_pages();
 		foreach ( $pages as $key => $page ) {
-			$args = array(
-				'id'     => self::$prefix_slug . $key,
-				'title'  => $page['title'],
-				'href'   => self::get_link_page_by_slug( $key ),
-				'parent' => 'thim_core'
-			);
-			$wp_admin_bar->add_node( $args );
+			if ( $key != 'getting-started' ) {
+				$args = array(
+					'id'     => self::$prefix_slug . $key,
+					'title'  => $page['title'],
+					'href'   => self::get_link_page_by_slug( $key ),
+					'parent' => 'thim_core',
+				);
+				$wp_admin_bar->add_node( $args );
+			}
 		}
 	}
 
@@ -492,10 +499,14 @@ class Thim_Dashboard extends Thim_Singleton {
 	 * @since 0.8.9
 	 */
 	private function localize_script() {
-		wp_localize_script( 'thim-dashboard', 'thim_dashboard', array(
-			'admin_ajax' => admin_url( 'admin-ajax.php?action=thim_dashboard_order_boxes' ),
-			'nonce'      => wp_create_nonce( 'thim-dashboard' ),
-		) );
+		wp_localize_script(
+			'thim-dashboard',
+			'thim_dashboard',
+			array(
+				'admin_ajax' => admin_url( 'admin-ajax.php?action=thim_dashboard_order_boxes' ),
+				'nonce'      => wp_create_nonce( 'thim-dashboard' ),
+			)
+		);
 	}
 
 	/**
@@ -540,7 +551,7 @@ class Thim_Dashboard extends Thim_Singleton {
 			self::$prefix_slug . self::$main_slug,
 			array(
 				$this,
-				'master_template'
+				'master_template',
 			),
 			THIM_CORE_ADMIN_URI . '/assets/images/logo.svg',
 			2
@@ -568,13 +579,20 @@ class Thim_Dashboard extends Thim_Singleton {
 			$title = $page['title'];
 
 			$menu_title = apply_filters( 'thim_core_' . $key . '_menu_title', $title );
-			add_submenu_page( self::$prefix_slug . self::$main_slug, $title, $menu_title, 'manage_options', $slug, array(
+			add_submenu_page(
+				self::$prefix_slug . self::$main_slug,
+				$title,
+				$menu_title,
+				'manage_options',
+				$slug,
+				array(
 					$this,
-					'master_template'
-				) );
+					'master_template',
+				)
+			);
 
 		}
- 	}
+	}
 
 	/**
 	 * Master template.

@@ -37,27 +37,39 @@ if ( ! function_exists( 'thim_compile_custom_css_theme' ) ) {
  *
  * @return void
  */
-if ( ! function_exists( 'thim_post_formats' ) ):
-	function thim_post_formats( $size ) {
+if ( ! function_exists( 'thim_post_formats' ) ) :
+	function thim_post_formats( $size = 'full' ) {
+		if ( empty( $size ) || is_array( $size ) ) {
+			$size = 'full';
+		}
+
 		$html = '';
 		switch ( get_post_format() ) {
 			case 'image':
-				$image = thim_get_image(
-					array(
-						'size'     => $size,
-						'format'   => 'src',
-						'meta_key' => 'thim_image',
-						'echo'     => false,
-					)
-				);
+				$image_id = get_post_meta( get_the_ID(), 'thim_image', true );
+
+				if ( $image_id ) {
+					$image = wp_get_attachment_image_url( $image_id, $size );
+				} else {
+					$image = thim_get_image(
+						array(
+							'size'   => $size,
+							'format' => 'src',
+							'echo'   => false,
+						)
+					);
+				}
 				if ( ! $image ) {
 					break;
 				}
+
 				if ( is_single() ) {
 					$html .= sprintf( '<img src="%2$s" alt="%1$s">', esc_attr( the_title_attribute( 'echo=0' ) ), $image );
 				} else {
 					$html .= sprintf( '<a class="post-image" href="%1$s" title="%2$s"><img src="%3$s" alt="%2$s"></a>', esc_url( get_permalink() ), esc_attr( the_title_attribute( 'echo=0' ) ), $image );
 				}
+
+				$html = apply_filters( 'thim_post_format_image_html', $html, $image );
 
 				break;
 			case 'gallery':
@@ -65,6 +77,7 @@ if ( ! function_exists( 'thim_post_formats' ) ):
 				if ( empty( $images ) ) {
 					break;
 				}
+
 				$html .= '<div class="flexslider">';
 				$html .= '<ul class="slides">';
 				foreach ( $images as $key => $image ) {
@@ -78,12 +91,15 @@ if ( ! function_exists( 'thim_post_formats' ) ):
 				}
 				$html .= '</ul>';
 				$html .= '</div>';
+
+				$html = apply_filters( 'thim_post_format_gallery_html', $html, $images );
 				break;
 			case 'audio':
 				$audio = thim_meta( 'thim_audio' );
 				if ( ! $audio ) {
 					break;
 				}
+
 				if ( filter_var( $audio, FILTER_VALIDATE_URL ) ) {
 					$oembed = wp_oembed_get( $audio );
 					if ( $oembed ) {
@@ -92,12 +108,15 @@ if ( ! function_exists( 'thim_post_formats' ) ):
 				} else {
 					$html .= $audio;
 				}
+
+				$html = apply_filters( 'thim_post_format_audio_html', $html, $audio );
 				break;
 			case 'video':
 				$video = thim_meta( 'thim_video' );
 				if ( ! $video ) {
 					break;
 				}
+
 				// If URL: show oEmbed HTML
 				if ( filter_var( $video, FILTER_VALIDATE_URL ) ) {
 					$oembed = wp_oembed_get( $video );
@@ -108,24 +127,29 @@ if ( ! function_exists( 'thim_post_formats' ) ):
 					// If embed code: sanitize before display
 					$html .= $video;
 				}
+
+				$html = apply_filters( 'thim_post_format_video_html', $html, $video );
 				break;
 			default:
 				$thumb = get_the_post_thumbnail( get_the_ID(), $size );
 				if ( empty( $thumb ) ) {
 					return;
 				}
+				
 				if ( is_single() ) {
 					$html .= $thumb;
 				} else {
 					$html .= '<a class="post-image" href="' . esc_url( get_permalink() ) . '">' . $thumb . '</a>';
 				}
+
+				$html = apply_filters( 'thim_post_format_thumbnail_html', $html, $thumb );
 		}
 		if ( $html ) {
 			echo "<div class='post-formats-wrapper'>$html</div>";
 		}
 	}
 endif;
-add_action( 'thim_entry_top', 'thim_post_formats' );
+add_action( 'thim_entry_top', 'thim_post_formats', 10, 1 );
 
 
 /**
@@ -138,7 +162,8 @@ add_action( 'thim_entry_top', 'thim_post_formats' );
 if ( ! function_exists( 'thim_get_image' ) ) {
 	function thim_get_image( $args = array() ) {
 		$default = apply_filters(
-			'thim_get_image_default_args', array(
+			'thim_get_image_default_args',
+			array(
 				'post_id'  => get_the_ID(),
 				'size'     => 'thumbnail',
 				'format'   => 'html', // html or src
@@ -164,11 +189,11 @@ if ( ! function_exists( 'thim_get_image' ) ) {
 			$image_cache = array();
 		}
 
-		if ( empty( $image_cache[$key] ) ) {
+		if ( empty( $image_cache[ $key ] ) ) {
 			// Get post thumbnail
 			if ( has_post_thumbnail( $args['post_id'] ) ) {
-				$id   = get_post_thumbnail_id();
-				$html = wp_get_attachment_image( $id, $args['size'], false, $args['attr'] );
+				$id          = get_post_thumbnail_id();
+				$html        = wp_get_attachment_image( $id, $args['size'], false, $args['attr'] );
 				list( $src ) = wp_get_attachment_image_src( $id, $args['size'], false, $args['attr'] );
 			}
 
@@ -178,7 +203,7 @@ if ( ! function_exists( 'thim_get_image' ) ) {
 
 				// Check if this post has attached images
 				if ( $id ) {
-					$html = wp_get_attachment_image( $id, $args['size'], false, $args['attr'] );
+					$html        = wp_get_attachment_image( $id, $args['size'], false, $args['attr'] );
 					list( $src ) = wp_get_attachment_image_src( $id, $args['size'], false, $args['attr'] );
 				}
 			}
@@ -199,8 +224,8 @@ if ( ! function_exists( 'thim_get_image' ) ) {
 
 				// Check if this post has attached images
 				if ( ! empty( $image_ids ) ) {
-					$id   = $image_ids[0];
-					$html = wp_get_attachment_image( $id, $args['size'], false, $args['attr'] );
+					$id          = $image_ids[0];
+					$html        = wp_get_attachment_image( $id, $args['size'], false, $args['attr'] );
 					list( $src ) = wp_get_attachment_image_src( $id, $args['size'], false, $args['attr'] );
 				}
 			}
@@ -208,7 +233,8 @@ if ( ! function_exists( 'thim_get_image' ) ) {
 			// Get the first image in the post content
 			if ( ! isset( $html, $src ) && ( $args['scan'] ) ) {
 				preg_match(
-					'|<img.*?src=[\'"](.*?)[\'"].*?>|i', get_post_field( 'post_content', $args['post_id'] ),
+					'|<img.*?src=[\'"](.*?)[\'"].*?>|i',
+					get_post_field( 'post_content', $args['post_id'] ),
 					$matches
 				);
 
@@ -235,11 +261,11 @@ if ( ! function_exists( 'thim_get_image' ) ) {
 
 			$output = 'html' === strtolower( $args['format'] ) ? $html : $src;
 
-			$image_cache[$key] = $output;
+			$image_cache[ $key ] = $output;
 			wp_cache_set( $args['post_id'], $image_cache, 'thim_get_image' );
 		} // If image already cached
 		else {
-			$output = $image_cache[$key];
+			$output = $image_cache[ $key ];
 		}
 
 		$output = apply_filters( 'thim_get_image', $output, $args );
@@ -267,14 +293,15 @@ if ( ! function_exists( 'thim_meta' ) ) {
 		$post_id = empty( $post_id ) ? get_the_ID() : $post_id;
 
 		$args = wp_parse_args(
-			$args, array(
+			$args,
+			array(
 				'type' => 'text',
 			)
 		);
 
 		// Image
 		if ( $args['type'] === 'image' ) {
-			if ( isset( $args['single'] ) && $args['single'] == "false" ) {
+			if ( isset( $args['single'] ) && $args['single'] == 'false' ) {
 				// Gallery
 				$temp          = array();
 				$data          = array();

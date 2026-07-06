@@ -37,7 +37,7 @@ class Thim_Import_Elementor extends Thim_Admin_Sub_Page {
 		}
 
 		try {
-			$request = new WP_REST_Request( 'GET', '/thim-ekit/get-templates' );
+			$request  = new WP_REST_Request( 'GET', '/thim-ekit/get-templates' );
 			$response = rest_do_request( $request );
 			if ( is_wp_error( $response ) ) {
 				return false;
@@ -107,23 +107,27 @@ class Thim_Import_Elementor extends Thim_Admin_Sub_Page {
 
 		// Admin dashboard helper script to show library UI on the Elements subpage
 		wp_register_script( 'thim-core-import-elementor', THIM_CORE_ADMIN_URI . '/assets/js/import-elementor.js', array( 'wp-api-fetch', 'jquery' ), THIM_CORE_VERSION, true );
-		$theme_obj = wp_get_theme();
+		$theme_obj        = wp_get_theme();
 		$theme_textdomain = '';
 		if ( is_child_theme() ) {
-			$parent = wp_get_theme( $theme_obj->parent()->template );
+			$parent           = wp_get_theme( $theme_obj->parent()->template );
 			$theme_textdomain = $parent->get( 'TextDomain' );
 		} else {
 			$theme_textdomain = $theme_obj->get( 'TextDomain' );
 		}
 
-		wp_localize_script( 'thim-core-import-elementor', 'ThimImportElementor', array(
-			'ajaxUrl'  		=> admin_url( 'admin-ajax.php' ),
-			'security' 		=> wp_create_nonce( 'thim_import_elementor' ),
-			'theme'    		=> $theme_textdomain ?: 'thim-kit-free',
-			'siteUrl'  		=> get_site_url(),  
-    		'adminUrl' 		=> get_admin_url(), 
-			'el_v4_status'  => get_option( 'elementor_experiment-e_atomic_elements', 'active' ), 
-		) );
+		wp_localize_script(
+			'thim-core-import-elementor',
+			'ThimImportElementor',
+			array(
+				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
+				'security'     => wp_create_nonce( 'thim_import_elementor' ),
+				'theme'        => $theme_textdomain ?: 'thim-kit-free',
+				'siteUrl'      => get_site_url(),
+				'adminUrl'     => get_admin_url(),
+				'el_v4_status' => get_option( 'elementor_experiment-e_atomic_elements', 'active' ),
+			)
+		);
 		wp_enqueue_script( 'thim-core-import-elementor' );
 
 		// Admin CSS
@@ -145,7 +149,7 @@ class Thim_Import_Elementor extends Thim_Admin_Sub_Page {
 
 		// Allow admin UI to request a different post type (page or elementor_library)
 		$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( wp_unslash( $_POST['post_type'] ) ) : 'elementor_library';
-		$allowed = array( 'elementor_library', 'page' );
+		$allowed   = array( 'elementor_library', 'page' );
 		if ( ! in_array( $post_type, $allowed, true ) ) {
 			$post_type = 'elementor_library';
 		}
