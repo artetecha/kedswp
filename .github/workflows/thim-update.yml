@@ -26,7 +26,8 @@ name: Thim premium updates
 
 on:
   schedule:
-    - cron: '30 5 * * 1-5'
+    # Off the :00/:30 marks — GitHub drops cron runs scheduled at busy minutes.
+    - cron: '43 5 * * 1-5'
   workflow_dispatch:
     inputs:
       slugs:
