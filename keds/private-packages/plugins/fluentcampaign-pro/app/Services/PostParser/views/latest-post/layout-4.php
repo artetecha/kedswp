@@ -2,7 +2,8 @@
 <?php
 /**
  * @var $atts array
- * @var $post array
+ * @var $post \WP_Post
+ * @var $postUrl string
  * @var $settings array
  */
 
@@ -22,7 +23,7 @@
                             <div class="fc_latest_post_content">
 
                                 <h1 class="title" style="<?php echo esc_attr($settings['titleStyle']); ?>">
-                                    <a href="<?php echo esc_url(get_the_permalink($post)); ?>" style="<?php echo esc_attr($settings['titleStyle']); ?>">
+                                    <a href="<?php echo esc_url($postUrl); ?>" style="<?php echo esc_attr($settings['titleStyle']); ?>">
                                         <?php
                                         if ( $post->post_title ) {
                                             echo esc_html($post->post_title);
@@ -75,7 +76,7 @@
 
             <?php if ( get_the_post_thumbnail_url($post) && $atts['showImage'] == true) { ?>
                 <td class="fc_latest_post_img" width="220px" height="220px" valign="middle" style="padding: <?php echo esc_attr($imagePadding); ?>;">
-                    <a href="<?php echo esc_url(get_the_permalink($post)); ?>" class="fc_latest_post_overlay" style="background: url(<?php echo esc_url(get_the_post_thumbnail_url($post)); ?>) center no-repeat; background-size: <?php echo esc_attr($atts['backgroundType']); ?>;">
+                    <a href="<?php echo esc_url($postUrl); ?>" class="fc_latest_post_overlay" style="background: url(<?php echo esc_url(get_the_post_thumbnail_url($post)); ?>) center no-repeat; background-size: <?php echo esc_attr($atts['backgroundType']); ?>;">
                     </a>
                 </td>
             <?php } ?>

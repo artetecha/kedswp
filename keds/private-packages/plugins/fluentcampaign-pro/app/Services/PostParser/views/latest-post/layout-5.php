@@ -2,7 +2,8 @@
 <?php
 /**
  * @var $atts array
- * @var $post array
+ * @var $post \WP_Post
+ * @var $postUrl string
  * @var $settings array
  */
 ?>
@@ -12,7 +13,7 @@
     <tr>
         <td>
             <span class="fc_latest_post_marker"></span>
-            <a href="<?php echo esc_url(get_the_permalink($post)); ?>" style="<?php echo esc_attr($settings['titleStyle']); ?>">
+            <a href="<?php echo esc_url($postUrl); ?>" style="<?php echo esc_attr($settings['titleStyle']); ?>">
                 <?php
                 if ( $post->post_title ) {
                     echo esc_html($post->post_title);

@@ -256,14 +256,17 @@
         },
         {
             "name": "keds-plugin/fluentcampaign-pro",
-            "version": "3.1.0",
+            "version": "3.1.8",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/fluentcampaign-pro",
-                "reference": "b5fbd26b04e1fe6875cba279eb4f9b67611ab24a"
+                "reference": "8d5bfc0d78ea1ad1d2203fa8d2b01de487ec3da2"
             },
             "type": "wordpress-plugin",
             "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
                 "wpfluent": {
                     "namespace": {
                         "current": "FluentCampaign",
@@ -271,15 +274,21 @@
                     }
                 }
             },
-            "autoload": {
-                "psr-4": {
-                    "FluentCampaign\\App\\": "app/",
-                    "FluentCampaign\\Dev\\": "dev/"
-                },
-                "classmap": [],
-                "files": []
-            },
-            "description": "FluentCampaign Pro private package for KEDS.",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sheikh Heera",
+                    "email": "heera.sheikh77@gmail.com"
+                }
+            ],
+            "description": "WPFluent - The best framework to build WordPress plugins.",
+            "keywords": [
+                "WPFluent",
+                "WordPress",
+                "framework"
+            ],
             "transport-options": {
                 "symlink": false,
                 "relative": true

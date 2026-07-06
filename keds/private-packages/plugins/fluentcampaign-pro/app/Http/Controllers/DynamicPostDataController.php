@@ -3,6 +3,7 @@
 namespace FluentCampaign\App\Http\Controllers;
 
 use FluentCampaign\App\Http\Controllers\Controller;
+use FluentCampaign\App\Services\PostParser\LatestPost;
 use FluentCrm\Framework\Http\Request\Request;
 use FluentCrm\Framework\Support\Arr;
 
@@ -89,7 +90,8 @@ class DynamicPostDataController extends Controller
                 'date'          => get_the_time(get_option('date_format')),
                 'thumbnail'     => get_the_post_thumbnail_url($post->ID),
                 'author_avatar' => esc_url(get_avatar_url($post->post_author)),
-                'author'        => get_the_author_meta('display_name', $post->post_author)
+                'author'        => get_the_author_meta('display_name', $post->post_author),
+                'url'           => LatestPost::getPostUrl($post, ['selectedPostType' => $request->get('post_type')])
             ];
 
             $resultData[] = $result;

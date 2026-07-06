@@ -125,43 +125,193 @@ class WooInit
         });
     }
 
+    /**
+     * Add WooCommerce sales totals to the FluentCRM dashboard stats list.
+     *
+     * The dashboard expects each sales stat as a title/content pair. Keep the
+     * existing labels stable while delegating the actual total calculation to
+     * helpers that can support HPOS, modern non-HPOS stores, and legacy Woo.
+     */
     public function pushStatus($stats)
     {
         if (current_user_can('view_woocommerce_reports') || current_user_can('manage_woocommerce') || current_user_can('publish_shop_orders')) {
 
-            if (!class_exists('\WC_Report_Sales_By_Date')) {
-                global $woocommerce;
-                include_once($woocommerce->plugin_path() . '/includes/admin/reports/class-wc-admin-report.php');
-                include_once($woocommerce->plugin_path() . '/includes/admin/reports/class-wc-report-sales-by-date.php');
-            }
-
-            $todaySalesQuery = new \WC_Report_Sales_By_Date();
-            $todaySalesQuery->start_date = strtotime(date('Y-m-d', current_time('timestamp')));
-            $todaySalesQuery->end_date = strtotime(date('Y-m-d', current_time('timestamp')));
-            $todaySalesQuery->chart_groupby = 'month';
-            $todaySalesQuery->group_by_query = 'YEAR(posts.post_date), MONTH(posts.post_date), DAY(posts.post_date)';
-            $todayData = $todaySalesQuery->get_report_data();
-
-            $monthSalesQuery = new \WC_Report_Sales_By_Date();
-            $monthSalesQuery->start_date = strtotime(date('Y-m-01', current_time('timestamp')));
-            $monthSalesQuery->end_date = strtotime(date('Y-m-d', current_time('timestamp')));
-            $monthSalesQuery->chart_groupby = 'month';
-            $monthSalesQuery->group_by_query = 'YEAR(posts.post_date), MONTH(posts.post_date), DAY(posts.post_date)';
-            $monthData = $monthSalesQuery->get_report_data();
+            $todaySales = $this->getWooSalesByRange($this->getWooDateRange('today'));
+            $monthSales = $this->getWooSalesByRange($this->getWooDateRange('month'));
 
             $wooStats = [
                 [
                     'title'   => __('Sales (Today)', 'fluentcampaign-pro'),
-                    'content' => wc_price($todayData->net_sales)
+                    'content' => wc_price($todaySales)
                 ],
                 [
                     'title'   => __('Sales (This Month)', 'fluentcampaign-pro'),
-                    'content' => wc_price($monthData->net_sales)
+                    'content' => wc_price($monthSales)
                 ]
             ];
             $stats = array_merge($stats, $wooStats);
         }
         return $stats;
+    }
+
+    /**
+     * Build a WordPress-timezone date range for WooCommerce dashboard sales.
+     *
+     * WooCommerce stores order dates in MySQL datetime strings, so this returns
+     * the exact lower and upper bounds used by the stats query. The month range
+     * starts on the first day of the current month and ends on the current day.
+     */
+    private function getWooDateRange($period)
+    {
+        $currentTimestamp = current_time('timestamp');
+
+        if ($period == 'month') {
+            $startDate = gmdate('Y-m-01 00:00:00', $currentTimestamp);
+        } else {
+            $startDate = gmdate('Y-m-d 00:00:00', $currentTimestamp);
+        }
+
+        return [
+            'start' => $startDate,
+            'end'   => gmdate('Y-m-d 23:59:59', $currentTimestamp)
+        ];
+    }
+
+    /**
+     * Get WooCommerce report statuses normalized for the wc_order_stats table.
+     *
+     * WooCommerce exposes reportable statuses without the wc- prefix through
+     * the woocommerce_reports_order_statuses filter. The order stats table stores
+     * the prefixed values, so normalize them before building the SQL condition.
+     */
+    private function getWooReportStatuses()
+    {
+        $statuses = apply_filters('woocommerce_reports_order_statuses', ['completed', 'processing', 'on-hold']);
+
+        if (!$statuses || !is_array($statuses)) {
+            $statuses = ['completed', 'processing', 'on-hold'];
+        }
+
+        $normalizedStatuses = [];
+        foreach ($statuses as $status) {
+            $status = sanitize_key($status);
+
+            if (!$status) {
+                continue;
+            }
+
+            if (strpos($status, 'wc-') !== 0) {
+                $status = 'wc-' . $status;
+            }
+
+            $normalizedStatuses[] = $status;
+        }
+
+        return array_values(array_unique($normalizedStatuses));
+    }
+
+    /**
+     * Get the WooCommerce analytics date column allowed for order stats queries.
+     *
+     * WooCommerce stores the selected analytics date type in an option. Only
+     * known wc_order_stats date columns are allowed here because the column name
+     * must be interpolated into SQL after validation.
+     */
+    private function getWooStatsDateColumn()
+    {
+        $dateColumn = get_option('woocommerce_date_type', 'date_paid');
+        $allowedColumns = ['date_created', 'date_paid', 'date_completed'];
+
+        if (!in_array($dateColumn, $allowedColumns, true)) {
+            return 'date_paid';
+        }
+
+        return $dateColumn;
+    }
+
+    /**
+     * Get WooCommerce net sales from the modern order stats table.
+     *
+     * The wc_order_stats table is the preferred source for HPOS and modern
+     * WooCommerce analytics. If the table is missing, incomplete, or not synced
+     * yet, fall back to the legacy reports API so older installs still work.
+     */
+    private function getWooSalesByRange(array $range)
+    {
+        global $wpdb;
+
+        $tableName = $wpdb->prefix . 'wc_order_stats';
+
+        // Prefer WooCommerce's modern analytics table, but keep old installs supported.
+        $tableExists = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $tableName));
+
+        if ($tableExists != $tableName) {
+            return $this->getLegacyWooSalesByRange($range);
+        }
+
+        // Guard required columns so older or partially synced stores do not fatal.
+        $columns = $wpdb->get_col('DESC ' . $tableName, 0);
+        $requiredColumns = ['net_total', 'status', 'date_paid', 'date_completed', 'date_created'];
+
+        if (!$columns || array_diff($requiredColumns, $columns)) {
+            return $this->getLegacyWooSalesByRange($range);
+        }
+
+        // Empty analytics tables can happen before Woo sync; check existence without scanning all rows.
+        $hasOrderStats = absint($wpdb->get_var('SELECT 1 FROM ' . $tableName . ' LIMIT 1'));
+        if (!$hasOrderStats) {
+            return $this->getLegacyWooSalesByRange($range);
+        }
+
+        // Match WooCommerce report status customization before querying stats.
+        $statuses = $this->getWooReportStatuses();
+        if (!$statuses) {
+            return $this->getLegacyWooSalesByRange($range);
+        }
+
+        $statusPlaceholders = implode(', ', array_fill(0, count($statuses), '%s'));
+        $dateColumn = $this->getWooStatsDateColumn();
+
+        // Query the validated analytics date column directly so MySQL can use Woo's date index.
+        $sql = "SELECT COALESCE(SUM(net_total), 0) FROM {$tableName} WHERE status IN ({$statusPlaceholders}) AND {$dateColumn} >= %s AND {$dateColumn} <= %s";
+        $queryParams = array_merge($statuses, [$range['start'], $range['end']]);
+
+        // Prepare the dynamic status placeholders and date bounds as one safe query.
+        $preparedSql = call_user_func_array([$wpdb, 'prepare'], array_merge([$sql], $queryParams));
+
+        return (float) $wpdb->get_var($preparedSql);
+    }
+
+    /**
+     * Get WooCommerce net sales using the legacy reports API.
+     *
+     * This is only used as a compatibility fallback when wc_order_stats cannot
+     * be queried safely. It preserves the previous dashboard behavior for old
+     * WooCommerce installs that still rely on WC_Report_Sales_By_Date.
+     */
+    private function getLegacyWooSalesByRange(array $range)
+    {
+        if (!class_exists('\WC_Report_Sales_By_Date')) {
+            if (!function_exists('WC')) {
+                return 0;
+            }
+
+            include_once(WC()->plugin_path() . '/includes/admin/reports/class-wc-admin-report.php');
+            include_once(WC()->plugin_path() . '/includes/admin/reports/class-wc-report-sales-by-date.php');
+        }
+
+        if (!class_exists('\WC_Report_Sales_By_Date')) {
+            return 0;
+        }
+
+        $salesQuery = new \WC_Report_Sales_By_Date();
+        $salesQuery->start_date = strtotime($range['start']);
+        $salesQuery->end_date = strtotime($range['end']);
+        $salesQuery->chart_groupby = 'month';
+        $salesQuery->group_by_query = 'YEAR(posts.post_date), MONTH(posts.post_date), DAY(posts.post_date)';
+        $salesData = $salesQuery->get_report_data();
+
+        return (float) $salesData->net_sales;
     }
 
     public function maybeCampaignMeta($orderId, $order)
