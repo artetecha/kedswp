@@ -127,6 +127,11 @@ jobs:
         run: |
           cp ../.github/ci/wp-config-local.php wp-config-local.php
           printf 'path: wordpress\n' > wp-cli.local.yml
+          # Short-circuit ALL outgoing mail: wp-mail-smtp intercepts wp_mail
+          # and can spin retrying against blocked external HTTP (hung the
+          # activation step for 30 min on PR #12 after the 4.8.x bump).
+          printf '<?php\nadd_filter( "pre_wp_mail", "__return_true", 1 );\n' \
+            > wordpress/wp-content/mu-plugins/ci-disable-mail.php
 
       # All wp-cli steps below run from wordpress/ to mirror production
       # (/app/wordpress). Running from keds/ breaks plugins that load their

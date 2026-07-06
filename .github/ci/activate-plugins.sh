@@ -62,10 +62,13 @@ if [ "${#missing[@]}" -gt 0 ]; then
 	exit 1
 fi
 
+# timeout: a single wedged activation (e.g. a plugin retrying blocked
+# network calls forever) must become a failed slug with a visible error,
+# not a job that stalls until the workflow-level timeout reaps it.
 failed=()
 for slug in "${desired[@]}"; do
 	echo "==> activating $slug"
-	wp plugin activate "$slug" || failed+=("$slug")
+	timeout 180 wp plugin activate "$slug" || failed+=("$slug")
 
 	if [ "$slug" = "learnpress" ]; then
 		# LearnPress writes its learnpress_version option (and runs its
@@ -74,7 +77,7 @@ for slug in "${desired[@]}"; do
 		# self-deactivate when it's missing. One admin-context command
 		# triggers the same sync a wp-admin pageview would.
 		echo "==> priming LearnPress install state (admin context)"
-		wp --context=admin option get learnpress_version || true
+		timeout 120 wp --context=admin option get learnpress_version || true
 	fi
 done
 
@@ -82,7 +85,7 @@ done
 # stderr is left visible on purpose: if WordPress is wedged (an activation
 # fatal), the real error must reach the log, not /dev/null.
 for slug in "${desired[@]}"; do
-	status=$(wp plugin get "$slug" --field=status || echo unknown)
+	status=$(timeout 60 wp plugin get "$slug" --field=status || echo unknown)
 	case "$status" in
 		active|active-network) ;;
 		*) failed+=("$slug[$status]") ;;
