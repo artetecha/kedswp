@@ -185,8 +185,29 @@ jobs:
           curl -fsS --max-time 300 http://127.0.0.1:8080/courses/ -o /tmp/smoke/courses.html
           if grep -Eqi "$fatal" /tmp/smoke/courses.html; then echo "fatal on /courses/" >&2; exit 1; fi
 
-          # REST API responds with valid JSON.
-          curl -fsS --max-time 120 http://127.0.0.1:8080/wp-json/ | jq -e '.name' > /dev/null
+          # REST API responds with valid JSON. Retried: PHP's built-in server
+          # occasionally drops a worker mid-request on this endpoint
+          # (curl 52 "empty reply" — observed ~once per 10-15 runs; the site
+          # itself is fine, subsequent requests succeed).
+          rest_ok=0
+          for i in $(seq 1 5); do
+            if curl -sS --max-time 120 http://127.0.0.1:8080/wp-json/ -o /tmp/smoke/rest.json \
+              && [ -s /tmp/smoke/rest.json ] \
+              && jq -e '.name' /tmp/smoke/rest.json > /dev/null; then
+              rest_ok=1
+              break
+            fi
+            echo "REST check attempt $i failed; retrying in 3s" >&2
+            sleep 3
+          done
+          if [ "$rest_ok" -ne 1 ]; then
+            echo "ERROR: REST API failed after 5 attempts" >&2
+            echo "=== last /wp-json/ body ===" >&2
+            [ -f /tmp/smoke/rest.json ] && head -c 2000 /tmp/smoke/rest.json >&2 || true
+            echo "=== debug log tail ===" >&2
+            [ -f /tmp/wp-debug.log ] && tail -n 100 /tmp/wp-debug.log >&2 || true
+            exit 1
+          fi
 
       - name: Fail on PHP fatals in the debug log
         # Fatals only: 30 premium plugins on PHP 8.4 emit deprecations —
