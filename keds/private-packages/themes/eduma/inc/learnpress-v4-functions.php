@@ -13,9 +13,9 @@ if ( ! function_exists( 'thim_remove_learnpress_hooks' ) ) {
 		// remove sidebar default of LearnPress
 		remove_action( 'widgets_init', 'learn_press_register_sidebars' );
 
-		LearnPress::instance()->template( 'course' )->remove( 'learn-press/single-button-toggle-sidebar', array( '<input type="checkbox" id="sidebar-toggle" />', 'single-button-toggle-sidebar' ), 5 );
+//		LearnPress::instance()->template( 'course' )->remove( 'learn-press/single-button-toggle-sidebar', array( '<input type="checkbox" id="sidebar-toggle" />', 'single-button-toggle-sidebar' ), 5 );
 
-		remove_action( 'learn-press/single-button-toggle-sidebar', 'single-button-toggle-sidebar', 5 );
+//		remove_action( 'learn-press/single-button-toggle-sidebar', 'single-button-toggle-sidebar', 5 );
 
 		add_action( 'thim_single_course_payment', LearnPress::instance()->template( 'course' )->func( 'course_pricing' ), 5 );
 		add_action( 'thim_single_course_payment', LearnPress::instance()->template( 'course' )->func( 'course_buttons' ), 15 );

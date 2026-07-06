@@ -23,7 +23,7 @@ if ( $related->have_posts() ) {
 						$class = '';
 						?>
 						<a href="<?php echo esc_url( get_the_permalink() ); ?>"
-							title="<?php echo esc_attr( get_the_title() ); ?>"><?php echo thim_get_feature_image( get_post_thumbnail_id(), 'full', '300', '200' ); ?></a>
+							title="<?php echo esc_attr( get_the_title() ); ?>"><?php echo thim_get_feature_image( get_post_thumbnail_id(), 'full', '600', '400' ); ?></a>
 						<?php
 					} else {
 						$class = 'no-images';

@@ -397,6 +397,11 @@ class Thim_Ekit_Widget_Tabs_Post extends Widget_Base {
 				),
 				'default'   => 'right',
 				'toggle'    => true,
+				'selectors_dictionary' => [
+					'left'   => 'start',
+					'right'  => 'end',
+					'center' => 'center',
+				],
 				'selectors' => array(
 					'{{WRAPPER}} .thim-tabs-post .nav-tabs' => 'text-align: {{VALUE}};',
 				),
@@ -942,12 +947,7 @@ class Thim_Ekit_Widget_Tabs_Post extends Widget_Base {
 
 		?>
 		<div class="thim-tabs-post__thumbnail">
-			<a class="post-thumbnail"
-				href="
-				<?php
-				echo esc_url( $this->current_permalink );
-				?>
-				">
+			<a class="post-thumbnail" href="<?php echo esc_url( $this->current_permalink ); ?>">
 				<?php
 				$this->render_icon( $settings );
 				echo wp_kses_post( $thumbnail_html );
@@ -1077,12 +1077,7 @@ class Thim_Ekit_Widget_Tabs_Post extends Widget_Base {
 
 	protected function render_read_more( $text_read_more ) {
 		?>
-		<a class="thim-tabs-post__read-more"
-			href="
-			<?php
-			echo esc_url( $this->current_permalink );
-			?>
-			">
+		<a class="thim-tabs-post__read-more" href="<?php echo esc_url( $this->current_permalink ); ?>">
 			<?php
 			echo esc_html( $text_read_more );
 			?>
