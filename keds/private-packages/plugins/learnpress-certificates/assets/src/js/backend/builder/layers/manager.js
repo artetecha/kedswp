@@ -1,6 +1,6 @@
 import { showToastify } from 'AssetsJsPath/backend/utils/toastify';
 import { lpCertConfirm } from 'AssetsJsPath/backend/utils/confirm';
-import { replaceNewlinesForLoad, generateLayerId, resolveFont } from 'AssetsJsPath/backend/builder/utils';
+import { replaceNewlinesForLoad, generateLayerId, resolveFont, checkLocalImageMissing } from 'AssetsJsPath/backend/builder/utils';
 import { createFabricElement, isTextType, isSvgType } from 'AssetsJsPath/backend/builder/elements';
 import { Rect, ActiveSelection, Textbox } from 'fabric';
 import { selectors } from 'AssetsJsPath/backend/builder/selectors';
@@ -325,7 +325,7 @@ export class LayerManager {
 	}
 
 	async loadLayers() {
-		if ( ! this.canvas ) return;
+		if ( ! this.canvas ) return 0;
 
 		const canvasData = window.lpCertCanvasData || {};
 		const processedCanvasData = replaceNewlinesForLoad( canvasData );
@@ -336,8 +336,10 @@ export class LayerManager {
 				canvas: this.canvas.toJSON( [ 'id', 'name', 'type_layer', 'cornerRadius' ] ),
 				data: JSON.parse( JSON.stringify( window.lpCertCanvasData || {} ) )
 			} );
-			return;
+			return 0;
 		}
+
+		let brokenImageCount = 0;
 
 		try {
 			for ( let i = 0; i < layers.length; i++ ) {
@@ -390,9 +392,36 @@ export class LayerManager {
 						console.warn( `Layer ${ name || i } has no src, skipping` );
 						continue;
 					}
-					fabricObj = await createFabricElement( customType, src, layerProps );
-					if ( fabricObj ) {
+					try {
+						fabricObj = await createFabricElement( customType, src, layerProps );
+						if ( ! fabricObj || ! fabricObj.width || ! fabricObj.height ) {
+							throw new Error( 'empty dimensions' );
+						}
 						fabricObj.set( 'canvas', this.canvas );
+					} catch ( imgErr ) {
+						console.warn( `Image layer "${ name || i }" failed to load:`, src );
+						const noImageUrl = window.lpCertCanvasData?.no_image_url;
+						if ( noImageUrl ) {
+							const missing = await checkLocalImageMissing( src );
+							if ( ! missing ) {
+								continue;
+							}
+							try {
+								fabricObj = await createFabricElement( customType, noImageUrl, layerProps );
+								if ( fabricObj ) {
+									fabricObj.set( 'canvas', this.canvas );
+									const liveLayers = window.lpCertCanvasData?.layers;
+									if ( Array.isArray( liveLayers ) && liveLayers[ i ] ) {
+										liveLayers[ i ].src = noImageUrl;
+									}
+									brokenImageCount++;
+								}
+							} catch ( placeholderErr ) {
+								fabricObj = null;
+							}
+						} else {
+							fabricObj = null;
+						}
 					}
 				}
 				else if ( isSvgType( customType ) ) {
@@ -444,8 +473,11 @@ export class LayerManager {
 				data: JSON.parse( JSON.stringify( window.lpCertCanvasData || {} ) )
 			} );
 
+			return brokenImageCount;
+
 		} catch ( error ) {
 			console.error( 'Error loading layers:', error );
+			return 0;
 		}
 	}
 

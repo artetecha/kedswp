@@ -71,7 +71,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   isImageType: () => (/* binding */ isImageType),
 /* harmony export */   isQrCodeType: () => (/* binding */ isQrCodeType),
 /* harmony export */   isSvgType: () => (/* binding */ isSvgType),
-/* harmony export */   isTextType: () => (/* binding */ isTextType)
+/* harmony export */   isTextType: () => (/* binding */ isTextType),
+/* harmony export */   loadFabricImage: () => (/* binding */ loadFabricImage)
 /* harmony export */ });
 /* harmony import */ var fabric__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fabric */ "./node_modules/fabric/dist/index.min.mjs");
 
@@ -90,6 +91,19 @@ function isImageType(customType) {
 }
 function isSvgType(customType) {
   return customType?.startsWith('svg-') || false;
+}
+function loadFabricImage(url) {
+  let isSameOrigin = url.startsWith('data:') || url.startsWith('/');
+  if (!isSameOrigin) {
+    try {
+      isSameOrigin = lpData?.site_url === window.location.origin;
+    } catch (e) {
+      isSameOrigin = false;
+    }
+  }
+  return fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(url, isSameOrigin ? {} : {
+    crossOrigin: 'anonymous'
+  });
 }
 function createFabricElement(type, data, options = {}) {
   switch (type) {
@@ -121,9 +135,7 @@ function createFabricElement(type, data, options = {}) {
       }
     case 'image':
     case 'qr_code':
-      return fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(data, {
-        crossOrigin: 'anonymous'
-      });
+      return loadFabricImage(data);
     case 'svg-circle':
       {
         const {
@@ -271,7 +283,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   createFabricElement: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.createFabricElement),
 /* harmony export */   isImageType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isImageType),
 /* harmony export */   isSvgType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isSvgType),
-/* harmony export */   isTextType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isTextType)
+/* harmony export */   isTextType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isTextType),
+/* harmony export */   loadFabricImage: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.loadFabricImage)
 /* harmony export */ });
 /* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factory */ "./assets/src/js/backend/builder/elements/factory.js");
 
@@ -377,6 +390,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   autoResizeCanvasToFit: () => (/* binding */ autoResizeCanvasToFit),
 /* harmony export */   blockDefaultContextMenu: () => (/* binding */ blockDefaultContextMenu),
+/* harmony export */   checkLocalImageMissing: () => (/* binding */ checkLocalImageMissing),
 /* harmony export */   convertTitlesToTooltips: () => (/* binding */ convertTitlesToTooltips),
 /* harmony export */   generateLayerId: () => (/* binding */ generateLayerId),
 /* harmony export */   replaceNewlinesForLoad: () => (/* binding */ replaceNewlinesForLoad),
@@ -485,6 +499,24 @@ async function resolveFont(fontFamily) {
   console.warn(`Font "${fontFamily}" is not available. Please add it in LearnPress > Settings > Certificates > Google Fonts.`);
   return _config__WEBPACK_IMPORTED_MODULE_0__.TEXT_DEFAULTS.FONT_FAMILY;
 }
+async function checkLocalImageMissing(url) {
+  if (!url || !window.lpAJAXG) {
+    return false;
+  }
+  return new Promise(resolve => {
+    window.lpAJAXG.fetchAJAX({
+      action: 'check_local_image',
+      url
+    }, {
+      success: response => {
+        resolve(response?.data?.status === 'missing');
+      },
+      error: () => {
+        resolve(false);
+      }
+    });
+  });
+}
 
 /***/ }),
 
@@ -517,8 +549,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DEFAULT_FONT = 'Arial';
+async function loadFabricImageWithFallback(source, fallbackSource, label) {
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(source);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading ${label}:`, source, e);
+  }
+  if (!fallbackSource || fallbackSource === source) {
+    return null;
+  }
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(fallbackSource);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading fallback ${label}:`, fallbackSource, e);
+  }
+  return null;
+}
+async function createImageElementWithFallback(customType, source, props, fallbackSource, label) {
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, source, props);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading ${label}:`, source, e);
+  }
+  if (!fallbackSource || fallbackSource === source) {
+    return null;
+  }
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, fallbackSource, props);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading fallback ${label}:`, fallbackSource, e);
+  }
+  return null;
+}
 async function renderCertificateFromJSON(jsonData, opts = {}) {
   const isBuilderData = !!jsonData.builder_data;
+  const noImageUrl = jsonData.no_image_url || '';
   let bgWidth = 300;
   let bgHeight = 150;
   let bgSource = null;
@@ -537,16 +602,10 @@ async function renderCertificateFromJSON(jsonData, opts = {}) {
   }
   let bgImg = null;
   if (bgSource) {
-    try {
-      bgImg = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(bgSource, {
-        crossOrigin: 'anonymous'
-      });
-      if (!isBuilderData) {
-        bgWidth = bgImg.width || 300;
-        bgHeight = bgImg.height || 150;
-      }
-    } catch (e) {
-      console.error('renderCertificate: Error loading background:', bgSource, e);
+    bgImg = await loadFabricImageWithFallback(bgSource, noImageUrl, 'background');
+    if (bgImg && !isBuilderData) {
+      bgWidth = bgImg.width || 300;
+      bgHeight = bgImg.height || 150;
     }
   }
   const canvasEl = opts.canvasEl || document.createElement('canvas');
@@ -579,7 +638,7 @@ async function renderCertificateFromJSON(jsonData, opts = {}) {
   if (isBuilderData) {
     await _loadBuilderLayers(canvas, jsonData);
   } else {
-    await _loadOldLayers(canvas, jsonData.layers || []);
+    await _loadOldLayers(canvas, jsonData.layers || [], noImageUrl);
   }
   canvas.renderAll();
   const dataURL = canvas.toDataURL({
@@ -687,7 +746,7 @@ async function _loadBuilderLayers(canvas, data) {
         if (!qrDataURL) {
           continue;
         }
-        const qrImage = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(qrDataURL);
+        const qrImage = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(qrDataURL);
         if (qrImage) {
           qrImage.set({
             left: layerProps.left || 0,
@@ -709,7 +768,7 @@ async function _loadBuilderLayers(canvas, data) {
         if (!src) {
           continue;
         }
-        fabricObj = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, src, layerProps);
+        fabricObj = await createImageElementWithFallback(customType, src, layerProps, data.no_image_url || '', `layer ${i}`);
       } else if ((0,_elements__WEBPACK_IMPORTED_MODULE_3__.isSvgType)(customType)) {
         fabricObj = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, layer);
       }
@@ -742,7 +801,7 @@ async function _loadBuilderLayers(canvas, data) {
     }
   }
 }
-async function _loadOldLayers(canvas, layers) {
+async function _loadOldLayers(canvas, layers, noImageUrl = '') {
   for (const key in layers) {
     if (!layers.hasOwnProperty(key)) {
       continue;
@@ -756,9 +815,10 @@ async function _loadOldLayers(canvas, layers) {
       const isUrl = /^(https?|s?ftp):\/\//i.test(text);
       const isImage = layer.fieldType === 'verified-link' || layer.type_layer === 'qr_code' || layer.type === 'qr_code' || layer.type === 'image';
       if (isImage && isUrl) {
-        const img = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(text, {
-          crossOrigin: 'anonymous'
-        });
+        const img = await loadFabricImageWithFallback(text, noImageUrl, `old layer ${key}`);
+        if (!img) {
+          continue;
+        }
         img.set({
           left: parseFloat(layer.left) || 0,
           top: parseFloat(layer.top) || 0,
@@ -897,9 +957,7 @@ async function _cloneCanvasForExport(sourceCanvas, replacements = {}) {
     try {
       const bgUrl = sourceCanvas.backgroundImage.getSrc();
       if (bgUrl) {
-        const img = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(bgUrl, {
-          crossOrigin: 'anonymous'
-        });
+        const img = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(bgUrl);
         if (img) {
           img.set({
             scaleX: sourceCanvas.backgroundImage.scaleX,
@@ -16752,7 +16810,7 @@ __webpack_require__.r(__webpack_exports__);
       if ($cachedImg.length) {
         el_certificate_result = $cachedImg;
         $el.addClass('canvas-preview-ready has-cached-image');
-        onReady();
+        await onReady();
         $(document).on('click', '[data-cert="' + $el.attr('id') + '"]', function (e) {
           e.preventDefault();
           download();
@@ -16781,7 +16839,7 @@ __webpack_require__.r(__webpack_exports__);
           $img.attr('src', data);
           $el.hide();
         }
-        onReady();
+        await onReady();
       } catch (e) {
         console.error('LP_Certificate init error:', e);
       }
@@ -16813,11 +16871,11 @@ __webpack_require__.r(__webpack_exports__);
         elLink.attr('href', baseHref + certUrl);
       });
     }
-    function onReady() {
+    async function onReady() {
       // Save only when there are no images.
       const hasPendingSave = $el.find('input[name=need_upload_cert_img_to_server]').length > 0;
       if (hasPendingSave) {
-        saveImageToServer();
+        await saveImageToServer();
       } else {
         updateSocialShareLinks(el_certificate_result?.attr('src'));
         markCertificateReady();
@@ -16894,7 +16952,7 @@ __webpack_require__.r(__webpack_exports__);
         downloadImageFromSource();
       }
     }
-    function saveImageToServer() {
+    async function saveImageToServer() {
       if (!el_certificate_result || !el_certificate_result.length) {
         return;
       }
@@ -16904,40 +16962,36 @@ __webpack_require__.r(__webpack_exports__);
         data64: el_certificate_result.attr('src'),
         name_image: options.key_cer
       };
-      $.ajax({
-        url: localize_lp_cer_js.url_ajax,
-        data,
-        method: 'post',
-        dataType: 'json',
-        beforeSend() {
-          el_certificate_actions.append('<li class="fa fa-spinner">Loading share social...</li>');
-        },
-        success(rs) {
-          if (rs.code === 1) {
-            imageSaved = true;
-            if (rs.url_cert && el_certificate_result && el_certificate_result.length) {
-              el_certificate_result.attr('src', rs.url_cert);
-            }
-            if (el_social_cert && el_social_cert.length) {
-              updateSocialShareLinks(rs.url_cert);
-              el_social_cert.show();
-            }
-            markCertificateReady();
-            $(document).triggerHandler('learn-press/certificates/image-saved', [rs.url_cert]);
+      el_certificate_actions.append('<li class="fa fa-spinner">Loading share social...</li>');
+      try {
+        const response = await fetch(localize_lp_cer_js.url_ajax, {
+          method: 'POST',
+          credentials: 'same-origin',
+          body: new URLSearchParams(data)
+        });
+        const rs = await response.json();
+        if (rs.code === 1) {
+          imageSaved = true;
+          if (rs.url_cert && el_certificate_result && el_certificate_result.length) {
+            el_certificate_result.attr('src', rs.url_cert);
           }
-        },
-        complete() {
-          if (!imageSaved) {
-            markCertificateReady();
+          if (el_social_cert && el_social_cert.length) {
+            updateSocialShareLinks(rs.url_cert);
+            el_social_cert.show();
           }
-          el_certificate_actions.find('.fa-spinner').remove();
-        },
-        error(e) {
-          console.log(e);
+          markCertificateReady();
+          $(document).triggerHandler('learn-press/certificates/image-saved', [rs.url_cert]);
         }
-      });
+      } catch (e) {
+        console.log(e);
+      } finally {
+        if (!imageSaved) {
+          markCertificateReady();
+        }
+        el_certificate_actions.find('.fa-spinner').remove();
+      }
     }
-    init();
+    return init();
   };
   function getElements() {
     $html = $('html, body');

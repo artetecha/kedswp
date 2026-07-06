@@ -3,7 +3,7 @@ Contributors: thimpress, tunnhn, leehld, phonglq, tungnx
 Donate link:
 Tags: certificate, lms, elearning, e-learning, learning management system, education, course, courses, quiz, quizzes, questions, training, guru, sell courses
 Tested up to: 7.0
-Stable tag: 4.2.4
+Stable tag: 4.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,14 @@ Create certificates for courses of LearnPress.
 == Screenshots ==
 
 == Changelog ==
+
+= 4.2.6 (2026-07-01) =
+~ Fixed: error load canvas when image added to certificate deleted, fix to so default image.
+~ Fixed: format date display.
+~ Fixed: get content image certificate.
+
+= 4.2.5 (2026-06-02) =
+~ Fixed: save certificate permission on course Builder.
 
 = 4.2.4 (2026-05-28) =
 ~ Fixed: save, display info cer on course.

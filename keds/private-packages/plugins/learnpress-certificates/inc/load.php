@@ -237,6 +237,18 @@ class LP_Addon_Certificates extends LP_Addon {
 					die();
 				}
 
+				// ?delete_cer_image_to_recreate=1 — delete cached PNG so it regenerates on this load.
+				if ( ! empty( $_GET['delete_cer_image_to_recreate'] ) ) {
+					$cert_key = $wp->query_vars['view-cert'];
+					$uploads  = wp_upload_dir();
+					$file     = $uploads['basedir'] . '/learn-press-cert/' . sanitize_file_name( $cert_key ) . '.png';
+					if ( file_exists( $file ) ) {
+						unlink( $file );
+					}
+					wp_redirect( $cert->get_permalink() );
+					exit;
+				}
+
 				LP_Addon_Certificates_Preload::$addon->get_template( 'single-certificate.php', compact( 'cert', 'courseModel' ) );
 				die();
 			}
@@ -487,6 +499,10 @@ class LP_Addon_Certificates extends LP_Addon {
 			exit;
 		}
 
+		while ( ob_get_level() > 0 ) {
+			ob_end_clean();
+		}
+
 		// Return the PNG file contents directly so the browser can render the proxy URL as an image.
 		header( 'Content-Type: image/png' );
 		header( 'Content-Length: ' . filesize( $file ) );
@@ -598,6 +614,24 @@ class LP_Addon_Certificates extends LP_Addon {
 				wp_enqueue_script( 'cert-confirm-js' );
 			}
 		}
+
+		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+		$tab  = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : '';
+		if ( 'learn-press-settings' === $page && 'certificates' === $tab ) {
+			wp_enqueue_script( 'lp-cert-cache-tools' );
+			wp_localize_script(
+				'lp-cert-cache-tools',
+				'lpCertCacheTools',
+				array(
+					'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+					'nonce'          => wp_create_nonce( 'lp_cert_delete_all_images' ),
+					'buttonLabel'    => __( 'Remove All Certificate Images', 'learnpress-certificates' ),
+					'deletingLabel'  => __( 'Deleting…', 'learnpress-certificates' ),
+					'confirmMessage' => __( 'Delete all cached certificate images? Students will regenerate them on their next certificate visit.', 'learnpress-certificates' ),
+					'errorMessage'   => __( 'Error deleting certificate images.', 'learnpress-certificates' ),
+				)
+			);
+		}
 	}
 
 	/**
@@ -618,6 +652,14 @@ class LP_Addon_Certificates extends LP_Addon {
 			'i18n'            => array(
 				'loading' => __( 'Loading', 'learnpress-certificates' ),
 			),
+		);
+
+		wp_register_script(
+			'lp-cert-cache-tools',
+			$this->get_plugin_url( "assets/dist/js/backend/certificate-cache-tools{$min}.js" ),
+			array(),
+			$ver,
+			array( 'strategy' => 'defer' )
 		);
 
 		if ( CertificateUpdater::get_current_db_version() === 1 ) {

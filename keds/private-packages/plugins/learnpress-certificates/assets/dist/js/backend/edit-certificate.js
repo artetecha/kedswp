@@ -439,8 +439,20 @@ class CanvasManager {
         fireRightClick: true,
         stopContextMenu: true
       });
+      let bgMissing = false;
       if (isBackgroundImage) {
-        await this.loadBackgroundImage(backgroundValue);
+        const bgLoaded = await this.loadBackgroundImage(backgroundValue);
+        if (!bgLoaded) {
+          const missing = await (0,AssetsJsPath_backend_builder_utils__WEBPACK_IMPORTED_MODULE_8__.checkLocalImageMissing)(backgroundValue);
+          if (missing) {
+            canvasData.background = canvasData.no_image_url || '';
+            window.lpCertCanvasData = canvasData;
+            if (canvasData.no_image_url) {
+              await this.loadBackgroundImage(canvasData.no_image_url);
+            }
+            bgMissing = true;
+          }
+        }
       }
       fabric__WEBPACK_IMPORTED_MODULE_1__.InteractiveFabricObject.ownDefaults = {
         ...fabric__WEBPACK_IMPORTED_MODULE_1__.InteractiveFabricObject.ownDefaults,
@@ -455,7 +467,10 @@ class CanvasManager {
         borderScaleFactor: 2
       };
       this.canvas.renderAll();
-      await layerManager.loadLayers();
+      const brokenImageCount = await layerManager.loadLayers();
+      if (bgMissing || brokenImageCount > 0) {
+        layerManager.saveCanvasLayers(false, 0, true);
+      }
       this.setupCanvasEvents(layerManager, contextMenu);
       this.initCanvasCenterGuidelines();
       (0,AssetsJsPath_utils__WEBPACK_IMPORTED_MODULE_4__.lpOnElementReady)(AssetsJsPath_backend_builder_selectors__WEBPACK_IMPORTED_MODULE_0__.selectors.elCanvas, () => {
@@ -606,35 +621,37 @@ class CanvasManager {
   }
   async loadBackgroundImage(imageUrl) {
     if (!this.canvas || !imageUrl) {
-      return;
+      return false;
     }
+    const applyBg = img => {
+      const w = this.canvas.getWidth();
+      const h = this.canvas.getHeight();
+      const scale = Math.max(w / img.width, h / img.height);
+      img.set({
+        scaleX: scale,
+        scaleY: scale,
+        originX: 'center',
+        originY: 'center',
+        left: w / 2,
+        top: h / 2,
+        selectable: false,
+        evented: false
+      });
+      this.canvas.backgroundImage = img;
+      this.canvas.renderAll();
+    };
     try {
       const img = await fabric__WEBPACK_IMPORTED_MODULE_1__.FabricImage.fromURL(imageUrl, {
         crossOrigin: 'anonymous'
       });
-      if (img) {
-        const canvasWidth = this.canvas.getWidth();
-        const canvasHeight = this.canvas.getHeight();
-        const imgWidth = img.width;
-        const imgHeight = img.height;
-        const scaleX = canvasWidth / imgWidth;
-        const scaleY = canvasHeight / imgHeight;
-        const scale = Math.max(scaleX, scaleY);
-        img.set({
-          scaleX: scale,
-          scaleY: scale,
-          originX: 'center',
-          originY: 'center',
-          left: canvasWidth / 2,
-          top: canvasHeight / 2,
-          selectable: false,
-          evented: false
-        });
-        this.canvas.backgroundImage = img;
-        this.canvas.renderAll();
+      if (img && img.width && img.height) {
+        applyBg(img);
+        return true;
       }
+      throw new Error('empty dimensions');
     } catch (error) {
-      console.error('Error loading background image:', error);
+      console.warn('Background image failed to load:', imageUrl);
+      return false;
     }
   }
   autoResizeCanvas() {
@@ -1640,7 +1657,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   isImageType: () => (/* binding */ isImageType),
 /* harmony export */   isQrCodeType: () => (/* binding */ isQrCodeType),
 /* harmony export */   isSvgType: () => (/* binding */ isSvgType),
-/* harmony export */   isTextType: () => (/* binding */ isTextType)
+/* harmony export */   isTextType: () => (/* binding */ isTextType),
+/* harmony export */   loadFabricImage: () => (/* binding */ loadFabricImage)
 /* harmony export */ });
 /* harmony import */ var fabric__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fabric */ "./node_modules/fabric/dist/index.min.mjs");
 
@@ -1659,6 +1677,19 @@ function isImageType(customType) {
 }
 function isSvgType(customType) {
   return customType?.startsWith('svg-') || false;
+}
+function loadFabricImage(url) {
+  let isSameOrigin = url.startsWith('data:') || url.startsWith('/');
+  if (!isSameOrigin) {
+    try {
+      isSameOrigin = lpData?.site_url === window.location.origin;
+    } catch (e) {
+      isSameOrigin = false;
+    }
+  }
+  return fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(url, isSameOrigin ? {} : {
+    crossOrigin: 'anonymous'
+  });
 }
 function createFabricElement(type, data, options = {}) {
   switch (type) {
@@ -1690,9 +1721,7 @@ function createFabricElement(type, data, options = {}) {
       }
     case 'image':
     case 'qr_code':
-      return fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(data, {
-        crossOrigin: 'anonymous'
-      });
+      return loadFabricImage(data);
     case 'svg-circle':
       {
         const {
@@ -1840,7 +1869,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   createFabricElement: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.createFabricElement),
 /* harmony export */   isImageType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isImageType),
 /* harmony export */   isSvgType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isSvgType),
-/* harmony export */   isTextType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isTextType)
+/* harmony export */   isTextType: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.isTextType),
+/* harmony export */   loadFabricImage: () => (/* reexport safe */ _factory__WEBPACK_IMPORTED_MODULE_0__.loadFabricImage)
 /* harmony export */ });
 /* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factory */ "./assets/src/js/backend/builder/elements/factory.js");
 
@@ -2896,7 +2926,7 @@ class LayerManager {
     window.lpAJAXG.fetchAJAX(dataSend, callBack);
   }
   async loadLayers() {
-    if (!this.canvas) return;
+    if (!this.canvas) return 0;
     const canvasData = window.lpCertCanvasData || {};
     const processedCanvasData = (0,AssetsJsPath_backend_builder_utils__WEBPACK_IMPORTED_MODULE_2__.replaceNewlinesForLoad)(canvasData);
     const layers = processedCanvasData.layers || [];
@@ -2905,8 +2935,9 @@ class LayerManager {
         canvas: this.canvas.toJSON(['id', 'name', 'type_layer', 'cornerRadius']),
         data: JSON.parse(JSON.stringify(window.lpCertCanvasData || {}))
       });
-      return;
+      return 0;
     }
+    let brokenImageCount = 0;
     try {
       for (let i = 0; i < layers.length; i++) {
         const layer = layers[i];
@@ -2962,9 +2993,36 @@ class LayerManager {
               console.warn(`Layer ${name || i} has no src, skipping`);
               continue;
             }
-            fabricObj = await (0,AssetsJsPath_backend_builder_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, src, layerProps);
-            if (fabricObj) {
+            try {
+              fabricObj = await (0,AssetsJsPath_backend_builder_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, src, layerProps);
+              if (!fabricObj || !fabricObj.width || !fabricObj.height) {
+                throw new Error('empty dimensions');
+              }
               fabricObj.set('canvas', this.canvas);
+            } catch (imgErr) {
+              console.warn(`Image layer "${name || i}" failed to load:`, src);
+              const noImageUrl = window.lpCertCanvasData?.no_image_url;
+              if (noImageUrl) {
+                const missing = await (0,AssetsJsPath_backend_builder_utils__WEBPACK_IMPORTED_MODULE_2__.checkLocalImageMissing)(src);
+                if (!missing) {
+                  continue;
+                }
+                try {
+                  fabricObj = await (0,AssetsJsPath_backend_builder_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, noImageUrl, layerProps);
+                  if (fabricObj) {
+                    fabricObj.set('canvas', this.canvas);
+                    const liveLayers = window.lpCertCanvasData?.layers;
+                    if (Array.isArray(liveLayers) && liveLayers[i]) {
+                      liveLayers[i].src = noImageUrl;
+                    }
+                    brokenImageCount++;
+                  }
+                } catch (placeholderErr) {
+                  fabricObj = null;
+                }
+              } else {
+                fabricObj = null;
+              }
             }
           } else if ((0,AssetsJsPath_backend_builder_elements__WEBPACK_IMPORTED_MODULE_3__.isSvgType)(customType)) {
             fabricObj = await (0,AssetsJsPath_backend_builder_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, layer);
@@ -3008,8 +3066,10 @@ class LayerManager {
         canvas: this.canvas.toJSON(['id', 'name', 'type_layer', 'cornerRadius']),
         data: JSON.parse(JSON.stringify(window.lpCertCanvasData || {}))
       });
+      return brokenImageCount;
     } catch (error) {
       console.error('Error loading layers:', error);
+      return 0;
     }
   }
   async applyTemplate(templateId) {
@@ -7160,6 +7220,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   autoResizeCanvasToFit: () => (/* binding */ autoResizeCanvasToFit),
 /* harmony export */   blockDefaultContextMenu: () => (/* binding */ blockDefaultContextMenu),
+/* harmony export */   checkLocalImageMissing: () => (/* binding */ checkLocalImageMissing),
 /* harmony export */   convertTitlesToTooltips: () => (/* binding */ convertTitlesToTooltips),
 /* harmony export */   generateLayerId: () => (/* binding */ generateLayerId),
 /* harmony export */   replaceNewlinesForLoad: () => (/* binding */ replaceNewlinesForLoad),
@@ -7268,6 +7329,24 @@ async function resolveFont(fontFamily) {
   console.warn(`Font "${fontFamily}" is not available. Please add it in LearnPress > Settings > Certificates > Google Fonts.`);
   return _config__WEBPACK_IMPORTED_MODULE_0__.TEXT_DEFAULTS.FONT_FAMILY;
 }
+async function checkLocalImageMissing(url) {
+  if (!url || !window.lpAJAXG) {
+    return false;
+  }
+  return new Promise(resolve => {
+    window.lpAJAXG.fetchAJAX({
+      action: 'check_local_image',
+      url
+    }, {
+      success: response => {
+        resolve(response?.data?.status === 'missing');
+      },
+      error: () => {
+        resolve(false);
+      }
+    });
+  });
+}
 
 /***/ }),
 
@@ -7300,8 +7379,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DEFAULT_FONT = 'Arial';
+async function loadFabricImageWithFallback(source, fallbackSource, label) {
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(source);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading ${label}:`, source, e);
+  }
+  if (!fallbackSource || fallbackSource === source) {
+    return null;
+  }
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(fallbackSource);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading fallback ${label}:`, fallbackSource, e);
+  }
+  return null;
+}
+async function createImageElementWithFallback(customType, source, props, fallbackSource, label) {
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, source, props);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading ${label}:`, source, e);
+  }
+  if (!fallbackSource || fallbackSource === source) {
+    return null;
+  }
+  try {
+    return await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, fallbackSource, props);
+  } catch (e) {
+    console.error(`renderCertificate: Error loading fallback ${label}:`, fallbackSource, e);
+  }
+  return null;
+}
 async function renderCertificateFromJSON(jsonData, opts = {}) {
   const isBuilderData = !!jsonData.builder_data;
+  const noImageUrl = jsonData.no_image_url || '';
   let bgWidth = 300;
   let bgHeight = 150;
   let bgSource = null;
@@ -7320,16 +7432,10 @@ async function renderCertificateFromJSON(jsonData, opts = {}) {
   }
   let bgImg = null;
   if (bgSource) {
-    try {
-      bgImg = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(bgSource, {
-        crossOrigin: 'anonymous'
-      });
-      if (!isBuilderData) {
-        bgWidth = bgImg.width || 300;
-        bgHeight = bgImg.height || 150;
-      }
-    } catch (e) {
-      console.error('renderCertificate: Error loading background:', bgSource, e);
+    bgImg = await loadFabricImageWithFallback(bgSource, noImageUrl, 'background');
+    if (bgImg && !isBuilderData) {
+      bgWidth = bgImg.width || 300;
+      bgHeight = bgImg.height || 150;
     }
   }
   const canvasEl = opts.canvasEl || document.createElement('canvas');
@@ -7362,7 +7468,7 @@ async function renderCertificateFromJSON(jsonData, opts = {}) {
   if (isBuilderData) {
     await _loadBuilderLayers(canvas, jsonData);
   } else {
-    await _loadOldLayers(canvas, jsonData.layers || []);
+    await _loadOldLayers(canvas, jsonData.layers || [], noImageUrl);
   }
   canvas.renderAll();
   const dataURL = canvas.toDataURL({
@@ -7470,7 +7576,7 @@ async function _loadBuilderLayers(canvas, data) {
         if (!qrDataURL) {
           continue;
         }
-        const qrImage = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(qrDataURL);
+        const qrImage = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(qrDataURL);
         if (qrImage) {
           qrImage.set({
             left: layerProps.left || 0,
@@ -7492,7 +7598,7 @@ async function _loadBuilderLayers(canvas, data) {
         if (!src) {
           continue;
         }
-        fabricObj = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, src, layerProps);
+        fabricObj = await createImageElementWithFallback(customType, src, layerProps, data.no_image_url || '', `layer ${i}`);
       } else if ((0,_elements__WEBPACK_IMPORTED_MODULE_3__.isSvgType)(customType)) {
         fabricObj = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.createFabricElement)(customType, layer);
       }
@@ -7525,7 +7631,7 @@ async function _loadBuilderLayers(canvas, data) {
     }
   }
 }
-async function _loadOldLayers(canvas, layers) {
+async function _loadOldLayers(canvas, layers, noImageUrl = '') {
   for (const key in layers) {
     if (!layers.hasOwnProperty(key)) {
       continue;
@@ -7539,9 +7645,10 @@ async function _loadOldLayers(canvas, layers) {
       const isUrl = /^(https?|s?ftp):\/\//i.test(text);
       const isImage = layer.fieldType === 'verified-link' || layer.type_layer === 'qr_code' || layer.type === 'qr_code' || layer.type === 'image';
       if (isImage && isUrl) {
-        const img = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(text, {
-          crossOrigin: 'anonymous'
-        });
+        const img = await loadFabricImageWithFallback(text, noImageUrl, `old layer ${key}`);
+        if (!img) {
+          continue;
+        }
         img.set({
           left: parseFloat(layer.left) || 0,
           top: parseFloat(layer.top) || 0,
@@ -7680,9 +7787,7 @@ async function _cloneCanvasForExport(sourceCanvas, replacements = {}) {
     try {
       const bgUrl = sourceCanvas.backgroundImage.getSrc();
       if (bgUrl) {
-        const img = await fabric__WEBPACK_IMPORTED_MODULE_0__.FabricImage.fromURL(bgUrl, {
-          crossOrigin: 'anonymous'
-        });
+        const img = await (0,_elements__WEBPACK_IMPORTED_MODULE_3__.loadFabricImage)(bgUrl);
         if (img) {
           img.set({
             scaleX: sourceCanvas.backgroundImage.scaleX,

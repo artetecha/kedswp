@@ -42,12 +42,14 @@ import * as lpUtils from 'AssetsJsPath/utils';
 			Object.assign( { action: action }, data ),
 			{
 				success: function ( res ) {
-					if ( res.status === 'success' ) {
+					const { status, message, data } = res;
+
+					lpToastify.show( message, status );
+
+					if ( status === 'success' ) {
 						if ( onSuccess ) {
 							onSuccess( res );
 						}
-					} else {
-						lpToastify.show( res.message || ( headerData.textError || '' ), 'error' );
 					}
 				},
 				error: function ( err ) {
@@ -242,7 +244,10 @@ import * as lpUtils from 'AssetsJsPath/utils';
 			visibility: cbCertVisibility ? cbCertVisibility.value : 'public',
 			post_password: ( document.getElementById( 'cb-cert-post-password' ) || {} ).value || '',
 		}, function () {
-			window.location.reload();
+			lpUtils.lpSetLoadingEl( btn, 0 );
+			setTimeout( () => {
+				window.location.reload();
+			}, 1000 );
 		} );
 	}
 

@@ -9,7 +9,7 @@
  */
 class LP_Cert_AJAX {
 	protected static $_instance;
-	protected $_hook_arr = array( 'lpCertCreateImage', 'lp_cert_add_to_cart_woo', 'lp_cert_save_draft' );
+	protected $_hook_arr = array( 'lpCertCreateImage', 'lp_cert_add_to_cart_woo', 'lp_cert_save_draft', 'lp_cert_delete_all_images' );
 
 	protected function __construct() {
 		foreach ( $this->_hook_arr as $hook ) {
@@ -116,6 +116,13 @@ class LP_Cert_AJAX {
 			$data['message'] = $e->getMessage();
 		}
 
+		$action = sanitize_key( wp_unslash( $_REQUEST['action'] ?? '' ) );
+		if ( wp_doing_ajax() && 'lpcertcreateimage' === $action ) {
+			while ( ob_get_level() > 0 ) {
+				ob_end_clean();
+			}
+		}
+
 		wp_send_json( $data );
 	}
 
@@ -169,6 +176,44 @@ class LP_Cert_AJAX {
 		}
 
 		wp_send_json( $result );
+	}
+
+	public function lp_cert_delete_all_images() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'Insufficient permissions', 'learnpress-certificates' ) );
+		}
+
+		$nonce = LP_Request::get_param( 'nonce', '', 'text', 'post' );
+		if ( ! wp_verify_nonce( $nonce, 'lp_cert_delete_all_images' ) ) {
+			wp_send_json_error( __( 'Security check failed', 'learnpress-certificates' ) );
+		}
+
+		$uploads  = wp_upload_dir();
+		$cert_dir = $uploads['basedir'] . '/learn-press-cert/';
+
+		if ( ! is_dir( $cert_dir ) ) {
+			wp_send_json_success( array(
+				'message' => __( 'No certificate images directory found.', 'learnpress-certificates' ),
+				'count'   => 0,
+			) );
+		}
+
+		$files = glob( $cert_dir . '*.png' );
+		$count = 0;
+
+		if ( $files ) {
+			foreach ( $files as $file ) {
+				if ( is_file( $file ) && unlink( $file ) ) {
+					$count++;
+				}
+			}
+		}
+
+		wp_send_json_success( array(
+			/* translators: %d: number of deleted files */
+			'message' => sprintf( __( 'Deleted %d certificate image(s). Students will regenerate them on next visit.', 'learnpress-certificates' ), $count ),
+			'count'   => $count,
+		) );
 	}
 
 	public function lp_cert_save_draft() {

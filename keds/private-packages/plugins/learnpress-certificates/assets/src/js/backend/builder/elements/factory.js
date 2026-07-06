@@ -29,6 +29,20 @@ export function isSvgType( customType ) {
 	return customType?.startsWith( 'svg-' ) || false;
 }
 
+export function loadFabricImage( url ) {
+	let isSameOrigin = url.startsWith( 'data:' ) || url.startsWith( '/' );
+
+	if ( ! isSameOrigin ) {
+		try {
+			isSameOrigin = lpData?.site_url === window.location.origin;
+		} catch ( e ) {
+			isSameOrigin = false;
+		}
+	}
+
+	return FabricImage.fromURL( url, isSameOrigin ? {} : { crossOrigin: 'anonymous' } );
+}
+
 export function createFabricElement( type, data, options = {} ) {
 	switch ( type ) {
 		case 'text-edit':
@@ -61,7 +75,7 @@ export function createFabricElement( type, data, options = {} ) {
 
 		case 'image':
 		case 'qr_code':
-			return FabricImage.fromURL( data, { crossOrigin: 'anonymous' } );
+			return loadFabricImage( data );
 
 		case 'svg-circle': {
 			const {

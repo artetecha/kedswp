@@ -477,6 +477,8 @@ class LP_Certificates_Post_Type extends LP_Abstract_Post_Type {
 			$admin_role->add_cap( 'delete_others_' . $cert_cap );
 			$admin_role->add_cap( 'edit_others_' . $cert_cap );
 		}
+
+		// Add capabilities for teacher role
 		$teacher_role = get_role( LP_TEACHER_ROLE );
 		if ( $teacher_role ) {
 			$settings = LP_Settings::instance();

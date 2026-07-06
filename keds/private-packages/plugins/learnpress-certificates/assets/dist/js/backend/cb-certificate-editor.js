@@ -1512,12 +1512,16 @@ __webpack_require__.r(__webpack_exports__);
       action: action
     }, data), {
       success: function (res) {
-        if (res.status === 'success') {
+        const {
+          status,
+          message,
+          data
+        } = res;
+        AssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_0__.show(message, status);
+        if (status === 'success') {
           if (onSuccess) {
             onSuccess(res);
           }
-        } else {
-          AssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_0__.show(res.message || headerData.textError || '', 'error');
         }
       },
       error: function (err) {
@@ -1689,7 +1693,10 @@ __webpack_require__.r(__webpack_exports__);
       visibility: cbCertVisibility ? cbCertVisibility.value : 'public',
       post_password: (document.getElementById('cb-cert-post-password') || {}).value || ''
     }, function () {
-      window.location.reload();
+      AssetsJsPath_utils__WEBPACK_IMPORTED_MODULE_1__.lpSetLoadingEl(btn, 0);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     });
   }
   const thumbInput = document.getElementById('_lp_cert_thumbnail');

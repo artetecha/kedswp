@@ -3,7 +3,7 @@
         'name' => 'learnpress/certificate',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'fa8cff7f11854130e7cd6de75b13416c06c00720',
+        'reference' => 'dbaca7e46389d029d94503397573dae85c93ff63',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'learnpress/certificate' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'fa8cff7f11854130e7cd6de75b13416c06c00720',
+            'reference' => 'dbaca7e46389d029d94503397573dae85c93ff63',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

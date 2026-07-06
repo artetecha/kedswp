@@ -227,7 +227,7 @@
   top: 0;
   left: 0;
 }
-.certificate-preview.canvas-preview-ready {
+.certificate-preview.canvas-preview-ready, .certificate-preview.has-cached-image {
   opacity: 1;
   position: static;
   max-width: 100%;

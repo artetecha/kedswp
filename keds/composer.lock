@@ -329,11 +329,11 @@
         },
         {
             "name": "keds-plugin/learnpress-certificates",
-            "version": "4.2.4",
+            "version": "4.2.6",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/learnpress-certificates",
-                "reference": "497b0e854ca83473c65874038c20b43806b25c87"
+                "reference": "04ebdb7753142601b387066c52ed3c5a9459b098"
             },
             "type": "wordpress-plugin",
             "transport-options": {

@@ -267,12 +267,15 @@
     left: 0;
   }
 
-  &.canvas-preview-ready {
+  &.canvas-preview-ready,
+  &.has-cached-image {
     opacity: 1;
     position: static;
     max-width: 100%;
     margin: 0 auto;
+  }
 
+  &.canvas-preview-ready {
     .certificate-preview-inner {
       display: flex;
       justify-content: center;

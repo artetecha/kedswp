@@ -1,5 +1,6 @@
 export {
 	createFabricElement,
+	loadFabricImage,
 	isTextType,
 	isImageType,
 	isSvgType,

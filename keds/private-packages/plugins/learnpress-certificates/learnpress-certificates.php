@@ -4,14 +4,14 @@
  * Plugin URI: https://thimpress.com/product/certificates-add-on-for-learnpress/
  * Description: Create certificates for online courses.
  * Author: ThimPress
- * Version: 4.2.4
+ * Version: 4.2.6
  * Author URI: http://thimpress.com
  * Tags: learnpress, lms
  * Text Domain: learnpress-certificates
  * Domain Path: /languages/
  * Requires at least: 6.3
  * Requires PHP: 7.4
- * Require_LP_Version: 4.3.7
+ * Require_LP_Version: 4.4.1
  * Requires Plugins: learnpress
  *
  * @author Nhamdv - Update for LP4.

@@ -19,6 +19,7 @@ $canvas_data  = [
 ];
 
 $canvas_data = wp_parse_args( $builder_data->get_raw_layers(), $canvas_data );
+$canvas_data['no_image_url'] = plugins_url( 'assets/images/no-image.png', LP_ADDON_CERTIFICATES_FILE );
 ?>
 <div class="lp-cert-layout-builder-wrapper <?php echo empty( $layer ) ? 'lp-hidden' : ''; ?>">
 

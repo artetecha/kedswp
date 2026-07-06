@@ -668,6 +668,46 @@ class EditCertificateAjax extends AbstractAjax {
 		wp_send_json( $response );
 	}
 
+	public static function check_local_image() {
+		$response = new LP_REST_Response();
+
+		try {
+			if ( ! current_user_can( 'edit_' . LP_ADDON_CERTIFICATES_CERT_CPT . 's' ) ) {
+				throw new \Exception( __( 'Permission denied', 'learnpress-certificates' ) );
+			}
+
+			$params = wp_unslash( $_REQUEST['data'] ?? '' );
+			try {
+				$data = LP_Helper::json_decode( $params, true );
+			} catch ( \Exception $e ) {
+				$data = array();
+			}
+
+			$url  = esc_url_raw( $data['url'] ?? '' );
+			$path = '';
+
+			if ( $url ) {
+				$uploads    = wp_upload_dir();
+				$plugin_url = plugins_url( '', LP_ADDON_CERTIFICATES_FILE );
+
+				if ( 0 === strncmp( $url, $uploads['baseurl'], strlen( $uploads['baseurl'] ) ) ) {
+					$path = $uploads['basedir'] . substr( $url, strlen( $uploads['baseurl'] ) );
+				} elseif ( 0 === strncmp( $url, $plugin_url, strlen( $plugin_url ) ) ) {
+					$path = LP_ADDON_CERTIFICATES_PATH . substr( $url, strlen( $plugin_url ) );
+				}
+			}
+
+			$missing = $path && ( ! file_exists( $path ) || ! is_readable( $path ) );
+
+			$response->status = 'success';
+			$response->data   = array( 'status' => $missing ? 'missing' : 'exists' );
+		} catch ( \Throwable $e ) {
+			$response->message = $e->getMessage();
+		}
+
+		wp_send_json( $response );
+	}
+
 	/**
 	 * Duplicate certificate
 	 *
