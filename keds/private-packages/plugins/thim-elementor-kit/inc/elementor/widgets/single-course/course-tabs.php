@@ -907,12 +907,11 @@ class Thim_Ekit_Widget_Course_Tabs extends Widget_Base {
 			)
 		);
 
-
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'instructor_avatar_border',
-				'selector' => '{{WRAPPER}} .lp-course-author .course-author__pull-left, {{WRAPPER}} .lp-course-author .instructor-avatar',
+				'selector' => '{{WRAPPER}} .lp-course-author .instructor-avatar img',
 			]
 		);
 		$this->add_control(

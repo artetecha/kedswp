@@ -158,7 +158,6 @@ class Thim_Ekit_Widget_Header_Info extends Widget_Base {
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
-				'default'   => 'left',
 				'toggle'    => true,
 				'selectors' => array(
 					'{{WRAPPER}} .thim-header-info' => 'text-align: {{VALUE}};',

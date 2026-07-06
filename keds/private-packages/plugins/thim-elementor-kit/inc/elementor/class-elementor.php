@@ -388,12 +388,13 @@ class Elementor {
 	public function extra_animations() {
 		$extra_animations = array(
 			__( 'Thim eKit Animations', 'thim-elementor-kit' ) => [
-				'ekit--scale'       => __( 'Scale', 'thim-elementor-kit' ),
-				'ekit--fancy'       => __( 'Fancy', 'thim-elementor-kit' ),
-				'ekit--slide-up'    => __( 'Slide Up', 'thim-elementor-kit' ),
-				'ekit--slide-left'  => __( 'Slide Left', 'thim-elementor-kit' ),
-				'ekit--slide-right' => __( 'Slide Right', 'thim-elementor-kit' ),
-				'ekit--slide-down'  => __( 'Slide Down', 'thim-elementor-kit' )
+				'ekit--scale'          => __( 'Scale', 'thim-elementor-kit' ),
+				'ekit--fancy'          => __( 'Fancy', 'thim-elementor-kit' ),
+				'ekit--slide-up'       => __( 'Slide Up', 'thim-elementor-kit' ),
+				'ekit--slide-left'     => __( 'Slide Left', 'thim-elementor-kit' ),
+				'ekit--slide-right'    => __( 'Slide Right', 'thim-elementor-kit' ),
+				'ekit--slide-down'     => __( 'Slide Down', 'thim-elementor-kit' ),
+				'ekit--fx-word-reveal' => __( 'Text Reveal', 'thim-elementor-kit' ),
 			]
 		);
 

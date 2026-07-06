@@ -1,1 +1,5 @@
-{"name":"keds-plugin/thim-elementor-kit","type":"wordpress-plugin","version":"1.4.1"}
+{
+ "name": "keds-plugin/thim-elementor-kit",
+ "type": "wordpress-plugin",
+ "version": "1.4.4"
+}
