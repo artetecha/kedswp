@@ -74,19 +74,28 @@ jobs:
           # still fails on schema errors and an out-of-date composer.lock.
           composer validate --strict --no-check-all --no-check-publish
           python3 <<'PY'
+          # Path packages are pinned "*" in composer.json (the vendored
+          # composer.json is the version authority), so the invariants are:
+          # every vendored package is required, and its LOCKED version
+          # matches the vendored manifest (catches a botched update commit
+          # that changed files without refreshing the lock, or vice versa).
           import json, pathlib, sys
           req = json.load(open("composer.json"))["require"]
+          lock = json.load(open("composer.lock"))
+          locked = {p["name"]: p["version"] for p in lock["packages"]}
           bad, count = [], 0
           for cj in sorted(pathlib.Path("private-packages").glob("*/*/composer.json")):
               pkg = json.load(cj.open())
               count += 1
-              pin = req.get(pkg["name"])
-              if pin != pkg.get("version"):
-                  bad.append(f'{pkg["name"]}: vendored {pkg.get("version")!r} vs root pin {pin!r}')
+              name, version = pkg["name"], pkg.get("version")
+              if name not in req:
+                  bad.append(f"{name}: vendored but missing from composer.json require")
+              elif locked.get(name) != version:
+                  bad.append(f"{name}: vendored {version!r} vs locked {locked.get(name)!r}")
           if bad:
-              print("Private package pins out of sync with composer.json:", *bad, sep="\n  ")
+              print("Private packages out of sync:", *bad, sep="\n  ")
               sys.exit(1)
-          print(f"{count} private package pins consistent")
+          print(f"{count} private packages consistent (require + lock)")
           PY
 
       - name: Get composer cache directory

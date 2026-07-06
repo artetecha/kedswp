@@ -172,7 +172,10 @@ cmd_update() {
 	cp -R "$src/." "$PKG_DIR/$kind/$slug/"
 	write_package_composer "$PKG_DIR/$kind/$slug" "$comp_ns/$slug" "$comp_type" "$version"
 
-	( cd "$ROOT_DIR" && composer require --no-install --no-scripts --quiet "$comp_ns/$slug:$version" )
+	# Root composer.json pins path packages as "*" (the vendored
+	# composer.json is the version authority), so only this package's own
+	# lock entry changes — sibling update PRs no longer conflict.
+	( cd "$ROOT_DIR" && composer update --no-install --no-scripts --quiet "$comp_ns/$slug" )
 	echo "==> $slug: done ($version). Review with git diff, then commit & push."
 }
 
