@@ -56,8 +56,8 @@ GitHub Actions on every PR:
 
 Scheduled:
 
-- **Thim premium updates** ([thim-update.yml](.github/workflows/thim-update.yml)) — weekdays 05:30 UTC, raises PRs for available premium updates.
-- **Daily PR report** ([daily-pr-report.yml](.github/workflows/daily-pr-report.yml)) — 06:30 UTC digest email of open update PRs.
+- **Thim premium updates** ([thim-update.yml](.github/workflows/thim-update.yml)) — weekdays 05:43 UTC, raises PRs for available premium updates.
+- **Daily PR report** ([daily-pr-report.yml](.github/workflows/daily-pr-report.yml)) — 06:17 UTC digest email of open update PRs.
 
 ## Local E2E runs
 
