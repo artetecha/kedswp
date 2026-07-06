@@ -32,13 +32,16 @@ if ( ! class_exists( 'Thim_Child_Theme' ) ) {
 		 * @param $args array
 		 */
 		private function parse( $args ) {
-			$this->args = wp_parse_args( $args, array(
-				'name'       => '',
-				'slug'       => '',
-				'screenshot' => '',
-				'source'     => '',
-				'version'    => ''
-			) );
+			$this->args = wp_parse_args(
+				$args,
+				array(
+					'name'       => '',
+					'slug'       => '',
+					'screenshot' => '',
+					'source'     => '',
+					'version'    => '',
+				)
+			);
 		}
 
 		/**
@@ -135,7 +138,7 @@ if ( ! class_exists( 'Thim_Child_Theme' ) ) {
 				'slug'    => $slug,
 			);
 
-			include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 			$skin     = new WP_Ajax_Upgrader_Skin();
 			$upgrader = new Theme_Upgrader( $skin );

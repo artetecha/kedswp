@@ -32,7 +32,7 @@ class Thim_Error extends Exception {
 		'#007_FILE_BROKEN',
 		'#008_DOWNLOAD_FAILED',
 		'#009_INSTALL_PLUGIN',
-		'#010_PARAM_VALID'
+		'#010_PARAM_VALID',
 	);
 
 	/**

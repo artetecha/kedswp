@@ -58,7 +58,7 @@ if ( ! class_exists( 'Thim_Core' ) ) {
 		private function run() {
 			Thim_Notification::instance();
 			Thim_Core_Customizer::instance();
- 		}
+		}
 
 		/**
 		 * Include functions.
@@ -88,8 +88,9 @@ if ( ! class_exists( 'Thim_Core' ) ) {
 			$this->resizer();
 			$this->_require( 'class-thim-widget.php' );
 			$this->_require( 'class-thim-register-shortcode.php' );
- 			$this->_require( 'class-thim-breadcrumb.php' );
- 			$this->_require( 'class-thim-crop-image-size.php' );
+			$this->_require( 'class-thim-core-toc.php' );
+			$this->_require( 'class-thim-breadcrumb.php' );
+			$this->_require( 'class-thim-crop-image-size.php' );
 		}
 
 		/**

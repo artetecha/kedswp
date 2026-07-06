@@ -104,10 +104,7 @@ class Thim_Importer extends Thim_Admin_Sub_Page {
 	 */
 	public static function get_demo_data( $check_plugins_require = false ) {
 
-		$THEME_URI  = get_template_directory_uri();
-		$THEME_PATH = get_template_directory();
-
-		$file_demo_data = $THEME_PATH . '/inc/data/demos.php';
+		$file_demo_data = get_template_directory() . '/inc/data/demos.php';
 		if ( ! file_exists( $file_demo_data ) ) {
 			return array();
 		}
@@ -123,18 +120,17 @@ class Thim_Importer extends Thim_Admin_Sub_Page {
 			$base_uri_demo_data  = trailingslashit( WP_CONTENT_URL ) . 'uploads/thim-data-demos/' . esc_attr( $prefix_folder_data_demo ) . '/';
 			$base_path_demo_data = trailingslashit( WP_CONTENT_DIR ) . 'uploads/thim-data-demos/' . esc_attr( $prefix_folder_data_demo ) . '/';
 		} else {
-			$base_uri_demo_data  = apply_filters( 'thim_core_importer_base_uri_demo_data', $THEME_URI . '/inc/data/demos/' );
-			$base_path_demo_data = $THEME_PATH . '/inc/data/demos/';
+			$base_uri_demo_data  = apply_filters( 'thim_core_importer_base_uri_demo_data', get_template_directory_uri() . '/inc/data/demos/' );
+			$base_path_demo_data = get_template_directory() . '/inc/data/demos/';
 		}
 
-
 		foreach ( $demo_data as $key => $demo ) {
-			$demo_data[$key]['key']        = $key;
-			$demo_data[$key]['screenshot'] = $base_uri_demo_data . $key . '/screenshot.jpg';
+			$demo_data[ $key ]['key']        = $key;
+			$demo_data[ $key ]['screenshot'] = $base_uri_demo_data . $key . '/screenshot.jpg';
 			if ( isset( $demo['thumbnail_url'] ) ) {
-				$demo_data[$key]['screenshot'] = $demo['thumbnail_url'];
+				$demo_data[ $key ]['screenshot'] = $demo['thumbnail_url'];
 			}
-			$demo_data[$key]['dir'] = $base_path_demo_data . $key;
+			$demo_data[ $key ]['dir'] = $base_path_demo_data . $key;
 
 			if ( ! $check_plugins_require ) {
 				continue;
@@ -169,7 +165,7 @@ class Thim_Importer extends Thim_Admin_Sub_Page {
 				array_push( $plugins_required_, $plugin->to_array() );
 			}
 
-			$demo_data[$key]['plugins_required'] = $plugins_required_;
+			$demo_data[ $key ]['plugins_required'] = $plugins_required_;
 		}
 
 		return $demo_data;
@@ -270,7 +266,7 @@ class Thim_Importer extends Thim_Admin_Sub_Page {
 	 * @since 0.6.0
 	 *
 	 */
-	public function import_mail_chimp( $post_id, $original_post_ID, $postdata, $post ) {
+	public function import_mail_chimp( $post_id, $original_post_id, $postdata, $post ) {
 		if ( $post['post_type'] === 'mc4wp-form' ) {
 
 			update_option( 'mc4wp_default_form_id', $post_id );
@@ -462,31 +458,39 @@ class Thim_Importer extends Thim_Admin_Sub_Page {
 		$demos = self::get_demo_data();
 		$nonce = wp_create_nonce( 'thim-importer' );
 
-		wp_localize_script( 'thim-importer', 'thim_importer_data', array(
-			'nonce'                => $nonce,
-			'url_ajax'             => admin_url( 'admin-ajax.php' ),
-			'admin_ajax_action'    => admin_url( 'admin-ajax.php' ),
-			'admin_ajax_uninstall' => admin_url( 'admin-ajax.php' ),
-			'details_error'        => array(
-				'title'     => __( 'The import demo content failed!', 'thim-core' ),
-				'try_again' => __(
-					'Import failed. The system will automatically adjust some configurations. Please give it one more try. Good luck!',
-					'thim-core'
+		wp_localize_script(
+			'thim-importer',
+			'thim_importer_data',
+			array(
+				'nonce'                => $nonce,
+				'url_ajax'             => admin_url( 'admin-ajax.php' ),
+				'admin_ajax_action'    => admin_url( 'admin-ajax.php' ),
+				'admin_ajax_uninstall' => admin_url( 'admin-ajax.php' ),
+				'details_error'        => array(
+					'title'     => __( 'The import demo content failed!', 'thim-core' ),
+					'try_again' => __(
+						'Import failed. The system will automatically adjust some configurations. Please give it one more try. Good luck!',
+						'thim-core'
+					),
+					'code'      => array(
+						'request' => '#001_REQUEST_ERROR',
+						'server'  => '#002_SERVER_ERROR',
+					),
 				),
-				'code'      => array(
-					'request' => '#001_REQUEST_ERROR',
-					'server'  => '#002_SERVER_ERROR',
-				),
-			),
-			'uninstall_successful' => __( 'Uninstall demo content successful :]', 'thim-core' ),
-			'uninstall_failed'     => __( 'Uninstall demo content failed. Please try again :]', 'thim-core' ),
-			'confirm_close'        => __( 'Do you really want to close?', 'thim-core' ),
-			'something_went_wrong' => __( 'Some thing went wrong. Please try again :]', 'thim-core' ),
-		) );
+				'uninstall_successful' => __( 'Uninstall demo content successful :]', 'thim-core' ),
+				'uninstall_failed'     => __( 'Uninstall demo content failed. Please try again :]', 'thim-core' ),
+				'confirm_close'        => __( 'Do you really want to close?', 'thim-core' ),
+				'something_went_wrong' => __( 'Some thing went wrong. Please try again :]', 'thim-core' ),
+			)
+		);
 
-		wp_localize_script( 'thim-importer', 'thim_importer', array(
-			'demos'     => $demos,
-			'installed' => self::get_key_demo_installed(),
-		) );
+		wp_localize_script(
+			'thim-importer',
+			'thim_importer',
+			array(
+				'demos'     => $demos,
+				'installed' => self::get_key_demo_installed(),
+			)
+		);
 	}
 }

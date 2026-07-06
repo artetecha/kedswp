@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4c50a7b0dc4c2ad2110baaa25bedf88",
+    "content-hash": "a8ae27cbf85910c1b4537f4187049d1b",
     "packages": [
         {
             "name": "composer/installers",
@@ -511,11 +511,11 @@
         },
         {
             "name": "keds-plugin/thim-core",
-            "version": "2.4.8",
+            "version": "2.4.9",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/thim-core",
-                "reference": "db56a71aec80ed9be230bfaf41ea6c4959393d1d"
+                "reference": "96f39838e93af95d02b61342d37bdc3de11f9fbd"
             },
             "type": "wordpress-plugin",
             "transport-options": {

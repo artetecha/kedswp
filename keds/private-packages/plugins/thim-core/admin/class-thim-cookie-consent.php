@@ -31,7 +31,7 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 	 */
 	private function hooks() {
 		add_filter( 'thim_dashboard_sub_pages', array( $this, 'add_sub_page' ) );
- 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'fe_enqueue_scripts' ) );
 		add_action( 'wp_footer', array( $this, 'render_banner_inline' ) );
 
@@ -59,7 +59,7 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 
 		$sub_pages['cookie-consent'] = array(
 			'title' => __( 'Cookie Consent', 'thim-core' ),
-			'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" fill="none" stroke="#50575E" stroke-width="1.5" viewBox="0 0 24 24">
+			'icon'  => '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" fill="none" stroke="#50575E" stroke-width="1.5" viewBox="0 0 24 24">
                         <path d="M12 2a10 10 0 0 0-1 19.95 10 10 0 0 0 9-14.82A2.5 2.5 0 0 1 15.5 5a2.5 2.5 0 0 1-2.45-3A10 10 0 0 0 12 2Z"/>
                         <circle cx="10.5" cy="9" r="1.5"/>
                         <circle cx="15.5" cy="13" r="1.5"/>
@@ -79,15 +79,15 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 	 */
 	public static function get_default_categories() {
 		return array(
-			'necessary' => array(
+			'necessary'  => array(
 				'title' => 'Necessary',
 				'desc'  => 'Necessary cookies are required to enable the basic features of this site, such as providing secure log-in or adjusting your consent preferences. These cookies do not store any personally identifiable data.',
 			),
-			'analytics' => array(
+			'analytics'  => array(
 				'title' => 'Analytics',
 				'desc'  => 'Analytical cookies are used to understand how visitors interact with the website. These cookies help provide information on metrics such as the number of visitors, bounce rate, traffic source, etc.',
 			),
-			'ads' => array(
+			'ads'        => array(
 				'title' => 'Advertising',
 				'desc'  => 'Advertisement cookies are used to provide visitors with customised advertisements based on the pages you visited previously and to analyse the effectiveness of the ad campaigns.',
 			),
@@ -117,24 +117,24 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 			'litespeed_',
 			'_lscache',
 			'PHPSESSID',
-			'tk_ai'
+			'tk_ai',
 		);
 
-		$cookie_details = [];
-		foreach ($cookies as $name => $value) {
+		$cookie_details = array();
+		foreach ( $cookies as $name => $value ) {
 			// Skip excluded cookies
-			foreach ($excluded_cookies as $excluded) {
-				if (strpos($name, $excluded) === 0) {
+			foreach ( $excluded_cookies as $excluded ) {
+				if ( strpos( $name, $excluded ) === 0 ) {
 					continue 2; // Skip this cookie and move to the next one
 				}
 			}
 
 			// Add cookie details to the array
 			$cookie_details[] = array(
-				'name'        => htmlspecialchars($name),
-				'value'       => htmlspecialchars($value),
-				'domain'      => $_SERVER['HTTP_HOST'],
-				'type'        => self::get_cookie_type($name)
+				'name'   => htmlspecialchars( $name ),
+				'value'  => htmlspecialchars( $value ),
+				'domain' => $_SERVER['HTTP_HOST'],
+				'type'   => self::get_cookie_type( $name ),
 			);
 		}
 
@@ -157,11 +157,11 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 		// Popular cookies mapping
 		$popular_cookies = array(
 			'google_analytics' => array(
-				'names' => array('_ga', '_gid', '_gat'),
+				'names' => array( '_ga', '_gid', '_gat' ),
 				'type'  => 'Third-party',
 			),
-			'facebook' => array(
-				'names' => array('fr', '_fbp', 'datr'),
+			'facebook'         => array(
+				'names' => array( 'fr', '_fbp', 'datr' ),
 				'type'  => 'Third-party',
 			),
 		);
@@ -197,8 +197,8 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 	 */
 	public function update_cookie_manager_form() {
 		// Verify the AJAX request
-		if ( ! isset( $_POST['nonce'] ) ||  ! wp_verify_nonce( $_POST['nonce'], 'cookie_consent_settings_nonce' ) ) {
-			wp_send_json_error( [ 'message' => [ __('Invalid nonce.', 'thim-core') ] ] );
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cookie_consent_settings_nonce' ) ) {
+			wp_send_json_error( array( 'message' => array( __( 'Invalid nonce.', 'thim-core' ) ) ) );
 		}
 		if ( ! isset( $_POST['cookie_category'] ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid request.' ) );
@@ -246,11 +246,11 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 		}
 
 		// Hander cookie banner settings data
-		$enable_popup 		 	= isset( $_POST['enable_popup'] ) ? sanitize_text_field( $_POST['enable_popup'] ) : '';
-		$popup_position 	 	= isset( $_POST['popup_position'] ) ? sanitize_text_field( $_POST['popup_position'] ) : 'bottom-left';
-		$enable_mobile_popup 	= isset( $_POST['enable_mobile_popup'] ) ? sanitize_text_field( $_POST['enable_mobile_popup'] ) : '';
-		$enable_revisit_button 	= isset( $_POST['enable_revisit_button'] ) ? sanitize_text_field( $_POST['enable_revisit_button'] ) : '';
-		$consent_message 	 	= isset( $_POST['consent_message'] ) ? wp_kses_post( $_POST['consent_message'] ) : '';
+		$enable_popup           = isset( $_POST['enable_popup'] ) ? sanitize_text_field( $_POST['enable_popup'] ) : '';
+		$popup_position         = isset( $_POST['popup_position'] ) ? sanitize_text_field( $_POST['popup_position'] ) : 'bottom-left';
+		$enable_mobile_popup    = isset( $_POST['enable_mobile_popup'] ) ? sanitize_text_field( $_POST['enable_mobile_popup'] ) : '';
+		$enable_revisit_button  = isset( $_POST['enable_revisit_button'] ) ? sanitize_text_field( $_POST['enable_revisit_button'] ) : '';
+		$consent_message        = isset( $_POST['consent_message'] ) ? wp_kses_post( $_POST['consent_message'] ) : '';
 		$customise_consent_mess = isset( $_POST['customise_consent_mess'] ) ? wp_kses_post( $_POST['customise_consent_mess'] ) : '';
 
 		// Handle cookie categories data
@@ -285,7 +285,7 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 					'domain'   => sanitize_text_field( $_POST['ck_list_domain'][ $index ] ?? '' ),
 					'duration' => sanitize_text_field( $_POST['ck_list_duration'][ $index ] ?? '' ),
 					'desc'     => sanitize_text_field( $_POST['ck_list_desc'][ $index ] ?? '' ),
-					'src'      => sanitize_text_field( $_POST['ck_list_src'][$index] ?? '' ),
+					'src'      => sanitize_text_field( $_POST['ck_list_src'][ $index ] ?? '' ),
 				);
 			}
 		}
@@ -319,24 +319,27 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 			wp_send_json_error( __( 'Invalid nonce.', 'thim-core' ) );
 		}
 
-		$cookie_id 		 = sanitize_text_field($_POST['cookie_id']);
-		$cookie_category = sanitize_text_field($_POST['cookie_category']);
+		$cookie_id       = sanitize_text_field( $_POST['cookie_id'] );
+		$cookie_category = sanitize_text_field( $_POST['cookie_category'] );
 
 		// Retrieve the existing cookie list
-		$cookie_list = get_option('thim_cookie_list', array());
+		$cookie_list = get_option( 'thim_cookie_list', array() );
 
-		if ( isset($cookie_list[$cookie_category]) ) {
+		if ( isset( $cookie_list[ $cookie_category ] ) ) {
 			// Filter out the cookie with the specified ID
-			$cookie_list[$cookie_category] = array_filter($cookie_list[$cookie_category], function ($cookie) use ($cookie_id) {
-				return $cookie['id'] !== $cookie_id;
-			});
+			$cookie_list[ $cookie_category ] = array_filter(
+				$cookie_list[ $cookie_category ],
+				function ( $cookie ) use ( $cookie_id ) {
+					return $cookie['id'] !== $cookie_id;
+				}
+			);
 
 			// Update the option
-			update_option('thim_cookie_list', $cookie_list);
+			update_option( 'thim_cookie_list', $cookie_list );
 
-			wp_send_json_success(['message' => 'Cookie deleted successfully.']);
+			wp_send_json_success( array( 'message' => 'Cookie deleted successfully.' ) );
 		} else {
-			wp_send_json_error(['message' => 'Cookie not found.']);
+			wp_send_json_error( array( 'message' => 'Cookie not found.' ) );
 		}
 
 		exit;
@@ -365,14 +368,14 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 	public static function get_data_settings() {
 		// Retrieve all cookie consent settings from wp_options
 		$options = array(
-			'enable_popup'        		=> get_option( 'thim_cookie_enable_popup', '' ),
-			'popup_position'      		=> get_option( 'thim_cookie_popup_position', 'bottom-left' ),
-			'enable_mobile_popup' 		=> get_option( 'thim_cookie_enable_mobile_popup', 'on' ),
-			'enable_revisit_button' 	=> get_option( 'thim_cookie_enable_revisit_button', 'on' ),
-			'consent_message'     		=> get_option( 'thim_cookie_consent_message', 'We use cookies to improve your experience, including essential cookies required for the website to function. By continuing, you agree to our use of cookies. <a href="#">Learn more</a>.' ),
-			'customise_consent_mess'  	=> get_option( 'thim_cookie_customise_consent_mess', '<h4 class="heading-top">Customise Consent Preferences</h4><p>We use cookies to help you navigate efficiently and perform certain functions. You will find detailed information about all cookies under each consent category below.</p><br /> {{necessary}} <br />{{analytics}}<br />{{ads}}<br />{{functional}}' ),
-			'cookie_categories'  		=> get_option( 'thim_cookie_categories', self::get_default_categories() ),
-			'cookie_list'          		=> get_option( 'thim_cookie_list', array() ),
+			'enable_popup'           => get_option( 'thim_cookie_enable_popup', '' ),
+			'popup_position'         => get_option( 'thim_cookie_popup_position', 'bottom-left' ),
+			'enable_mobile_popup'    => get_option( 'thim_cookie_enable_mobile_popup', 'on' ),
+			'enable_revisit_button'  => get_option( 'thim_cookie_enable_revisit_button', 'on' ),
+			'consent_message'        => get_option( 'thim_cookie_consent_message', 'We use cookies to improve your experience, including essential cookies required for the website to function. By continuing, you agree to our use of cookies. <a href="#">Learn more</a>.' ),
+			'customise_consent_mess' => get_option( 'thim_cookie_customise_consent_mess', '<h4 class="heading-top">Customise Consent Preferences</h4><p>We use cookies to help you navigate efficiently and perform certain functions. You will find detailed information about all cookies under each consent category below.</p><br /> {{necessary}} <br />{{analytics}}<br />{{ads}}<br />{{functional}}' ),
+			'cookie_categories'      => get_option( 'thim_cookie_categories', self::get_default_categories() ),
+			'cookie_list'            => get_option( 'thim_cookie_list', array() ),
 		);
 
 		return $options;
@@ -415,16 +418,25 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 			return;
 		}
 
-		wp_enqueue_script( 'thim-core-cookie-consent', THIM_CORE_ADMIN_URI . '/assets/js/cookie-consent.js', array(
-			'jquery'
-		), THIM_CORE_VERSION );
+		wp_enqueue_script(
+			'thim-core-cookie-consent',
+			THIM_CORE_ADMIN_URI . '/assets/js/cookie-consent.js',
+			array(
+				'jquery',
+			),
+			THIM_CORE_VERSION
+		);
 
 		// Pass ajaxurl and nonce to JavaScript
-		wp_localize_script( 'thim-core-cookie-consent', 'thimCookieConsent', array(
-			'ajaxurl' 		=> admin_url( 'admin-ajax.php' ),
-			'nonce'   		=> wp_create_nonce( 'cookie_consent_settings_nonce' ),
-			'cookieDetails' => self::cookie_details(),
-		) );
+		wp_localize_script(
+			'thim-core-cookie-consent',
+			'thimCookieConsent',
+			array(
+				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+				'nonce'         => wp_create_nonce( 'cookie_consent_settings_nonce' ),
+				'cookieDetails' => self::cookie_details(),
+			)
+		);
 	}
 
 	/**
@@ -456,5 +468,4 @@ class Thim_Cookie_Consent extends Thim_Admin_Sub_Page {
 			)
 		);
 	}
-
 }
