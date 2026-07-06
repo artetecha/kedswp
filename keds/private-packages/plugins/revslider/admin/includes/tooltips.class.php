@@ -106,8 +106,8 @@ class RevSliderTooltips {
 					'desc' => 'Expands slides to fill the full width of the module, showing only one slide at a time in the visible area.
 					',					
 				],
-				'globallayersvisibility' => [					
-					'desc' => 'Toggles the visibility of static slide layers when a non-static slide is selected in the editor.',					
+				'globallayersvisibility' => [
+					'desc' => 'Toggles the visibility of static slide layers when a non-static slide is selected in the editor.',
 				],
 				'carouselsiblings' => [					
 					'desc' => 'Adjusts the distance, animation, and styling of non-focused carousel slides.<br><br>

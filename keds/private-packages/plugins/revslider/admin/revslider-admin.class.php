@@ -62,6 +62,11 @@ class RevSliderAdmin extends RevSliderFunctionsAdmin {
 			}
 		}
 		
+		//group SR7 add-ons in the WP plugins list (data-level filters only, fail-safe by design)
+		add_filter('all_plugins', [$this, 'hide_addon_plugins'], 999);
+		add_filter('views_plugins', [$this, 'add_addon_plugins_view'], 999);
+		add_filter('plugin_row_meta', [$this, 'add_addon_row_meta'], 10, 2);
+
 		add_action('admin_init', [$this, 'merge_addon_notices'], 99);
 		add_action('admin_init', [$this, 'add_suggested_privacy_content'], 15);
 		
@@ -73,37 +78,141 @@ class RevSliderAdmin extends RevSliderFunctionsAdmin {
 		$facebook->add_actions();
 	}
 
+	/**
+	 * Collect SR7 add-on plugin files from a plugins array. An entry only counts as
+	 * add-on when BOTH the folder follows the revslider-* pattern AND the plugin
+	 * headers identify it as a ThemePunch "Slider Revolution ..." plugin, so other
+	 * plugins can never be affected. Returns an empty array on any unexpected input.
+	 **/
+	public function get_addon_plugin_files($plugins){
+		$addons = array();
+		if(!is_array($plugins)) return $addons;
+		foreach($plugins as $file => $data){
+			if(!is_string($file) || !is_array($data)) continue;
+			if($file === RS_PLUGIN_SLUG_PATH) continue; //never the main plugin
+			if(strpos($file, 'revslider-') !== 0) continue; //folder pattern
+			$name	= $this->get_val($data, 'Name', '');
+			$author	= $this->get_val($data, 'Author', '');
+			if(stripos($name, 'Slider Revolution') !== 0) continue; //header check
+			if(stripos($author, 'ThemePunch') === false) continue; //header check
+			$addons[] = $file;
+		}
+		return $addons;
+	}
+
+	/**
+	 * Whether add-on grouping is active. Disabled by the "groupAddons" global
+	 * setting, by the reveal query argument, or when the main plugin is not the
+	 * one running (paranoia guard) - any failure means "do not hide anything".
+	 **/
+	public function hide_addons_active(){
+		try{
+			if(!empty($_GET['sr7_show_addons'])) return false;
+			if($this->_truefalse($this->get_val($this->global_settings, 'groupAddons', true)) !== true) return false;
+			return true;
+		}catch(Exception $e){
+			return false;
+		}
+	}
+
+	/**
+	 * all_plugins filter: remove SR7 add-ons from the WP plugins list. Add-ons with
+	 * a pending update stay visible so update workflows are never blocked. On any
+	 * error the untouched list is returned - the fallback is always the WP default.
+	 **/
+	public function hide_addon_plugins($plugins){
+		try{
+			if(!is_array($plugins) || !$this->hide_addons_active()) return $plugins;
+			$updates = get_site_transient('update_plugins');
+			$pending = (is_object($updates) && isset($updates->response) && is_array($updates->response)) ? $updates->response : array();
+			foreach($this->get_addon_plugin_files($plugins) as $file){
+				if(isset($pending[$file])) continue; //keep add-ons with available updates visible
+				unset($plugins[$file]);
+			}
+			return $plugins;
+		}catch(Exception $e){
+			return $plugins;
+		}
+	}
+
+	/**
+	 * views_plugins filter: add a "Slider Revolution Add-ons (N)" link next to
+	 * All/Active/Inactive that reveals the grouped add-ons.
+	 **/
+	public function add_addon_plugins_view($views){
+		try{
+			if(!is_array($views) || !function_exists('get_plugins')) return $views;
+			$addons = $this->get_addon_plugin_files(get_plugins());
+			$count  = count($addons);
+			if($count === 0 || $this->_truefalse($this->get_val($this->global_settings, 'groupAddons', true)) !== true) return $views;
+			$current = !empty($_GET['sr7_show_addons']);
+			$url = esc_url(add_query_arg('sr7_show_addons', '1', self_admin_url('plugins.php')));
+			$views['sr7addons'] = '<a href="' . $url . '"' . ($current ? ' class="current" aria-current="page"' : '') . '>' . sprintf(__('Slider Revolution Add-ons %s', 'revslider'), '<span class="count">(' . $count . ')</span>') . '</a>';
+			return $views;
+		}catch(Exception $e){
+			return $views;
+		}
+	}
+
+	/**
+	 * plugin_row_meta filter: note on the main Slider Revolution row how many
+	 * add-ons are grouped, with a reveal link.
+	 **/
+	public function add_addon_row_meta($meta, $file){
+		try{
+			if($file !== RS_PLUGIN_SLUG_PATH || !is_array($meta)) return $meta;
+			if(!$this->hide_addons_active() || !function_exists('get_plugins')) return $meta;
+			$count = count($this->get_addon_plugin_files(get_plugins()));
+			if($count === 0) return $meta;
+			$url = esc_url(add_query_arg('sr7_show_addons', '1', self_admin_url('plugins.php')));
+			$meta[] = sprintf(__('%1$s add-ons grouped &ndash; %2$s', 'revslider'), $count, '<a href="' . $url . '">' . __('show in list', 'revslider') . '</a>');
+			return $meta;
+		}catch(Exception $e){
+			return $meta;
+		}
+	}
+
+	/**
+	 * RTL assets are skipped when the "Use Editor in LTR Mode" global setting is active,
+	 * so an RTL admin can run the SR7 backend in its default LTR layout.
+	 **/
+	public function use_rtl_assets(){
+		return is_rtl() && $this->_truefalse($this->get_val($this->global_settings, 'editorForceLTR', false)) !== true;
+	}
+
 	public function enqueue_admin_styles(){
-		wp_enqueue_style('revslider-base-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/base.css', [], RS_REVISION);
-		wp_enqueue_style('revslider-editor-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/editor.css', [], RS_REVISION);
-		wp_enqueue_style('revslider-timeline-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/timeline.css', [], RS_REVISION);
-		wp_enqueue_style('revslider-library-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/library.css', [], RS_REVISION);
-		wp_enqueue_style('revslider-toolbars-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/forms.css', [], RS_REVISION);
-		wp_enqueue_style('revslider-colorpicker-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/colorpicker.css', [], RS_REVISION);
+		wp_enqueue_style('revslider-base-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/base.css', [], $this->asset_time('admin/assets/css/base.css'));
+		wp_enqueue_style('revslider-editor-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/editor.css', [], $this->asset_time('admin/assets/css/editor.css'));
+		wp_enqueue_style('revslider-timeline-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/timeline.css', [], $this->asset_time('admin/assets/css/timeline.css'));
+		wp_enqueue_style('revslider-library-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/library.css', [], $this->asset_time('admin/assets/css/library.css'));
+		wp_enqueue_style('revslider-toolbars-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/forms.css', [], $this->asset_time('admin/assets/css/forms.css'));
+		wp_enqueue_style('revslider-colorpicker-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/colorpicker.css', [], $this->asset_time('admin/assets/css/colorpicker.css'));
 		if(is_rtl()){
-			wp_enqueue_style('revslider-base-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/base-rtl.css', [], RS_REVISION);
-			wp_enqueue_style('revslider-editor-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/editor-rtl.css', [], RS_REVISION);
-			wp_enqueue_style('revslider-library-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/library-rtl.css', [], RS_REVISION);
-			wp_enqueue_style('revslider-forms-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/forms-rtl.css', [], RS_REVISION);
+			wp_enqueue_style('revslider-base-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/base-rtl.css', [], $this->asset_time('admin/assets/css/base-rtl.css'));
+			wp_enqueue_style('revslider-editor-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/editor-rtl.css', [], $this->asset_time('admin/assets/css/editor-rtl.css'));
+			wp_enqueue_style('revslider-library-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/library-rtl.css', [], $this->asset_time('admin/assets/css/library-rtl.css'));
+			wp_enqueue_style('revslider-forms-rtl-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/forms-rtl.css', [], $this->asset_time('admin/assets/css/forms-rtl.css'));
 		}
 	}
 
 	public function enqueue_admin_scripts(){
 		$view = $this->get_val($_GET, 'view');
+		//cache-bust admin scripts on every load while developing
+		$rs_script_ver = (defined('WP_DEBUG') && WP_DEBUG) ? RS_REVISION . '-' . time() : RS_REVISION;
 
 		if(empty($view)){
-			wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RS_REVISION, false);
+			wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], $this->asset_time('admin/assets/js/tools/tools.js'), false);
 			$page = $this->get_val($_GET, 'page');
-			if('revslider' === $page) wp_enqueue_script('revbuilder-dashboard', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/dashboard.js', [], RS_REVISION, false);
+			if('revslider' === $page) wp_enqueue_script('revbuilder-dashboard', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/dashboard.js', [], $this->asset_time('admin/assets/js/dashboard.js'), false);
 		}
 		if('markups' === $view){
-			wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RS_REVISION, false);
-			wp_enqueue_script('revbuilder-colorpicker', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/colorpicker.js', [], RS_REVISION, false);
+			wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], $this->asset_time('admin/assets/js/tools/tools.js'), false);
+			wp_enqueue_script('revbuilder-colorpicker', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/colorpicker.js', [], $this->asset_time('admin/assets/js/tools/colorpicker.js'), false);
 		}
 		if(in_array($view, ['editor', 'slide'])){
-			wp_enqueue_script('sr7', RS_PLUGIN_URL_CLEAN . 'public/js/sr7.js', '', RS_REVISION, false);
-			wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RS_REVISION, false);
-			wp_enqueue_script('revbuilder-editor', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/editor/editor.js', [], RS_REVISION, false);
+			wp_enqueue_script('sr7', RS_PLUGIN_URL_CLEAN . 'public/js/sr7.js', '', $this->asset_time('public/js/sr7.js'), false);
+			wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], $this->asset_time('admin/assets/js/tools/tools.js'), false);
+			wp_enqueue_script('revbuilder-editor', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/editor/editor.js', [], $this->asset_time('admin/assets/js/editor/editor.js'), false);
 		}
 	}
 
@@ -211,13 +320,13 @@ class RevSliderAdmin extends RevSliderFunctionsAdmin {
 		}
 
 		if(in_array($view, ['', 'markups','slide','editor']) && ($this->get_val($_GET, 'page') === 'revslider' || $this->get_val($_GET, 'page') === 'revslider6')){ //overview page
-			wp_enqueue_script('_tpt', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', RS_REVISION);
+			wp_enqueue_script('_tpt', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', $this->asset_time('public/js/libs/tptools.js'));
 		}
 		
 		wp_localize_script('revbuilder-backend', 'SRLANG = {}; window.SR7 ??= {}; SR7.LANG', $this->get_javascript_multilanguage()); //Load multilanguage for JavaScript
 
 		if ( ! wp_script_is('revbuilder-admin', 'registered') ) {
-			wp_register_script('revbuilder-admin', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/compatibility.js', [], RS_REVISION);
+			wp_register_script('revbuilder-admin', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/compatibility.js', [], $this->asset_time('admin/assets/js/compatibility.js'));
 			wp_enqueue_script('revbuilder-admin');
 		}
 	}
@@ -431,7 +540,7 @@ class RevSliderAdmin extends RevSliderFunctionsAdmin {
 			
 			if($f->_truefalse($f->get_options(['system', 'valid'], 'false')) === false && version_compare($f->get_options(['system', 'version'], RS_REVISION), $plugin['Version'], '>')){
 				add_action('after_plugin_row_' . $plugin_id, ['RevSliderAdmin', 'show_purchase_notice'], 10, 3);
-				// add_action('admin_footer', ['RevSliderAdmin', 'add_ajax_footer_functionality']);
+				add_action('admin_footer', ['RevSliderAdmin', 'add_ajax_footer_functionality']);
 			}
 
 			break;

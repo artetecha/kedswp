@@ -54,7 +54,7 @@ if(!defined('ABSPATH')) exit();
 			</sr-separator-body>
 		</sr-separator>
 	</sr-wrap-dep>	
-	<sr-wrap-dep dep="extractedpart&layerinscene&notfirstframe&notpart[bg]">
+	<sr-wrap-dep dep="frameselected&&extractedpart&layerinscene&notfirstframe&notpart[bg]">
 		<sr-separator class="sr-anim-separator-container" keepborder>
 			<sr-separator-head notoggle>
 				<sr-separator-title><?php _e('Timing and Flow','revslider'); ?></sr-separator-title>	
@@ -97,7 +97,7 @@ if(!defined('ABSPATH')) exit();
 			<sr-sp h="15"></sr-sp>
 		</sr-wrap-dep>		
 	</sr-wrap-dep>
-	<sr-wrap-dep dep="layerinscene"> 	
+	<sr-wrap-dep dep="frameselected&&layerinscene"> 	
 		<sr-separator class="sr-anim-separator-container">
 			<sr-wrap-dep dep="notpart[bg]">
 				<sr-separator-head notoggle>

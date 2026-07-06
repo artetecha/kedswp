@@ -274,7 +274,7 @@ class RevSliderTemplate extends RevSliderFunctions {
 					$file = $this->templates_basedir . $temp_img;
 					
 					if(!file_exists($file) || isset($temp['push_image'])){
-						$_file = $rslb->download_url($media_path . $temp_img, $file);
+						$_file = $rslb->download_url($media_path . $temp_img, $file, 'templates', false, $this->templates_basedir);
 						if(is_wp_error($_file)) continue;
 
 						$loaded = $_file;
@@ -306,7 +306,7 @@ class RevSliderTemplate extends RevSliderFunctions {
 
 						if(file_exists($slide_file) && !isset($reload[$key])) continue;
 
-						$_slide_file = $rslb->download_url($this->templates_server_path . $tvalues['img'], $slide_file);
+						$_slide_file = $rslb->download_url($this->templates_server_path . $tvalues['img'], $slide_file, 'templates', false, $this->templates_basedir);
 						if(is_wp_error($_slide_file)) continue;
 					}
 				}

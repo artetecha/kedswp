@@ -622,4 +622,246 @@ class RevSliderFonts extends RevSliderFunctions {
 			}
 		}
 	}
+
+	/* ---------------------------------------------------------------------
+	 * Custom Font Upload (Global Settings > Fonts > Custom Fonts)
+	 * Lets users upload font files directly instead of hosting the CSS
+	 * themselves. Files live in uploads/revslider/fonts/<slug>/ and a
+	 * generated <slug>.css (@font-face) plugs into the existing custom
+	 * font pipeline (the row just gets a local "url").
+	 * @since: 7.1.0
+	 * ------------------------------------------------------------------- */
+
+	/**
+	 * allowed uploadable font formats: ext => ['format' => css src format(), 'sig' => [magic byte signatures]]
+	 */
+	public function get_custom_font_formats(){
+		return [
+			'woff2'	=> ['format' => 'woff2',	'sig' => ['wOF2']],
+			'woff'	=> ['format' => 'woff',		'sig' => ['wOFF']],
+			'ttf'	=> ['format' => 'truetype',	'sig' => ["\x00\x01\x00\x00", 'true', 'ttcf']],
+			'otf'	=> ['format' => 'opentype',	'sig' => ['OTTO', "\x00\x01\x00\x00"]]
+		];
+	}
+
+	/**
+	 * base directory + url for uploaded custom fonts (created on demand, with index.php guard)
+	 */
+	public function get_custom_fonts_dir(){
+		$upload_dir	= wp_upload_dir();
+		$base_dir	= trailingslashit($upload_dir['basedir']) . 'revslider/fonts';
+		$base_url	= trailingslashit($upload_dir['baseurl']) . 'revslider/fonts';
+		if(!is_dir($base_dir)){
+			wp_mkdir_p($base_dir);
+			@file_put_contents($base_dir . '/index.php', '<?php // Silence is golden.');
+		}
+		return ['dir' => $base_dir, 'url' => $base_url];
+	}
+
+	/**
+	 * slugify a font family name for safe folder / file names
+	 */
+	public function get_custom_font_slug($family){
+		$slug = sanitize_title($family);
+		if(empty($slug)) $slug = 'font-' . substr(md5($family), 0, 8);
+		return $slug;
+	}
+
+	/**
+	 * validate the binary signature of a font file against its extension
+	 * (defeats a renamed .php -> .woff2 at the content level)
+	 */
+	public function is_valid_font_file($path, $ext){
+		$formats = $this->get_custom_font_formats();
+		if(!isset($formats[$ext])) return false;
+		$fh = @fopen($path, 'rb');
+		if($fh === false) return false;
+		$head = fread($fh, 4);
+		fclose($fh);
+		if($head === false || strlen($head) < 4) return false;
+		foreach($formats[$ext]['sig'] as $sig){
+			if(strncmp($head, $sig, strlen($sig)) === 0) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * guess weight + style from a font file name (e.g. "Roboto-BoldItalic.woff2")
+	 */
+	public function guess_font_weight_style($filename){
+		$name	= strtolower($filename);
+		$style	= (preg_match('/italic|oblique/', $name)) ? 'italic' : 'normal';
+		$map	= [
+			'hairline' => 100, 'thin' => 100,
+			'extralight' => 200, 'ultralight' => 200,
+			'semibold' => 600, 'demibold' => 600,
+			'extrabold' => 800, 'ultrabold' => 800,
+			'light' => 300, 'medium' => 500, 'black' => 900, 'heavy' => 900,
+			'bold' => 700, 'regular' => 400, 'normal' => 400, 'book' => 400
+		];
+		$weight = 400;
+		foreach($map as $needle => $w){
+			if(strpos($name, $needle) !== false){
+				$weight = $w;
+				break;
+			}
+		}
+		return ['weight' => $weight, 'style' => $style];
+	}
+
+	/**
+	 * store one uploaded font file ($_FILES['import_file']) for the given family
+	 * @return array ['error' => false|string, 'file', 'url', 'ext', 'weight', 'style']
+	 */
+	public function store_uploaded_font_file($family){
+		if(!function_exists('wp_max_upload_size')) require_once(ABSPATH . 'wp-admin/includes/file.php');
+
+		$file = $this->get_val($_FILES, 'import_file');
+		if(empty($file)) return ['error' => __('No file sent', 'revslider')];
+
+		switch($this->get_val($file, 'error')){
+			case UPLOAD_ERR_NO_FILE:	return ['error' => __('No file sent', 'revslider')];
+			case UPLOAD_ERR_INI_SIZE:
+			case UPLOAD_ERR_FORM_SIZE:	return ['error' => __('Exceeded filesize limit', 'revslider')];
+			case UPLOAD_ERR_OK:			break;
+			default:					return ['error' => __('File not found', 'revslider')];
+		}
+
+		$tmp = $this->get_val($file, 'tmp_name');
+		if(empty($tmp) || !is_uploaded_file($tmp)) return ['error' => __('File not found', 'revslider')];
+		if($this->get_val($file, 'size') > wp_max_upload_size()) return ['error' => __('Exceeded filesize limit', 'revslider')];
+
+		$orig_name	= basename($this->get_val($file, 'name'));
+		$ext		= strtolower(pathinfo($orig_name, PATHINFO_EXTENSION));
+		$formats	= $this->get_custom_font_formats();
+		if(!isset($formats[$ext])) return ['error' => __('Only WOFF2, WOFF, TTF and OTF font files are allowed', 'revslider')];
+
+		//validate the real file content, not just the extension
+		if(!$this->is_valid_font_file($tmp, $ext)) return ['error' => __('The uploaded file is not a valid font file', 'revslider')];
+
+		$slug	= $this->get_custom_font_slug($family);
+		$base	= $this->get_custom_fonts_dir();
+		$dir	= $base['dir'] . '/' . $slug;
+		if(!is_dir($dir)) wp_mkdir_p($dir);
+
+		$filename	= sanitize_file_name($orig_name);
+		$check		= wp_check_filetype($filename, ['woff2' => 'font/woff2', 'woff' => 'font/woff', 'ttf' => 'font/ttf', 'otf' => 'font/otf']);
+		if($this->get_val($check, 'ext', false) === false) $filename = $slug . '.' . $ext;
+		$filename	= wp_unique_filename($dir, $filename);
+
+		if(!move_uploaded_file($tmp, $dir . '/' . $filename)) return ['error' => __('File could not be saved', 'revslider')];
+		@chmod($dir . '/' . $filename, defined('FS_CHMOD_FILE') ? FS_CHMOD_FILE : 0644);
+
+		$guess = $this->guess_font_weight_style($filename);
+
+		return [
+			'error'		=> false,
+			'file'		=> $slug . '/' . $filename,
+			'url'		=> $base['url'] . '/' . $slug . '/' . $filename,
+			'ext'		=> $ext,
+			'weight'	=> $guess['weight'],
+			'style'		=> $guess['style']
+		];
+	}
+
+	/**
+	 * (re)build the @font-face css file for one uploaded custom font family
+	 * @param string $family
+	 * @param array  $files [ ['file' => '<slug>/<file>', 'weight' => 400, 'style' => 'normal'], ... ]
+	 * @return string the css file url, or '' on failure
+	 */
+	public function build_custom_font_css($family, $files){
+		if(empty($files) || !is_array($files)) return '';
+
+		$slug	= $this->get_custom_font_slug($family);
+		$base	= $this->get_custom_fonts_dir();
+		$dir	= $base['dir'] . '/' . $slug;
+		if(!is_dir($dir)) wp_mkdir_p($dir);
+
+		$formats	= $this->get_custom_font_formats();
+		$family		= trim(str_replace(['"', "'", '<', '>', '\\'], '', $family)); //defensive against css/markup breakout
+		$css		= '';
+		foreach($files as $f){
+			$rel = $this->get_val($f, 'file', '');
+			if(empty($rel)) continue;
+			$rel	= ltrim(str_replace(['..', '\\'], '', $rel), '/'); //no path traversal
+			$fpath	= $base['dir'] . '/' . $rel;
+			if(!is_file($fpath)) continue; //only reference files that really exist
+
+			$ext = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
+			$fmt = $this->get_val($formats, [$ext, 'format'], false);
+			if($fmt === false) continue;
+
+			$weight	= intval($this->get_val($f, 'weight', 400));
+			if($weight < 1) $weight = 400;
+			$style	= ($this->get_val($f, 'style', 'normal') === 'italic') ? 'italic' : 'normal';
+			$url	= $base['url'] . '/' . $rel;
+
+			$css .= "@font-face{font-family:'" . $family . "';font-style:" . $style . ";font-weight:" . $weight . ";font-display:swap;src:url('" . esc_url_raw($url) . "') format('" . $fmt . "');}\n";
+		}
+
+		if(empty($css)) return '';
+		if(@file_put_contents($dir . '/' . $slug . '.css', $css) === false) return '';
+
+		return $base['url'] . '/' . $slug . '/' . $slug . '.css';
+	}
+
+	/**
+	 * remove all stored files of an uploaded custom font family
+	 */
+	public function delete_custom_font($family){
+		$slug = $this->get_custom_font_slug($family);
+		if(empty($slug)) return;
+		$base	= $this->get_custom_fonts_dir();
+		$dir	= $base['dir'] . '/' . $slug;
+		if(!is_dir($dir)) return;
+		foreach((array)glob($dir . '/*') as $f){
+			if(is_file($f)) @unlink($f);
+		}
+		@rmdir($dir);
+	}
+
+	/**
+	 * sync the custom font list coming from a Global Settings save:
+	 * - (re)build the @font-face css + fill url/weights for every uploaded font
+	 * - delete stored files of uploaded fonts that were removed since the last save
+	 * @param array $list     the new fonts.list array
+	 * @param array $old_list the previously stored fonts.list array
+	 * @return array the adjusted list
+	 */
+	public function sync_uploaded_fonts($list, $old_list = []){
+		if(!is_array($list)) $list = [];
+
+		$kept = [];
+		foreach($list as $i => $row){
+			if($this->_truefalse($this->get_val($row, 'uploaded', false)) !== true) continue;
+			$family	= trim($this->get_val($row, 'family', ''));
+			$files	= $this->get_val($row, 'files', []);
+			if(empty($family) || empty($files)) continue; //incomplete row, leave url/weights as sent
+
+			$css = $this->build_custom_font_css($family, $files);
+			if(!empty($css)){
+				$list[$i]['url'] = $css;
+				$weights = [];
+				foreach($files as $f){
+					$w = intval($this->get_val($f, 'weight', 400));
+					if($w > 0 && !in_array($w, $weights, true)) $weights[] = $w;
+				}
+				sort($weights);
+				if(!empty($weights)) $list[$i]['weights'] = implode(',', $weights);
+			}
+			$kept[$this->get_custom_font_slug($family)] = true;
+		}
+
+		//prune files of uploaded fonts that no longer exist in the new list
+		foreach((array)$old_list as $row){
+			if($this->_truefalse($this->get_val($row, 'uploaded', false)) !== true) continue;
+			$family = trim($this->get_val($row, 'family', ''));
+			if(empty($family)) continue;
+			if(isset($kept[$this->get_custom_font_slug($family)])) continue;
+			$this->delete_custom_font($family);
+		}
+
+		return $list;
+	}
 }

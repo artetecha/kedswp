@@ -32,6 +32,10 @@ if(!defined('ABSPATH')) exit();
 		</sr-wrap>
 	</sr-modal-header><!--
 	--><sr-wrap class="sr--popup--sidebar">
+		<sr-wrap class="sr--lib--slide--multi--info">
+			<h2 class="sr--section--title" style="display:inline-block"><?php echo __('No Slides Selected','revslider');?></h2>
+			<sr-button class="sr--cta sr--mb--5" clean="true" wide="true" full="true" data-action="B.olibItems.multiInsertSlides" data-aparams="sr_mlib"><svg class="sr--icon" width="12" height="12" transform="translate(0, -1)"><use xlink:href="#General_Download"></use></svg> <?php echo __('Import Selected Slide(s)','revslider');?></sr-button>
+		</sr-wrap>
 		<sr-wrap id="sr_mlib_tags"></sr-wrap>
 		<sr-wrap class="sr--text--center sr--abs--bottom--left sr--mb--20" style="width:100%"><span data-action="B.popUp.show" data-position="center"  data-aparams="sr_copyright" class="sr--text sr--link--text"><?php echo __('© Copyright & License Info','revslider');?></span></sr-wrap>
 	</sr-wrap><!--

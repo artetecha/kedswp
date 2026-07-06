@@ -12,7 +12,7 @@ class RevSliderLoadBalancer extends RevSliderFunctions {
 	public $last_request = null;
 	public $servers = [];
 	public $defaults = ['themepunch.tools', 'themepunch-ext-a.tools', 'themepunch-ext-b.tools', 'themepunch-ext-c.tools'];
-	 
+	public $dev = true;
 
 	/**
 	 * set the server list on construct
@@ -26,7 +26,7 @@ class RevSliderLoadBalancer extends RevSliderFunctions {
 		
 		$this->servers = (empty($this->servers)) ? $this->defaults : $this->servers;
 		
-		
+		if($this->dev === true) $this->servers = ['themepunch.tools'];
 	}
 	
 	public function get_last_request(){
@@ -38,18 +38,18 @@ class RevSliderLoadBalancer extends RevSliderFunctions {
 	 * you can switch to a different server with the key
 	 **/
 	public function get_url($purpose, $key = 0, $force_http = false){
-		$url	 = ($force_http ) ? 'http://' : 'https://';
+		$url	 = ($force_http || $this->dev === true) ? 'http://' : 'https://';
 		$use_url = (!isset($this->servers[$key])) ? reset($this->servers) : $this->servers[$key];
 		
 		switch($purpose){
 			case 'updates':
-				$url .= 'updates.';
+				$url .= ($this->dev === true) ? 'updates-dev.' : 'updates.';
 				break;
 			case 'templates':
-				$url .= 'templates.';
+				$url .= ($this->dev === true) ? 'templates-dev.' : 'templates.';
 				break;
 			case 'library':
-				$url .= 'library.';
+				$url .= ($this->dev === true) ? 'library-dev.' : 'library.';
 				break;
 			default:
 				return false;
@@ -128,10 +128,10 @@ class RevSliderLoadBalancer extends RevSliderFunctions {
 		$count	= 0;
 		
 		do{
-			$url = $this->validate_url($url, $subdomain, $force_http);
-			$cf_lock = $this->get_cf_rate_limit_lock($url);
+			$full_url = $this->validate_url($url, $subdomain, $force_http);
+			$cf_lock = $this->get_cf_rate_limit_lock($full_url);
 			if ( ! $cf_lock ) {
-				$request = wp_safe_remote_post($url, [
+				$request = wp_safe_remote_post($full_url, [
 					'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url'),
 					'body'		 => $data,
 					'timeout'	 => 45
@@ -142,7 +142,7 @@ class RevSliderLoadBalancer extends RevSliderFunctions {
 				if($response_code == 200) return $request;
 
 				if($response_code == 429) {
-					$cf_lock = $this->set_cf_rate_limit_lock($url, $request);
+					$cf_lock = $this->set_cf_rate_limit_lock($full_url, $request);
 					if ( $cf_lock ) {
 						$request            = $this->get_cf_wp_error( $cf_lock );
 						$this->last_request = $request;
@@ -173,27 +173,57 @@ class RevSliderLoadBalancer extends RevSliderFunctions {
 	 * @param string $dst        destination path
 	 * @param string $subdomain  subdomain to use
 	 * @param bool   $force_http force http
+	 * @param string $basepath   absolute path to the media parent folder. it should already exist in filesystem before calling this function
+	 * @param array  $mime_types mime types to validate a downloaded file
 	 *
 	 * @return string|WP_Error   Destination path on success, WP_Error object on failure
 	 */
-	public function download_url($media, $dst, $subdomain = 'templates', $force_http = false){
+	public function download_url($media, $dst, $subdomain = 'templates', $force_http = false, $basepath = '', $mime_types = []){
 		if(!function_exists('download_url')) require_once ABSPATH . 'wp-admin/includes/file.php';
+		if (empty($basepath)) {
+			return new WP_Error('basepath_fail', 'Base path is required');
+		}
+
+		$base = realpath($basepath);
+		if ($base === false) {
+			return new WP_Error('basepath_fail', 'Invalid base path');
+		}
+
+		$base = wp_normalize_path($base);
+		$dst_normalized = wp_normalize_path($dst);
+		// ensure trailing slash
+		$base = rtrim($base, '/') . '/';
+
+		if (strpos($dst_normalized, $base) !== 0) {
+			return new WP_Error('dest_path_fail', 'Invalid destination path');
+		}
+
 		$url = $this->validate_url($media, $subdomain, $force_http);
 		$tmp  = download_url($url, 45);
 		if (is_wp_error($tmp)) {
 			return $tmp;
 		}
 
-		if (!wp_mkdir_p(dirname($dst))) {
+		if (empty($mime_types)) {
+			global $SR_GLOBALS;
+			$mime_types = array_merge($this->get_val($SR_GLOBALS, ['mime_types', 'image']), $this->get_val($SR_GLOBALS, ['mime_types', 'video']));
+		}
+		$file_type = wp_check_filetype($dst_normalized, $mime_types);
+		if(!$file_type['ext'] || !$file_type['type']) {
+			wp_delete_file($tmp);
+			return new WP_Error('download_fail', 'Failed to download file');
+		}
+
+		if (!wp_mkdir_p(dirname($dst_normalized))) {
 			wp_delete_file($tmp);
 			return new WP_Error('mkdir_fail', 'Uploads dir not writable');
 		}
-		if (!@rename($tmp, $dst)) {
+		if (!@rename($tmp, $dst_normalized)) {
 			wp_delete_file($tmp);
 			return new WP_Error('move_fail', 'Failed to move file');
 		}
 
-		return $dst;
+		return $dst_normalized;
 	}
 
 	/**

@@ -497,11 +497,11 @@
         },
         {
             "name": "keds-plugin/revslider",
-            "version": "7.0.9",
+            "version": "7.1.1",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/revslider",
-                "reference": "d98c7be89420e27438e1e56569c6c782cc6fb030"
+                "reference": "d99a460e9ddd24f8ff23afe92975246a052a5e45"
             },
             "type": "wordpress-plugin",
             "transport-options": {

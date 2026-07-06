@@ -1605,26 +1605,26 @@ class RevSliderData {
 						"horizontal":{"in":{"o":"1","x":"(100%)"}, "out":{"x":"(-100%)"}},					
 						"up":{ "in":{"o":"1","y":"100%"}, "out":{"y":"-100%"}},
 						"down":{ "in":{"o":"1","y":"-100%"}, "out":{"y":"100%"}},
-						"left":{"in":{"o":"1","x":"-100%"}, "out":{"x":"100%"}},
-						"right":{"in":{"o":"1","x":"100%"}, "out":{"x":"-100%"}}
+						"left":{"in":{"o":"1","x":"100%"}, "out":{"x":"-100%"}},
+						"right":{"in":{"o":"1","x":"-100%"}, "out":{"x":"100%"}}
 					},
 					"slideinoutfadein":{
 						"multi":true,
-						"vertical":{"in":{"o":0,"y":"(100%)"},"out":{"a":false}},
-						"horizontal":{"in":{"o":0,"x":"(100%)"},"out":{"a":false}},
-						"up":{"in":{"o":0,"y":"100%"},"out":{"a":false}},
-						"down":{"in":{"o":0,"y":"-100%"},"out":{"a":false}},
-						"left":{"in":{"o":0,"x":"100%"},"out":{"a":false}},
-						"right":{"in":{"o":0,"x":"-100%"},"out":{"a":false}}
+						"vertical":{"in":{"o":0,"y":"(100%)"},"out":{"y":"(-100%)","a":false}},
+						"horizontal":{"in":{"o":0,"x":"(100%)"},"out":{"x":"(-100%)","a":false}},
+						"up":{"in":{"o":0,"y":"100%"},"out":{"y":"-100%","a":false}},
+						"down":{"in":{"o":0,"y":"-100%"},"out":{"y":"100%","a":false}},
+						"left":{"in":{"o":0,"x":"100%"},"out":{"x":"-100%","a":false}},
+						"right":{"in":{"o":0,"x":"-100%"},"out":{"x":"100%","a":false}}
 					},
 					"slideinoutfadeinout":{
 						"multi":true,
-						"vertical":{"in":{"o":0,"y":"(100%)"}},
-						"horizontal":{"in":{"o":0,"x":"(100%)"}},
-						"up":{"in":{"o":0,"y":"100%"}},
-						"down":{"in":{"o":0,"y":"-100%"}},
-						"left":{"in":{"o":0,"x":"100%"}},
-						"right":{"in":{"o":0,"x":"-100%"}}
+						"vertical":{"in":{"o":0,"y":"(100%)"},"out":{"y":"(-100%)","o":0,"a":false}},
+						"horizontal":{"in":{"o":0,"x":"(100%)"},"out":{"x":"(-100%)","o":0,"a":false}},
+						"up":{"in":{"o":0,"y":"100%"},"out":{"y":"-100%","o":0,"a":false}},
+						"down":{"in":{"o":0,"y":"-100%"},"out":{"y":"100%","o":0,"a":false}},
+						"left":{"in":{"o":0,"x":"100%"},"out":{"x":"-100%","o":0,"a":false}},
+						"right":{"in":{"o":0,"x":"-100%"},"out":{"x":"100%","o":0,"a":false}}
 					}
 				},
 				"parallax":{

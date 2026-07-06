@@ -1081,15 +1081,15 @@ class RevSliderSlider extends RevSliderFunctions {
 		$exists		= $this->check_id_v7($slider_id);
 		
 		//dont allow css and javascript from users other than administrator
-		if(!current_user_can('administrator') && apply_filters('revslider_restrict_role', true)){
+		if($this->current_user_can_not('administrator')){
 			if(isset($settings['codes']) && isset($settings['codes']['css'])) unset($settings['codes']['css']);
 			if(isset($settings['codes']) && isset($settings['codes']['js'])) unset($settings['codes']['js']);
 		}
 		
 		if($exists){
 			$this->init_by_id($slider_id);
-			
-			if(!current_user_can('administrator') && apply_filters('revslider_restrict_role', true)){
+
+			if($this->current_user_can_not('administrator')){
 				//check for js and css, add it to $params
 				$settings['codes'] = [
 					'css' => $this->get_param(['codes', 'css'], ''),
@@ -1206,18 +1206,15 @@ class RevSliderSlider extends RevSliderFunctions {
 		
 		$SR_GLOBALS['data_init'] = false;
 		$sliders	= [];
-		$do_order	= 'id';
-		$direction	= 'ASC';
 		$page		= intval($page);
 		$limit		= '';
 
 		if($page > 0){
-			$end	= 50 * $page;
-			$start	= $end - 50;
-			$limit	= ' LIMIT '.$start.', '.$end;
+			$start	= 50 * ($page - 1);
+			$limit	= $wpdb->prepare(' LIMIT %d, 50', $start);
 		}
 
-		$slider_data = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->prefix . $this->table_slider ." WHERE `type` != 'folder' ORDER BY %s %s".$limit, [$do_order, $direction]), ARRAY_A); //WHERE `type` = '' OR `type` IS NULL
+		$slider_data = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix . $this->table_slider ." WHERE `type` != 'folder' ORDER BY `id` ASC".$limit, ARRAY_A); //WHERE `type` = '' OR `type` IS NULL
 		if(!empty($slider_data)){
 			foreach($slider_data ?? [] as $data){
 				$slider = new RevSliderSlider();
@@ -1741,6 +1738,20 @@ class RevSliderSlider extends RevSliderFunctions {
 			default:
 				$this->throw_error(__('This Source Type must be from posts.', 'revslider'));
 			break;
+		}
+
+		if(!empty($posts)){
+			foreach($posts as $k => $p){
+				$post_id = (int) $p['ID'];
+				$post    = get_post( $post_id );
+
+				if ( ! $post ||
+				     ! is_post_type_viewable( get_post_type_object( $post->post_type ) ) ||
+				     post_password_required( $post ) )
+				{
+					unset($posts[$k]);
+				}
+			}
 		}
 
 		return $posts;
@@ -3030,8 +3041,30 @@ class RevSliderSlider extends RevSliderFunctions {
 	}
 
 	/**
-	 * returns a slider object with all slides and static slide in v6 or v7 format for JSON/REST
 	 * sensitive data needs to be removed: source as it contains stream login data
+	 */
+	public function modify_slider_data($obj){
+		if(!isset($obj['settings']['source'])) return $obj;
+
+		$modify_allow	= ['excerptLimit', 'maxPosts', 'maxProducts', 'count'];
+		$modify_sources	= ['post', 'specific_posts', 'specific_post', 'woo', 'woocommerce', 'instagram', 'facebook', 'flickr', 'twitter', 'vimeo', 'youtube'];
+
+		$source = $obj['settings']['source'];
+		$obj['settings']['source'] = ['type' => $this->get_val($obj, ['settings', 'source', 'type'])];
+		foreach($modify_sources as $m_source){
+			if(!isset($source[$m_source])) continue;
+			foreach($modify_allow as $allow){
+				if(!isset($source[$m_source][$allow])) continue;
+
+				$obj['settings']['source'][$m_source][$allow] = $source[$m_source][$allow];
+			}
+		}
+		
+		return $obj;
+	}
+
+	/**
+	 * returns a slider object with all slides and static slide in v6 or v7 format for JSON/REST
 	 */
 	public function get_full_slider_JSON($slider = false, $full = true, $slide_ids = [], $forced_ids = [], $raw = false, $modify = true){
 		global $SR_GLOBALS;
@@ -3043,8 +3076,6 @@ class RevSliderSlider extends RevSliderFunctions {
 		$type			= $slider->get_param('type', 'standard');
 		$hero			= ($type === 'hero') ? true : false;
 		$do_shortcodes	= ($slider->is_stream_post()) ? false : true;
-		$modify_allow	= ['excerptLimit', 'maxPosts', 'maxProducts', 'count'];
-		$modify_sources	= ['post', 'specific_posts', 'specific_post', 'woo', 'woocommerce', 'instagram', 'facebook', 'flickr', 'twitter', 'vimeo', 'youtube'];
 		$obj			= (empty($slide_ids)) ? ['settings' => $slider->get_params(), 'slides' => [], 'id' => $slider_id] : ['slides' => []];
 		$slides			= ($raw) ? $slider->get_slides(false, true) : $slider->get_slides_modified(false, true, $hero, $do_shortcodes);
 
@@ -3082,17 +3113,8 @@ class RevSliderSlider extends RevSliderFunctions {
 			}
 		}
 		
-		if($modify === true && isset($obj['settings']['source'])){ //make sure to have the source overwritten for streams, if we are not in backend
-			$source = $obj['settings']['source'];
-			$obj['settings']['source'] = ['type' => $this->get_val($obj, ['settings', 'source', 'type'])];
-			foreach($modify_sources as $m_source){
-				if(!isset($source[$m_source])) continue;
-				foreach($modify_allow as $allow){
-					if(!isset($source[$m_source][$allow])) continue;
-
-					$obj['settings']['source'][$m_source][$allow] = $source[$m_source][$allow];
-				}
-			}
+		if($modify === true){ //make sure to have the source overwritten for streams, if we are not in backend
+			$obj = $this->modify_slider_data($obj);
 		}
 
 		if(isset($obj['slider_params']['source'])) $obj['slider_params']['source'] = ['type' => $this->get_val($obj, ['slider_params', 'source', 'type'])];

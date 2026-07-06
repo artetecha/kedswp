@@ -295,8 +295,7 @@
 		},
         selectModule : (model, view) => {
             _tpt.checkResources(['tools_shortcode']).then(() => {
-				document.querySelector(".sr--block--editor--popup--wrap").style.display = "block";
-                SR7.B.shortcode.selectModule(data => {
+                SR7.B.shortcode.openSelectModule(data => {
                     SR7.B.elementorShortcode.loadModule(model, view, data.alias);
                 });
             });
@@ -323,6 +322,7 @@
 					if (!model.getSetting('popup_event_name')) {
 						nextSettings.popup_event_name = 'popup_' + data.alias;
 					}
+					SR7.B.elementorShortcode.updateShortcode(model);
 
 					const hasRealChange = Object.entries(nextSettings).some(
 						([key, value]) => model.getSetting(key) !== value

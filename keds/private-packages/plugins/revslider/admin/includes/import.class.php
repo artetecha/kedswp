@@ -452,8 +452,8 @@ class RevSliderSliderImport extends RevSliderSlider {
 				wp_mkdir_p( dirname( $tmp_file ) );
 				@move_uploaded_file( $_FILES['import_file']['tmp_name'], $tmp_file );
 				update_option( 'revslider-import-file', $tmp_file );
-			} else {
-				// no imported file and still missing addons
+			} elseif (!$this->is_template) {
+				// not a template, no imported file and still missing addons
 				// throw an error
 				$this->clear_files();
 				$this->throw_error(__('Unable to install addon(s) used in template.', 'revslider') . '(' . implode(', ', $missing) . ')');
@@ -468,7 +468,12 @@ class RevSliderSliderImport extends RevSliderSlider {
 			}
 			
 			// redirect to the import again to correctly init all freshly installed addons
-			wp_safe_redirect(admin_url( 'admin-ajax.php?action=rs_ajax_action&client_action=slider.import&nonce='.wp_create_nonce('revslider_actions')));
+			if ($this->is_template) {
+				$redirect_url = admin_url( 'admin-ajax.php?action=rs_ajax_action&client_action=template.import.slider&data%5Buid%5D='.$this->is_template.'&nonce='.wp_create_nonce('revslider_actions'));
+			} else {
+				$redirect_url = admin_url( 'admin-ajax.php?action=rs_ajax_action&client_action=slider.import&nonce='.wp_create_nonce('revslider_actions'));
+			}
+			wp_safe_redirect($redirect_url);
 			exit();
 		}
 

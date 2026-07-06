@@ -23,6 +23,9 @@ class RevSliderElementor {
 		// Check for required PHP version
 		if(version_compare(PHP_VERSION, $min_php_version, '<')) return;
 		
+		$f = RevSliderGlobals::instance()->get('RevSliderFunctions');
+		$is_elementor_edit_page = is_admin() && $f->get_val($_GET, 'action') === 'elementor' && $f->get_val($_GET, 'post', 0);
+		
 		// Add Plugin actions
 		if(version_compare(PHP_VERSION, '3.5.0', '<')){
 			add_action('elementor/widgets/widgets_registered', ['RevSliderElementor', 'init_elementor_widgets']);
@@ -33,24 +36,24 @@ class RevSliderElementor {
 		// Register Widget Styles/Scripts
 		add_action('elementor/preview/enqueue_styles', ['RevSliderElementor', 'add_preview_styles']);
 		add_action('elementor/editor/after_enqueue_styles', ['RevSliderElementor', 'add_editor_styles']);
-		add_action('elementor/editor/after_enqueue_scripts', ['RevSliderElementor', 'add_scripts']);
+		if($is_elementor_edit_page) add_action('elementor/editor/after_enqueue_scripts', ['RevSliderElementor', 'add_scripts']);
 	}
 
 	public static function add_preview_styles() {
-		wp_enqueue_style('sr7-elementor-preview-css', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/css/sr7-elementor-preview.css', '', RS_REVISION);
+		wp_enqueue_style('sr7-elementor-preview-css', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/css/sr7-elementor-preview.css', '', RevSliderFunctions::asset_time('admin/includes/shortcode_generator/elementor/assets/css/sr7-elementor-preview.css'));
 		wp_enqueue_style('sr7-elementor-preview-font-css', 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap', '', RS_REVISION);
 	}
 
 	public static function add_editor_styles() {
 		RevSliderShortcodeWizard::add_styles(true);
-		wp_enqueue_style('revslider-base-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/base.css', [], RS_REVISION);
-		wp_enqueue_style('sr7-elementor-editor-css', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/css/sr7-elementor-editor.css', '', RS_REVISION);
+		wp_enqueue_style('revslider-base-css', RS_PLUGIN_URL_CLEAN . 'admin/assets/css/base.css', [], RevSliderFunctions::asset_time('admin/assets/css/base.css'));
+		wp_enqueue_style('sr7-elementor-editor-css', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/css/sr7-elementor-editor.css', '', RevSliderFunctions::asset_time('admin/includes/shortcode_generator/elementor/assets/css/sr7-elementor-editor.css'));
 	}
 	
 	public static function add_scripts() {
 		RevSliderShortcodeWizard::add_scripts(true);
-		wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RS_REVISION, false);
-		wp_enqueue_script('sr7-elementor-editor', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/js/sr7-elementor-editor.js', '', RS_REVISION, ['strategy' => 'async']);
+		wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RevSliderFunctions::asset_time('admin/assets/js/tools/tools.js'), false);
+		wp_enqueue_script('sr7-elementor-editor', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/js/sr7-elementor-editor.js', '', RevSliderFunctions::asset_time('admin/includes/shortcode_generator/elementor/assets/js/sr7-elementor-editor.js'), ['strategy' => 'async']);
 	}
 	
 	public static function init_elementor_widgets() {

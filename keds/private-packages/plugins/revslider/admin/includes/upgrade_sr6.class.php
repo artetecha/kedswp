@@ -202,7 +202,8 @@ class RevSliderPluginUpdateV6 extends RevSliderFunctions {
 		$version = $this->get_val($slider, ['settings', 'version']);
 		
 		if(version_compare($version, $this->revision, '<')){
-			$this->upgrade_slider_to_latest_v6($slider);
+			$state = $this->upgrade_slider_to_latest_v6($slider);
+			if($state === false) return false;
 		}
 		//$SR_GLOBALS['v6'] = false;
 
@@ -317,6 +318,10 @@ class RevSliderPluginUpdateV6 extends RevSliderFunctions {
 	 **/
 	public function upgrade_slider_to_latest_v6($slider){
 		$version = $slider->get_setting('version', '1.0.0');
+		
+		if(version_compare($version, '6.0', '<')){
+			return false;
+		}
 
 		if(version_compare($version, '6.1.4', '<')){
 			$this->upgrade_slider_to_6_1_4($slider);

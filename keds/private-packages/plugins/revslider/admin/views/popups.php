@@ -118,6 +118,31 @@
         </sr-popup-content>
     </sr-popup>
 
+     <!-------------------------------------
+        ADDON WARNINGS POPUP
+    --------------------------------------->
+    <sr-popup id="sr_migration_warnings">        
+        <sr-popup-header class="sr--text--center">
+            <sr-sp h="18"></sr-sp>
+            <sr-wrap class="sr--text--center"><span class="sr--icon-filled sr--bad" style="width:38px; height:40px"><svg class="sr--icon" width="10" height="20" transform="translate(0, 10)"><use xlink:href="#Dashboard_Info"></use></svg></span></sr-wrap>
+            <sr-sp h="32"></sr-sp>            
+            <h2 class="sr--popup--big--title"><?php echo __('Migration failed for some modules','revslider');?></h2>
+            <sr-popup-close><svg class="sr--icon" width="10" height="10"><use xlink:href="#General_Close"></use></svg></svg></sr-popup-close>
+        </sr-popup-header>
+        <sr-sp h="15"></sr-sp>
+        <sr-popup-content class="sr-text-center">            
+            <sr-wrap class="sr--text--center"><span class="sr--text"><?php echo __('The following Modules could not be migrated:','revslider');?></span></sr-wrap>
+            <sr-sp h="50"></sr-sp>            
+            <sr-wrap id="sr_migration_warnings_dynamic"></sr-wrap>            
+            <sr-sp h="30"></sr-sp>
+            <sr-wrap class="sr--text--center">                
+                <span class="sr--text"><?php echo __('Silent Migration could not be finished. Please Contact Support','revslider');?></span>
+                <sr-sp h="30"></sr-sp>                
+                <sr-button unsaved class="sr--cta sr--cta--big"><?php echo __('Ignore Warnings Now','revslider');?></sr-button>
+            </sr-wrap>
+        </sr-popup-content>
+    </sr-popup>
+
     <!-------------------------------------
         UPLOAD DARG AND DROP ZONE AND LIST
     --------------------------------------->
@@ -140,6 +165,51 @@
             <sr-button data-action="B.upload.hide" primary class="sr--cta sr--cta--big"><?php echo __('Close Upload','revslider');?></sr-button>
             <sr-button id="sr_update_crossmodule" style="display:none; position:absolute; right:0px; bottom:5px;" data-action="B.upload.fixIds" success class="sr--cta sr--cta"><?php echo __('Update Cross-Module Actions','revslider');?></sr-button>
         </sr-wrap>
+    </sr-popup>
+
+    <!-------------------------------------
+        UPLOAD CUSTOM FONT
+    --------------------------------------->
+    <style>
+        #sr_custom_font_upload .sr--cf--intro{ display:block; line-height:1.5; font-size:11px; }
+        #sr_custom_font_upload .sr--cf--addrow{ display:flex; gap:10px; align-items:stretch; }
+        #sr_custom_font_upload .sr--cf--addrow sr-input{ flex:1; }
+        #sr_custom_font_files{ display:block; }
+        .sr--cf--file{ display:flex; flex-wrap:nowrap; align-items:flex-start; gap:10px; padding:8px 12px; margin-bottom:6px; border:1px solid var(--sr-col-w6-d0); border-radius:var(--sr-border-radius-s); background:var(--sr-col-w12-d4); }
+        .sr--cf--file > *{ vertical-align:top; }
+        .sr--cf--file .sr--cf--name{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; line-height:30px; }
+        .sr--cf--file sr-input{ width:90px; margin:0; }
+        .sr--cf--file sr-drop{ width:120px; margin:0; }
+        .sr--cf--file .sr--cf--del{ margin:0; }
+        #sr_custom_font_upload .sr--cf--actions{ text-align:right; }
+    </style>
+    <sr-popup id="sr_custom_font_upload" style="width:560px">
+        <sr-popup-header class="sr--text--center">
+            <sr-wrap class="sr--text--center"><svg class="sr--icon sr--def" width="20" height="20"><use xlink:href="#General_Upload"></use></svg></sr-wrap>
+            <sr-sp h="10"></sr-sp>
+            <h2 class="sr--popup--title"><?php echo __('Upload Custom Font','revslider');?></h2>
+            <sr-popup-close><svg class="sr--icon" width="10" height="10"><use xlink:href="#General_Close"></use></svg></sr-popup-close>
+        </sr-popup-header>
+        <sr-sp h="15"></sr-sp>
+        <sr-popup-content>
+            <sr-wrap class="sr--ph--20">
+                <sr-wrap class="sr--cf--addrow">
+                    <sr-input class="sr--mb--0"><input id="sr_custom_font_family" type="text" placeholder="<?php echo esc_attr__('Custom Font Name','revslider');?>"><span noicon="" class="sr--form--otitle"><?php echo __('Font Family Name','revslider');?></span></sr-input>
+                    <sr-button primary data-action="B.globals.customFont.browse" class="sr--cta sr--mb--0"><?php echo __('Upload Files','revslider');?></sr-button>
+                </sr-wrap>
+                <sr-sp h="15"></sr-sp>
+                <span class="sr--text sr--cf--intro"><?php echo __('Upload one file per weight or style. Allowed types are WOFF2, WOFF, TTF and OTF. Give your font a family name, then add the files — the weight and style are detected automatically and can be adjusted below.','revslider');?></span>
+                <sr-sp h="15"></sr-sp>
+                <sr-wrap id="sr_custom_font_empty"><span class="sr--text sr--note"><?php echo __('No font files added yet.','revslider');?></span></sr-wrap>
+                <sr-wrap id="sr_custom_font_files"></sr-wrap>
+                <sr-sp h="15"></sr-sp>
+                <sr-wrap class="sr--cf--actions">
+                    <sr-button data-action="B.globals.customFont.add" primary class="sr--cta sr--mr--10 sr--mb--0"><?php echo __('Add Font','revslider');?></sr-button>
+                    <sr-button data-action="B.popUp.hide" clean class="sr--cta sr--mb--0"><?php echo __('Cancel','revslider');?></sr-button>
+                </sr-wrap>
+            </sr-wrap>
+            <sr-sp h="10"></sr-sp>
+        </sr-popup-content>
     </sr-popup>
 
      <!-------------------------------------
@@ -451,6 +521,6 @@
                                 '<sr-drops data-v="live"><?php echo __('Live','revslider');?></sr-drops>'+
                                 '<sr-drops data-v="editor"><?php echo __('Editor','revslider');?></sr-drops>'+
                             '</sr-drop>'+
-                            '<sr-button data-action="B.fieldSet.remove" keepPopUp="true" viewchild="glbls_4" data-aparams="##index##" unsaved="" class="sr--cta sr--oicon"><svg class="sr--icon" width="12" height="12" transform="translate(0, -1)"><use xlink:href="#Dashboard_Delete"></use></svg></sr-button>'
+                            '<sr-button data-action="B.globals.customFont.removeRow" keepPopUp="true" viewchild="glbls_4" data-aparams="##index##" unsaved="" class="sr--cta sr--oicon"><svg class="sr--icon" width="12" height="12" transform="translate(0, -1)"><use xlink:href="#Dashboard_Delete"></use></svg></sr-button>'
 	}
 </script>

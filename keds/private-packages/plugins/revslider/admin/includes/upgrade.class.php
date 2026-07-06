@@ -187,6 +187,43 @@ class RevSliderPluginUpdate extends RevSliderFunctions {
 	}
 
 	/**
+	 * WPML integration: when the WPML plugin is active, make sure the
+	 * AI Translate add-on is installed and activated. Runs only once.
+	 */
+	public static function do_wpml_addon_check(){
+		// execute only in admin for a user that has permissions to activate plugins, skip ajax/cron
+		if ( wp_doing_ajax() || ! is_admin() ) return;
+		if ( wp_doing_cron() || (defined('WP_CLI') && WP_CLI) ) return;
+		if ( ! current_user_can('activate_plugins') || ! current_user_can('install_plugins') ) return;
+
+		// WPML not active, nothing to do
+		$rsfa = new RevSliderFunctionsAdmin();
+		if ( ! $rsfa->is_wpml_active() ) return;
+
+		/* @var $rsa RevSliderAddons */
+		$rsa = RevSliderGlobals::instance()->get('RevSliderAddons');
+
+		// only run the auto-activation once
+		if ( $rsa->_truefalse($rsa->get_options(['system', 'wpml_addon_init'], 'false')) === true ) return;
+
+		// SR is not activated, addon install would fail
+		if ( $rsa->_truefalse($rsa->get_options(['system', 'valid'], 'false')) !== true ) return;
+
+		if ( ! function_exists('request_filesystem_credentials') ) {
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		}
+
+		$addon = $rsa->get_addon_data('revslider-aitranslate-addon');
+		if ( $addon === false || $rsa->_truefalse($rsa->get_val($addon, 'active', false)) !== true ) {
+			$rsa->install_addon('revslider-aitranslate-addon');
+			$rsa->clear_addon_list();
+		}
+
+		// mark as done so we never auto-activate again (respect manual deactivation afterwards)
+		$rsa->update_option(['system', 'wpml_addon_init'], true);
+	}
+
+	/**
 	 * check to convert the given Slider to latest versions
 	 * it needs to be ensured, that upgrade_slider_to_version() is called at the end
 	 **/
@@ -379,13 +416,7 @@ class RevSliderPluginUpdate extends RevSliderFunctions {
 				'slide-transitions' => get_option('revslider_template_slidetransitions', $this->get_val($_options, ['other', 'slide-transitions'], [])),
 			]
 		];
-		
-		$templates = [
-			'top'		=> get_option('rs-templates-top', []),
-			'new'		=> get_option('rs-templates-new', false),
-			'templates'	=> get_option('rs-templates', false),
-			'counter'	=> get_option('rs-templates-counter', false)
-		];
+
 		$library = [
 			'library'	=> get_option('rs-library', []),
 			'custom'	=> get_option('rs-custom-library', []),
@@ -396,7 +427,6 @@ class RevSliderPluginUpdate extends RevSliderFunctions {
 		];
 
 		$this->update_all_options($options);
-		$this->update_all_options($templates, 'rs-templates');
 		$this->update_all_options($library, 'rs-library');
 		$this->update_all_options($addons, 'rs-addons');
 

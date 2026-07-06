@@ -36,7 +36,7 @@ class RevSliderElementorWidget extends \Elementor\Widget_Shortcode {
     	parent::__construct($data, $args);
 
       	add_action('elementor/frontend/after_register_scripts', function () {
-			wp_register_script('sr7-elementor-preview', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/js/sr7-elementor-preview.js', ["elementor-frontend"], RS_REVISION, true);
+			wp_register_script('sr7-elementor-preview', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/elementor/assets/js/sr7-elementor-preview.js', ["elementor-frontend"], RevSliderFunctions::asset_time('admin/includes/shortcode_generator/elementor/assets/js/sr7-elementor-preview.js'), true);
 		});
     }
 
@@ -370,6 +370,11 @@ class RevSliderElementorWidget extends \Elementor\Widget_Shortcode {
 
 		$shortcode = $this->get_settings_for_display( 'shortcode' );
 		$livePreview = $this->get_settings_for_display( 'live_preview' );
+		$alias = $this->get_settings_for_display( 'alias' );
+
+		if (strpos($shortcode, 'alias="' . esc_attr($alias) . '"') === false && $alias) {
+			$shortcode = preg_replace('/alias="[^"]*"/', 'alias="' . esc_attr($alias) . '"', $shortcode);
+		}
 
 		if (\Elementor\Plugin::$instance->editor->is_edit_mode() && $livePreview != "yes") {
 			
@@ -428,15 +433,15 @@ class RevSliderElementorWidget extends \Elementor\Widget_Shortcode {
 			$zindex = $this->get_settings_for_display( 'zindex' );
 			$style = $zindex ? ' style="z-index:'.esc_attr($zindex).';"' : '';
 
-			if ($livePreview == "yes") {
+			if (\Elementor\Plugin::$instance->editor->is_edit_mode() && $livePreview == "yes") {
 				$m = "SR7.M['SR7_" . $this->get_settings_for_display('moduleId') . "_1']";
-				echo "<script>if ($m) delete $m;</script>";
+				echo "<script>if (SR7?.M && $m) delete $m;</script>";
 			}
 
 			echo '<div class="' . $className . '"' . $wrapperid . $style . '>' . ($livePreview == "yes" ? do_shortcode($shortcode) : $shortcode) . '</div>';
 
-			if ($livePreview == "yes") {
-				echo "<script>_tpt.checkResources(['DOM','sr7min','module','tpgsap','canvas','draw','save','csssr7']).then(() => {SR7.F.module.collect('init');}); </script>";
+			if (\Elementor\Plugin::$instance->editor->is_edit_mode() && $livePreview == "yes") {
+				echo "<script>SR7.E.elementorBackend = true; SR7.F.init();</script>";
 			}
 		}
 	}

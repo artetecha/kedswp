@@ -10,6 +10,7 @@ if(!defined('ABSPATH')) exit();
 <sr-separator keepborder class="sr_layer_bgtypes sr_updateForcehide" value="image">
 	<sr-separator-head notoggle>
 		<sr-separator-title><?php _e('Image Content','revslider'); ?></sr-separator-title>
+		<sr-button class="sr--img--edit--pen sr--mini--title sr--mb--0" style="pointer-events:all;float:right" clean="" data-action="B.imgPick.edit"><svg class="sr--icon" width="13" height="13"><use xlink:href="#Toolbar_Edit"></use></svg></sr-button>
 	</sr-separator-head>
 	<sr-separator-body>  						
 		<sr-wrap id="sr_layer_image_content" class="sr_image_selector">				

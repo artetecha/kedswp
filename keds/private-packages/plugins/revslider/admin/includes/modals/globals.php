@@ -71,16 +71,25 @@ $sr_v6_exists = RevSliderPluginUpdateV6::do_v6_tables_exist();
                 <sr-sp h="15"></sr-sp>
                 <sr-wrap half inline class="sr--form--grp sr--mr--10"><sr-onoff viewchild="glbls_1" r="alignGuides" class="sr--mr--10" data-sh=".sr_align_snap"></sr-onoff><span><?php echo __('Enable Align Guide Lines','revslider');?></span></sr-wrap><!--
                 --><sr-input half class="sr_align_snap sr--mr--0">
-                        <input name="Snap Treshold" viewchild="glbls_1" type="text" r="alignTreshold"  livevisup dragnumber autocomplete="off" number="true" min="5" max="50" suffix="" step="1" validate="true">
-                        <span noicon="" class="sr--form--otitle"><?php _e('Align Treshold','revslider'); ?></span>
+                        <input name="Align Threshold" viewchild="glbls_1" type="text" r="alignThreshold"  livevisup dragnumber autocomplete="off" number="true" min="5" max="50" suffix="" step="1" validate="true">
+                        <span noicon="" class="sr--form--otitle"><?php _e('Align Threshold','revslider'); ?></span>
                     </sr-input> 
                 <sr-wrap class="sr_align_snap">                    
                     <sr-wrap half inline class="sr--form--grp"><sr-onoff viewchild="glbls_1" r="alignSnap" class="sr--mr--10"></sr-onoff><span><?php echo __('Allow Align Position Snap','revslider');?></span></sr-wrap><!--
                     --><sr-input half class="sr--mr--0">
-                        <input name="Snap Treshold" viewchild="glbls_1" type="text" r="alignSnapTreshold"  livevisup dragnumber autocomplete="off" number="true" min="5" max="50" suffix="" step="1" validate="true">
-                        <span noicon="" class="sr--form--otitle"><?php _e('Snap Treshold','revslider'); ?></span>
-                    </sr-input>                
+                        <input name="Snap Threshold" viewchild="glbls_1" type="text" r="alignSnapThreshold"  livevisup dragnumber autocomplete="off" number="true" min="5" max="50" suffix="" step="1" validate="true">
+                        <span noicon="" class="sr--form--otitle"><?php _e('Snap Threshold','revslider'); ?></span>
+                    </sr-input>
                 </sr-wrap>
+                <sr-wrap class="sr_align_snap">
+                    <sr-wrap half inline class="sr--form--grp"><sr-onoff viewchild="glbls_1" r="alignSpacing" class="sr--mr--10"></sr-onoff><span><?php echo __('Show Equal Spacing Guides','revslider');?></span></sr-wrap>
+                </sr-wrap>
+                <?php if(is_rtl()){ ?>
+                <sr-wrap>
+                    <sr-sp h="10"></sr-sp>
+                    <sr-wrap half inline class="sr--form--grp"><sr-onoff viewchild="glbls_1" r="editorForceLTR" class="sr--mr--10"></sr-onoff><span><?php echo __('Editor in LTR Mode (reload required)','revslider');?></span></sr-wrap>
+                </sr-wrap>
+                <?php } ?>
                 <sr-sp h="5"></sr-sp>
             </sr-wrap>
         </sr-wrap>
@@ -192,9 +201,17 @@ $sr_v6_exists = RevSliderPluginUpdateV6::do_v6_tables_exist();
                 <sr-wrap id="wrap_custom_fonts"><sr-fieldset viewchild="glbls_4" id="fset_custom_fonts" r="fonts.list" class="sr--mb--0"></sr-fieldset></sr-wrap>
                 <sr-sp h="5"></sr-sp>
                 <sr-button data-action="B.fieldSet.add,B.globals.adjustContent" data-actarget="wrap_custom_fonts" data-acheight="129" data-aparams="global,fonts.list" primary="" class="sr--cta sr--mr--10"><?php echo __('Add Custom Font','revslider');?></sr-button>
+                <sr-button data-action="B.globals.customFont.open" primary="" class="sr--cta sr--mr--10"><?php echo __('Upload Custom Font','revslider');?></sr-button>
             </sr-wrap>    
         </sr-wrap>
-        <sr-wrap view="glbls_5" viewchild="glbls" class="sr--tab--content" id="sr_gl_system">          
+        <sr-wrap view="glbls_5" viewchild="glbls" class="sr--tab--content" id="sr_gl_system">
+            <sr-wrap class="sr--p--20--15">
+                <sr-section-title><?php echo __('WordPress Integration','revslider');?></sr-section-title>
+                <sr-sp h="15"></sr-sp>
+                <sr-wrap class="sr--form--grp"><sr-onoff r="groupAddons" viewchild="glbls_5" class="sr--mr--10"></sr-onoff><span><?php echo __('Group Add-Ons in the WP Plugins List','revslider');?></span></sr-wrap>
+                <sr-sp h="5"></sr-sp>
+            </sr-wrap>
+            <sr-separator></sr-separator>
             <sr-wrap class="sr--p--20--15">
                 <sr-section-title><?php echo __('Privacy & GDPR Settings','revslider');?></sr-section-title>
                 <sr-sp h="15"></sr-sp>
@@ -203,7 +220,9 @@ $sr_v6_exists = RevSliderPluginUpdateV6::do_v6_tables_exist();
                 <sr-wrap wide basic><sr-drop viewchild="glbls_5" r="gdpr.filter" data-sh=".sr_gdpr_options" data-shdep="#eqvalue" twothird="" data-v="" class="sr--mb--0">
                     <sr-drop-view><span class="sr--drop--value"></span><span class="sr--form--otitle"><?php echo __('Consent Management Plugin','revslider');?></span><span class="sr--drop--icon"><svg width="10" height="6" transform="translate(0, -1)"><use xlink:href="#Drop_Down"></use></svg></span></sr-drop-view>
                     <sr-drops data-v="none"><?php echo __('None','revslider');?></sr-drops>                    
-                    <sr-drops data-v="themepunch" data-title="<?php echo __('ThemePunch Cookie','revslider');?>"><?php echo __('ThemePunch Cookie','revslider'); echo (defined('TP_COOKIES_ACTIVE')) ? '<sr-drop-sm-txt class="gdprinstalled">Installed</sr-drop-sm-txt>' : ''; ?></sr-drops>
+                    <?php if(defined('TP_COOKIES_ACTIVE')){ ?>
+                    <sr-drops data-v="themepunch" data-title="<?php echo __('ThemePunch Cookie','revslider');?>"><?php echo __('ThemePunch Cookie','revslider'); ?><sr-drop-sm-txt class="gdprinstalled">Installed</sr-drop-sm-txt></sr-drops>
+                    <?php } ?>
                     <sr-drops data-v="borlabscookie" data-title="<?php echo __('Borlabs Cookie','revslider');?>"><?php echo __('Borlabs Cookie','revslider'); echo (defined('BORLABS_COOKIE_CACHE_PATH')) ? '<sr-drop-sm-txt class="gdprinstalled">Installed</sr-drop-sm-txt>' : ''; ?></sr-drops>
                     <sr-drops data-v="complianz" data-title="<?php echo __('Complianz','revslider');?>"><?php echo __('Complianz','revslider'); echo (defined('CMPLZ_VERSION')) ? '<sr-drop-sm-txt class="gdprinstalled">Installed</sr-drop-sm-txt>' : ''; ?></sr-drops>
                     <sr-drops data-v="cookiebotcmp" data-title="<?php echo __('Cookiebot CMP','revslider');?>"><?php echo __('Cookiebot CMP','revslider'); echo (defined('CYBOT_COOKIEBOT_PLUGIN_URL')) ? '<sr-drop-sm-txt class="gdprinstalled">Installed</sr-drop-sm-txt>' : ''; ?></sr-drops>
@@ -238,9 +257,7 @@ $sr_v6_exists = RevSliderPluginUpdateV6::do_v6_tables_exist();
                 <sr-section-title><?php echo __('Database Health & Repair','revslider');?></sr-section-title>
                 <sr-sp h="15"></sr-sp>
                 <?php if($sr_v6_exists === true){ ?>
-                <sr-button id="sr6_remove_db_button" clean="" data-action="B.globals.deleteSR6Confirm" class="sr--cta sr sr--mr--10"><?php echo __('Delete Unmigrated Modules','revslider');?></sr-button><!--
-                <?php } ?>
-                --><sr-button clean="" data-action="B.globals.checkTables" class="sr--cta sr--mr--10"><?php echo __('Scan Database Health','revslider');?></sr-button><!--                
+                <sr-button id="sr6_remove_db_button" clean="" data-action="B.globals.deleteSR6Confirm" class="sr--cta sr sr--mr--10"><?php echo __('Delete Unmigrated Modules','revslider');?></sr-button><?php } ?><sr-button clean="" data-action="B.globals.checkTables" class="sr--cta sr--mr--10"><?php echo __('Scan Database Health','revslider');?></sr-button><!--                
                 --><sr-button clean="" data-action="B.globals.forceTablesCreate" class="sr--cta sr--mr--10"><?php echo __('Fix Missing SR7 Tables','revslider');?></sr-button>
             </sr-wrap>
         </sr-wrap>

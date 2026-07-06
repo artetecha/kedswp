@@ -162,8 +162,7 @@
             if (!view?.model) return;
             _tpt.regResource({id: "tools_shortcode", url: SR7.E.plugin_url + "admin/assets/js/tools/shortcode.js"});
             _tpt.checkResources(['tools_shortcode']).then(() => {
-				document.querySelector(".sr--block--editor--popup--wrap").style.display = "block";
-                SR7.B.shortcode.selectModule(data => {
+                SR7.B.shortcode.openSelectModule(data => {
                     const params = {...view.model.get('params')};
                     params.alias = data.alias;
                     params.slidertitle = data.title;

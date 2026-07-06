@@ -634,6 +634,7 @@ class RevSlider7Output extends RevSliderFunctions {
 	 * adds the Slider Basis
 	 */
 	public function add_slider_base(){
+		$start_ob_level = ob_get_level();
 		try{
 			global $SR_GLOBALS;
 
@@ -722,7 +723,7 @@ class RevSlider7Output extends RevSliderFunctions {
 
 		}catch(Exception $e){
 			$message = $e->getMessage();
-			if(ob_get_level() > 1){
+			if(ob_get_level() > $start_ob_level){
 				ob_clean();
 				ob_end_clean();
 			}
@@ -1166,6 +1167,9 @@ class RevSlider7Output extends RevSliderFunctions {
 		
 		switch($type){
 			case 'shape':
+				//Custom Shape: output the pre-baked parametric SVG stored in the layer
+				if($this->get_val($layer, 'subtype') === 'custom') $html = $this->get_val($layer, ['shape', 'svg'], '');
+			break;
 			case 'svg':
 			case 'column':
 			case 'image':

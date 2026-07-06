@@ -18,7 +18,7 @@ if(!class_exists('RSColorEasing')){
 		 */
 		public static function distColor($px, $bx, $ex, $bv, $ev){
 			
-			$num = abs(((($px - $bx) / ($ex - $bx)) * ($ev - $bv)) + $bv);
+			$num = ($ex == $bx) ? abs($bv) : abs(((($px - $bx) / ($ex - $bx)) * ($ev - $bv)) + $bv);
 			$num = round($num);
 			$num = min($num, 255);
 			return max($num, 0);
@@ -32,7 +32,7 @@ if(!class_exists('RSColorEasing')){
 		public static function distAlpha($px, $bx, $ex, $bv, $ev){
 			
 			$bv = floatval($bv);
-			$num = floatval((($px - $bx) / ($ex - $bx)) * ($ev - $bv));
+			$num = ($ex == $bx) ? 0.0 : floatval((($px - $bx) / ($ex - $bx)) * ($ev - $bv));
 			$num = number_format($num, 2, '.', '');
 			$num = abs($num + $bv);
 			$num = min($num, 1);

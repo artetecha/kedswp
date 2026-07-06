@@ -24,16 +24,9 @@ class RevSliderShortcodeWizard extends RevSliderFunctions {
 		}
 	}
 
-	/**
-	 * add the styles through the block editor filter
-	 */
-	public static function sr_theme_block_editor_assets(){
-		self::add_styles();
-	}
-
 	public static function add_styles(){}
 
-	public static function add_scripts($elementor = false, $divi = false, $skipSvg = false) {
+	public static function add_scripts($elementor = false, $divi = false) {
 		global $SR_GLOBALS;
 		$f = RevSliderGlobals::instance()->get('RevSliderFunctions');
 		$action = $f->get_val($_GET, 'action');
@@ -77,13 +70,13 @@ class RevSliderShortcodeWizard extends RevSliderFunctions {
 		$rs_front	= RevSliderGlobals::instance()->get('RevSliderFront');
 		$rs_fonts	= RevSliderGlobals::instance()->get('RevSliderFonts');
 		$rs_output	= RevSliderGlobals::instance()->get('RevSlider7Output');
-		wp_enqueue_script('sr7', RS_PLUGIN_URL_CLEAN . 'public/js/sr7.js', '', RS_REVISION, ['strategy' => 'async']);	
-		wp_enqueue_script('sr7page', RS_PLUGIN_URL_CLEAN . 'public/js/page.js', '', RS_REVISION, ['strategy' => 'async']);
+		wp_enqueue_script('sr7', RS_PLUGIN_URL_CLEAN . 'public/js/sr7.js', '', self::asset_time('public/js/sr7.js'), ['strategy' => 'async']);	
+		wp_enqueue_script('sr7page', RS_PLUGIN_URL_CLEAN . 'public/js/page.js', '', self::asset_time('public/js/page.js'), ['strategy' => 'async']);
 
-		if (!$is_gutenberg) wp_enqueue_style('sr7css', RS_PLUGIN_URL_CLEAN . 'public/css/sr7.css', '', RS_REVISION);
+		if (!$is_gutenberg) wp_enqueue_style('sr7css', RS_PLUGIN_URL_CLEAN . 'public/css/sr7.css', '', self::asset_time('public/css/sr7.css'));
 
 
-		wp_enqueue_script('_tpt', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', RS_REVISION, ['strategy' => 'async']);		
+		wp_enqueue_script('_tpt', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', self::asset_time('public/js/libs/tptools.js'), ['strategy' => 'async']);		
 		add_action('wp_footer', [$rs_fonts, 'load_google_fonts']);
 		add_action('wp_footer', [$rs_output, 'add_js'], 100);
 
@@ -106,73 +99,73 @@ class RevSliderShortcodeWizard extends RevSliderFunctions {
 		</script>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 		<?php
-		if (!$skipSvg) {
-			echo file_get_contents(RS_PLUGIN_PATH . 'admin/assets/images/sprite.svg');
-		}
 	}
 
-	public static function get_shortcode_javascript(){
-		$rsaf = new RevSliderFunctionsAdmin();
-		$sr_valid = $rsaf->_truefalse($rsaf->get_options(['system', 'valid'], 'false'));
+	public static function get_shortcode_javascript($from_api = false){
+		//check user permissions
+		if(!current_user_can('edit_posts') && !current_user_can('edit_pages')) return;
+
 		ob_start();
 		?>
 		<script>
 			window.SR7			??= {};
+			SR7.LIB				??= {};
 			SR7.E				??= {gAddons:{}};
-			SR7.E.registered	= <?php echo ($sr_valid !== true) ? 'false' : 'true'; ?>;
-
+			SR7.E.registered	= <?php echo (self::is_registered() !== true) ? 'false' : 'true'; ?>;
+			SR7.E.resources		??= {};
+			SR7.E.modules		??= [];
+			<?php if (!$from_api) { ?>
+				SR7.E.block_nonce 	= "<?php echo wp_create_nonce('revslider_actions'); ?>";
+			<?php } ?>
 			SR7.LANG ??= {};
-			SR7.LANG["Please wait..."] = "<?php __('Please wait...', 'revslider'); ?>";
-			SR7.LANG["Premium"] = "<?php _e('Premium', 'revslider'); ?>";
-			SR7.LANG["Slider"] = "<?php _e('Slider', 'revslider'); ?>";
-			SR7.LANG["Hero"] = "<?php _e('Hero', 'revslider'); ?>";
-			SR7.LANG["Carousel"] = "<?php _e('Carousel', 'revslider'); ?>";
-			SR7.LANG["Per Pages"] = "<?php _e('Per Page', 'revslider'); ?>";
-			SR7.LANG["All Items"] = "<?php _e('All Items', 'revslider'); ?>";
-			SR7.LANG["Show all items"] = "<?php _e('Show all items', 'revslider'); ?>";
+			SR7.LANG = Object.assign(SR7.LANG, <?php echo wp_json_encode([
+				'Please wait...' => __('Please wait...', 'revslider'),   // was __() (no echo) -> shipped empty; fixed
+				'Premium'        => __('Premium', 'revslider'),
+				'Slider'         => __('Slider', 'revslider'),
+				'Hero'           => __('Hero', 'revslider'),
+				'Carousel'       => __('Carousel', 'revslider'),
+				'Per Pages'      => __('Per Page', 'revslider'),
+				'All Items'      => __('All Items', 'revslider'),
+				'Show all items' => __('Show all items', 'revslider'),
+			]); ?>);
 		</script>
 		<?php
 		return ob_get_clean();
 	}
 
-	public static function enqueue_files(){
-		echo '<div id="rb_modal_underlay" style="display:none"></div>';
-
-		echo "<script>";
-	
-		echo "class SrSp extends HTMLElement {";
-		echo "	static get observedAttributes() {return ['h', 'w'];}";
-		echo "	constructor() {super();}";
-		echo "	connectedCallback() {this.updateDimensions();}";
-		echo "	attributeChangedCallback(name, oldValue, newValue) {this.updateDimensions();}";
-		echo "	updateDimensions() {";
-		echo "		const height = this.getAttribute('h');";
-		echo "		const width = this.getAttribute('w');";
-		echo "		if (width !== null) {";
-		echo "		this.style.display = 'inline-block';";
-		echo '		this.style.width = `${width}px`;';
-		echo '		this.style.height = height ? `${height}px` : \'auto\';';
-		echo "		} else {";
-		echo "		this.style.display = 'block';";
-		echo '		this.style.height = height ? `${height}px` : \'auto\';';
-		echo "		}";
-		echo "	}";
-		echo "}";
-		echo "if (!customElements.get('sr-sp')) customElements.define('sr-sp', SrSp);";
-		
-		echo "window.SR7 ??= {};";
-		echo "SR7.LIB ??= {};";
-		echo "SR7.E ??= {};";
-		echo "SR7.E.block_nonce = '" . wp_create_nonce('revslider_actions') . "';"; // This nonce is working for Divi builder
-		echo "</script>";
-
-		echo '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">';
-
-		echo '<div class="sr--block--editor--popup--wrap" style="display:none;">';
-		require_once(RS_PLUGIN_PATH . 'admin/views/popups.php');
-		echo '</div>';
+	public static function is_registered(){
+		require_once(RS_PLUGIN_PATH . 'admin/includes/functions-admin.class.php');
+		$rsaf = new RevSliderFunctionsAdmin();
+		return $rsaf->_truefalse($rsaf->get_options(['system', 'valid'], 'false'));
 	}
 
+	public static function get_shortcode_extended_markup(){
+		ob_start();
+		?>
+		<script>
+			window.SrSp = window.SrSp || class SrSp extends HTMLElement {
+				static get observedAttributes() {return ['h', 'w'];}
+				constructor() {super();}
+				connectedCallback() {this.updateDimensions();}
+				attributeChangedCallback(name, oldValue, newValue) {this.updateDimensions();}
+				updateDimensions() {
+					const height = this.getAttribute('h');
+					const width = this.getAttribute('w');
+					if (width !== null) {
+					this.style.display = 'inline-block';
+					this.style.width = `${width}px`;
+					this.style.height = height ? `${height}px` : 'auto';
+					} else {
+					this.style.display = 'block';
+					this.style.height = height ? `${height}px` : 'auto';
+					}
+				}
+			}
+			if (!customElements.get('sr-sp')) customElements.define('sr-sp', SrSp);
+		</script>
+		<?php
+		return ob_get_clean();
+	}	
 
 	/**
 	 * add script tinymce shortcode script
@@ -226,8 +219,8 @@ class RevSliderShortcodeWizard extends RevSliderFunctions {
 	 */
 	public static function add_slider_meta_box_assets($post_types = null){
 		try {
-			wp_enqueue_script('slider_revolution_metabox_js', RS_PLUGIN_URL_CLEAN . 'admin/includes/meta_box/build/index.js', ['wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-core-data', 'wp-data'], RS_REVISION);
-			wp_enqueue_style('slider_revolution_metabox_css', RS_PLUGIN_URL_CLEAN . 'admin/includes/meta_box/build/index.css', RS_REVISION);
+			wp_enqueue_script('slider_revolution_metabox_js', RS_PLUGIN_URL_CLEAN . 'admin/includes/meta_box/build/index.js', ['wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-core-data', 'wp-data'], self::asset_time('admin/includes/meta_box/build/index.js'));
+			wp_enqueue_style('slider_revolution_metabox_css', RS_PLUGIN_URL_CLEAN . 'admin/includes/meta_box/build/index.css', self::asset_time('admin/includes/meta_box/build/index.css'));
 		} catch (Exception $e){}
 	}
 
@@ -258,24 +251,10 @@ class RevSliderShortcodeWizard extends RevSliderFunctions {
 	}
 
 	/**
-	 * Enqueue html content for the Divi Builder
-	 */
-	public static function enqueue_divi_builder_files() {
-		add_action('wp_enqueue_scripts', ['RevSliderShortcodeWizard', 'enqueue_files']);
-	}
-
-	/**
-	 * Enqueue html content for the WPBakery Builder
-	 */
-	public static function enqueue_wpbakery_files() {
-		add_action('wp_enqueue_scripts', ['RevSliderShortcodeWizard', 'enqueue_files']);
-	}	
-
-	/**
 	 * Enqueue styles for WP Bakery
 	 */
 	public static function enqueue_wpbakery_styles() {
-		wp_enqueue_style('slider_revolution_wpbakery_css', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/wpbakery/assets/css/sr7-wpbakery.css', '', RS_REVISION);
+		wp_enqueue_style('slider_revolution_wpbakery_css', RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/wpbakery/assets/css/sr7-wpbakery.css', '', self::asset_time('admin/includes/shortcode_generator/wpbakery/assets/css/sr7-wpbakery.css'));
 	}	
 
 }

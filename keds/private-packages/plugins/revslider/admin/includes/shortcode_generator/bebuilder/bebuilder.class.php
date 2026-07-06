@@ -33,18 +33,16 @@ class RevSliderBeBuilder {
 
 	public static function render_live_builder_files() {
 		if(self::is_bebuilder_available() === false || self::is_live_builder_request() === false) return;
-
-		RevSliderShortcodeWizard::enqueue_files();
 	}
 
 	protected static function enqueue_assets() {
-		RevSliderShortcodeWizard::add_scripts(false, false, true);
-		wp_enqueue_script('tpgsap', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tpgsap.js', '', RS_REVISION, ['strategy' => 'async']);
-		wp_enqueue_script('_tpt', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', RS_REVISION, ['strategy' => 'async']);
-		wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RS_REVISION, false);
-		wp_enqueue_script('sr7-tools-shortcode', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/shortcode.js', [], RS_REVISION, true);
-		wp_enqueue_style(self::STYLE_HANDLE, RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/bebuilder/assets/css/sr7-bebuilder.css', [], RS_REVISION);
-		wp_enqueue_script(self::SCRIPT_HANDLE, RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/bebuilder/assets/js/sr7-bebuilder.js', ['revbuilder-backend', 'sr7-tools-shortcode'], RS_REVISION, true);
+		RevSliderShortcodeWizard::add_scripts();
+		wp_enqueue_script('tpgsap', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tpgsap.js', '', RevSliderFunctions::asset_time('public/js/libs/tpgsap.js'), ['strategy' => 'async']);
+		wp_enqueue_script('_tpt', RS_PLUGIN_URL_CLEAN . 'public/js/libs/tptools.js', '', RevSliderFunctions::asset_time('public/js/libs/tptools.js'), ['strategy' => 'async']);
+		wp_enqueue_script('revbuilder-backend', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/tools.js', [], RevSliderFunctions::asset_time('admin/assets/js/tools/tools.js'), false);
+		wp_enqueue_script('sr7-tools-shortcode', RS_PLUGIN_URL_CLEAN . 'admin/assets/js/tools/shortcode.js', [], RevSliderFunctions::asset_time('admin/assets/js/tools/shortcode.js'), true);
+		wp_enqueue_style(self::STYLE_HANDLE, RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/bebuilder/assets/css/sr7-bebuilder.css', [], RevSliderFunctions::asset_time('admin/includes/shortcode_generator/bebuilder/assets/css/sr7-bebuilder.css'));
+		wp_enqueue_script(self::SCRIPT_HANDLE, RS_PLUGIN_URL_CLEAN . 'admin/includes/shortcode_generator/bebuilder/assets/js/sr7-bebuilder.js', ['revbuilder-backend', 'sr7-tools-shortcode'], RevSliderFunctions::asset_time('admin/includes/shortcode_generator/bebuilder/assets/js/sr7-bebuilder.js'), true);
 		wp_localize_script(self::SCRIPT_HANDLE, 'SR7ShortcodeData', [
 			'ajaxurl'		=> admin_url('admin-ajax.php'),
 			'plugin_url'	=> RS_PLUGIN_URL_CLEAN

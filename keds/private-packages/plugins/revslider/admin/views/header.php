@@ -38,6 +38,7 @@ $sr_js_modules[]		 = 'migration';
 $sr_ai_new				 = $sr_ai->get_finished_background_jobs();
 $sr_ai_pending			 = ! empty( $sr_ai->get_open_events() );
 $sr_addon_min_ver		 = $sr_addon->check_addon_version();
+$sr_wpml_languages		 = $sr_af->get_wpml_editor_languages();
 
 if(version_compare(RS_REVISION, $sr_show_updated, '>')) $sr_af->update_option(['system', 'overlay'], RS_REVISION);
 
@@ -97,6 +98,14 @@ $sr_show_deregister_msg	= $sr_af->get_options(['system', 'deregister-msg']);
 	SR7.E.wp_plugin_url   = '<?php echo str_replace(["\n", "\r"], '', WP_PLUGIN_URL) . "/"; ?>';
 	SR7.E.wp_upload_url	  = '<?php echo str_replace(["\n", "\r"], '', $sr_upload_url) . "/"; ?>';
 	SR7.E.revision		  = '<?php echo RS_REVISION; ?>';
+	// Cache-bust token for dynamically loaded editor scripts (separate from .revision, which is used for version gating).
+	// In WP_DEBUG (dev) it changes every load so JS edits are never served stale; in production it stays on RS_REVISION.
+	SR7.E.assetver		  = '<?php echo (defined('WP_DEBUG') && WP_DEBUG) ? RS_REVISION . '.' . time() : RS_REVISION; ?>';
+	SR7.E.rtl			  = <?php echo (method_exists($this, 'use_rtl_assets') ? $this->use_rtl_assets() : is_rtl()) ? 'true' : 'false'; ?>;
+	<?php if(is_rtl() && method_exists($this, 'use_rtl_assets') && !$this->use_rtl_assets()){ ?>
+	//"Use Editor in LTR Mode" global setting: pin the SR7 UI to LTR inside the RTL admin
+	document.body.classList.add('sr--force--ltr');
+	<?php } ?>
 	SR7.E.ajaxurl		  = '<?php echo admin_url('admin-ajax.php'); ?>';
 	SR7.E.resturl		  = '<?php echo get_rest_url(); ?>';
 	SR7.E.latest_revision = '<?php echo $sr_latest_version; ?>';
@@ -109,6 +118,7 @@ $sr_show_deregister_msg	= $sr_af->get_options(['system', 'deregister-msg']);
 	SR7.E.css 			  = ['csslp','cssbtns','cssfilters','cssnav','cssmedia'];
 	SR7.E.modules 		  = ['<?php echo implode("','", $sr_js_modules); ?>'];
 	SR7.E.resources		  = {};
+	<?php if(!empty($sr_wpml_languages)){ ?>SR7.E.wpml			  = {languages: <?php echo wp_json_encode($sr_wpml_languages); ?>};<?php } ?>
 	SR7.E.ai			  = {new: <?php echo (empty($sr_ai_new)) ? '[]' : json_encode($sr_ai_new); ?>, pending: <?php echo ($sr_ai_pending === true) ? 'true' : 'false'; ?>};
 	SR7.E.addonsMinVer	  = <?php echo (empty($sr_addon_min_ver)) ? '{}' : json_encode($sr_addon_min_ver); ?>;
 	SR7.E.library_preload = <?php echo ($sr_library_preloaded) ? 'false' : 'true'; ?>;
