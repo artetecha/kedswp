@@ -29,7 +29,7 @@ import { jsPDF } from 'jspdf';
 			if ( $cachedImg.length ) {
 				el_certificate_result = $cachedImg;
 				$el.addClass( 'canvas-preview-ready has-cached-image' );
-				onReady();
+				await onReady();
 
 				$( document ).on( 'click', '[data-cert="' + $el.attr( 'id' ) + '"]', function( e ) {
 					e.preventDefault();
@@ -58,7 +58,7 @@ import { jsPDF } from 'jspdf';
 					$el.hide();
 				}
 
-				onReady();
+				await onReady();
 			} catch ( e ) {
 				console.error( 'LP_Certificate init error:', e );
 			}
@@ -99,11 +99,11 @@ import { jsPDF } from 'jspdf';
 			} );
 		}
 
-		function onReady() {
+		async function onReady() {
 			// Save only when there are no images.
 			const hasPendingSave = $el.find( 'input[name=need_upload_cert_img_to_server]' ).length > 0;
 			if ( hasPendingSave ) {
-				saveImageToServer();
+				await saveImageToServer();
 			} else {
 				updateSocialShareLinks( el_certificate_result?.attr( 'src' ) );
 				markCertificateReady();
@@ -196,7 +196,7 @@ import { jsPDF } from 'jspdf';
 			}
 		}
 
-		function saveImageToServer() {
+		async function saveImageToServer() {
 			if ( ! el_certificate_result || ! el_certificate_result.length ) {
 				return;
 			}
@@ -209,45 +209,43 @@ import { jsPDF } from 'jspdf';
 				name_image: options.key_cer,
 			};
 
-			$.ajax( {
-				url: localize_lp_cer_js.url_ajax,
-				data,
-				method: 'post',
-				dataType: 'json',
-				beforeSend() {
-					el_certificate_actions.append( '<li class="fa fa-spinner">Loading share social...</li>' );
-				},
-				success( rs ) {
-					if ( rs.code === 1 ) {
-						imageSaved = true;
+			el_certificate_actions.append( '<li class="fa fa-spinner">Loading share social...</li>' );
 
-						if ( rs.url_cert && el_certificate_result && el_certificate_result.length ) {
-							el_certificate_result.attr( 'src', rs.url_cert );
-						}
+			try {
+				const response = await fetch( localize_lp_cer_js.url_ajax, {
+					method: 'POST',
+					credentials: 'same-origin',
+					body: new URLSearchParams( data ),
+				} );
+				const rs = await response.json();
 
-						if ( el_social_cert && el_social_cert.length ) {
-							updateSocialShareLinks( rs.url_cert );
-							el_social_cert.show();
-						}
-						markCertificateReady();
+				if ( rs.code === 1 ) {
+					imageSaved = true;
 
-						$( document ).triggerHandler( 'learn-press/certificates/image-saved', [ rs.url_cert ] );
-					}
-				},
-				complete() {
-					if ( ! imageSaved ) {
-						markCertificateReady();
+					if ( rs.url_cert && el_certificate_result && el_certificate_result.length ) {
+						el_certificate_result.attr( 'src', rs.url_cert );
 					}
 
-					el_certificate_actions.find( '.fa-spinner' ).remove();
-				},
-				error( e ) {
-					console.log( e );
-				},
-			} );
+					if ( el_social_cert && el_social_cert.length ) {
+						updateSocialShareLinks( rs.url_cert );
+						el_social_cert.show();
+					}
+					markCertificateReady();
+
+					$( document ).triggerHandler( 'learn-press/certificates/image-saved', [ rs.url_cert ] );
+				}
+			} catch ( e ) {
+				console.log( e );
+			} finally {
+				if ( ! imageSaved ) {
+					markCertificateReady();
+				}
+
+				el_certificate_actions.find( '.fa-spinner' ).remove();
+			}
 		}
 
-		init();
+		return init();
 	};
 
 	function getElements() {

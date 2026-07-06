@@ -35,7 +35,7 @@ const showListCertificates = () => {
 
             data && ele.insertAdjacentHTML('beforeend', data.template);
 
-            getImageCertificate(data.certKey);
+            await getImageCertificate(data.certKey);
         } catch (error) {
             ele.insertAdjacentHTML(
                 'beforeend',
@@ -48,25 +48,26 @@ const showListCertificates = () => {
         skeleton && skeleton.remove();
     };
 
-    const getImageCertificate = (certKey) => {
+    const getImageCertificate = async (certKey) => {
         const listItemCertificate = document.querySelectorAll('.learnpress-certificates-profile .certificate-item');
 
         if (!listItemCertificate.length) return;
 
-        listItemCertificate.forEach((item) => {
+        for (const item of listItemCertificate) {
             const eleConfig = item.querySelector('input.lp-data-config-cer');
+            if (!eleConfig || !eleConfig.value) continue;
             const dataConfig = JSON.parse(eleConfig.value);
             const elemParent = item.querySelector('.certificate-preview');
 
-            if (elemParent === null) return;
+            if (elemParent === null) continue;
 
             const key = elemParent.dataset.key;
 
-            if (!certKey.includes(key)) return;
+            if (!certKey.includes(key)) continue;
 
-            LP_Certificate(elemParent, dataConfig);
-            eleConfig.dataset.value = '';
-        });
+            eleConfig.value = '';
+            await LP_Certificate(elemParent, dataConfig);
+        }
     };
 
     const showMoreReview = async (filter, ele, btnLoadReview = false) => {
@@ -97,7 +98,7 @@ const showListCertificates = () => {
                 btnLoadReview.dataset.paged = parseInt(paged) + 1;
             }
 
-            getImageCertificate(data.certKey);
+            await getImageCertificate(data.certKey);
         } catch (error) {
             ele.insertAdjacentHTML('beforeend', `<li class="lp-ajax-message error" style="display:block">${error}</li>`);
         }

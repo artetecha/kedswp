@@ -100,6 +100,13 @@ class LP_Certificates_Settings extends LP_Abstract_Settings_Page {
 				'desc'              => esc_html__( 'The total number of displayed certificates per page. If set 0 then show all.', 'learnpress-certificates' ),
 			),
 			array(
+				'name'    => esc_html__( 'Cache maintenance', 'learnpress-certificates' ),
+				'type'    => 'html',
+				'default' => '<button type="button" class="button button-secondary lp-cert-cache-tools__delete">'
+					. esc_html__( 'Remove All Certificate Images', 'learnpress-certificates' )
+					. '</button>',
+			),
+			array(
 				'type' => 'sectionend',
 				'id'   => 'lp_profile_general',
 			),

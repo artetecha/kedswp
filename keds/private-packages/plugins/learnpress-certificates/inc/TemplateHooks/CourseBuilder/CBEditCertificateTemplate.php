@@ -232,7 +232,7 @@ class CBEditCertificateTemplate {
 									<?php esc_html_e( 'Status', 'learnpress-certificates' ); ?>
 								</label>
 								<?php
-								$is_future_date = strtotime( $cert_post->post_date ?? '' ) > time();
+								$is_future_date = strtotime( $cert_post->post_date_gmt ?? '' ) > time();
 								$current_status = in_array( $status, [ 'auto-draft' ], true ) ? 'draft' : $status;
 								?>
 								<select id="cb-cert-status" class="cb-publish-row__select"

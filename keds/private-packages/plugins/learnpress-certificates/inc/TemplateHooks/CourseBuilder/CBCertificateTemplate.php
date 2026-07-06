@@ -174,6 +174,7 @@ class CBCertificateTemplate {
 		$data_new        = [
 			'post_title'  => esc_html__( 'Certificate new', 'learnpress-certificates' ),
 			'post_status' => PostModel::STATUS_DRAFT,
+			'post_author' => $user_id,
 		];
 		$cerPostModelNew = CertificateService::instance()->create( $data_new );
 		$link            = CourseBuilder::get_link_course_builder( self::MENU_CERTIFICATES . "/{$cerPostModelNew->get_id()}" );

@@ -1,8 +1,9 @@
-import { Canvas, FabricImage } from 'fabric';
+import { Canvas } from 'fabric';
 import { jsPDF } from 'jspdf';
 import { replaceNewlinesForLoad, resolveFont } from '../utils';
 import {
 	createFabricElement,
+	loadFabricImage,
 	isTextType,
 	isSvgType,
 } from '../elements';
@@ -15,8 +16,49 @@ import {
 
 const DEFAULT_FONT = 'Arial';
 
+async function loadFabricImageWithFallback( source, fallbackSource, label ) {
+	try {
+		return await loadFabricImage( source );
+	} catch ( e ) {
+		console.error( `renderCertificate: Error loading ${ label }:`, source, e );
+	}
+
+	if ( ! fallbackSource || fallbackSource === source ) {
+		return null;
+	}
+
+	try {
+		return await loadFabricImage( fallbackSource );
+	} catch ( e ) {
+		console.error( `renderCertificate: Error loading fallback ${ label }:`, fallbackSource, e );
+	}
+
+	return null;
+}
+
+async function createImageElementWithFallback( customType, source, props, fallbackSource, label ) {
+	try {
+		return await createFabricElement( customType, source, props );
+	} catch ( e ) {
+		console.error( `renderCertificate: Error loading ${ label }:`, source, e );
+	}
+
+	if ( ! fallbackSource || fallbackSource === source ) {
+		return null;
+	}
+
+	try {
+		return await createFabricElement( customType, fallbackSource, props );
+	} catch ( e ) {
+		console.error( `renderCertificate: Error loading fallback ${ label }:`, fallbackSource, e );
+	}
+
+	return null;
+}
+
 export async function renderCertificateFromJSON( jsonData, opts = {} ) {
 	const isBuilderData = !! jsonData.builder_data;
+	const noImageUrl = jsonData.no_image_url || '';
 
 	let bgWidth = 300;
 	let bgHeight = 150;
@@ -39,14 +81,10 @@ export async function renderCertificateFromJSON( jsonData, opts = {} ) {
 
 	let bgImg = null;
 	if ( bgSource ) {
-		try {
-			bgImg = await FabricImage.fromURL( bgSource, { crossOrigin: 'anonymous' } );
-			if ( ! isBuilderData ) {
-				bgWidth = bgImg.width || 300;
-				bgHeight = bgImg.height || 150;
-			}
-		} catch ( e ) {
-			console.error( 'renderCertificate: Error loading background:', bgSource, e );
+		bgImg = await loadFabricImageWithFallback( bgSource, noImageUrl, 'background' );
+		if ( bgImg && ! isBuilderData ) {
+			bgWidth = bgImg.width || 300;
+			bgHeight = bgImg.height || 150;
 		}
 	}
 
@@ -84,7 +122,7 @@ export async function renderCertificateFromJSON( jsonData, opts = {} ) {
 	if ( isBuilderData ) {
 		await _loadBuilderLayers( canvas, jsonData );
 	} else {
-		await _loadOldLayers( canvas, jsonData.layers || [] );
+		await _loadOldLayers( canvas, jsonData.layers || [], noImageUrl );
 	}
 
 	canvas.renderAll();
@@ -194,7 +232,7 @@ async function _loadBuilderLayers( canvas, data ) {
 					continue;
 				}
 
-				const qrImage = await FabricImage.fromURL( qrDataURL );
+				const qrImage = await loadFabricImage( qrDataURL );
 				if ( qrImage ) {
 					qrImage.set( {
 						left: layerProps.left || 0,
@@ -216,7 +254,7 @@ async function _loadBuilderLayers( canvas, data ) {
 				if ( ! src ) {
 					continue;
 				}
-				fabricObj = await createFabricElement( customType, src, layerProps );
+				fabricObj = await createImageElementWithFallback( customType, src, layerProps, data.no_image_url || '', `layer ${ i }` );
 			} else if ( isSvgType( customType ) ) {
 				fabricObj = await createFabricElement( customType, layer );
 			}
@@ -249,7 +287,7 @@ async function _loadBuilderLayers( canvas, data ) {
 	}
 }
 
-async function _loadOldLayers( canvas, layers ) {
+async function _loadOldLayers( canvas, layers, noImageUrl = '' ) {
 	for ( const key in layers ) {
 		if ( ! layers.hasOwnProperty( key ) ) {
 			continue;
@@ -269,7 +307,10 @@ async function _loadOldLayers( canvas, layers ) {
 				layer.type === 'image';
 
 			if ( isImage && isUrl ) {
-				const img = await FabricImage.fromURL( text, { crossOrigin: 'anonymous' } );
+				const img = await loadFabricImageWithFallback( text, noImageUrl, `old layer ${ key }` );
+				if ( ! img ) {
+					continue;
+				}
 				img.set( {
 					left: parseFloat( layer.left ) || 0,
 					top: parseFloat( layer.top ) || 0,
@@ -423,7 +464,7 @@ async function _cloneCanvasForExport( sourceCanvas, replacements = {} ) {
 		try {
 			const bgUrl = sourceCanvas.backgroundImage.getSrc();
 			if ( bgUrl ) {
-				const img = await FabricImage.fromURL( bgUrl, { crossOrigin: 'anonymous' } );
+				const img = await loadFabricImage( bgUrl );
 				if ( img ) {
 					img.set( {
 						scaleX: sourceCanvas.backgroundImage.scaleX,

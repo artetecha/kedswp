@@ -120,3 +120,22 @@ export async function resolveFont( fontFamily ) {
 	console.warn( `Font "${ fontFamily }" is not available. Please add it in LearnPress > Settings > Certificates > Google Fonts.` );
 	return TEXT_DEFAULTS.FONT_FAMILY;
 }
+
+export async function checkLocalImageMissing( url ) {
+	if ( ! url || ! window.lpAJAXG ) {
+		return false;
+	}
+	return new Promise( ( resolve ) => {
+		window.lpAJAXG.fetchAJAX(
+			{ action: 'check_local_image', url },
+			{
+				success: ( response ) => {
+					resolve( response?.data?.status === 'missing' );
+				},
+				error: () => {
+					resolve( false );
+				},
+			}
+		);
+	} );
+}

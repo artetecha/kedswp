@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LearnPress - Certificates plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LearnPress - Certificates 4.2.4\n"
+"Project-Id-Version: LearnPress - Certificates 4.2.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress-certificates\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-28T11:34:30+03:00\n"
+"POT-Creation-Date: 2026-07-01T09:38:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: learnpress-certificates\n"
@@ -40,219 +40,166 @@ msgid "http://thimpress.com"
 msgstr ""
 
 #: config/builder-menus.php:11
-#: release/learnpress-certificates/config/builder-menus.php:11
 msgid "Elements"
 msgstr ""
 
 #: config/builder-menus.php:16
-#: release/learnpress-certificates/config/builder-menus.php:16
 msgid "Uploads"
 msgstr ""
 
 #: config/builder-menus.php:20
-#: release/learnpress-certificates/config/builder-menus.php:20
 msgid "Library"
 msgstr ""
 
 #: config/builder-menus.php:24
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1078
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1079
-#: release/learnpress-certificates/config/builder-menus.php:24
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1078
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1079
 msgid "Background"
 msgstr ""
 
 #: config/builder-menus.php:28
-#: release/learnpress-certificates/config/builder-menus.php:28
 msgid "Templates"
 msgstr ""
 
 #: config/builder-menus.php:32
-#: release/learnpress-certificates/config/builder-menus.php:32
 msgid "Layers"
 msgstr ""
 
 #: config/elements-insert.php:15
-#: release/learnpress-certificates/config/elements-insert.php:15
 msgid "Text Custom"
 msgstr ""
 
 #: config/elements-insert.php:21
-#: release/learnpress-certificates/config/elements-insert.php:21
 msgid "QR"
 msgstr ""
 
 #: config/elements-insert.php:27
-#: release/learnpress-certificates/config/elements-insert.php:27
 msgid "Current Time"
 msgstr ""
 
 #: config/elements-insert.php:39
 #: inc/admin/views/certificate-preview-modal.php:10
-#: release/learnpress-certificates/config/elements-insert.php:39
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:10
 msgid "Student Name"
 msgstr ""
 
 #: config/elements-insert.php:45
 #: inc/admin/views/certificate-preview-modal.php:15
-#: release/learnpress-certificates/config/elements-insert.php:45
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:15
 msgid "Instructor Name"
 msgstr ""
 
 #: config/elements-insert.php:57
 #: inc/admin/views/certificate-preview-modal.php:20
-#: release/learnpress-certificates/config/elements-insert.php:57
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:20
 msgid "Course Title"
 msgstr ""
 
 #: config/elements-insert.php:63
 #: inc/admin/views/certificate-preview-modal.php:25
-#: release/learnpress-certificates/config/elements-insert.php:63
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:25
 msgid "Course Description"
 msgstr ""
 
 #: config/elements-insert.php:69
 #: inc/admin/views/certificate-preview-modal.php:30
-#: release/learnpress-certificates/config/elements-insert.php:69
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:30
 msgid "Short Description"
 msgstr ""
 
 #: config/elements-insert.php:75
 #: inc/admin/views/certificate-preview-modal.php:35
-#: release/learnpress-certificates/config/elements-insert.php:75
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:35
 msgid "Course Price"
 msgstr ""
 
 #: config/elements-insert.php:81
 #: inc/admin/views/certificate-preview-modal.php:40
-#: release/learnpress-certificates/config/elements-insert.php:81
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:40
 msgid "Student Count"
 msgstr ""
 
 #: config/elements-insert.php:87
 #: inc/admin/views/certificate-preview-modal.php:45
-#: release/learnpress-certificates/config/elements-insert.php:87
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:45
 msgid "Course Level"
 msgstr ""
 
 #: config/elements-insert.php:93
 #: inc/admin/views/certificate-preview-modal.php:50
-#: release/learnpress-certificates/config/elements-insert.php:93
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:50
 msgid "Course Duration"
 msgstr ""
 
 #: config/elements-insert.php:99
 #: inc/admin/views/certificate-preview-modal.php:55
-#: release/learnpress-certificates/config/elements-insert.php:99
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:55
 msgid "Max Students"
 msgstr ""
 
 #: config/elements-insert.php:105
 #: inc/admin/views/certificate-preview-modal.php:60
-#: release/learnpress-certificates/config/elements-insert.php:105
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:60
 msgid "Lesson Count"
 msgstr ""
 
 #: config/elements-insert.php:111
 #: inc/admin/views/certificate-preview-modal.php:65
-#: release/learnpress-certificates/config/elements-insert.php:111
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:65
 msgid "Quiz Count"
 msgstr ""
 
 #: config/elements-insert.php:117
 #: inc/admin/views/certificate-preview-modal.php:70
-#: release/learnpress-certificates/config/elements-insert.php:117
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:70
 msgid "Course Start Date"
 msgstr ""
 
 #: config/elements-insert.php:123
 #: inc/admin/views/certificate-preview-modal.php:75
-#: release/learnpress-certificates/config/elements-insert.php:123
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:75
 msgid "Course End Date"
 msgstr ""
 
 #: config/elements-insert.php:134
-#: release/learnpress-certificates/config/elements-insert.php:134
 msgid "Generate"
 msgstr ""
 
 #: config/elements-insert.php:138
-#: release/learnpress-certificates/config/elements-insert.php:138
 msgid "User"
 msgstr ""
 
 #: config/elements-insert.php:142
-#: release/learnpress-certificates/config/elements-insert.php:142
 msgid "Course"
 msgstr ""
 
 #: config/library/shapes.php:5
-#: release/learnpress-certificates/config/library/shapes.php:5
 msgid "Circle"
 msgstr ""
 
 #: config/library/shapes.php:13
-#: release/learnpress-certificates/config/library/shapes.php:13
 msgid "Circle Outline"
 msgstr ""
 
 #: config/library/shapes.php:21
-#: release/learnpress-certificates/config/library/shapes.php:21
 msgid "Rectangle"
 msgstr ""
 
 #: config/library/shapes.php:32
-#: release/learnpress-certificates/config/library/shapes.php:32
 msgid "Rectangle Outline"
 msgstr ""
 
 #: config/library/shapes.php:43
-#: release/learnpress-certificates/config/library/shapes.php:43
 msgid "Rounded Rect"
 msgstr ""
 
 #: config/library/shapes.php:54
-#: release/learnpress-certificates/config/library/shapes.php:54
 msgid "Square"
 msgstr ""
 
 #: config/library/shapes.php:65
-#: release/learnpress-certificates/config/library/shapes.php:65
 msgid "Triangle"
 msgstr ""
 
 #: config/library/shapes.php:74
-#: release/learnpress-certificates/config/library/shapes.php:74
 msgid "Triangle Outline"
 msgstr ""
 
 #: config/library/shapes.php:83
-#: release/learnpress-certificates/config/library/shapes.php:83
 msgid "Ellipse"
 msgstr ""
 
 #: config/library/shapes.php:92
-#: release/learnpress-certificates/config/library/shapes.php:92
 msgid "Line"
 msgstr ""
 
 #: inc/admin/AdminCourseCertificates.php:33
-#: release/learnpress-certificates/inc/admin/AdminCourseCertificates.php:33
 msgid "Course is invalid!"
 msgstr ""
 
@@ -260,159 +207,116 @@ msgstr ""
 #: inc/TemplateHooks/AdminCertificateTemplate.php:269
 #: inc/TemplateHooks/AdminCertificateTemplate.php:549
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:160
-#: release/learnpress-certificates/inc/admin/AdminCourseCertificates.php:71
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:269
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:549
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:160
 msgid "Load more"
 msgstr ""
 
 #: inc/admin/views/advanced-settings.php:12
-#: inc/class-lp-certificate-post-type.php:666
+#: inc/class-lp-certificate-post-type.php:668
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:283
-#: release/learnpress-certificates/inc/admin/views/advanced-settings.php:12
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:666
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:283
 msgid "Price"
 msgstr ""
 
 #: inc/admin/views/advanced-settings.php:16
-#: release/learnpress-certificates/inc/admin/views/advanced-settings.php:16
 msgid "The price of this certificate. Default is 0, means this certificate is free to download. Currency is what you chose in Learn Press settings."
 msgstr ""
 
 #: inc/admin/views/cert-editor.php:21
 #: inc/admin/views/cert-editor.php:26
-#: release/learnpress-certificates/inc/admin/views/cert-editor.php:21
-#: release/learnpress-certificates/inc/admin/views/cert-editor.php:26
 msgid "Remove this layer?"
 msgstr ""
 
 #: inc/admin/views/cert-editor.php:22
-#: release/learnpress-certificates/inc/admin/views/cert-editor.php:22
 msgid "Publish certificate before editing!"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:80
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:80
 msgid "Time"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:85
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:85
 msgid "QR Code URL"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:96
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:96
 msgid "Preview Data"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:109
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:109
 msgid "Clear All"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:110
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:110
 msgid "Apply"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:117
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:117
-#: release/learnpress-certificates/templates/buttons-action.php:69
-#: release/learnpress-certificates/templates/buttons-action.php:72
 #: templates/buttons-action.php:69
 #: templates/buttons-action.php:72
 msgid "Download"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:124
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:124
 msgid "PNG"
 msgstr ""
 
 #: inc/admin/views/certificate-preview-modal.php:130
 #: inc/class-lp-certificate-settings.php:53
-#: release/learnpress-certificates/inc/admin/views/certificate-preview-modal.php:130
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:53
 msgid "PDF"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:19
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:19
 msgid "Choose template or Create your own"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:21
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:21
 msgid "Choose our pre-built template or start from scratch and customize it on our certificate builder."
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:35
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:35
 msgid "Create your own"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:39
 #: inc/admin/views/certificate-template-selection.php:56
 #: inc/admin/views/certificate-template-selection.php:75
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:39
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:56
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:75
 msgid "Choose"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:46
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:46
 msgid "Vertical Template"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:51
 #: inc/TemplateHooks/AdminCertificateTemplate.php:583
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:51
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:583
 msgid "Vertical (A4)"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:53
 #: inc/TemplateHooks/AdminCertificateTemplate.php:584
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:53
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:584
 msgid "595x842 (px)"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:65
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:65
 msgid "Landscape Template"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:70
 #: inc/TemplateHooks/AdminCertificateTemplate.php:588
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:70
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:588
 msgid "Landscape (A4)"
 msgstr ""
 
 #: inc/admin/views/certificate-template-selection.php:72
 #: inc/TemplateHooks/AdminCertificateTemplate.php:589
-#: release/learnpress-certificates/inc/admin/views/certificate-template-selection.php:72
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:589
 msgid "842x595 (px)"
 msgstr ""
 
 #: inc/admin/views/course-certificates.php:45
-#: release/learnpress-certificates/inc/admin/views/course-certificates.php:45
-#: release/learnpress-certificates/templates/admin-certificate.php:32
 #: templates/admin-certificate.php:32
 msgid "Active:"
 msgstr ""
 
 #: inc/admin/views/course-certificates.php:70
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:149
-#: release/learnpress-certificates/inc/admin/views/course-certificates.php:70
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:149
-#: release/learnpress-certificates/templates/admin-layout-add-certificate.php:17
 #: templates/admin-layout-add-certificate.php:17
 msgid "Add new Certificate"
 msgstr ""
@@ -423,39 +327,24 @@ msgstr ""
 #: inc/class-lp-certificate-order.php:223
 #: inc/class-lp-certificate-post-type.php:413
 #: inc/class-lp-certificate-post-type.php:415
-#: inc/class-lp-certificate-post-type.php:525
+#: inc/class-lp-certificate-post-type.php:527
 #: inc/class-lp-certificate-woo.php:218
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:102
 #: inc/TemplateHooks/SingleCourseCertificate.php:75
 #: inc/TemplateHooks/SingleCourseCertificate.php:115
-#: release/learnpress-certificates/inc/admin/views/edit-certificate.php:23
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:415
-#: release/learnpress-certificates/inc/class-lp-certificate-order.php:216
-#: release/learnpress-certificates/inc/class-lp-certificate-order.php:223
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:413
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:415
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:525
-#: release/learnpress-certificates/inc/class-lp-certificate-woo.php:218
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:102
-#: release/learnpress-certificates/inc/TemplateHooks/SingleCourseCertificate.php:75
-#: release/learnpress-certificates/inc/TemplateHooks/SingleCourseCertificate.php:115
-#: release/learnpress-certificates/templates/view-button.php:43
 #: templates/view-button.php:43
 msgid "Certificate"
 msgstr ""
 
 #: inc/admin/views/edit-certificate.php:46
-#: release/learnpress-certificates/inc/admin/views/edit-certificate.php:46
 msgid "Undo (Ctrl+Z)"
 msgstr ""
 
 #: inc/admin/views/edit-certificate.php:49
-#: release/learnpress-certificates/inc/admin/views/edit-certificate.php:49
 msgid "Redo (Ctrl+Y)"
 msgstr ""
 
 #: inc/admin/views/edit-certificate.php:52
-#: release/learnpress-certificates/inc/admin/views/edit-certificate.php:52
 msgid "Preview Certificate"
 msgstr ""
 
@@ -463,130 +352,99 @@ msgstr ""
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:124
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:170
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:171
-#: release/learnpress-certificates/inc/admin/views/edit-certificate.php:53
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:124
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:170
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:171
 msgid "Preview"
 msgstr ""
 
 #: inc/admin/views/edit-certificate.php:57
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:175
-#: release/learnpress-certificates/inc/admin/views/edit-certificate.php:57
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:175
 msgid "Fullscreen editor"
 msgstr ""
 
 #: inc/admin/views/editor-layer-options.php:19
-#: release/learnpress-certificates/inc/admin/views/editor-layer-options.php:19
 msgid "Delete layer"
 msgstr ""
 
 #: inc/admin/views/editor-layer-options.php:34
 #: inc/layers/class-lp-certificate-layer.php:117
-#: release/learnpress-certificates/inc/admin/views/editor-layer-options.php:34
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:117
 msgid "Center"
 msgstr ""
 
 #: inc/admin/views/editor-layer-options.php:35
-#: release/learnpress-certificates/inc/admin/views/editor-layer-options.php:35
 msgid "Center Horizontal"
 msgstr ""
 
 #: inc/admin/views/editor-layer-options.php:36
-#: release/learnpress-certificates/inc/admin/views/editor-layer-options.php:36
 msgid "Center Vertical"
 msgstr ""
 
 #: inc/admin/views/editor-no-template.php:2
-#: release/learnpress-certificates/inc/admin/views/editor-no-template.php:2
 msgid "No template selected."
 msgstr ""
 
 #: inc/admin/views/editor-no-template.php:3
-#: release/learnpress-certificates/inc/admin/views/editor-no-template.php:3
 msgid "Select Template"
 msgstr ""
 
 #: inc/admin/views/editor-no-template.php:4
-#: release/learnpress-certificates/inc/admin/views/editor-no-template.php:4
 msgid "to starts design your favorite certificate now"
 msgstr ""
 
 #: inc/admin/views/layer-options/font.php:21
 #: inc/TemplateHooks/AdminCertificateTemplate.php:889
-#: release/learnpress-certificates/inc/admin/views/layer-options/font.php:21
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:889
 msgid "System fonts"
 msgstr ""
 
 #: inc/admin/views/layer-options/font.php:28
 #: inc/TemplateHooks/AdminCertificateTemplate.php:899
-#: release/learnpress-certificates/inc/admin/views/layer-options/font.php:28
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:899
 msgid "Google fonts"
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:14
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:14
 msgid "Upgrade Database"
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:18
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:18
 msgid "ACCEPTANCE OF TERMS"
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:20
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:20
 msgid "We do not take responsibility for the loss data that is not from our LearnPress plugins. This means we cannot guarantee the safety of data unrelated to LearnPress during the database upgrade process."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:21
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:21
 msgid "It's essential to back up your entire website before upgrading."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:24
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:24
 msgid "We are not responsible for the issues caused by interrupting the upgrade process. Interrupting the process before finishing can lead to problems on your website. Please ensure that the LearnPress database is upgraded successfully."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:27
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:27
 msgid "A stable internet connection is essential for a successful upgrade since any Internet disconnection can lead to unexpected problems. We do not take responsibility for any issues caused by any disconnection."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:30
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:30
 msgid "RECOMMENDATIONS"
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:32
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:32
 msgid "Back up your website before upgrading. This will make sure you can restore your website in case any unexpected errors happen."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:35
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:35
 msgid "Maintain a stable Internet connection throughout the process. This will minimize the risk of breaking down your website."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:38
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:38
 msgid "Do not interrupt the process once it starts. You should let the process run for a successful database update."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:46
 #: inc/Upgrade/CertificateUpdater.php:155
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:46
-#: release/learnpress-certificates/inc/Upgrade/CertificateUpdater.php:155
 msgid "Upgrading..."
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:52
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:52
 msgid "I agree the new Terms of Service."
 msgstr ""
 
@@ -599,281 +457,224 @@ msgstr ""
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:235
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:244
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:252
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:57
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:432
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:621
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:122
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:200
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:145
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:235
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:244
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:252
 msgid "Cancel"
 msgstr ""
 
 #: inc/admin/views/upgrade/modal-upgrade.php:60
-#: release/learnpress-certificates/inc/admin/views/upgrade/modal-upgrade.php:60
 msgid "Upgrade"
 msgstr ""
 
 #: inc/admin/views/upgrade/notice-upgrade.php:12
-#: release/learnpress-certificates/inc/admin/views/upgrade/notice-upgrade.php:12
 msgid "LearnPress Certificates update - We need to update your database to the latest version."
 msgstr ""
 
 #: inc/admin/views/upgrade/notice-upgrade.php:14
-#: inc/class-lp-certificate-post-type.php:776
-#: release/learnpress-certificates/inc/admin/views/upgrade/notice-upgrade.php:14
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:776
+#: inc/class-lp-certificate-post-type.php:778
 msgid "Click to update"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:74
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:128
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:74
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:128
 msgid "Certificate title is required"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:78
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:78
 msgid "Certificate ID is required"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:83
 #: inc/Ajax/EditCertificateAjax.php:568
 #: inc/Ajax/EditCertificateAjax.php:626
-#: inc/Ajax/EditCertificateAjax.php:688
-#: inc/class-lp-certificate-ajax.php:205
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:83
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:568
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:626
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:688
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:205
+#: inc/Ajax/EditCertificateAjax.php:728
+#: inc/class-lp-certificate-ajax.php:250
 msgid "Certificate not found"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:119
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:119
 msgid "Certificate saved successfully"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:137
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:137
 msgid "Invalid request."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:145
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:145
 msgid "Share link is disabled globally."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:149
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:149
 msgid "Certificate key is required."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:154
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:154
 msgid "You must be logged in."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:159
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:59
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:159
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:59
 msgid "Certificate not found."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:163
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:163
 msgid "You are not allowed to change this certificate."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:170
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:170
 msgid "Certificate is now public."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:171
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:171
 msgid "Certificate is now private."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:429
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:119
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:429
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:119
 msgid "Remove assigned certificate?"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:430
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:120
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:430
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:120
 msgid "Removing this certificate will also turn off the course detail showcase section."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:431
 #: inc/Ajax/EditCertificateAjax.php:433
-#: inc/class-lp-certificate-post-type.php:705
-#: inc/class-lp-certificate-post-type.php:732
+#: inc/class-lp-certificate-post-type.php:707
+#: inc/class-lp-certificate-post-type.php:734
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:121
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:123
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:299
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:308
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:431
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:433
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:705
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:732
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:121
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:123
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:299
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:308
 msgid "Remove"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:436
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:126
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:436
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:126
 msgid "Assign"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:439
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:129
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:228
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:439
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:129
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:228
 msgid "Edit"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:475
 #: inc/Ajax/EditCertificateAjax.php:528
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:475
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:528
 msgid "Invalid course."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:487
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:487
 msgid "Cannot enable certificate showcase: this course has no assigned certificate."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:491
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:491
 msgid "Title is required when certificate showcase is enabled."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:502
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:502
 msgid "Saved successfully."
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:535
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:535
 msgid "Assign certificate successfully"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:539
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:539
 msgid "Remove certificate from course successfully"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:562
-#: inc/class-lp-certificate-ajax.php:198
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:562
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:198
+#: inc/class-lp-certificate-ajax.php:243
 msgid "Invalid certificate ID"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:600
-#: inc/class-lp-certificate-ajax.php:223
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:600
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:223
+#: inc/class-lp-certificate-ajax.php:268
 msgid "Certificate saved as draft"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:630
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:630
 msgid "You are not allowed to perform this action"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:636
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:636
 msgid "Cannot move this certificate to trash"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:638
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:638
 msgid "Certificate moved to trash"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:642
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:642
 msgid "Cannot delete this certificate"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:644
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:644
 msgid "Certificate deleted permanently"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:653
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:653
 msgid "Cannot publish this certificate"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:655
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:655
 msgid "Certificate published"
 msgstr ""
 
 #: inc/Ajax/EditCertificateAjax.php:657
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:657
 msgid "Invalid status"
 msgstr ""
 
-#: inc/Ajax/EditCertificateAjax.php:701
-#: release/learnpress-certificates/inc/Ajax/EditCertificateAjax.php:701
+#: inc/Ajax/EditCertificateAjax.php:676
+msgid "Permission denied"
+msgstr ""
+
+#: inc/Ajax/EditCertificateAjax.php:741
 msgid "Certificate duplicated successfully"
 msgstr ""
 
-#: inc/class-lp-certificate-ajax.php:129
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:129
+#: inc/class-lp-certificate-ajax.php:136
 msgid "error"
 msgstr ""
 
-#: inc/class-lp-certificate-ajax.php:133
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:133
+#: inc/class-lp-certificate-ajax.php:140
 msgid "Params invalid"
 msgstr ""
 
-#: inc/class-lp-certificate-ajax.php:158
+#: inc/class-lp-certificate-ajax.php:165
 #: inc/functions.php:242
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:158
-#: release/learnpress-certificates/inc/functions.php:242
 msgid "View cart certificate"
 msgstr ""
 
-#: inc/class-lp-certificate-ajax.php:167
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:167
+#: inc/class-lp-certificate-ajax.php:174
 msgid "You cannot add this certificate to your cart. Maybe certificate exists"
 msgstr ""
 
-#: inc/class-lp-certificate-ajax.php:178
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:178
-msgid "Error saving certificate"
+#: inc/class-lp-certificate-ajax.php:183
+msgid "Insufficient permissions"
 msgstr ""
 
-#: inc/class-lp-certificate-ajax.php:184
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:184
+#: inc/class-lp-certificate-ajax.php:188
+#: inc/class-lp-certificate-ajax.php:229
 msgid "Security check failed"
 msgstr ""
 
-#: inc/class-lp-certificate-ajax.php:189
-#: release/learnpress-certificates/inc/class-lp-certificate-ajax.php:189
+#: inc/class-lp-certificate-ajax.php:196
+msgid "No certificate images directory found."
+msgstr ""
+
+#. translators: %d: number of deleted files
+#: inc/class-lp-certificate-ajax.php:214
+#, php-format
+msgid "Deleted %d certificate image(s). Students will regenerate them on next visit."
+msgstr ""
+
+#: inc/class-lp-certificate-ajax.php:223
+msgid "Error saving certificate"
+msgstr ""
+
+#: inc/class-lp-certificate-ajax.php:234
 msgid "You do not have permission to do this"
 msgstr ""
 
@@ -882,12 +683,6 @@ msgstr ""
 #: inc/class-lp-certificate-order.php:250
 #: inc/class-lp-certificate-post-type.php:264
 #: inc/class-lp-certificate-woo.php:68
-#: release/learnpress-certificates/inc/class-lp-certificate-order.php:88
-#: release/learnpress-certificates/inc/class-lp-certificate-order.php:243
-#: release/learnpress-certificates/inc/class-lp-certificate-order.php:250
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:264
-#: release/learnpress-certificates/inc/class-lp-certificate-woo.php:68
-#: release/learnpress-certificates/templates/order/order-item.php:32
 #: templates/order/order-item.php:32
 msgid "Certificate:"
 msgstr ""
@@ -896,10 +691,6 @@ msgstr ""
 #: inc/class-lp-certificate-order.php:250
 #: inc/class-lp-certificate-post-type.php:266
 #: inc/class-lp-certificate-woo.php:68
-#: release/learnpress-certificates/inc/class-lp-certificate-order.php:243
-#: release/learnpress-certificates/inc/class-lp-certificate-order.php:250
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:266
-#: release/learnpress-certificates/inc/class-lp-certificate-woo.php:68
 msgid "Course:"
 msgstr ""
 
@@ -907,619 +698,493 @@ msgstr ""
 #: inc/class-lp-certificate-post-type.php:414
 #: inc/class-lp-certificate-post-type.php:418
 #: inc/class-lp-certificate-settings.php:9
-#: inc/load.php:253
-#: inc/load.php:277
+#: inc/load.php:265
+#: inc/load.php:289
 #: inc/TemplateHooks/CourseBuilder/CBCertificateTemplate.php:71
 #: inc/TemplateHooks/CourseBuilder/CBCertificateTemplate.php:83
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:43
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:71
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:414
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:418
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:9
-#: release/learnpress-certificates/inc/load.php:253
-#: release/learnpress-certificates/inc/load.php:277
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBCertificateTemplate.php:71
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBCertificateTemplate.php:83
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:43
 msgid "Certificates"
 msgstr ""
 
 #: inc/class-lp-certificate-post-type.php:351
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:351
 msgid "Updated success"
 msgstr ""
 
 #: inc/class-lp-certificate-post-type.php:416
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:94
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:416
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:94
 msgid "Add New Certificate"
 msgstr ""
 
 #: inc/class-lp-certificate-post-type.php:417
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:417
 msgid "Edit Certificate"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:505
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:505
+#: inc/class-lp-certificate-post-type.php:507
 msgid "Export"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:522
+#: inc/class-lp-certificate-post-type.php:524
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:158
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:522
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:158
 msgid "Courses"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:571
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:571
+#: inc/class-lp-certificate-post-type.php:573
 msgid "-"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:620
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:620
+#: inc/class-lp-certificate-post-type.php:622
 msgid "Unassigned"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:643
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:643
+#: inc/class-lp-certificate-post-type.php:645
 msgid "Certificate Price"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:652
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:652
+#: inc/class-lp-certificate-post-type.php:654
 msgid "Certificate Thumbnail"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:678
+#: inc/class-lp-certificate-post-type.php:680
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:288
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:678
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:288
 msgid "Set 0 for free certificate."
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:701
-#: inc/class-lp-certificate-post-type.php:730
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:701
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:730
+#: inc/class-lp-certificate-post-type.php:703
+#: inc/class-lp-certificate-post-type.php:732
 msgid "Change Thumbnail"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:701
-#: inc/class-lp-certificate-post-type.php:741
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:701
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:741
+#: inc/class-lp-certificate-post-type.php:703
+#: inc/class-lp-certificate-post-type.php:743
 msgid "Set Thumbnail"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:709
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:709
+#: inc/class-lp-certificate-post-type.php:711
 msgid "Certificate preview thumbnail image."
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:722
+#: inc/class-lp-certificate-post-type.php:724
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:298
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:722
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:298
 msgid "Select Thumbnail"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:723
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:723
+#: inc/class-lp-certificate-post-type.php:725
 msgid "Use as Thumbnail"
 msgstr ""
 
-#: inc/class-lp-certificate-post-type.php:773
-#: release/learnpress-certificates/inc/class-lp-certificate-post-type.php:773
+#: inc/class-lp-certificate-post-type.php:775
 #, php-format
 msgid "You need to update database to use this feature. %s"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:26
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:26
 msgid "Google Fonts"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:27
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:27
 msgid "Font families separated by |, eg: Open Sans|Roboto."
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:31
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:31
 msgid "Font family"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:38
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:38
 msgid "Font subsets separated by comma, eg: greek,latin."
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:42
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:42
 msgid "Subset"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:48
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:48
 msgid "Download certificate types"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:52
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:52
 msgid "Image"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:58
 #: inc/class-lp-certificate-settings.php:59
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:58
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:59
 msgid "Show certificate popup"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:65
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:65
 msgid "Slug show link certificate of user"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:71
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:71
 msgid "Social Sharing"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:76
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:76
 msgid "Twitter"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:83
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:83
 msgid "Facebook"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:90
 #: inc/functions.php:186
 #: inc/functions.php:190
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:90
-#: release/learnpress-certificates/inc/functions.php:186
-#: release/learnpress-certificates/inc/functions.php:190
 msgid "Share Link"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:93
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:93
 msgid "Certificate per page"
 msgstr ""
 
 #: inc/class-lp-certificate-settings.php:100
-#: release/learnpress-certificates/inc/class-lp-certificate-settings.php:100
 msgid "The total number of displayed certificates per page. If set 0 then show all."
 msgstr ""
 
+#: inc/class-lp-certificate-settings.php:103
+msgid "Cache maintenance"
+msgstr ""
+
+#: inc/class-lp-certificate-settings.php:106
+#: inc/load.php:628
+msgid "Remove All Certificate Images"
+msgstr ""
+
 #: inc/class-lp-certificate.php:460
-#: release/learnpress-certificates/inc/class-lp-certificate.php:460
 msgid "Certificate not available"
 msgstr ""
 
 #: inc/class-lp-certificate.php:465
-#: release/learnpress-certificates/inc/class-lp-certificate.php:465
 msgid "Certificate is free. So you do not need to buy"
 msgstr ""
 
 #: inc/class-lp-certificate.php:477
-#: release/learnpress-certificates/inc/class-lp-certificate.php:477
 msgid "You still didn't passed course"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:286
-#: inc/load.php:871
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:286
-#: release/learnpress-certificates/inc/load.php:871
+#: inc/class-lp-user-certificate.php:331
+#: inc/load.php:913
 msgid "Student name"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:287
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:287
+#: inc/class-lp-user-certificate.php:332
 msgid "Course title"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:288
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:288
+#: inc/class-lp-user-certificate.php:333
 msgid "Instructor name"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:289
-#: inc/load.php:886
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:289
-#: release/learnpress-certificates/inc/load.php:886
+#: inc/class-lp-user-certificate.php:334
+#: inc/load.php:928
 msgid "Current time"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:290
-#: inc/load.php:876
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:290
-#: release/learnpress-certificates/inc/load.php:876
+#: inc/class-lp-user-certificate.php:335
+#: inc/load.php:918
 msgid "Course start date"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:291
-#: inc/load.php:881
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:291
-#: release/learnpress-certificates/inc/load.php:881
+#: inc/class-lp-user-certificate.php:336
+#: inc/load.php:923
 msgid "Course end date"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:292
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:292
+#: inc/class-lp-user-certificate.php:337
 msgid "Course description"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:293
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:293
+#: inc/class-lp-user-certificate.php:338
 msgid "Short description"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:294
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:294
+#: inc/class-lp-user-certificate.php:339
 msgid "Course price"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:295
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:295
+#: inc/class-lp-user-certificate.php:340
 msgid "Student count"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:296
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:296
+#: inc/class-lp-user-certificate.php:341
 msgid "Course level"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:297
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:297
+#: inc/class-lp-user-certificate.php:342
 msgid "Course duration"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:298
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:298
+#: inc/class-lp-user-certificate.php:343
 msgid "Max students"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:299
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:299
+#: inc/class-lp-user-certificate.php:344
 msgid "Lesson count"
 msgstr ""
 
-#: inc/class-lp-user-certificate.php:300
-#: release/learnpress-certificates/inc/class-lp-user-certificate.php:300
+#: inc/class-lp-user-certificate.php:345
 msgid "Quiz count"
 msgstr ""
 
 #: inc/functions.php:147
-#: release/learnpress-certificates/inc/functions.php:147
 msgid "Share Facebook"
 msgstr ""
 
 #: inc/functions.php:166
-#: release/learnpress-certificates/inc/functions.php:166
 msgid "Share X"
 msgstr ""
 
 #: inc/functions.php:193
-#: release/learnpress-certificates/inc/functions.php:193
 msgid "Copied!"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:51
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:51
 msgid "Font"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:67
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:67
 msgid "Font size"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:75
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:75
 msgid "Font style"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:78
 #: inc/layers/class-lp-certificate-layer.php:89
 #: inc/layers/class-lp-certificate-layer.php:99
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:78
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:89
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:99
 msgid "Normal"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:79
 #: inc/TemplateHooks/AdminCertificateTemplate.php:950
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:79
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:950
 msgid "Italic"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:80
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:80
 msgid "Oblique"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:86
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:86
 msgid "Font weight"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:90
 #: inc/TemplateHooks/AdminCertificateTemplate.php:949
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:90
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:949
 msgid "Bold"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:96
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:96
 msgid "Text decoration"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:100
 #: inc/TemplateHooks/AdminCertificateTemplate.php:951
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:100
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:951
 msgid "Underline"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:101
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:101
 msgid "Overline"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:102
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:102
 msgid "Line-through"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:108
 #: inc/TemplateHooks/AdminCertificateTemplate.php:816
 #: inc/TemplateHooks/AdminCertificateTemplate.php:845
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:108
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:816
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:845
 msgid "Color"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:114
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:114
 msgid "Text align"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:116
 #: inc/layers/class-lp-certificate-layer.php:142
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:116
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:142
 msgid "Left"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:118
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:118
 msgid "Right"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:125
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:125
 msgid "Text vertical align"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:127
 #: inc/layers/class-lp-certificate-layer.php:136
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:127
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:136
 msgid "Top"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:128
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:128
 msgid "Middle"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:129
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:129
 msgid "Bottom"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:148
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:148
 msgid "Angle"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:156
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:156
 msgid "Scale X"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:165
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:165
 msgid "Scale Y"
 msgstr ""
 
 #: inc/layers/class-lp-certificate-layer.php:180
-#: release/learnpress-certificates/inc/layers/class-lp-certificate-layer.php:180
 msgid "Custom Text"
 msgstr ""
 
 #: inc/layers/class-lp-verified-link-layer.php:43
-#: release/learnpress-certificates/inc/layers/class-lp-verified-link-layer.php:43
 msgid "QR Size"
 msgstr ""
 
 #: inc/layers/_datetime.php:24
-#: release/learnpress-certificates/inc/layers/_datetime.php:24
 msgid "Format"
 msgstr ""
 
-#: inc/load.php:540
+#: inc/load.php:556
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:208
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:264
-#: release/learnpress-certificates/inc/load.php:540
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:208
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:264
-#: release/learnpress-certificates/templates/profile/item-certificate.php:77
 #: templates/profile/item-certificate.php:77
 msgid "Public"
 msgstr ""
 
-#: inc/load.php:541
+#: inc/load.php:557
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:72
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:209
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:266
-#: release/learnpress-certificates/inc/load.php:541
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:72
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:209
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:266
-#: release/learnpress-certificates/templates/profile/item-certificate.php:77
 #: templates/profile/item-certificate.php:77
 msgid "Private"
 msgstr ""
 
-#: inc/load.php:542
-#: release/learnpress-certificates/inc/load.php:542
+#: inc/load.php:558
 msgid "Something went wrong."
 msgstr ""
 
-#: inc/load.php:619
-#: release/learnpress-certificates/inc/load.php:619
+#: inc/load.php:629
+msgid "Deleting…"
+msgstr ""
+
+#: inc/load.php:630
+msgid "Delete all cached certificate images? Students will regenerate them on their next certificate visit."
+msgstr ""
+
+#: inc/load.php:631
+msgid "Error deleting certificate images."
+msgstr ""
+
+#: inc/load.php:653
 msgid "Loading"
 msgstr ""
 
-#: inc/load.php:866
-#: release/learnpress-certificates/inc/load.php:866
+#: inc/load.php:908
 msgid "Course name"
 msgstr ""
 
-#: inc/load.php:891
-#: release/learnpress-certificates/inc/load.php:891
+#: inc/load.php:933
 msgid "QR code"
 msgstr ""
 
-#: inc/load.php:896
-#: release/learnpress-certificates/inc/load.php:896
+#: inc/load.php:938
 msgid "Custom"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-admin-certificate-controller.php:75
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-admin-certificate-controller.php:75
 msgid "Course ID is required"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-admin-certificate-controller.php:79
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-admin-certificate-controller.php:79
 msgid "Course ID is invalid"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-admin-certificate-controller.php:91
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-admin-certificate-controller.php:91
 msgid "Certificate assigned successfully"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-admin-certificate-controller.php:91
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-admin-certificate-controller.php:91
 msgid "Certificate removed successfully"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-admin-certificate-controller.php:111
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-admin-certificate-controller.php:111
 msgid "No certificate available"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-admin-certificate-controller.php:116
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-admin-certificate-controller.php:116
 msgid "No user available"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:74
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:74
 msgid "Invalid params!"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:79
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:79
 msgid "No Course available."
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:84
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:84
 msgid "It's not type Certificate"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:108
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:108
 msgid "Please setup lp page checkout"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:113
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:113
 msgid "Error: Can't add Certificate to cart."
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:118
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:118
 #, php-format
 msgid "\"%s\" has been added to your cart. Redirecting..."
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:138
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:138
 msgid "User invalid!"
 msgstr ""
 
 #: inc/rest-api/class-lp-rest-certificate-controller.php:147
-#: release/learnpress-certificates/inc/rest-api/class-lp-rest-certificate-controller.php:147
 msgid "No Certificate available."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:260
 #: inc/TemplateHooks/AdminCertificateTemplate.php:342
 #: inc/TemplateHooks/AdminCertificateTemplate.php:540
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:260
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:342
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:540
 msgid "No images found"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:277
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:277
 msgid "Upload"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:297
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:297
 msgid "Shapes"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:329
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:329
 msgid "System Images"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:332
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:332
 msgid "View all"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:359
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:359
 msgid "Images"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:499
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:499
 msgid "General"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:533
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:533
 msgid "Media"
 msgstr ""
 
@@ -1529,46 +1194,32 @@ msgstr ""
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:232
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:241
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:249
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:618
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:197
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:142
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:232
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:241
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:249
 msgid "Are you sure?"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:619
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:619
 msgid "Applying this template will delete all current content on the Canvas."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:620
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:620
 msgid "Yes, apply it"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:683
 #: inc/TemplateHooks/AdminCertificateTemplate.php:688
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:683
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:688
 msgid "Flip"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:693
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:693
 msgid "Flip Vertical"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:697
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:697
 msgid "Flip Horizontal"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:705
 #: inc/TemplateHooks/AdminCertificateTemplate.php:710
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:705
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:710
 msgid "Round Corners"
 msgstr ""
 
@@ -1576,44 +1227,32 @@ msgstr ""
 #: inc/TemplateHooks/AdminCertificateTemplate.php:728
 #: inc/TemplateHooks/AdminCertificateTemplate.php:856
 #: inc/TemplateHooks/AdminCertificateTemplate.php:861
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:723
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:728
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:856
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:861
 msgid "Opacity"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:740
 #: inc/TemplateHooks/AdminCertificateTemplate.php:741
 #: inc/TemplateHooks/AdminCertificateTemplate.php:745
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:740
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:741
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:745
 msgid "Resize Image"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:749
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:749
 msgid "Fit Canvas"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:752
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:752
 msgid "Mini"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:755
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:755
 msgid "1:1 Original"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:761
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:761
 msgid "Set as Background"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:762
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:762
 msgid "Set as BG"
 msgstr ""
 
@@ -1622,138 +1261,104 @@ msgstr ""
 #: inc/TemplateHooks/AdminCertificateTemplate.php:873
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1001
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1002
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:765
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:766
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:873
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1001
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1002
 msgid "Position"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:797
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:797
 msgid "Transparent"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:806
 #: inc/TemplateHooks/AdminCertificateTemplate.php:811
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:806
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:811
 msgid "Fill Color"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:821
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:821
 msgid "Custom Color"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:832
 #: inc/TemplateHooks/AdminCertificateTemplate.php:837
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:832
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:837
 msgid "Stroke"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:841
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:841
 msgid "Weight"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:920
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:920
 msgid "Font Family"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:924
 #: inc/TemplateHooks/AdminCertificateTemplate.php:929
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:924
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:929
 msgid "Font Size"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:925
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:925
 msgid "Decrease Font Size"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:931
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:931
 msgid "Increase Font Size"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:935
 #: inc/TemplateHooks/AdminCertificateTemplate.php:940
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:935
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:940
 msgid "Text Color"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:952
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:952
 msgid "Strikethrough"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:956
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:956
 msgid "Align Left"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:957
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:957
 msgid "Align Right"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:958
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:958
 msgid "Align Center"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:962
 #: inc/TemplateHooks/AdminCertificateTemplate.php:966
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:962
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:966
 msgid "Advanced Settings"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:968
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:968
 msgid "Letter Spacing"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:970
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:970
 msgid "Decrease Spacing"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:972
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:972
 msgid "Increase Spacing"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:976
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:976
 msgid "Line height"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:978
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:978
 msgid "Decrease Line Height"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:980
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:980
 msgid "Increase Line Height"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:987
 #: inc/TemplateHooks/AdminCertificateTemplate.php:991
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:987
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:991
 msgid "Text Wrap"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:996
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:996
 msgid "Textbox width"
 msgstr ""
 
@@ -1761,92 +1366,71 @@ msgstr ""
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1017
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1022
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1073
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1016
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1017
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1022
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1073
 msgid "Resize"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1027
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1027
 msgid "W"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1030
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1030
 msgid "Width"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1035
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1035
 msgid "H"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1038
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1038
 msgid "Height"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1046
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1046
 msgid "A4 (Portrait)"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1053
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1053
 msgid "A4 (Landscape)"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1060
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1060
 msgid "US Letter (Portrait)"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1067
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1067
 msgid "US Letter (Landscape)"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1083
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1083
 msgid "Background opacity"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1084
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1089
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1084
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1089
 msgid "Background Opacity"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1097
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1097
 msgid "Opacity only works with background images. Please add a background image first."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCertificateTemplate.php:1104
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCertificateTemplate.php:1104
 msgid "Layer"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:179
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:179
 msgid "Allow showcase certificate on course detail page"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:182
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:182
 msgid "Students can see what certificate they receive upon course completion."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:188
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:188
 msgid "Certificate image"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:198
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:198
 msgid "This image will be removed."
 msgstr ""
 
@@ -1855,11 +1439,6 @@ msgstr ""
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:234
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:243
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:251
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:199
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:144
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:234
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:243
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:251
 msgid "Yes"
 msgstr ""
 
@@ -1867,10 +1446,6 @@ msgstr ""
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:217
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:300
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:315
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:201
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:217
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:300
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:315
 msgid "Click to upload"
 msgstr ""
 
@@ -1878,10 +1453,6 @@ msgstr ""
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:218
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:301
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:315
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:202
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:218
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:301
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:315
 msgid "or drag and drop"
 msgstr ""
 
@@ -1889,352 +1460,268 @@ msgstr ""
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:221
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:302
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:316
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:203
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:221
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:302
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:316
 msgid "JPG, JPEG, PNG less than 1MB"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:204
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:204
 msgid "Select Image"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:205
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:205
 msgid "Use this image"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:206
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:210
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:206
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:210
 msgid "Remove image"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:232
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:232
 msgid "Title"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:239
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:239
 msgid "Earn a Certificate & Showcase Your Skills"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:241
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:241
 msgid "Title for preview certificate."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:248
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:248
 msgid "Description"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:253
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:253
 msgid "Complete this course and earn a verified certificate to showcase your new skills. Share it on LinkedIn, add it to your resume, or download it for your records."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:255
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:255
 msgid "Description for preview certificate."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:266
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:127
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:266
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:127
 msgid "Saving..."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:267
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:267
 msgid "Title is required"
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:268
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:268
 msgid "Certificate settings have been saved successfully."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:269
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:269
 msgid "Error saving certificate settings."
 msgstr ""
 
 #: inc/TemplateHooks/AdminCourseCertificatesNew.php:270
-#: release/learnpress-certificates/inc/TemplateHooks/AdminCourseCertificatesNew.php:270
 msgid "Save"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBCertificateTemplate.php:175
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBCertificateTemplate.php:175
 msgid "Certificate new"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:68
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:103
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:253
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:68
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:103
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:253
 msgid "Draft"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:69
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:104
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:254
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:69
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:104
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:254
 msgid "Pending Review"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:70
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:102
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:250
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:70
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:102
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:250
 msgid "Published"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:71
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:105
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:249
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:71
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:105
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:249
 msgid "Scheduled"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:90
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:106
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:245
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:90
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:106
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:245
 msgid "Privately Published"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:96
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:96
 msgid "Error"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:97
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:97
 msgid "Request failed"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:100
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:158
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:157
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:100
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:158
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:157
 msgid "Certificate Title"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:111
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:164
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:111
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:164
 msgid "Undo"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:114
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:167
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:114
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:167
 msgid "Redo"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:117
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:117
 msgid "Fullscreen"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:130
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:130
 msgid "Update"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:133
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:133
 msgid "More"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:141
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:141
 msgid "Are you sure you want to move this certificate to trash?"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:143
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:143
 msgid "This certificate will be moved to trash."
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:146
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:146
 msgid "Move to trash"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:156
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:156
 msgid "Certificate title"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:210
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:265
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:210
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:265
 msgid "Password protected"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:227
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:238
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:227
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:238
 msgid "Publish"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:232
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:160
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:232
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:160
 msgid "Status"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:261
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:261
 msgid "Visibility"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:270
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:270
 msgid "Password"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:294
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBEditCertificateTemplate.php:294
 msgid "Thumbnail"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:73
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:73
 msgid "Search"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:145
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:145
 msgid "No certificates found"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:159
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:159
 msgid "Create Date"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:161
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:161
 msgid "Actions"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:233
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:233
 msgid "Are you sure you want to duplicate this certificate?"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:236
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:236
 msgid "Duplicate"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:242
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:242
 msgid "Move this certificate to trash?"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:245
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:245
 msgid "Trash"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:250
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:250
 msgid "Are you sure you want to delete this certificate? This action cannot be undone."
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:253
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:253
 msgid "Delete"
 msgstr ""
 
 #: inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:291
-#: release/learnpress-certificates/inc/TemplateHooks/CourseBuilder/CBListCertificatesTemplate.php:291
 msgid "--"
 msgstr ""
 
 #: inc/TemplateHooks/CourseCertificateBadge.php:123
-#: release/learnpress-certificates/inc/TemplateHooks/CourseCertificateBadge.php:123
 msgid "Certificate on completion"
 msgstr ""
 
 #: inc/TemplateHooks/SingleCourseCertificate.php:98
-#: release/learnpress-certificates/inc/TemplateHooks/SingleCourseCertificate.php:98
 msgid "Showcase Your Certificate"
 msgstr ""
 
 #: inc/Upgrade/CertificateUpdater.php:156
-#: release/learnpress-certificates/inc/Upgrade/CertificateUpdater.php:156
 msgid "Success!"
 msgstr ""
 
 #: inc/Upgrade/CertificateUpdater.php:157
-#: release/learnpress-certificates/inc/Upgrade/CertificateUpdater.php:157
 msgid "Error!"
 msgstr ""
 
 #: inc/Upgrade/CertificateUpdater.php:158
-#: release/learnpress-certificates/inc/Upgrade/CertificateUpdater.php:158
 msgid "An unexpected error occurred."
 msgstr ""
 
-#: release/learnpress-certificates/templates/admin-button-loadmore-certificates.php:16
 #: templates/admin-button-loadmore-certificates.php:16
 msgid "Load More"
 msgstr ""
 
-#: release/learnpress-certificates/templates/button-purchase-certificate.php:36
 #: templates/button-purchase-certificate.php:36
 msgid "Buy this certificate"
 msgstr ""
 
-#: release/learnpress-certificates/templates/button-woo-certificate-add-to-cart.php:28
 #: templates/button-woo-certificate-add-to-cart.php:28
 msgid "Add certificate to cart"
 msgstr ""
 
-#: release/learnpress-certificates/templates/details.php:26
 #: templates/details.php:26
 msgid "You can't get this certificate"
 msgstr ""
 
-#: release/learnpress-certificates/templates/permission-denied.php:5
 #: templates/permission-denied.php:5
 msgid "You do not have permission to preview this certificate."
 msgstr ""
 
-#: release/learnpress-certificates/templates/permission-denied.php:6
 #: templates/permission-denied.php:6
 msgid "This certificate is not shared publicly. Only the owner, the course instructor, and site administrators can view it."
 msgstr ""
 
-#: release/learnpress-certificates/templates/profile/list-certificates.php:61
 #: templates/profile/list-certificates.php:61
 #, php-format
 msgid "In order to get the certificate of the %s course, please pay first!"

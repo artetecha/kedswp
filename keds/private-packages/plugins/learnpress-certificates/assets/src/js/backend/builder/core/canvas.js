@@ -12,7 +12,7 @@ import {
 } from 'AssetsJsPath/backend/builder/toolbar';
 import { highlightSelectedLayer, clearHighlight, scrollToSelectedLayer } from 'AssetsJsPath/backend/builder/layers/panel';
 import { isLayersMenuActive } from 'AssetsJsPath/backend/builder/menu';
-import { autoResizeCanvasToFit } from 'AssetsJsPath/backend/builder/utils';
+import { autoResizeCanvasToFit, checkLocalImageMissing } from 'AssetsJsPath/backend/builder/utils';
 import { initPlaceholderAutocomplete } from 'AssetsJsPath/backend/builder/core/placeholder-autocomplete';
 
 export function setControls( obj ) {
@@ -100,8 +100,20 @@ export class CanvasManager {
 				stopContextMenu: true,
 			} );
 
+			let bgMissing = false;
 			if ( isBackgroundImage ) {
-				await this.loadBackgroundImage( backgroundValue );
+				const bgLoaded = await this.loadBackgroundImage( backgroundValue );
+				if ( ! bgLoaded ) {
+					const missing = await checkLocalImageMissing( backgroundValue );
+					if ( missing ) {
+						canvasData.background = canvasData.no_image_url || '';
+						window.lpCertCanvasData = canvasData;
+						if ( canvasData.no_image_url ) {
+							await this.loadBackgroundImage( canvasData.no_image_url );
+						}
+						bgMissing = true;
+					}
+				}
 			}
 
 			InteractiveFabricObject.ownDefaults = {
@@ -119,7 +131,11 @@ export class CanvasManager {
 
 			this.canvas.renderAll();
 
-			await layerManager.loadLayers();
+			const brokenImageCount = await layerManager.loadLayers();
+
+			if ( bgMissing || brokenImageCount > 0 ) {
+				layerManager.saveCanvasLayers( false, 0, true );
+			}
 
 			this.setupCanvasEvents( layerManager, contextMenu );
 
@@ -304,37 +320,37 @@ export class CanvasManager {
 
 	async loadBackgroundImage( imageUrl ) {
 		if ( ! this.canvas || ! imageUrl ) {
-			return;
+			return false;
 		}
+
+		const applyBg = ( img ) => {
+			const w = this.canvas.getWidth();
+			const h = this.canvas.getHeight();
+			const scale = Math.max( w / img.width, h / img.height );
+			img.set( {
+				scaleX: scale,
+				scaleY: scale,
+				originX: 'center',
+				originY: 'center',
+				left: w / 2,
+				top: h / 2,
+				selectable: false,
+				evented: false,
+			} );
+			this.canvas.backgroundImage = img;
+			this.canvas.renderAll();
+		};
 
 		try {
 			const img = await FabricImage.fromURL( imageUrl, { crossOrigin: 'anonymous' } );
-			if ( img ) {
-				const canvasWidth = this.canvas.getWidth();
-				const canvasHeight = this.canvas.getHeight();
-				const imgWidth = img.width;
-				const imgHeight = img.height;
-
-				const scaleX = canvasWidth / imgWidth;
-				const scaleY = canvasHeight / imgHeight;
-				const scale = Math.max( scaleX, scaleY );
-
-				img.set( {
-					scaleX: scale,
-					scaleY: scale,
-					originX: 'center',
-					originY: 'center',
-					left: canvasWidth / 2,
-					top: canvasHeight / 2,
-					selectable: false,
-					evented: false,
-				} );
-
-				this.canvas.backgroundImage = img;
-				this.canvas.renderAll();
+			if ( img && img.width && img.height ) {
+				applyBg( img );
+				return true;
 			}
+			throw new Error( 'empty dimensions' );
 		} catch ( error ) {
-			console.error( 'Error loading background image:', error );
+			console.warn( 'Background image failed to load:', imageUrl );
+			return false;
 		}
 	}
 
