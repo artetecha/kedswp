@@ -92,18 +92,27 @@ case "${DUMP}" in
 	*) "${WP[@]}" db import "${DUMP}" ;;
 esac
 
+# The object cache still holds rows from the replaced database — including
+# alloptions that `wp db clean` re-cached when it bootstrapped WordPress
+# against the pre-drop tables. Flushing must happen BEFORE the plugin-list
+# restore: update_option() compares the new value against the *cached* old
+# value and skips the DB write when they match, so restoring over a stale
+# cache silently no-ops (observed live on pr-34). Failure here must fail
+# the deploy — a stale cache over a new database serves wrong data.
+echo "Flushing the object cache after import."
+"${WP[@]}" cache flush
+
 if [ -n "${ACTIVE_PLUGINS}" ]; then
 	echo "Restoring the pre-import active plugin list."
 	"${WP[@]}" option update active_plugins "${ACTIVE_PLUGINS}" --format=json
+	RESTORED="$("${WP[@]}" option get active_plugins --format=json)"
+	if [ "${RESTORED}" != "${ACTIVE_PLUGINS}" ]; then
+		echo "ERROR: active_plugins restore did not stick; imported value still in place." >&2
+		exit 1
+	fi
 else
 	echo "No pre-import active plugin list captured; keeping the imported one."
 fi
-
-# The object cache still holds rows from the replaced database; flushing is
-# not optional. Failure here must fail the deploy — a stale cache over a new
-# database serves wrong data.
-echo "Flushing the object cache after import."
-"${WP[@]}" cache flush
 
 mv "${DUMP}" "${DUMP}.imported-${STAMP}"
 echo "=== Database import complete; staged dump renamed to $(basename "${DUMP}").imported-${STAMP} ==="
