@@ -65,6 +65,13 @@ echo "=== Database import: $(basename "${DUMP}") ==="
 echo "Flushing the object cache before import."
 "${WP[@]}" cache flush
 
+# The active plugin list is code state, not content: it must match what this
+# build installs, not what ran on the content source (whose list references
+# plugins that don't exist here and lacks e.g. redis-cache). It is a single
+# option row, not a table, so it cannot be excluded from the dump — snapshot
+# it now and restore it after the import. Empty on a first-ever import.
+ACTIVE_PLUGINS="$("${WP[@]}" option get active_plugins --format=json 2>/dev/null || true)"
+
 # Safety net in addition to any external backup: keep a dump of the database
 # as it was just before the import. backups/ is outside the *.sql glob above,
 # so it can never be mistaken for a staged dump on a later deploy.
@@ -83,6 +90,13 @@ case "${DUMP}" in
 	*.gz) gunzip -c "${DUMP}" | "${WP[@]}" db import - ;;
 	*) "${WP[@]}" db import "${DUMP}" ;;
 esac
+
+if [ -n "${ACTIVE_PLUGINS}" ]; then
+	echo "Restoring the pre-import active plugin list."
+	"${WP[@]}" option update active_plugins "${ACTIVE_PLUGINS}" --format=json
+else
+	echo "No pre-import active plugin list captured; keeping the imported one."
+fi
 
 # The object cache still holds rows from the replaced database; flushing is
 # not optional. Failure here must fail the deploy — a stale cache over a new
