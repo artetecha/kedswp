@@ -50,7 +50,20 @@ fi
 DUMP="${DUMPS[0]}"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 
+# Plugin code must never be able to abort the destructive window below: a
+# plugin fatal during wp-cli's WordPress bootstrap (seen with the LearnPress
+# course-review add-on on the first bootstrap after a new build) would fail
+# the deploy mid-import. None of these steps need plugins or themes loaded;
+# the object-cache drop-in still loads, so `cache flush` works.
+WP=(wp --path="${WP_DIR}" --skip-plugins --skip-themes)
+
 echo "=== Database import: $(basename "${DUMP}") ==="
+
+# Flush before touching anything: the Redis cache survives deploys, and stale
+# entries from the previous image can poison WordPress bootstraps during the
+# rest of the deploy hook (update-db, migrations).
+echo "Flushing the object cache before import."
+"${WP[@]}" cache flush
 
 # Safety net in addition to any external backup: keep a dump of the database
 # as it was just before the import. backups/ is outside the *.sql glob above,
@@ -58,24 +71,24 @@ echo "=== Database import: $(basename "${DUMP}") ==="
 mkdir -p "${BACKUP_DIR}"
 BACKUP="${BACKUP_DIR}/pre-import-${STAMP}.sql.gz"
 echo "Writing pre-import backup to ${BACKUP}"
-wp --path="${WP_DIR}" db export - | gzip > "${BACKUP}"
+"${WP[@]}" db export - | gzip > "${BACKUP}"
 
 # Drop all prefixed tables first: the dump only drops tables it contains, so
 # without this an Upsun-only table would silently survive the import.
 echo "Dropping existing WordPress tables."
-wp --path="${WP_DIR}" db clean --yes
+"${WP[@]}" db clean --yes
 
 echo "Importing $(basename "${DUMP}")."
 case "${DUMP}" in
-	*.gz) gunzip -c "${DUMP}" | wp --path="${WP_DIR}" db import - ;;
-	*) wp --path="${WP_DIR}" db import "${DUMP}" ;;
+	*.gz) gunzip -c "${DUMP}" | "${WP[@]}" db import - ;;
+	*) "${WP[@]}" db import "${DUMP}" ;;
 esac
 
 # The object cache still holds rows from the replaced database; flushing is
 # not optional. Failure here must fail the deploy — a stale cache over a new
 # database serves wrong data.
-echo "Flushing the object cache."
-wp --path="${WP_DIR}" cache flush
+echo "Flushing the object cache after import."
+"${WP[@]}" cache flush
 
 mv "${DUMP}" "${DUMP}.imported-${STAMP}"
 echo "=== Database import complete; staged dump renamed to $(basename "${DUMP}").imported-${STAMP} ==="
