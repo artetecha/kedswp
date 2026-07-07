@@ -67,7 +67,13 @@ The deploy hook runs [keds/scripts/db-import.sh](keds/scripts/db-import.sh) *bef
 keds/scripts/db-compare.py --labels pantheon,upsun pantheon-backup.sql.gz upsun-dump.sql.gz
 ```
 
-Use it to measure content drift between syncs and to sanity-check an import (expected differences after a sync: `wp_pantheon_sessions` dropped, the `keds_deploy_migration_*` options present, `active_plugins` kept as the pre-import Upsun list, Pantheon-only cron hooks removed).
+Use it to measure content drift between syncs and to sanity-check an import (expected differences after a sync: `wp_pantheon_sessions` dropped, the `keds_deploy_migration_*` options present, `active_plugins` kept as the pre-import Upsun list, Pantheon-only cron hooks removed). With `--options` it instead reports the full `wp_options` diff (volatile options filtered out) — run it before cutover to confirm no unaccounted-for configuration exists only on the Upsun side.
+
+**Verifying learner progress** — [keds/scripts/lp-progress-check.py](keds/scripts/lp-progress-check.py) is the cutover gate for the content that matters most: it extracts every LearnPress progress row with recent activity from the imported dump and field-compares each one (plus attached grade rows) against the live environment, printing the freshest completions with student names. Non-zero exit on any missing or differing row.
+
+```bash
+keds/scripts/lp-progress-check.py pantheon-backup.sql.gz pr-34 --since 2026-06-20
+```
 
 ## CI
 

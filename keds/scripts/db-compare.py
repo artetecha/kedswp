@@ -59,6 +59,18 @@ WANTED_OPTIONS = {
 
 MIGRATION_OPTION_PREFIX = "keds_deploy_migration_"
 
+# Options expected to differ constantly without carrying configuration:
+# transients, locks, run timestamps, rotating counters. Excluded from the
+# --options report so real configuration drift stands out.
+VOLATILE_OPTION_RE = re.compile(
+    r"^(_transient_|_site_transient_|cron$|action_scheduler_lock_|"
+    r"wc_admin_dismissed|woocommerce_marketplace|.*_cache_validator$|"
+    r"fluentcrm_.*_lock|_fluentcrm|_fc_|fluentform_scheduled|"
+    r"wpmailsmtp_debug|.*_last_checked$|.*_last_run$|.*_last_send$|"
+    r"finished_updating|db_upgraded$|recently_activated$|uninstall_plugins$|"
+    r"auto_updater|adjacent_index)"
+)
+
 
 def open_dump(path):
     if path.endswith(".gz"):
@@ -104,9 +116,58 @@ def unquote(value):
             body.replace("\\'", "'")
             .replace('\\"', '"')
             .replace("\\n", "\n")
+            .replace("\\r", "\r")
             .replace("\\\\", "\\")
         )
     return value
+
+
+def extract_table(path, table):
+    """Return (columns, rows) for one table in a dump; fields are unquoted."""
+    columns = []
+    rows = []
+    current_create = None
+    insert_active = False
+    insert_buf = []
+
+    def finish(payload):
+        for row in parse_insert_rows(payload):
+            rows.append([unquote(field) for field in row])
+
+    with open_dump(path) as fh:
+        for line in fh:
+            if insert_active:
+                stripped = line.rstrip()
+                insert_buf.append(stripped)
+                if stripped.endswith(";"):
+                    finish("\n".join(insert_buf).rstrip(";"))
+                    insert_active = False
+                    insert_buf = []
+                continue
+            if current_create:
+                if line.startswith(")"):
+                    current_create = None
+                else:
+                    m = COLUMN_RE.match(line)
+                    if m and not line.lstrip().startswith(NON_COLUMN_LINE):
+                        columns.append(m.group(1))
+                continue
+            m = CREATE_RE.match(line)
+            if m:
+                if m.group(1) == table:
+                    current_create = True
+                    columns = []
+                continue
+            m = INSERT_RE.match(line)
+            if m and m.group(1) == table:
+                rest = line[m.end():].rstrip()
+                if rest.endswith(";"):
+                    finish(rest.rstrip(";"))
+                else:
+                    insert_active = True
+                    insert_buf = [rest] if rest else []
+
+    return columns, rows
 
 
 def analyze(path):
@@ -293,6 +354,38 @@ def print_comparison(a, b, label_a, label_b):
     print(f"  {label_b:>{width}}: {', '.join(sorted(db['migration_options'])) or '(none — all deploy migrations will run on import)'}")
 
 
+def print_options_diff(a_options, b_options, label_a, label_b):
+    ka = {k for k in a_options if not VOLATILE_OPTION_RE.match(k)}
+    kb = {k for k in b_options if not VOLATILE_OPTION_RE.match(k)}
+    width = max(len(label_a), len(label_b))
+
+    def preview(v):
+        return (v or "")[:90].replace("\n", " ").replace("\r", " ")
+
+    only_a = sorted(ka - kb)
+    print(f"== Options only in {label_a} ({len(only_a)}) ==")
+    for k in only_a:
+        print(f"  {k}  = {preview(a_options[k])}")
+
+    only_b = sorted(kb - ka)
+    print(f"\n== Options only in {label_b} ({len(only_b)}) ==")
+    for k in only_b:
+        print(f"  {k}  = {preview(b_options[k])}")
+
+    diff = sorted(k for k in ka & kb if a_options[k] != b_options[k])
+    print(f"\n== Options with different values ({len(diff)}) ==")
+    for k in diff:
+        print(f"  {k}")
+        print(f"      {label_a:>{width}}: {preview(a_options[k])}")
+        print(f"      {label_b:>{width}}: {preview(b_options[k])}")
+
+
+def load_options(path):
+    columns, rows = extract_table(path, PREFIX + "options")
+    idx = {c: k for k, c in enumerate(columns)}
+    return {r[idx["option_name"]]: r[idx["option_value"]] for r in rows}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("dump_a", help="first SQL dump (.sql or .sql.gz)")
@@ -307,6 +400,12 @@ def main():
         action="store_true",
         help="emit the raw per-dump analyses as JSON instead of the report",
     )
+    parser.add_argument(
+        "--options",
+        action="store_true",
+        help="report the full wp_options diff (volatile options filtered out) "
+        "instead of the standard comparison",
+    )
     args = parser.parse_args()
 
     if args.labels:
@@ -317,6 +416,12 @@ def main():
     else:
         label_a = args.dump_a.rsplit("/", 1)[-1]
         label_b = args.dump_b.rsplit("/", 1)[-1]
+
+    if args.options:
+        print_options_diff(
+            load_options(args.dump_a), load_options(args.dump_b), label_a, label_b
+        )
+        return
 
     a = analyze(args.dump_a)
     b = analyze(args.dump_b)
