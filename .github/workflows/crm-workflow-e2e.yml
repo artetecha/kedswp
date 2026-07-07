@@ -129,10 +129,26 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Preflight
+        # The suite drives state reset + CRM assertions over `upsun ssh`; an
+        # unset token would otherwise surface as a confusing mid-test error.
+        run: |
+          if [ -z "${{ secrets.UPSUN_CLI_TOKEN }}" ]; then
+            echo "::error::UPSUN_CLI_TOKEN secret is not set (Upsun console -> API tokens; add to Actions AND Dependabot secret stores)"
+            exit 1
+          fi
+
       - name: Install Upsun CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          # The installer's target varies by runner (brew vs ~/.local/bin);
+          # find the binary, put its dir on PATH, and fail HERE if missing.
+          for d in "$HOME/.local/bin" "$HOME/.upsun/bin" "$HOME/.platformsh/bin"; do
+            [ -x "$d/upsun" ] && echo "$d" >> "$GITHUB_PATH"
+          done
+          export PATH="$HOME/.local/bin:$HOME/.upsun/bin:$HOME/.platformsh/bin:$PATH"
+          command -v upsun
+          upsun --version
 
       - name: Wait for the PR's Upsun environment
         if: github.event_name == 'pull_request'
