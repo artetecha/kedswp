@@ -14,9 +14,10 @@
 #
 # To sync content from Pantheon:
 #   cat pantheon-backup.sql.gz | upsun ssh -p idpo3r4eqatcu -e <env> 'cat > db-import/pantheon.sql.gz'
-#   ...then trigger a real deploy (e.g. push a commit). NOTE: `upsun
-#   environment:redeploy` does NOT run deploy hooks; on a dev environment
-#   `upsun ssh -e <env> 'bash scripts/deploy.sh'` runs the same code path.
+#   upsun operation:run content-import -p idpo3r4eqatcu -e <env>
+# Any real code push also triggers the import. NOTE: neither
+# `environment:redeploy` nor an empty commit runs deploy hooks (unchanged
+# tree ID -> build reused, hooks skipped).
 #
 # Then verify with scripts/db-compare.py against a fresh `upsun db:dump`.
 

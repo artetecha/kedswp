@@ -54,10 +54,10 @@ Until cutover, Pantheon remains the content source of truth and the Upsun databa
 
 ```bash
 cat pantheon-backup.sql.gz | upsun ssh -p idpo3r4eqatcu -e <env> 'cat > db-import/pantheon.sql.gz'
-git commit --allow-empty -m "Trigger deploy for content import" && git push
+upsun operation:run content-import -p idpo3r4eqatcu -e <env>
 ```
 
-The push matters: `upsun environment:redeploy` does **not** run deploy hooks (it only re-provisions the deployment), so a staged dump is ignored until the next real deploy. On a development environment you can instead run the hook by hand — `upsun ssh -e <env> 'bash scripts/deploy.sh'` — but note crons are not paused outside a real deploy.
+The `content-import` runtime operation exists because nothing else reliably runs the deploy hook on demand: `upsun environment:redeploy` only re-provisions the deployment, and an **empty commit is not enough either** — the tree ID is unchanged, so the build is reused and hooks are skipped. Deploy hooks only run when a deploy ships a new build. Any real code push therefore also triggers a staged import; the operation is for importing without one. Two differences from a push-triggered import: crons are not paused while the operation runs, and the environment keeps serving during it — fine pre-cutover, but prefer coupling the final production import to a real push.
 
 The deploy hook runs [keds/scripts/db-import.sh](keds/scripts/db-import.sh) *before* `wp core update-db` and the deploy migrations: it takes a pre-import safety dump (kept in `db-import/backups/`), drops the existing WordPress tables, imports the staged dump, restores the pre-import `active_plugins` option (the plugin list is code state owned by this build, not content), and flushes the object cache. Because a Pantheon dump carries no `keds_deploy_migration_*` options, every deploy migration then re-runs against the imported data in the same deployment — so migrations must stay safe against current Pantheon production data until cutover. After a successful import the dump is renamed `*.imported-<timestamp>`, so each staged dump imports exactly once and ordinary deploys are unaffected.
 
