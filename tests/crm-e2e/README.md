@@ -40,10 +40,17 @@ order and completes the course as the test user.
 
 ## How it runs
 
-`.github/workflows/crm-workflow-e2e.yml` — weekly (Mon 05:10 UTC) +
-`workflow_dispatch` (environment and course overridable). Needs the
-`UPSUN_CLI_TOKEN` secret (SSH + URL resolution) and `E2E_HTTP_USER`/
-`E2E_HTTP_PASS` (the env sits behind HTTP basic auth).
+`.github/workflows/crm-workflow-e2e.yml`:
+
+- **On PRs that touch the CRM** — this suite, the workflow itself, the
+  vendored fluentcampaign-pro/fluentformpro plugins, or a `composer.lock`
+  change that moves a fluent\* package (a gate job inspects the lock diff).
+  Runs against the PR's own disposable Upsun preview environment.
+- **Weekly** (Mon 05:10 UTC) + `workflow_dispatch` (environment and course
+  overridable) against `TARGET_ENV`.
+
+Needs the `UPSUN_CLI_TOKEN` secret (SSH + URL resolution) and
+`E2E_HTTP_USER`/`E2E_HTTP_PASS` (the envs sit behind HTTP basic auth).
 
 State setup, the quiz answer key, login (a minted `logged_in` cookie — no
 password is stored or reset anywhere), and tag assertions all run over
