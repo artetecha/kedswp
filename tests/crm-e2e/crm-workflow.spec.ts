@@ -50,15 +50,13 @@ const normalize = (s: string) =>
   s.toLowerCase().replace(/\s+/g, ' ').replace(/^\d+\.\s*/, '').trim();
 
 // LearnPress confirm dialogs (lpModalOverlay) appear only when the site has
-// popup confirmation enabled — this site does. Optional-click keeps the test
-// working either way.
+// popup confirmation enabled — this site does. The modal mounts at the top
+// of the DOM (container classes vary by version), so match the button by
+// role page-wide. Optional-click keeps the test working either way.
 async function confirmLpModal(page: Page) {
-  const yes = page
-    .locator('.lp-modal-overlay')
-    .locator('button, a')
-    .filter({ hasText: /^(yes|ok)$/i })
-    .first();
+  const yes = page.getByRole('button', { name: /^(yes|ok)$/i }).first();
   await yes.click({ timeout: 10_000 }).catch(() => undefined);
+  await yes.waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => undefined);
 }
 
 test('CRM workflow: course purchase and completion drive the FluentCRM tag swap', async ({ page, context, baseURL }) => {
@@ -114,7 +112,7 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
   await test.step('apply the 100% coupon and check out for £0', async () => {
     // WooCommerce cart block: "Add Coupons" panel -> code input -> Apply.
     await page.getByText(/add coupons?/i).first().click();
-    await page.getByPlaceholder(/enter code/i).fill(COUPON);
+    await page.getByRole('textbox', { name: /enter code/i }).fill(COUPON);
     await page.getByRole('button', { name: /^apply$/i }).click();
     await expect(
       page.locator('.wc-block-components-totals-footer-item').first(),
@@ -130,7 +128,15 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
     await expect(page.locator('.wc-block-components-totals-footer-item').first()).toContainText('£0.00');
 
     await page.getByRole('button', { name: /place order/i }).click();
-    await page.waitForURL(/order-received/, { timeout: 60_000 });
+    await page.waitForURL(/order-received/, { timeout: 60_000 }).catch(async () => {
+      const notices = await page
+        .locator('.wc-block-components-notice-banner, [role="alert"]')
+        .allInnerTexts()
+        .catch(() => [] as string[]);
+      throw new Error(
+        `order was not placed; checkout notices: ${notices.filter(Boolean).join(' | ') || '(none visible)'}`,
+      );
+    });
     await expect(page.getByText(/your order has been received/i)).toBeVisible();
   });
 
@@ -156,19 +162,21 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
   });
 
   await test.step('mark every lesson-type item complete', async () => {
-    // Sidebar lists all curriculum items; the quiz is handled separately.
-    const itemLinks = page.locator('.course-item a.section-item-link, .course-item > a');
-    const count = await itemLinks.count();
-    expect(count, 'course player sidebar must list curriculum items').toBeGreaterThan(0);
+    // Sidebar lists all curriculum items as li.course-item[data-item-type]
+    // with plain hrefs. Collapsed sections hide their links, so navigate by
+    // URL instead of clicking; the quiz is handled separately.
+    const entries = await page.locator('li.course-item[data-item-type]').evaluateAll((els) =>
+      els.map((el) => ({
+        type: el.getAttribute('data-item-type'),
+        href: el.querySelector('a')?.getAttribute('href') ?? null,
+      })),
+    );
+    expect(entries.length, 'course player sidebar must list curriculum items').toBeGreaterThan(0);
 
-    for (let i = 0; i < count; i++) {
-      const link = itemLinks.nth(i);
-      const isQuiz = (await link
-        .locator('xpath=ancestor::*[contains(@class,"course-item")]')
-        .getAttribute('class'))?.includes('lp_quiz');
-      if (isQuiz) continue;
+    for (const entry of entries) {
+      if (entry.type === 'lp_quiz' || !entry.href) continue;
 
-      await link.click();
+      await page.goto(entry.href);
       const completeBtn = page.locator('button.lp-btn-complete-item');
       // Items completed on an earlier attempt render no button; skip them.
       if (await completeBtn.isVisible({ timeout: 10_000 }).catch(() => false)) {
@@ -180,7 +188,12 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
   });
 
   await test.step('take the quiz using the answer key', async () => {
-    await page.locator('.course-item.course-item-lp_quiz a, .course-item[class*="lp_quiz"] a').first().click();
+    const quizHref = await page
+      .locator('li.course-item[data-item-type="lp_quiz"] a')
+      .first()
+      .getAttribute('href');
+    expect(quizHref, 'quiz item must exist in the sidebar').toBeTruthy();
+    await page.goto(quizHref!);
     await page.locator('#learn-press-quiz-app').waitFor({ timeout: 30_000 });
     await page.locator('#learn-press-quiz-app button.lp-button.start').click();
 
@@ -189,7 +202,9 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
       const pageBtn = page.locator('.questions-pagination button, .questions-pagination .page-numbers').filter({ hasText: new RegExp(`^${i + 1}$`) });
       if (await pageBtn.count()) await pageBtn.first().click();
 
-      const titleEl = page.locator('.question-title').first();
+      // Every question stays mounted in the DOM; only the current page's is
+      // visible — scope all reads and clicks to it.
+      const titleEl = page.locator('.question-title').filter({ visible: true }).first();
       await titleEl.waitFor({ timeout: 15_000 });
       const shown = normalize(await titleEl.innerText());
       const q = quiz.questions.find((c) => normalize(c.title) === shown) ?? quiz.questions[i];
@@ -203,6 +218,7 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
         for (const correct of q.correct) {
           const option = page
             .locator('.answer-options .answer-option label.option-title')
+            .filter({ visible: true })
             .filter({ hasText: new RegExp(`^\\s*${correct.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'i') })
             .first();
           await option.click();

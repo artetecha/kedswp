@@ -9,19 +9,29 @@ const ENV = process.env.UPSUN_ENV || process.env.TARGET_ENV || 'main';
 // unconditionally); it plays no part in this workflow, so skip it everywhere.
 const WP = 'wp --skip-plugins=learnpress-course-review';
 
-function upsunSsh(remoteCommand: string, stdin?: string): Promise<string> {
+function upsunSsh(remoteCommand: string, stdin?: string, timeoutMs = 120_000): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = spawn(
       'upsun',
       ['ssh', '-p', PROJECT, '-e', ENV, '--no-interaction', remoteCommand],
       { stdio: ['pipe', 'pipe', 'pipe'] },
     );
+    // A hung remote command (seen with `wp cron event run`) must not stall
+    // the whole test until the global timeout — kill and surface it.
+    const killTimer = setTimeout(() => {
+      child.kill('SIGKILL');
+      reject(new Error(`upsun ssh timed out after ${timeoutMs}ms\ncommand: ${remoteCommand}`));
+    }, timeoutMs);
     let stdout = '';
     let stderr = '';
     child.stdout.on('data', (d) => (stdout += d));
     child.stderr.on('data', (d) => (stderr += d));
-    child.on('error', reject);
+    child.on('error', (err) => {
+      clearTimeout(killTimer);
+      reject(err);
+    });
     child.on('close', (code) => {
+      clearTimeout(killTimer);
       if (code === 0) return resolve(stdout);
       reject(new Error(`upsun ssh exited ${code}\ncommand: ${remoteCommand}\nstdout: ${stdout}\nstderr: ${stderr}`));
     });
@@ -73,7 +83,14 @@ export async function waitForTags(
     if (Date.now() - started > timeoutMs) break;
     attempt += 1;
     if (attempt % 2 === 0) {
-      await upsunSsh(`cd /app/wordpress && ${WP} cron event run --due-now`).catch(() => undefined);
+      // Nudge FluentCRM's own scheduler task specifically — `--due-now` can
+      // burn the whole timeout on unrelated heavy events before reaching it.
+      // Bounded on both ends: server-side `timeout 60`, client-side 90s kill.
+      await upsunSsh(
+        `cd /app/wordpress && timeout 60 ${WP} cron event run fluentcrm_scheduled_minute_tasks`,
+        undefined,
+        90_000,
+      ).catch(() => undefined);
     }
     await new Promise((r) => setTimeout(r, 5_000));
   }

@@ -38,6 +38,45 @@ if (!$user) { $fail("no WP user for {$email}"); }
 if (!$course_id || get_post_type($course_id) !== 'lp_course') { $fail("post {$course_id} is not an lp_course"); }
 if (!$enrolled_tag || !$completed_tag || !$coupon_code) { $fail('missing tag titles or coupon code'); }
 
+// -- 0. Complete billing address + empty leftover cart ------------------------
+// The recording's "make sure this information's up to date" step: block
+// checkout refuses to place an order with an incomplete billing address, so
+// fill any missing pieces deterministically. Also drop the persistent cart a
+// previous (possibly aborted) run may have left for this user.
+$customer = new WC_Customer($user->ID);
+$billing_defaults = [
+	'billing_first_name' => $user->first_name ?: 'CRM',
+	'billing_last_name'  => $user->last_name ?: 'E2E Test',
+	'billing_address_1'  => '1st Floor, 415 High Street',
+	'billing_city'       => 'London',
+	'billing_postcode'   => 'E15 4QZ',
+	'billing_country'    => 'GB',
+	'billing_email'      => $email,
+];
+foreach ($billing_defaults as $prop => $default) {
+	$getter = "get_{$prop}";
+	$setter = "set_{$prop}";
+	if (!$customer->{$getter}()) {
+		$customer->{$setter}($default);
+		$done['billing_filled'][] = $prop;
+	}
+}
+$customer->save();
+delete_user_meta($user->ID, '_woocommerce_persistent_cart_' . get_current_blog_id());
+// The WooCommerce session (keyed by user ID for logged-in users) caches both
+// the cart and a copy of the customer address; block checkout reads THAT, so
+// a stale session from an earlier run masks the user-meta fix above and
+// carries a leftover cart. Drop it; the next request rebuilds it fresh.
+global $wpdb;
+$wpdb->delete("{$wpdb->prefix}woocommerce_sessions", ['session_key' => (string) $user->ID]);
+// Sessions are additionally cached in the persistent object cache (Redis on
+// Upsun) under the wc_session_id group — deleting only the DB row leaves the
+// stale copy live. Bump the group prefix to invalidate it.
+if (class_exists('WC_Cache_Helper')) {
+	\WC_Cache_Helper::incr_cache_prefix('wc_session_id');
+}
+$done['wc_session_cleared'] = true;
+
 // -- 1. Cancel previous £0 test orders for this course ----------------------
 $orders = wc_get_orders([
 	'billing_email' => $email,
@@ -95,9 +134,9 @@ $funnels = \FluentCrm\App\Models\Funnel::where('status', 'published')
 	->where('trigger_name', 'fluentcrm_contact_added_to_tags')->get();
 foreach ($funnels as $funnel) {
 	$settings = is_string($funnel->settings) ? json_decode($funnel->settings, true) : $funnel->settings;
-	// Tag-trigger funnels keep their tag list under settings.subscribes; fall
-	// back to scanning the whole settings blob if that shape ever changes.
-	$subscribed_tags = array_map('intval', (array) ($settings['subscribes'] ?? []));
+	// Tag-trigger funnels keep their tag list under settings.tags; fall back
+	// to scanning the whole settings blob if that shape ever changes.
+	$subscribed_tags = array_map('intval', (array) ($settings['tags'] ?? []));
 	if (!$subscribed_tags && preg_match_all('/\d+/', wp_json_encode($settings), $m)) {
 		$subscribed_tags = array_map('intval', $m[0]);
 	}
@@ -108,6 +147,11 @@ foreach ($funnels as $funnel) {
 }
 if ($funnel_ids) {
 	\FluentCrm\App\Models\FunnelSubscriber::where('subscriber_id', $contact->id)
+		->whereIn('funnel_id', $funnel_ids)->delete();
+	// The processor also skips sequences whose metric rows say "completed"
+	// for this subscriber — a previous pass would silently swallow the
+	// detach-Enrolled-tag action on re-entry. Clear them too.
+	\FluentCrm\App\Models\FunnelMetric::where('subscriber_id', $contact->id)
 		->whereIn('funnel_id', $funnel_ids)->delete();
 }
 
