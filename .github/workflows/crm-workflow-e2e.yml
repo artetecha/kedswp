@@ -1,0 +1,114 @@
+# CRM workflow E2E: the programmatic version of the manual test recorded in
+# "Testing CRM Workflow Part 1-3" (screen recordings, July 2026).
+#
+# What it verifies, end to end, against a real environment with the REAL
+# FluentCRM automation config:
+#   1. Buying a LearnPress course with a 100% coupon (£0 WooCommerce order)
+#      attaches the course's "Enrolled <course>" tag to the FluentCRM contact.
+#   2. Completing every course item + passing the quiz, then finishing the
+#      course, swaps the tags: "Enrolled <course>" removed, "Completed
+#      <course>" added.
+#
+# This test MUTATES the target environment (places an order, enrolls,
+# completes a course, resets that state first). It is therefore:
+#   - NOT part of the per-PR read-only Tier 2 suite (tests/e2e);
+#   - run on a schedule + manual dispatch only, against the pre-cutover test
+#     environment (currently `main`).
+#
+# !! AFTER THE PANTHEON CUTOVER `main` BECOMES PRODUCTION !!
+# Repoint TARGET_ENV to a dedicated long-lived test environment before then,
+# or this workflow will place test orders and fire automation emails on prod.
+#
+# Side effects that are inherent to the real automation config (same as the
+# manual test): tag-triggered funnels ("<course> - Start and Mid-Module",
+# "<course> - Completion and Advancement", "New Student - Welcome Sequence")
+# may send real emails to the test contact's address.
+
+name: CRM workflow E2E
+
+on:
+  schedule:
+    # Weekly, Monday 05:10 UTC — before the working day, after the nightly
+    # thim-update PRs (05:43) would be a lie, it's before; keep them apart.
+    - cron: '10 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Upsun environment name to test against'
+        required: false
+        default: 'main'
+      course_id:
+        description: 'LearnPress course post ID'
+        required: false
+        default: '23405'
+
+concurrency:
+  group: crm-workflow-e2e
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  UPSUN_PROJECT: idpo3r4eqatcu
+  TARGET_ENV: ${{ inputs.environment || 'main' }}
+  COURSE_ID: ${{ inputs.course_id || '23405' }}
+  # The FluentCRM contact the manual test uses; the automation tags this
+  # contact because the WooCommerce order carries its billing email.
+  CRM_TEST_EMAIL: communications@kingsdivinity.org
+  # Dedicated, idempotently (re)created 100% coupon — we never touch the
+  # manually-managed ones (aaronfbitest et al.), whose expiry dates drift.
+  CRM_TEST_COUPON: crm-e2e-100
+
+jobs:
+  crm-workflow:
+    name: enroll + complete + tag assertions
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Upsun CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Resolve environment URL
+        id: env
+        env:
+          UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
+        run: |
+          url=$(upsun environment:url -p "$UPSUN_PROJECT" -e "$TARGET_ENV" --primary --pipe)
+          echo "url=${url%/}" >> "$GITHUB_OUTPUT"
+          echo "Testing against ${url%/} (env: $TARGET_ENV)"
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tests/crm-e2e/package-lock.json
+
+      - name: Install Playwright
+        working-directory: tests/crm-e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run CRM workflow test
+        working-directory: tests/crm-e2e
+        env:
+          BASE_URL: ${{ steps.env.outputs.url }}
+          UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
+          E2E_HTTP_USER: ${{ secrets.E2E_HTTP_USER }}
+          E2E_HTTP_PASS: ${{ secrets.E2E_HTTP_PASS }}
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: crm-e2e-report
+          if-no-files-found: ignore
+          path: |
+            tests/crm-e2e/playwright-report/
+            tests/crm-e2e/test-results/
