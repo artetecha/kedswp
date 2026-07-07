@@ -13,11 +13,20 @@ import { wpEvalFile, waitForTags } from './helpers/wp';
 // through the same channel. MUTATES the target environment — see
 // .github/workflows/crm-workflow-e2e.yml for where this is allowed to run.
 
-const EMAIL = process.env.CRM_TEST_EMAIL || 'communications@kingsdivinity.org';
+const EMAIL = process.env.CRM_TEST_EMAIL || 'v@neminis.org';
+const FIRST_NAME = process.env.CRM_TEST_FIRST_NAME || 'Vincenzo';
+const LAST_NAME = process.env.CRM_TEST_LAST_NAME || 'Russo';
 const COURSE_ID = process.env.COURSE_ID || '23405';
 const ENROLLED_TAG = process.env.CRM_TAG_ENROLLED || 'Enrolled KYB 3';
 const COMPLETED_TAG = process.env.CRM_TAG_COMPLETED || 'Completed KYB 3';
 const COUPON = process.env.CRM_TEST_COUPON || 'crm-e2e-100';
+// Tags the enrollment automation may legitimately add as a side effect (the
+// purchase funnel tags first-time students "New Student"). Anything else
+// appearing or disappearing is a failure.
+const SIDE_EFFECT_TAGS = (process.env.CRM_ALLOWED_SIDE_TAGS || 'New Student')
+  .split(',')
+  .map((t) => t.trim())
+  .filter(Boolean);
 
 interface QuizQuestion {
   id: number;
@@ -66,7 +75,7 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
 
   await test.step('reset test state on the environment', async () => {
     const reset = await wpEvalFile<ResetResult>('reset-state.php', [
-      EMAIL, COURSE_ID, ENROLLED_TAG, COMPLETED_TAG, COUPON,
+      EMAIL, COURSE_ID, ENROLLED_TAG, COMPLETED_TAG, COUPON, FIRST_NAME, LAST_NAME,
     ]);
     baseline = reset.baseline_tags;
     expect(baseline, 'reset must leave the contact without either workflow tag').not.toContain(ENROLLED_TAG);
@@ -251,8 +260,14 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
       `"${COMPLETED_TAG}" attached and "${ENROLLED_TAG}" removed`,
     );
 
-    // No collateral damage: every other tag survives untouched.
-    const expected = [...baseline, COMPLETED_TAG].sort();
-    expect([...tags].sort()).toEqual(expected);
+    // No collateral damage: every baseline tag (bar the swapped Enrolled one)
+    // survives, and nothing unexpected appears beyond the Completed tag and
+    // the documented enrollment side-effect tags.
+    const lost = baseline.filter((t) => t !== ENROLLED_TAG && !tags.includes(t));
+    expect(lost, 'baseline tags must survive the workflow').toEqual([]);
+    const unexpected = tags.filter(
+      (t) => !baseline.includes(t) && t !== COMPLETED_TAG && !SIDE_EFFECT_TAGS.includes(t),
+    );
+    expect(unexpected, 'no unexpected tags may appear').toEqual([]);
   });
 });

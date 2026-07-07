@@ -53,9 +53,10 @@ env:
   UPSUN_PROJECT: idpo3r4eqatcu
   TARGET_ENV: ${{ inputs.environment || 'main' }}
   COURSE_ID: ${{ inputs.course_id || '23405' }}
-  # The FluentCRM contact the manual test uses; the automation tags this
-  # contact because the WooCommerce order carries its billing email.
-  CRM_TEST_EMAIL: communications@kingsdivinity.org
+  # Dedicated test student (WP user + FluentCRM contact auto-created on first
+  # run); the automation tags this contact because the WooCommerce order
+  # carries its billing email. Funnel emails land in this inbox.
+  CRM_TEST_EMAIL: v@neminis.org
   # Dedicated, idempotently (re)created 100% coupon — we never touch the
   # manually-managed ones (aaronfbitest et al.), whose expiry dates drift.
   CRM_TEST_COUPON: crm-e2e-100

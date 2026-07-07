@@ -33,8 +33,10 @@ order and completes the course as the test user.
   **After the Pantheon cutover, `main` IS production** — repoint the
   workflow's `TARGET_ENV` default to a dedicated test environment first.
 - Inherent side effect (same as the manual procedure): tag-triggered funnels
-  may send real emails to the test contact
-  (`communications@kingsdivinity.org`).
+  send real emails to the test contact (`v@neminis.org`).
+- The test student (WP user + FluentCRM contact for `v@neminis.org`) is
+  auto-created on the first run against any environment; its WP password is
+  random and never used (login is via a minted cookie).
 
 ## How it runs
 
@@ -62,7 +64,8 @@ npx playwright test
 ```
 
 Requires an authenticated `upsun` CLI. Defaults live at the top of
-`crm-workflow.spec.ts` (contact email, course 23405 "KYB3 What is Divine
-Inspiration?", tag names, coupon code) and are all env-overridable — the
-workflow exposes `course_id` as a dispatch input, but note the tag names
-must be overridden to match if you point it at a different course.
+`crm-workflow.spec.ts` (test student `v@neminis.org`, course 23405 "KYB3
+What is Divine Inspiration?", tag names, coupon code) and are all
+env-overridable — the workflow exposes `course_id` as a dispatch input, but
+note the tag names must be overridden to match if you point it at a
+different course.

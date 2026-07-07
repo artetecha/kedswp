@@ -5,7 +5,7 @@
  * against a designated TEST environment.
  *
  * Args: 0=email, 1=course_id, 2=enrolled_tag_title, 3=completed_tag_title,
- *       4=coupon_code
+ *       4=coupon_code, 5=first_name (optional), 6=last_name (optional)
  *
  * Steps:
  *  1. Cancel previous test orders: WooCommerce orders for this billing email
@@ -26,6 +26,8 @@ $course_id     = (int) ($args[1] ?? 0);
 $enrolled_tag  = $args[2] ?? '';
 $completed_tag = $args[3] ?? '';
 $coupon_code   = $args[4] ?? '';
+$first_name    = $args[5] ?? 'CRM';
+$last_name     = $args[6] ?? 'E2E Test';
 
 $done = [];
 $fail = function ($msg) {
@@ -33,8 +35,23 @@ $fail = function ($msg) {
 	exit(1);
 };
 
+// Dedicated test student: created on first run against any environment. The
+// password is random and never used — the suite logs in via a minted cookie.
 $user = get_user_by('email', $email);
-if (!$user) { $fail("no WP user for {$email}"); }
+if (!$user) {
+	$user_id = wp_insert_user([
+		'user_login'   => sanitize_user(strstr($email, '@', true) . '-crm-e2e', true),
+		'user_email'   => $email,
+		'user_pass'    => wp_generate_password(32),
+		'first_name'   => $first_name,
+		'last_name'    => $last_name,
+		'display_name' => trim("{$first_name} {$last_name}"),
+		'role'         => 'subscriber',
+	]);
+	if (is_wp_error($user_id)) { $fail('could not create WP user: ' . $user_id->get_error_message()); }
+	$user = get_user_by('id', $user_id);
+	$done['wp_user_created'] = $user->ID;
+}
 if (!$course_id || get_post_type($course_id) !== 'lp_course') { $fail("post {$course_id} is not an lp_course"); }
 if (!$enrolled_tag || !$completed_tag || !$coupon_code) { $fail('missing tag titles or coupon code'); }
 
@@ -121,7 +138,17 @@ $done['lp_user_items_deleted'] = true;
 
 // -- 4. Detach tags from the contact -----------------------------------------
 $contact = FluentCrmApi('contacts')->getContact($email);
-if (!$contact) { $fail("no FluentCRM contact for {$email}"); }
+if (!$contact) {
+	$contact = FluentCrmApi('contacts')->createOrUpdate([
+		'email'      => $email,
+		'first_name' => $first_name,
+		'last_name'  => $last_name,
+		'status'     => 'subscribed',
+		'user_id'    => $user->ID,
+	]);
+	$done['crm_contact_created'] = (bool) $contact;
+}
+if (!$contact) { $fail("no FluentCRM contact for {$email} and could not create one"); }
 $tags = \FluentCrm\App\Models\Tag::whereIn('title', [$enrolled_tag, $completed_tag])->get();
 if ($tags->count() !== 2) { $fail("expected 2 tags ({$enrolled_tag}, {$completed_tag}), found {$tags->count()}"); }
 $tag_ids = $tags->pluck('id')->all();
