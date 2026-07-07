@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "355d0c8b400c3aff77457c4426e26498",
+    "content-hash": "e2797c06ab6c7000f01cba836f5d26df",
     "packages": [
         {
             "name": "composer/installers",
@@ -630,6 +630,63 @@
                 "source": "https://github.com/platformsh/config-reader-php/tree/3.0.1"
             },
             "time": "2025-02-25T17:22:15+00:00"
+        },
+        {
+            "name": "upsun/wordpress-mu-plugin",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/upsun-mu-plugin",
+                "reference": "c672b6961151e7aa401ded5ca4f743647005ad40"
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.5"
+            },
+            "type": "wordpress-muplugin",
+            "extra": {
+                "installer-name": "upsun"
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Upsun\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "archive": {
+                "exclude": [
+                    "/vendor",
+                    "/tests",
+                    "/composer.lock",
+                    "/phpunit.xml.dist",
+                    "/.phpunit.cache",
+                    "/.gitignore"
+                ]
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Must-use plugin integrating WordPress with the Upsun platform: environment awareness, router-cache friendliness, read-only filesystem UX, Site Health checks, and a wp upsun CLI command.",
+            "homepage": "https://upsun.com",
+            "keywords": [
+                "mu-plugin",
+                "platformsh",
+                "upsun",
+                "wordpress"
+            ],
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
         },
         {
             "name": "wpackagist-plugin/akismet",

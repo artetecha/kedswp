@@ -18,6 +18,36 @@ permissions:
   contents: read
 
 jobs:
+  # Unit tests for the first-party Upsun mu-plugin package. The 8.1 leg
+  # enforces the package's PHP floor (the repo-level lint runs on 8.4 only);
+  # the package targets >=8.1 so it stays consumable outside this project.
+  upsun-mu-plugin:
+    name: upsun-mu-plugin (php ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        php: ['8.1', '8.4']
+    defaults:
+      run:
+        working-directory: keds/packages/upsun-mu-plugin
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
+          coverage: none
+
+      # No committed lock file: dev deps resolve per PHP version.
+      - name: Composer install
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+
   hermetic:
     name: hermetic
     runs-on: ubuntu-latest
@@ -149,6 +179,15 @@ jobs:
             --admin_email=ci@example.invalid \
             --skip-email
           wp theme activate eduma
+
+      # The upsun-loader.php shim is what makes WP load the packaged
+      # mu-plugin from its subdirectory; a missing shim fails silently, so
+      # assert the plugin's API exists and correctly no-ops off-platform.
+      - name: Upsun mu-plugin loads and no-ops off-platform
+        working-directory: keds/wordpress
+        run: |
+          wp eval 'exit( function_exists( "Upsun\\is_upsun" ) && ! Upsun\is_upsun() ? 0 : 1 );'
+          wp upsun info | grep -q 'Not running on Upsun'
 
       - name: Activate production plugin set
         working-directory: keds/wordpress

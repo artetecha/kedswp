@@ -71,6 +71,30 @@ test.describe('KEDS smoke', () => {
     expect(json).toHaveProperty('name');
   });
 
+  test('anonymous pages carry router cache headers (upsun mu-plugin)', async ({ request }) => {
+    const response = await request.get('/');
+    expect(response.status()).toBe(200);
+    // PageCache module parity with the former keds-edge-cache mu-plugin.
+    expect(response.headers()['cache-control'] ?? '').toContain('s-maxage=600');
+  });
+
+  test('no LearnPress guest-session cookie on anonymous pages', async ({ request }) => {
+    const response = await request.get('/');
+    const setCookies = response
+      .headersArray()
+      .filter((h) => h.name.toLowerCase() === 'set-cookie')
+      .map((h) => h.value);
+    expect(setCookies.join('\n')).not.toContain('lp_session_guest');
+  });
+
+  test('preview environment sends noindex (upsun mu-plugin)', async ({ request }) => {
+    // PR preview environments are non-production, so PreviewProtection must
+    // emit X-Robots-Tag. This would fail against production — this suite
+    // only ever targets preview environments.
+    const response = await request.get('/');
+    expect(response.headers()['x-robots-tag'] ?? '').toContain('noindex');
+  });
+
   test('sitemap responds', async ({ request }) => {
     // The SEO Framework (autodescription) replaces core's /wp-sitemap.xml
     // with its own /sitemap.xml — accept whichever answers.
