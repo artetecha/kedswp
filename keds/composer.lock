@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16e3fbc3e5125aec9466a9b71ab98c9c",
+    "content-hash": "355d0c8b400c3aff77457c4426e26498",
     "packages": [
         {
             "name": "composer/installers",
@@ -849,15 +849,15 @@
         },
         {
             "name": "wpackagist-plugin/honeypot",
-            "version": "2.4",
+            "version": "2.4.02",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/honeypot/",
-                "reference": "tags/2.4"
+                "reference": "tags/2.4.02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/honeypot.2.4.zip"
+                "url": "https://downloads.wordpress.org/plugin/honeypot.2.4.02.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
