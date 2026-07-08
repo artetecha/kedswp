@@ -12,7 +12,7 @@ keds/                  Application root (Upsun source.root)
 ├── wp-config.php      Upsun-aware config (reads relationships via platformsh/config-reader)
 ├── mu-plugins/        Custom KEDS mu-plugins (copied into the build)
 ├── private-packages/  Vendored premium plugins/themes (Composer path repositories)
-├── scripts/           Deploy hook + premium update tooling
+├── scripts/           Deploy hook, premium update + content-migration tooling
 ├── deploy-migrations/ One-time runtime migrations (see its README)
 └── wordpress/         Build output — gitignored, never edit by hand
 tests/e2e/             Playwright smoke tests run against Upsun preview environments
@@ -45,6 +45,35 @@ The deploy hook ([keds/scripts/deploy.sh](keds/scripts/deploy.sh)):
 - **Other premium packages** (Fluent pro, Paid Memberships Pro, …): `keds/scripts/premium-update.sh` — same trust model, driven through WordPress's own update transients on the container.
 
 Both scripts vendor the new source into `private-packages/` and update the Composer pin; nothing is committed automatically — review `git diff` and push. They require an authenticated `upsun` CLI, `composer`, `python3`, and `unzip`.
+
+## Content migration from Pantheon
+
+Until cutover, Pantheon remains the content source of truth and the Upsun database is a periodically refreshed copy.
+
+**Importing a fresh Pantheon dump** — stage the dump in the `db-import` mount (outside the web root; dumps must never be web-accessible) and redeploy:
+
+```bash
+cat pantheon-backup.sql.gz | upsun ssh -p idpo3r4eqatcu -e <env> 'cat > db-import/pantheon.sql.gz'
+upsun operation:run content-import -p idpo3r4eqatcu -e <env>
+```
+
+The `content-import` runtime operation exists because nothing else reliably runs the deploy hook on demand: `upsun environment:redeploy` only re-provisions the deployment, and an **empty commit is not enough either** — the tree ID is unchanged, so the build is reused and hooks are skipped. Deploy hooks only run when a deploy ships a new build. Any real code push therefore also triggers a staged import; the operation is for importing without one. Two differences from a push-triggered import: crons are not paused while the operation runs, and the environment keeps serving during it — anything hitting the site mid-import (including the PR E2E job, which starts as soon as the environment deploys) sees a databaseless WordPress and fails. Wait for CI to finish before running the operation on a PR environment, and prefer coupling the final production import to a real push, where the platform closes the environment during the deploy hook.
+
+The deploy hook runs [keds/scripts/db-import.sh](keds/scripts/db-import.sh) *before* `wp core update-db` and the deploy migrations: it takes a pre-import safety dump (kept in `db-import/backups/`), drops the existing WordPress tables, imports the staged dump, restores the pre-import `active_plugins` option (the plugin list is code state owned by this build, not content), and flushes the object cache. Because a Pantheon dump carries no `keds_deploy_migration_*` options, every deploy migration then re-runs against the imported data in the same deployment — so migrations must stay safe against current Pantheon production data until cutover. After a successful import the dump is renamed `*.imported-<timestamp>`, so each staged dump imports exactly once and ordinary deploys are unaffected.
+
+**Verifying a sync** — [keds/scripts/db-compare.py](keds/scripts/db-compare.py) compares two SQL dumps (plain or gzipped) without needing a local database: table inventory, per-table row counts, latest content activity, key options, and recorded deploy-migration state.
+
+```bash
+keds/scripts/db-compare.py --labels pantheon,upsun pantheon-backup.sql.gz upsun-dump.sql.gz
+```
+
+Use it to measure content drift between syncs and to sanity-check an import (expected differences after a sync: `wp_pantheon_sessions` dropped, the `keds_deploy_migration_*` options present, `active_plugins` kept as the pre-import Upsun list, Pantheon-only cron hooks removed). With `--options` it instead reports the full `wp_options` diff (volatile options filtered out) — run it before cutover to confirm no unaccounted-for configuration exists only on the Upsun side.
+
+**Verifying learner progress** — [keds/scripts/lp-progress-check.py](keds/scripts/lp-progress-check.py) is the cutover gate for the content that matters most: it extracts every LearnPress progress row with recent activity from the imported dump and field-compares each one (plus attached grade rows) against the live environment, printing the freshest completions with student names. Non-zero exit on any missing or differing row.
+
+```bash
+keds/scripts/lp-progress-check.py pantheon-backup.sql.gz pr-34 --since 2026-06-20
+```
 
 ## CI
 

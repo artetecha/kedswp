@@ -68,11 +68,28 @@ applications:
       "wordpress/wp-content/uploads":
         source: storage
         source_path: "uploads"
+      # Staging area for database imports (Pantheon content syncs). Outside
+      # the web root on purpose: dumps must never be web-accessible.
+      "db-import":
+        source: storage
+        source_path: "db-import"
 
     crons:
       wp-cron:
         spec: "*/5 * * * *"
         cmd: "cd wordpress && wp cron event run --due-now"
+
+    # Runtime operation to import a staged content dump without a code push:
+    # neither `environment:redeploy` nor an empty commit (identical tree ID,
+    # build reused) runs deploy hooks. Runs the full deploy sequence, so the
+    # import is followed by update-db and the deploy migrations exactly as in
+    # a real deploy. Unlike a deploy, crons are not paused while it runs.
+    #   upsun operation:run content-import -e <env>
+    operations:
+      content-import:
+        role: admin
+        commands:
+          start: bash scripts/deploy.sh
 
 services:
   kedsdb:
