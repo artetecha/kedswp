@@ -64,8 +64,8 @@ const normalize = (s: string) =>
 // role page-wide. Optional-click keeps the test working either way.
 async function confirmLpModal(page: Page) {
   const yes = page.getByRole('button', { name: /^(yes|ok)$/i }).first();
-  await yes.click({ timeout: 10_000 }).catch(() => undefined);
-  await yes.waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => undefined);
+  await yes.click({ timeout: 5_000 }).catch(() => undefined);
+  await yes.waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => undefined);
 }
 
 test('CRM workflow: course purchase and completion drive the FluentCRM tag swap', async ({ page, context, baseURL }) => {
@@ -190,8 +190,18 @@ test('CRM workflow: course purchase and completion drive the FluentCRM tag swap'
       // Items completed on an earlier attempt render no button; skip them.
       if (await completeBtn.isVisible({ timeout: 10_000 }).catch(() => false)) {
         await completeBtn.click();
+        // Two legitimate outcomes race here: the confirm modal (when LP's
+        // popup JS has bound) or a native form submit that navigates to the
+        // next item (when the click lands first — seen on slow CI runners).
+        // Confirm if asked, wait out any navigation, then verify completion
+        // by revisiting the item: a completed item renders no button.
         await confirmLpModal(page);
-        await completeBtn.waitFor({ state: 'hidden', timeout: 30_000 });
+        await page.waitForLoadState('load').catch(() => undefined);
+        await page.goto(entry.href);
+        await expect(
+          completeBtn,
+          `item ${entry.href} must be completed (no Complete button on revisit)`,
+        ).toBeHidden({ timeout: 15_000 });
       }
     }
   });
