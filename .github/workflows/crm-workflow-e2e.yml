@@ -139,11 +139,28 @@ jobs:
 
       - name: Install Upsun CLI
         run: |
-          curl -fsSL https://raw.githubusercontent.com/upsun/cli/main/installer.sh | bash
+          bin="$HOME/.local/bin"
+          mkdir -p "$bin"
+          # Both the installer fetch and its inner release download hit
+          # transient 429s on GitHub. Download to a file (never pipe a
+          # possibly-truncated script into bash) and retry the whole install.
+          for attempt in 1 2 3 4 5; do
+            if curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors \
+                 -o /tmp/upsun-installer.sh \
+                 https://raw.githubusercontent.com/upsun/cli/main/installer.sh \
+               && bash /tmp/upsun-installer.sh; then
+              break
+            fi
+            if [ "$attempt" -eq 5 ]; then
+              echo "::error::Failed to install the Upsun CLI after $attempt attempts"
+              exit 1
+            fi
+            echo "install attempt $attempt failed; retrying"
+            sleep $((attempt * 10))
+          done
           # The unified CLI brands itself by binary name and the tarball may
           # ship it as `platform` — the suite spawns `upsun`, so guarantee
           # that name exists. Fail HERE, with a listing, if anything is off.
-          bin="$HOME/.local/bin"
           ls -la "$bin"
           if [ ! -x "$bin/upsun" ] && [ -x "$bin/platform" ]; then
             ln -s platform "$bin/upsun"
