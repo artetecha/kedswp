@@ -144,13 +144,17 @@ jobs:
 
       - name: Install Upsun CLI
         run: |
-          curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
-          # The installer's target varies by runner (brew vs ~/.local/bin);
-          # find the binary, put its dir on PATH, and fail HERE if missing.
-          for d in "$HOME/.local/bin" "$HOME/.upsun/bin" "$HOME/.platformsh/bin"; do
-            [ -x "$d/upsun" ] && echo "$d" >> "$GITHUB_PATH"
-          done
-          export PATH="$HOME/.local/bin:$HOME/.upsun/bin:$HOME/.platformsh/bin:$PATH"
+          curl -fsSL https://raw.githubusercontent.com/upsun/cli/main/installer.sh | bash
+          # The unified CLI brands itself by binary name and the tarball may
+          # ship it as `platform` — the suite spawns `upsun`, so guarantee
+          # that name exists. Fail HERE, with a listing, if anything is off.
+          bin="$HOME/.local/bin"
+          ls -la "$bin"
+          if [ ! -x "$bin/upsun" ] && [ -x "$bin/platform" ]; then
+            ln -s platform "$bin/upsun"
+          fi
+          echo "$bin" >> "$GITHUB_PATH"
+          export PATH="$bin:$PATH"
           command -v upsun
           upsun --version
 
