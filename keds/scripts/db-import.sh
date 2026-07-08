@@ -52,10 +52,13 @@ DUMP="${DUMPS[0]}"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 
 # Plugin code must never be able to abort the destructive window below: a
-# plugin fatal during wp-cli's WordPress bootstrap (seen with the LearnPress
-# course-review add-on on the first bootstrap after a new build) would fail
-# the deploy mid-import. None of these steps need plugins or themes loaded;
-# the object-cache drop-in still loads, so `cache flush` works.
+# plugin fatal during wp-cli's WordPress bootstrap would fail the deploy
+# mid-import. (The course-review fatal once seen here was wp-cli running
+# with cwd=/app: the add-on's cwd-relative vendor/autoload.php include
+# resolved to the project autoloader instead of its own. Root-caused and
+# fixed by the keds-fix-learnpress-addon-autoloaders mu-plugin; the flags
+# stay as defense in depth.) None of these steps need plugins or themes
+# loaded; the object-cache drop-in still loads, so `cache flush` works.
 WP=(wp --path="${WP_DIR}" --skip-plugins --skip-themes)
 
 echo "=== Database import: $(basename "${DUMP}") ==="
