@@ -14,14 +14,11 @@
 #   - on PRs that touch CRM code (FluentCRM plugins, this suite, or a
 #     composer.lock change moving a fluent* package) — against the PR's own
 #     disposable preview environment (prod-data clone);
-#   - on a weekly schedule + manual dispatch — against the pre-cutover test
-#     environment (currently `main`).
-# It is NOT part of the read-only per-PR smoke suite (tests/e2e).
-#
-# !! AFTER THE PANTHEON CUTOVER `main` BECOMES PRODUCTION !!
-# Repoint TARGET_ENV to a dedicated long-lived test environment before then,
-# or the scheduled runs will place test orders and fire automation emails on
-# prod. (PR runs are unaffected — they always target the PR's own env.)
+#   - on manual dispatch — against an EXPLICITLY named environment (no
+#     default, deliberately: `main` becomes production after the Pantheon
+#     cutover, and nothing here should ever target an env nobody typed in).
+# There is intentionally NO schedule. It is NOT part of the read-only
+# per-PR smoke suite (tests/e2e).
 #
 # Side effects that are inherent to the real automation config (same as the
 # manual test): tag-triggered funnels send real emails to the test student's
@@ -30,15 +27,11 @@
 name: CRM workflow E2E
 
 on:
-  schedule:
-    # Weekly, Monday 05:10 UTC.
-    - cron: '10 5 * * 1'
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Upsun environment name to test against'
-        required: false
-        default: 'main'
+        description: 'Upsun environment name to test against (MUTATES it — never point at production)'
+        required: true
       course_id:
         description: 'LearnPress course post ID'
         required: false
@@ -55,7 +48,7 @@ on:
 
 concurrency:
   # One mutating run at a time per target environment.
-  group: crm-workflow-e2e-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'scheduled' }}
+  group: crm-workflow-e2e-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || inputs.environment }}
   cancel-in-progress: false
 
 permissions:
@@ -64,7 +57,9 @@ permissions:
 
 env:
   UPSUN_PROJECT: idpo3r4eqatcu
-  TARGET_ENV: ${{ inputs.environment || 'main' }}
+  # Only meaningful on workflow_dispatch (required input); PR runs always
+  # target the PR's own environment instead.
+  TARGET_ENV: ${{ inputs.environment }}
   COURSE_ID: ${{ inputs.course_id || '23405' }}
   # Dedicated test student (WP user + FluentCRM contact auto-created on first
   # run); the automation tags this contact because the WooCommerce order
@@ -92,7 +87,7 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          # Scheduled/manual runs always proceed.
+          # Manual dispatch always proceeds (the environment input is explicit).
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
@@ -170,7 +165,7 @@ jobs:
           TIMEOUT_MIN: '30'
         run: bash .github/ci/wait-for-upsun-env.sh
 
-      - name: Resolve environment URL (scheduled/manual)
+      - name: Resolve environment URL (manual dispatch)
         if: github.event_name != 'pull_request'
         id: env
         env:
@@ -215,7 +210,7 @@ jobs:
         working-directory: tests/crm-e2e
         env:
           BASE_URL: ${{ steps.prenv.outputs.url || steps.env.outputs.url }}
-          UPSUN_ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || inputs.environment || 'main' }}
+          UPSUN_ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || inputs.environment }}
           UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
           E2E_HTTP_USER: ${{ secrets.E2E_HTTP_USER }}
           E2E_HTTP_PASS: ${{ secrets.E2E_HTTP_PASS }}

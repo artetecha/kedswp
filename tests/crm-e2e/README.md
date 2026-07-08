@@ -28,10 +28,11 @@ coupon (100%, restricted to the course product). It then places a real £0
 order and completes the course as the test user.
 
 - It is **not** part of the read-only per-PR suite in `tests/e2e/` and must
-  never be pointed at production.
-- It currently targets the pre-cutover test environment (`main`).
-  **After the Pantheon cutover, `main` IS production** — repoint the
-  workflow's `TARGET_ENV` default to a dedicated test environment first.
+  never be pointed at production. There is **no schedule and no default
+  target**: outside PR runs (which always use the PR's own preview env), it
+  only runs when someone dispatches it against an explicitly named
+  environment. **After the Pantheon cutover, `main` IS production** — never
+  dispatch against it from that point on.
 - Inherent side effect (same as the manual procedure): tag-triggered funnels
   send real emails to the test contact (`v@neminis.org`).
 - The test student (WP user + FluentCRM contact for `v@neminis.org`) is
@@ -46,8 +47,8 @@ order and completes the course as the test user.
   vendored fluentcampaign-pro/fluentformpro plugins, or a `composer.lock`
   change that moves a fluent\* package (a gate job inspects the lock diff).
   Runs against the PR's own disposable Upsun preview environment.
-- **Weekly** (Mon 05:10 UTC) + `workflow_dispatch` (environment and course
-  overridable) against `TARGET_ENV`.
+- **On `workflow_dispatch`** — against an environment named explicitly in
+  the required input (course overridable). No schedule exists on purpose.
 
 Needs the `UPSUN_CLI_TOKEN` secret (SSH + URL resolution) and
 `E2E_HTTP_USER`/`E2E_HTTP_PASS` (the envs sit behind HTTP basic auth).
