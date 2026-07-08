@@ -95,6 +95,32 @@ test.describe('KEDS smoke', () => {
     expect(response.headers()['x-robots-tag'] ?? '').toContain('noindex');
   });
 
+  // Stripe delivers live webhook events to these two URLs (PMPro and the
+  // WooCommerce Stripe gateway); when either 500s, Stripe eventually disables
+  // the endpoint and subscription renewals stop reaching the site.
+  //
+  // GETs only, like the rest of the suite — an unsigned POST to wc_stripe
+  // would write webhook-state options and error logs on the clone. A GET is
+  // still a strong probe on both:
+  //   - PMPro runs its full webhook service on GET (admin-ajax dispatch,
+  //     Stripe SDK load, API-key setup) before logging "No event ID given".
+  //   - WooCommerce answers 200 only when a handler is hooked to
+  //     woocommerce_api_wc_stripe, and 400 when the gateway is missing.
+  test('PMPro Stripe webhook endpoint boots and answers', async ({ request }) => {
+    const response = await request.get('/wp-admin/admin-ajax.php?action=stripe_webhook');
+    expect(response.status()).toBe(200);
+    const body = await response.text();
+    // admin-ajax answers an *unregistered* action with a 400 and body "0";
+    // this message only comes from PMPro's handler having actually run.
+    expect(body).toContain('No event ID given');
+    expect(body).not.toMatch(FATAL_MARKERS);
+  });
+
+  test('WooCommerce Stripe webhook handler is registered', async ({ request }) => {
+    const response = await request.get('/?wc-api=wc_stripe');
+    expect(response.status(), 'expected 200 from the wc-api dispatcher; 400 means no handler is hooked to woocommerce_api_wc_stripe').toBe(200);
+  });
+
   test('sitemap responds', async ({ request }) => {
     // The SEO Framework (autodescription) replaces core's /wp-sitemap.xml
     // with its own /sitemap.xml — accept whichever answers.
