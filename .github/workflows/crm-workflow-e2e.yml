@@ -1,0 +1,244 @@
+# CRM workflow E2E: the programmatic version of the manual test recorded in
+# "Testing CRM Workflow Part 1-3" (screen recordings, July 2026).
+#
+# What it verifies, end to end, against a real environment with the REAL
+# FluentCRM automation config:
+#   1. Buying a LearnPress course with a 100% coupon (£0 WooCommerce order)
+#      attaches the course's "Enrolled <course>" tag to the FluentCRM contact.
+#   2. Completing every course item + passing the quiz, then finishing the
+#      course, swaps the tags: "Enrolled <course>" removed, "Completed
+#      <course>" added.
+#
+# This test MUTATES the target environment (places an order, enrolls,
+# completes a course, resets that state first). It runs:
+#   - on PRs that touch CRM code (FluentCRM plugins, this suite, or a
+#     composer.lock change moving a fluent* package) — against the PR's own
+#     disposable preview environment (prod-data clone);
+#   - on manual dispatch — against an EXPLICITLY named environment (no
+#     default, deliberately: `main` becomes production after the Pantheon
+#     cutover, and nothing here should ever target an env nobody typed in).
+# There is intentionally NO schedule. It is NOT part of the read-only
+# per-PR smoke suite (tests/e2e).
+#
+# Side effects that are inherent to the real automation config (same as the
+# manual test): tag-triggered funnels send real emails to the test student's
+# inbox (CRM_TEST_EMAIL below).
+
+name: CRM workflow E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Upsun environment name to test against (MUTATES it — never point at production)'
+        required: true
+      course_id:
+        description: 'LearnPress course post ID'
+        required: false
+        default: '23405'
+  pull_request:
+    paths:
+      - 'tests/crm-e2e/**'
+      - '.github/workflows/crm-workflow-e2e.yml'
+      - 'keds/private-packages/plugins/fluentcampaign-pro/**'
+      - 'keds/private-packages/plugins/fluentformpro/**'
+      # Free fluent-crm/fluentform arrive via Composer; the gate job checks
+      # whether the lock diff actually moves a fluent* package.
+      - 'keds/composer.lock'
+
+concurrency:
+  # One mutating run at a time per target environment.
+  group: crm-workflow-e2e-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || inputs.environment }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  statuses: read
+
+env:
+  UPSUN_PROJECT: idpo3r4eqatcu
+  # Only meaningful on workflow_dispatch (required input); PR runs always
+  # target the PR's own environment instead.
+  TARGET_ENV: ${{ inputs.environment }}
+  COURSE_ID: ${{ inputs.course_id || '23405' }}
+  # Dedicated test student (WP user + FluentCRM contact auto-created on first
+  # run); the automation tags this contact because the WooCommerce order
+  # carries its billing email. Funnel emails land in this inbox.
+  CRM_TEST_EMAIL: v@neminis.org
+  # Dedicated, idempotently (re)created 100% coupon — we never touch the
+  # manually-managed ones (aaronfbitest et al.), whose expiry dates drift.
+  CRM_TEST_COUPON: crm-e2e-100
+
+jobs:
+  gate:
+    name: does this PR touch the CRM?
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      run: ${{ steps.decide.outputs.run }}
+    steps:
+      - uses: actions/checkout@v7
+        if: github.event_name == 'pull_request'
+
+      - name: Decide
+        id: decide
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # Manual dispatch always proceeds (the environment input is explicit).
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          # Fork PRs get no Upsun env and no secrets; skip (job stays green).
+          if [ "${{ github.event.pull_request.head.repo.full_name }}" != "$GITHUB_REPOSITORY" ]; then
+            echo "fork PR — skipping"; echo "run=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+
+          files=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files" --paginate --jq '.[].filename')
+          printf 'changed files:\n%s\n' "$files"
+
+          if echo "$files" | grep -qE '^(tests/crm-e2e/|\.github/workflows/crm-workflow-e2e\.yml$|keds/private-packages/plugins/(fluentcampaign-pro|fluentformpro)/)'; then
+            echo "CRM code touched directly"
+            echo "run=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+
+          if echo "$files" | grep -qx 'keds/composer.lock'; then
+            git fetch --no-tags --depth=1 origin "$BASE_SHA"
+            if git diff "$BASE_SHA" HEAD -- keds/composer.lock | grep -qiE '^[-+].*(fluent-crm|fluentcampaign|fluentform)'; then
+              echo "composer.lock moves a fluent* package"
+              echo "run=true" >> "$GITHUB_OUTPUT"; exit 0
+            fi
+          fi
+
+          echo "no CRM-relevant change — skipping"
+          echo "run=false" >> "$GITHUB_OUTPUT"
+
+  crm-workflow:
+    name: enroll + complete + tag assertions
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    # UPSUN_CLI_TOKEN lives on this GitHub environment (same pattern as
+    # thim-update.yml) — without declaring it, the secret resolves empty.
+    # Fork PRs never reach this job (gate skips them).
+    environment: upsun-prod
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Preflight
+        # The suite drives state reset + CRM assertions over `upsun ssh`; an
+        # unset token would otherwise surface as a confusing mid-test error.
+        run: |
+          if [ -z "${{ secrets.UPSUN_CLI_TOKEN }}" ]; then
+            echo "::error::UPSUN_CLI_TOKEN secret is not set (Upsun console -> API tokens; add to Actions AND Dependabot secret stores)"
+            exit 1
+          fi
+
+      - name: Install Upsun CLI
+        run: |
+          bin="$HOME/.local/bin"
+          mkdir -p "$bin"
+          # Both the installer fetch and its inner release download hit
+          # transient 429s on GitHub. Download to a file (never pipe a
+          # possibly-truncated script into bash) and retry the whole install.
+          for attempt in 1 2 3 4 5; do
+            if curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors \
+                 -o /tmp/upsun-installer.sh \
+                 https://raw.githubusercontent.com/upsun/cli/main/installer.sh \
+               && bash /tmp/upsun-installer.sh; then
+              break
+            fi
+            if [ "$attempt" -eq 5 ]; then
+              echo "::error::Failed to install the Upsun CLI after $attempt attempts"
+              exit 1
+            fi
+            echo "install attempt $attempt failed; retrying"
+            sleep $((attempt * 10))
+          done
+          # The unified CLI brands itself by binary name and the tarball may
+          # ship it as `platform` — the suite spawns `upsun`, so guarantee
+          # that name exists. Fail HERE, with a listing, if anything is off.
+          ls -la "$bin"
+          if [ ! -x "$bin/upsun" ] && [ -x "$bin/platform" ]; then
+            ln -s platform "$bin/upsun"
+          fi
+          echo "$bin" >> "$GITHUB_PATH"
+          export PATH="$bin:$PATH"
+          command -v upsun
+          upsun --version
+
+      - name: Wait for the PR's Upsun environment
+        if: github.event_name == 'pull_request'
+        id: prenv
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.number }}
+          UPSUN_STATUS_CONTEXT: 'upsun'
+          UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
+          TIMEOUT_MIN: '30'
+        run: bash .github/ci/wait-for-upsun-env.sh
+
+      - name: Resolve environment URL (manual dispatch)
+        if: github.event_name != 'pull_request'
+        id: env
+        env:
+          UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
+        run: |
+          url=$(upsun environment:url -p "$UPSUN_PROJECT" -e "$TARGET_ENV" --primary --pipe)
+          echo "url=${url%/}" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for the environment to serve
+        env:
+          E2E_HTTP_USER: ${{ secrets.E2E_HTTP_USER }}
+          E2E_HTTP_PASS: ${{ secrets.E2E_HTTP_PASS }}
+        run: |
+          url="${{ steps.prenv.outputs.url || steps.env.outputs.url }}"
+          echo "Testing against $url"
+          auth=()
+          if [ -n "$E2E_HTTP_USER" ]; then auth=(-u "$E2E_HTTP_USER:$E2E_HTTP_PASS"); fi
+          for i in $(seq 1 24); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "${auth[@]}" "$url/") || code=000
+            echo "attempt $i: HTTP $code"
+            case "$code" in
+              2*|3*) exit 0 ;;
+            esac
+            sleep 10
+          done
+          echo "ERROR: environment never served a non-error response" >&2
+          exit 1
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tests/crm-e2e/package-lock.json
+
+      - name: Install Playwright
+        working-directory: tests/crm-e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run CRM workflow test
+        working-directory: tests/crm-e2e
+        env:
+          BASE_URL: ${{ steps.prenv.outputs.url || steps.env.outputs.url }}
+          UPSUN_ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || inputs.environment }}
+          UPSUN_CLI_TOKEN: ${{ secrets.UPSUN_CLI_TOKEN }}
+          E2E_HTTP_USER: ${{ secrets.E2E_HTTP_USER }}
+          E2E_HTTP_PASS: ${{ secrets.E2E_HTTP_PASS }}
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: crm-e2e-report
+          if-no-files-found: ignore
+          path: |
+            tests/crm-e2e/playwright-report/
+            tests/crm-e2e/test-results/

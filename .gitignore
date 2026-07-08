@@ -17,3 +17,6 @@
 /tests/e2e/node_modules/
 /tests/e2e/playwright-report/
 /tests/e2e/test-results/
+/tests/crm-e2e/node_modules/
+/tests/crm-e2e/playwright-report/
+/tests/crm-e2e/test-results/
