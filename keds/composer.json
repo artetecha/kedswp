@@ -21,6 +21,13 @@
       "options": {
         "symlink": false
       }
+    },
+    {
+      "type": "path",
+      "url": "packages/upsun-mu-plugin",
+      "options": {
+        "symlink": false
+      }
     }
   ],
   "require": {
@@ -51,6 +58,7 @@
     "keds-plugin/wp-events-manager": "*",
     "keds-theme/eduma": "*",
     "platformsh/config-reader": "^3.0",
+    "upsun/wordpress-mu-plugin": "*",
     "wpackagist-plugin/akismet": "5.7",
     "wpackagist-plugin/auto-sizes": "1.7.0",
     "wpackagist-plugin/autodescription": "5.1.4",
@@ -85,6 +93,7 @@
     "postbuild": [
       "cp wp-config.php wordpress/",
       "cp -r mu-plugins wordpress/wp-content/",
+      "cp wordpress/wp-content/mu-plugins/upsun/upsun-loader.php wordpress/wp-content/mu-plugins/upsun-loader.php",
       "cp wordpress/wp-content/plugins/redis-cache/includes/object-cache.php wordpress/wp-content/object-cache.php",
       "rm -rf wordpress/wp-content/plugins/hello.php"
     ],
