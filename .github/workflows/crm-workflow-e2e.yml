@@ -125,6 +125,10 @@ jobs:
     needs: gate
     if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
+    # UPSUN_CLI_TOKEN lives on this GitHub environment (same pattern as
+    # thim-update.yml) — without declaring it, the secret resolves empty.
+    # Fork PRs never reach this job (gate skips them).
+    environment: upsun-prod
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
