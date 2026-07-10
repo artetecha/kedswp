@@ -49,8 +49,8 @@ make the router cache debuggable, and give the plugin a home inside wp-admin.
 ### Upsun dashboard page (`dashboard` module) — shipped in 0.2.0
 
 A top-level **"Upsun"** entry in the wp-admin sidebar (`add_menu_page`,
-`manage_options`, slug `upsun`; since 0.2.2 the first menu item, above
-Dashboard, with the official Upsun mark as a repaintable base64-SVG icon),
+`manage_options`, slug `upsun`; since 0.2.2 positioned directly below
+Dashboard with the official Upsun mark as a repaintable base64-SVG icon),
 following the WP Engine/Kinsta pattern of a platform home inside wp-admin. This becomes the surface that all other features plug into,
 instead of each growing its own UI.
 

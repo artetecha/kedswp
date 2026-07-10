@@ -56,8 +56,9 @@ class Dashboard implements Module {
 	}
 
 	/**
-	 * Position 1 slots the page above Dashboard (position 2): the platform
-	 * home is the very first menu item.
+	 * Position 2 collides with Dashboard, and core resolves collisions by
+	 * nudging the new item just below the existing one — so the page lands
+	 * directly under Dashboard, above the first separator.
 	 *
 	 * @return int|float|string Anything add_menu_page accepts as a position.
 	 */
@@ -65,9 +66,9 @@ class Dashboard implements Module {
 		/**
 		 * Filters the admin-menu position of the Upsun page.
 		 *
-		 * @param int $position Default 1 (the very top, above Dashboard).
+		 * @param int $position Default 2 (directly below Dashboard).
 		 */
-		return apply_filters( 'upsun_dashboard_menu_position', 1 );
+		return apply_filters( 'upsun_dashboard_menu_position', 2 );
 	}
 
 	/**

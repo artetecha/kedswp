@@ -52,8 +52,8 @@ final class DashboardTest extends TestCase {
 		$this->assertArrayHasKey( 'custom', $panels );
 	}
 
-	public function test_menu_sits_at_the_very_top(): void {
-		$this->assertSame( 1, ( new Dashboard() )->menu_position() );
+	public function test_menu_sits_directly_below_the_wp_dashboard(): void {
+		$this->assertSame( 2, ( new Dashboard() )->menu_position() );
 
 		add_filter(
 			'upsun_dashboard_menu_position',
