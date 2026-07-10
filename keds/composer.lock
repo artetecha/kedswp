@@ -576,11 +576,11 @@
         },
         {
             "name": "keds-theme/eduma",
-            "version": "5.9.2",
+            "version": "5.9.3",
             "dist": {
                 "type": "path",
                 "url": "private-packages/themes/eduma",
-                "reference": "116f1b3a35aa400f1752ecf6ca34d263f9df6fce"
+                "reference": "31dfc07f8c4a62d1485495c0b51f435a680b323c"
             },
             "type": "wordpress-theme",
             "transport-options": {

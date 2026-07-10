@@ -277,20 +277,19 @@ function eduma_add_filter_custom_field_course( $fields ) {
 		),
 		'thim_course_media_intro' => new LP_Meta_Box_Textarea_Field(
 			esc_html__( 'Media Intro', 'eduma' ),
-			esc_html__( 'Enter media intro', 'eduma' ),
+			esc_html__( 'Add an embed link like video, PDF, slider...', 'eduma' ),
 			''
 		),
 	);
 	return array_merge( $fields, $add_fields );
 }
 
-add_action(
-	'learnpress_save_lp_course_metabox',
+add_action( 'learnpress_save_lp_course_metabox',
 	function ( $post_id ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
-		$video = ! empty( $_POST['thim_course_media_intro'] ) ? wp_kses_post( wp_unslash( $_POST['thim_course_media_intro'] ) ) : '';
+		$video = ! empty( $_POST['thim_course_media_intro'] ) ?  wp_unslash( $_POST['thim_course_media_intro'] )  : '';
 		update_post_meta( $post_id, 'thim_course_media_intro', $video );
 	}
 );
@@ -301,7 +300,7 @@ add_action(
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
-		$video = ! empty( $_POST['_lp_lesson_video_intro'] ) ? wp_kses_post( wp_unslash( $_POST['_lp_lesson_video_intro'] ) ) : '';
+		$video = ! empty( $_POST['_lp_lesson_video_intro'] ) ?  wp_unslash( $_POST['_lp_lesson_video_intro'] )  : '';
 
 		update_post_meta( $post_id, '_lp_lesson_video_intro', $video );
 	}

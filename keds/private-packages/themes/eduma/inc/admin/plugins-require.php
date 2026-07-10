@@ -388,6 +388,7 @@ function thim_get_all_plugins_require( $plugins ) {
 			'slug'     => 'woo-booster-toolkit',
 			'premium'  => true,
 			'required' => false,
+			'description' => 'Add some features to WooCommerce plugin. <cite>By <a href="http://thimpress.com/">ThimPress</a>.</cite>',
 		),
 		array(
 			'name'        => 'TP Social Login',

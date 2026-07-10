@@ -145,7 +145,7 @@ class Thim_Elementor_Extend {
 		add_filter(
 			'thim_ekit/mega_menu/menu_container/class',
 			function () {
-				return 'header .thim-nav-wrapper .tm-table';
+				return 'header .thim-nav-wrapper .tm-table, .mega-menu-wrapper-center, .thim-ekit__header__inner .e-con-inner';
 			}
 		);
 	}

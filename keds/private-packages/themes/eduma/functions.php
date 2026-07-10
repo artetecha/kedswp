@@ -9,7 +9,7 @@
 define( 'THIM_DIR', trailingslashit( get_template_directory() ) );
 define( 'THIM_URI', trailingslashit( get_template_directory_uri() ) );
 
-const THIM_THEME_VERSION = '5.9.2';
+const THIM_THEME_VERSION = '5.9.3';
 
 /**
  * Set the content width based on the theme's design and stylesheet.
