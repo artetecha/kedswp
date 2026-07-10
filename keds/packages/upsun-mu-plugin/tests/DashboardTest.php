@@ -14,6 +14,7 @@ final class DashboardTest extends TestCase {
 	protected function tearDown(): void {
 		upsun_test_clear_env();
 		upsun_test_reset_hooks();
+		unset( $GLOBALS['menu'] );
 	}
 
 	public function test_default_panels_are_registered(): void {
@@ -63,6 +64,44 @@ final class DashboardTest extends TestCase {
 		);
 
 		$this->assertSame( 99, ( new Dashboard() )->menu_position() );
+	}
+
+	public function test_pin_menu_position_beats_the_collision_lottery(): void {
+		// Position-2 squatters get md5-fraction keys from core; Upsun drew
+		// the worst one. The pin must land it directly below Dashboard.
+		$GLOBALS['menu'] = array(
+			'2'       => array( 'Dashboard', 'read', 'index.php' ),
+			'2.00007' => array( 'FluentCRM', 'manage_options', 'fluentcrm-admin' ),
+			'2.32'    => array( 'Eduma', 'manage_options', 'thim-core' ),
+			'2.53'    => array( 'Upsun', 'manage_options', 'upsun' ),
+			'5'       => array( 'Posts', 'edit_posts', 'edit.php' ),
+		);
+
+		( new Dashboard() )->pin_menu_position();
+
+		$this->assertSame(
+			array( 'index.php', 'upsun', 'fluentcrm-admin', 'thim-core', 'edit.php' ),
+			array_column( array_values( $GLOBALS['menu'] ), 2 )
+		);
+	}
+
+	public function test_pin_menu_position_respects_a_filtered_position(): void {
+		$GLOBALS['menu'] = array(
+			'2'  => array( 'Dashboard', 'read', 'index.php' ),
+			'99' => array( 'Upsun', 'manage_options', 'upsun' ),
+		);
+
+		add_filter(
+			'upsun_dashboard_menu_position',
+			function () {
+				return 99;
+			}
+		);
+
+		( new Dashboard() )->pin_menu_position();
+
+		$this->assertArrayHasKey( '99', $GLOBALS['menu'] );
+		$this->assertSame( 'upsun', $GLOBALS['menu']['99'][2] );
 	}
 
 	public function test_menu_icon_is_the_upsun_mark_as_a_base64_svg(): void {

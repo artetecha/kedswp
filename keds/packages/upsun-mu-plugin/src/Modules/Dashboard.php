@@ -40,6 +40,7 @@ class Dashboard implements Module {
 
 	public function register(): void {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
+		add_action( 'admin_menu', array( $this, 'pin_menu_position' ), PHP_INT_MAX );
 		add_action( 'admin_post_' . self::FLUSH_ACTION, array( $this, 'handle_flush_object_cache' ) );
 	}
 
@@ -56,9 +57,9 @@ class Dashboard implements Module {
 	}
 
 	/**
-	 * Position 2 collides with Dashboard, and core resolves collisions by
-	 * nudging the new item just below the existing one — so the page lands
-	 * directly under Dashboard, above the first separator.
+	 * The default 2 means "directly below Dashboard" and is enforced by
+	 * pin_menu_position() after all plugins have registered; any other
+	 * value is passed to add_menu_page as-is, unpinned.
 	 *
 	 * @return int|float|string Anything add_menu_page accepts as a position.
 	 */
@@ -66,9 +67,60 @@ class Dashboard implements Module {
 		/**
 		 * Filters the admin-menu position of the Upsun page.
 		 *
-		 * @param int $position Default 2 (directly below Dashboard).
+		 * @param int $position Default 2 (pinned directly below Dashboard).
 		 */
 		return apply_filters( 'upsun_dashboard_menu_position', 2 );
+	}
+
+	/**
+	 * Keep the page directly below Dashboard once every plugin has
+	 * registered. Several plugins squat position 2, and core resolves each
+	 * collision with an md5-of-slug fraction — so the relative order of the
+	 * squatters is a hash lottery, not registration order. Re-keying our
+	 * entry between Dashboard (2) and its current closest follower is the
+	 * only deterministic placement. Skipped when
+	 * upsun_dashboard_menu_position is filtered away from the default.
+	 */
+	public function pin_menu_position(): void {
+		global $menu;
+
+		if ( 2 !== $this->menu_position() || ! is_array( $menu ) ) {
+			return;
+		}
+
+		$our_key = null;
+
+		foreach ( $menu as $key => $item ) {
+			if ( self::MENU_SLUG === (string) ( $item[2] ?? '' ) ) {
+				$our_key = $key;
+				break;
+			}
+		}
+
+		if ( null === $our_key ) {
+			return;
+		}
+
+		$entry = $menu[ $our_key ];
+		unset( $menu[ $our_key ] );
+
+		// The smallest position after Dashboard (2) among everyone else.
+		$next = null;
+
+		foreach ( $menu as $key => $item ) {
+			$position = (float) $key;
+
+			if ( $position > 2 && ( null === $next || $position < $next ) ) {
+				$next = $position;
+			}
+		}
+
+		$position = null === $next
+			? '3'
+			: rtrim( rtrim( number_format( 2 + ( $next - 2 ) / 2, 8, '.', '' ), '0' ), '.' );
+
+		$menu[ $position ] = $entry;
+		ksort( $menu );
 	}
 
 	/**
