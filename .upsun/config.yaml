@@ -17,6 +17,9 @@ applications:
       deploy: |
         set -e
         bash scripts/deploy.sh
+      post_deploy: |
+        set -e
+        bash scripts/post-deploy.sh
 
     relationships:
       database: "kedsdb:mysql"

@@ -53,3 +53,41 @@ add_filter( 'upsun_page_cache_skip', function ( $skip ) {
  * of the way.
  */
 add_filter( 'upsun_configure_smtp', '__return_false' );
+
+/**
+ * Preview safety: the LearnPress Stripe add-on has no runtime test-mode
+ * switch (LP bulk-loads settings through its own settings cache, so option
+ * filters never reach the gateway), so the safe move is removing the
+ * gateway from checkout on previews entirely. WooCommerce Stripe test mode,
+ * wp_mail interception (which also covers FluentCRM sends), and WooCommerce
+ * webhook pausing are handled by the Upsun plugin's built-in protections.
+ */
+add_filter( 'upsun_safe_previews_actions', function ( array $protections ) {
+	$protections['learnpress-stripe'] = array(
+		'label'    => 'LearnPress Stripe',
+		'register' => function () {
+			add_filter( 'learn-press/payment-methods', function ( $methods ) {
+				if ( is_array( $methods ) && function_exists( 'Upsun\\is_preview_environment' ) && \Upsun\is_preview_environment() ) {
+					unset( $methods['stripe'] );
+				}
+
+				return $methods;
+			}, 999 );
+		},
+		'status'   => function () {
+			if ( ! defined( 'LP_ADDON_STRIPE_PAYMENT_PATH' ) && ! class_exists( 'LP_Gateway_Stripe' ) ) {
+				return array(
+					'state'  => 'inactive',
+					'detail' => 'LearnPress Stripe not detected',
+				);
+			}
+
+			return array(
+				'state'  => 'active',
+				'detail' => 'gateway removed from checkout (no runtime test-mode switch)',
+			);
+		},
+	);
+
+	return $protections;
+} );
