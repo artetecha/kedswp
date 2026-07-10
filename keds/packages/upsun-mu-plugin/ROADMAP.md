@@ -117,21 +117,21 @@ Output: a table plus a one-line verdict (`cacheable for 600s` / `uncacheable:
 Set-Cookie lp_session_guest`). Documents (but cannot read) the router cookie
 allowlist — flag that as an assumption in output.
 
-### Cron heartbeat
+### Cron heartbeat — shipped in 0.2.1
 
-SiteHealth v0.1 checks configuration (`DISABLE_WP_CRON`), not execution. Add:
+SiteHealth v0.1 checks configuration (`DISABLE_WP_CRON`), not execution. The
+`cron-heartbeat` module schedules a recurring event (default hourly, filter
+`upsun_cron_heartbeat_schedule`) that stamps a non-autoloaded timestamp
+option; the shared check registry then warns at 2× the schedule interval and
+fails at 4×, with an overdue-events count via `wp_get_ready_cron_jobs()`.
+Reported by Site Health, the dashboard Health panel, and `wp upsun doctor`.
 
-- record a timestamp option (non-autoloaded) at the start of every cron process,
-- Site Health / `wp upsun doctor` check: warn when the heartbeat is older than
-  2× the expected interval (`upsun_cron_expected_interval`, default 600s),
-  plus an overdue-events count via `wp_get_ready_cron_jobs()`.
+### Login-screen environment banner — shipped in 0.2.1
 
-### Login-screen environment banner
-
-Extend EnvironmentIndicator: colored banner on `wp-login.php` (via
-`login_message`/`login_enqueue_scripts`) naming the environment type and branch.
-The admin-bar badge only protects people who are already logged in; this
-protects them at the door. Same enable filter as the badge.
+EnvironmentIndicator renders a colored banner above the login form (via
+`login_message`) naming the environment type and branch, using the badge
+color coding. The admin-bar badge only protects people who are already logged
+in; this protects them at the door. Opt out via `upsun_login_banner`.
 
 ---
 
