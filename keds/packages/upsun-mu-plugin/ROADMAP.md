@@ -163,6 +163,33 @@ in; this protects them at the door. Opt out via `upsun_login_banner`.
 
 For adoption beyond the first customer.
 
+### Built-in sanitizers (opt-in, disabled by default)
+
+SafePreviews' `upsun_preview_sanitize` hook currently fires into consumer
+code only; the built-in protections are runtime filters that never write to
+the database. This adds a registry of *DB-writing* sanitizers that run as
+part of the sanitize flow — each shipped **disabled** and enabled per-slug
+via filter (code-based config, no toggle UI; 0.x semver forbids changing
+default behavior). Writes are safe by platform design: data only flows
+parent→child on Upsun, so scrubbed preview state can never leak back, and a
+resync re-triggers sanitize.
+
+Launch candidates (each idempotent, dry-run aware, reporting what changed
+through `wp upsun sanitize`, the dashboard panel, and doctor):
+
+- **`anonymize-user-emails`** — rewrite user emails to a per-user `.invalid`
+  address. Defense-in-depth beyond mail interception: no plugin can reach a
+  real customer through any send path. The most-reinvented preview sanitizer
+  in every hosting workflow.
+- **`deactivate-plugins`** — deactivate a consumer-supplied list of plugin
+  slugs on previews (backup runners, analytics, gateways with no runtime
+  test-mode switch). Would replace KEDS's LearnPress-Stripe gateway-removal
+  shim with declarative config.
+- **`scrub-options`** — null/overwrite a consumer-supplied list of option
+  names or array sub-keys. The generic escape hatch for plugins that read
+  credentials in ways runtime filters cannot reach (the LearnPress
+  settings-cache problem, generalized).
+
 ### Read-only-FS compat layer
 
 A registry of targeted fixes for popular plugins that assume writable
