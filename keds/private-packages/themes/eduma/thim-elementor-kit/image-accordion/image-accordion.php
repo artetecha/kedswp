@@ -89,6 +89,11 @@ class Thim_Ekit_Widget_Image_Accordion extends Widget_Base {
 				),
 				'default'   => 'center',
 				'toggle'    => true,
+				'selectors_dictionary' => [
+					'left'   => 'start',
+					'right'  => 'end',
+					'center' => 'center',
+				],
 				'selectors' => array(
 					'{{WRAPPER}} .thim-ekits-image-accordion__item .overlay' => 'justify-content: {{VALUE}}; text-align: {{VALUE}}',
 				),

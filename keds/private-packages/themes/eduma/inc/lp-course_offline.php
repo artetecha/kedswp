@@ -93,7 +93,7 @@ add_action(
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
-		$video           = ! empty( $_POST['thim_course_media_intro'] ) ? wp_kses_post( wp_unslash( $_POST['thim_course_media_intro'] ) ) : '';
+		$video           = ! empty( $_POST['thim_course_media_intro'] ) ? wp_unslash( $_POST['thim_course_media_intro'] ) : '';
 		$time            = ! empty( $_POST['thim_course_time'] ) ? sanitize_text_field( wp_unslash( $_POST['thim_course_time'] ) ) : '';
 		$duration_info   = ! empty( $_POST['thim_course_duration'] ) ? sanitize_text_field( wp_unslash( $_POST['thim_course_duration'] ) ) : '';
 		$day_of_week     = ! empty( $_POST['thim_course_day_of_week'] ) ? sanitize_text_field( wp_unslash( $_POST['thim_course_day_of_week'] ) ) : '';

@@ -150,6 +150,11 @@ class Thim_Ekit_Widget_Button extends Widget_Base {
 					],
 				],
 				'default'   => 'center',
+				'selectors_dictionary' => [
+					'left'   => 'start',
+					'right'  => 'end',
+					'center' => 'center',
+				],
 				'selectors' => [
 					'{{WRAPPER}}.thim-widget-button' => 'text-align: {{VALUE}};',
 				],
