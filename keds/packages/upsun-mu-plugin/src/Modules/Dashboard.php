@@ -56,10 +56,8 @@ class Dashboard implements Module {
 	}
 
 	/**
-	 * Position 3 slots the page directly below Dashboard (position 2),
-	 * before the first separator (4). Two plugins claiming the same integer
-	 * position overwrite each other in the menu array — if that happens,
-	 * move ours via the filter.
+	 * Position 1 slots the page above Dashboard (position 2): the platform
+	 * home is the very first menu item.
 	 *
 	 * @return int|float|string Anything add_menu_page accepts as a position.
 	 */
@@ -67,9 +65,9 @@ class Dashboard implements Module {
 		/**
 		 * Filters the admin-menu position of the Upsun page.
 		 *
-		 * @param int $position Default 3 (directly below Dashboard).
+		 * @param int $position Default 1 (the very top, above Dashboard).
 		 */
-		return apply_filters( 'upsun_dashboard_menu_position', 3 );
+		return apply_filters( 'upsun_dashboard_menu_position', 1 );
 	}
 
 	/**
