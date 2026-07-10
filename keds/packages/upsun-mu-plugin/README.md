@@ -91,6 +91,8 @@ Module boot is deferred to `muplugins_loaded` priority 0, so **any mu-plugin** c
 | `upsun_configure_smtp` | `bool` | `true` | Keep the plugin away from PHPMailer (a mailer plugin owns SMTP). |
 | `upsun_dashboard_enabled` | `bool` | `true` | Hide the "Upsun" wp-admin page. |
 | `upsun_dashboard_panels` | `array<string, {title, render}>` | 5 built-in panels | Add/remove/reorder dashboard panels. |
+| `upsun_dashboard_menu_position` | `int` | `3` | Admin-menu position (default: directly below Dashboard). Change it if another plugin claims the same slot. |
+| `upsun_dashboard_menu_icon` | `string` | Upsun mark (base64 SVG) | Menu icon: a data URI, image URL, or dashicon class. |
 | `upsun_login_banner` | `bool` | `true` | Hide the login-screen environment banner. |
 | `upsun_cron_heartbeat_enabled` | `bool` | `true` | Disable the heartbeat event and its check. |
 | `upsun_cron_heartbeat_schedule` | `string` | `'hourly'` | WP-Cron schedule for the heartbeat event (staleness thresholds scale with it). |

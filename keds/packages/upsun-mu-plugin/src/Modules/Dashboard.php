@@ -21,6 +21,14 @@ class Dashboard implements Module {
 
 	private const FLUSH_ACTION = 'upsun_flush_object_cache';
 
+	/**
+	 * The official Upsun mark (upsun.com favicon, vector version). Embedded
+	 * so admin pages make no external requests; served as a base64 data URI
+	 * because wp-admin's svg-painter repaints those to match the admin color
+	 * scheme (a bitmap would stay dark-on-dark in the menu).
+	 */
+	private const MENU_ICON_SVG = '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.0064 10.3029C19.1584 10.3029 21.7066 12.8576 21.7066 16.0032H27.4069C27.4069 9.70559 22.3029 4.59625 16 4.59625C9.69702 4.59625 4.59302 9.70025 4.59302 16.0032H10.2933C10.3061 12.8512 12.8608 10.3029 16.0064 10.3029Z" fill="black"/><path d="M17.9392 21.3653C20.1365 20.5706 21.7067 18.4714 21.7067 16.0032H10.3051C10.3051 18.4714 11.8752 20.577 14.0725 21.3653V21.4634H5.99573C7.92853 25.0037 11.6907 27.4037 16.0117 27.4037C20.3328 27.4037 24.0885 25.0026 26.0277 21.4634H17.9381V21.3653H17.9392Z" fill="black"/></svg>';
+
 	public function should_load(): bool {
 		/**
 		 * Filters whether the Upsun dashboard page is registered.
@@ -42,7 +50,41 @@ class Dashboard implements Module {
 			'manage_options',
 			self::MENU_SLUG,
 			array( $this, 'render_page' ),
-			'dashicons-cloud'
+			$this->menu_icon(),
+			$this->menu_position()
+		);
+	}
+
+	/**
+	 * Position 3 slots the page directly below Dashboard (position 2),
+	 * before the first separator (4). Two plugins claiming the same integer
+	 * position overwrite each other in the menu array — if that happens,
+	 * move ours via the filter.
+	 *
+	 * @return int|float|string Anything add_menu_page accepts as a position.
+	 */
+	public function menu_position() {
+		/**
+		 * Filters the admin-menu position of the Upsun page.
+		 *
+		 * @param int $position Default 3 (directly below Dashboard).
+		 */
+		return apply_filters( 'upsun_dashboard_menu_position', 3 );
+	}
+
+	/**
+	 * The menu icon: the Upsun mark as a base64 SVG data URI.
+	 */
+	public function menu_icon(): string {
+		/**
+		 * Filters the admin-menu icon of the Upsun page. Accepts anything
+		 * add_menu_page does: a data URI, an image URL, or a dashicon class.
+		 *
+		 * @param string $icon Default: the Upsun mark as a base64 SVG data URI.
+		 */
+		return (string) apply_filters(
+			'upsun_dashboard_menu_icon',
+			'data:image/svg+xml;base64,' . base64_encode( self::MENU_ICON_SVG )
 		);
 	}
 

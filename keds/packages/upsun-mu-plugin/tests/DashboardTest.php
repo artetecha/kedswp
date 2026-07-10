@@ -52,6 +52,37 @@ final class DashboardTest extends TestCase {
 		$this->assertArrayHasKey( 'custom', $panels );
 	}
 
+	public function test_menu_sits_directly_below_the_wp_dashboard(): void {
+		$this->assertSame( 3, ( new Dashboard() )->menu_position() );
+
+		add_filter(
+			'upsun_dashboard_menu_position',
+			function () {
+				return 99;
+			}
+		);
+
+		$this->assertSame( 99, ( new Dashboard() )->menu_position() );
+	}
+
+	public function test_menu_icon_is_the_upsun_mark_as_a_base64_svg(): void {
+		$icon   = ( new Dashboard() )->menu_icon();
+		$prefix = 'data:image/svg+xml;base64,';
+
+		$this->assertStringStartsWith( $prefix, $icon );
+
+		$svg = base64_decode( substr( $icon, strlen( $prefix ) ), true );
+		$this->assertIsString( $svg );
+		$this->assertStringContainsString( '<svg', $svg );
+		$this->assertStringContainsString( 'viewBox="0 0 32 32"', $svg );
+
+		add_filter( 'upsun_dashboard_menu_icon', function () {
+			return 'dashicons-cloud';
+		} );
+
+		$this->assertSame( 'dashicons-cloud', ( new Dashboard() )->menu_icon() );
+	}
+
 	public function test_render_page_outputs_all_default_panels(): void {
 		ob_start();
 		( new Dashboard() )->render_page();
