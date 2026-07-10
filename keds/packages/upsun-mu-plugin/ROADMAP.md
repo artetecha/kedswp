@@ -1,5 +1,22 @@
 # Roadmap
 
+## Status (2026-07-08)
+
+| Milestone | Item | Status |
+|---|---|---|
+| v0.2 | Upsun dashboard page (`dashboard` module) | ✅ shipped in 0.2.0 (PR #44), verified on a preview env |
+| v0.2 | Cron heartbeat (`cron-heartbeat` module) | ✅ shipped in 0.2.1 (PR #45), `wp upsun doctor` verified live |
+| v0.2 | Login-screen environment banner | ✅ shipped in 0.2.1 (PR #45), verified on a preview env |
+| v0.2 | SafePreviews module + `wp upsun sanitize` | ⬜ next up |
+| v0.2 | `wp upsun cache-check <url>` | ⬜ not started |
+| v0.3 | Compat layer, `wp upsun migrate`, relationship health, mount usage | ⬜ not started |
+| — | Extraction to an independent repo | ⬜ triggered by second consumer or v0.3 |
+
+The v0.2 milestone spans 0.2.x releases; version = package `composer.json` /
+`UPSUN_MU_PLUGIN_VERSION`.
+
+---
+
 This package is a **generic platform plugin for WordPress on Upsun** — not a KEDS
 component. KEDS is the first customer: it consumes the plugin through the public
 filter/constant API only, and anything KEDS-specific lives in the consuming repo
