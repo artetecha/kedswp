@@ -35,6 +35,8 @@ class Dashboard implements Module {
 		#upsun-dashboard .postbox { border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); }
 		#upsun-dashboard .postbox-header { border-bottom-color: #f0f0f1; }
 		#upsun-dashboard #dashboard-widgets .postbox .inside { padding-bottom: 12px; margin-bottom: 0; }
+		#upsun-dashboard .postbox table.widefat td:first-child { white-space: nowrap; }
+		#upsun-dashboard .postbox code { overflow-wrap: anywhere; }
 	';
 
 	/**
@@ -305,7 +307,7 @@ class Dashboard implements Module {
 
 		foreach ( $rows as $label => $value ) {
 			printf(
-				'<tr><td style="width: 30%%;">%s</td><td>%s</td></tr>',
+				'<tr><td>%s</td><td>%s</td></tr>',
 				esc_html( $label ),
 				esc_html( $value ?? '—' )
 			);
@@ -381,7 +383,7 @@ class Dashboard implements Module {
 			$result = call_user_func( $check['callback'] );
 
 			printf(
-				'<tr><td style="width: 30%%;">%s</td><td style="width: 10%%;">%s</td><td>%s</td></tr>',
+				'<tr><td>%s</td><td>%s</td><td>%s</td></tr>',
 				esc_html( (string) ( $check['label'] ?? $id ) ),
 				$this->status_badge( (string) ( $result['status'] ?? 'warn' ) ),
 				esc_html( (string) ( $result['message'] ?? '' ) )
@@ -422,7 +424,7 @@ class Dashboard implements Module {
 
 		foreach ( $rows as $label => $value ) {
 			printf(
-				'<tr><td style="width: 30%%;">%s</td><td><code>%s</code></td></tr>',
+				'<tr><td>%s</td><td><code>%s</code></td></tr>',
 				esc_html( $label ),
 				esc_html( $value )
 			);
@@ -452,7 +454,7 @@ class Dashboard implements Module {
 
 		foreach ( $status as $id => $module ) {
 			printf(
-				'<tr><td style="width: 30%%;">%s</td><td style="width: 30%%;">%s</td><td><code>%s</code></td></tr>',
+				'<tr><td>%s</td><td>%s</td><td><code>%s</code></td></tr>',
 				esc_html( (string) $id ),
 				esc_html( $this->state_label( $module['state'], (string) $id ) ),
 				esc_html( $module['class'] )

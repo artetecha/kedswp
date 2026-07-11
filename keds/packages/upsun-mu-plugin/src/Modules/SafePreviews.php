@@ -582,7 +582,7 @@ class SafePreviews implements Module {
 			$state = call_user_func( $protection['status'] );
 
 			printf(
-				'<tr><td style="width: 30%%;">%s</td><td style="width: 15%%;">%s</td><td>%s</td></tr>',
+				'<tr><td>%s</td><td>%s</td><td>%s</td></tr>',
 				esc_html( (string) ( $protection['label'] ?? $id ) ),
 				$this->state_badge( (string) ( $state['state'] ?? '' ) ),
 				esc_html( (string) ( $state['detail'] ?? '' ) )
