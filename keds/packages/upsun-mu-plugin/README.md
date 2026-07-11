@@ -55,7 +55,7 @@ Skipping this step does **not** weaken the runtime preview protections (mail int
 | Module | What it does |
 |---|---|
 | `environment-indicator` | Color-coded admin-bar badge (branch · environment type) with an Upsun Console link, a dashboard widget with environment metadata, and a matching banner on the login screen. |
-| `page-cache` | Emits `Cache-Control: public, max-age=0, s-maxage={ttl}` on anonymous, session-free page views so the Upsun router can cache them; optionally strips configured Set-Cookie headers (e.g. LMS guest sessions) to keep responses cacheable. |
+| `page-cache` | Emits `Cache-Control: public, max-age=0, s-maxage={ttl}` on anonymous, session-free page views so the Upsun router can cache them; optionally strips configured Set-Cookie headers (e.g. LMS guest sessions) to keep responses cacheable. `wp upsun cache-check <url>` (also a form in the dashboard Caching panel) explains any page's verdict: effective TTL, Set-Cookie spoilers, bypass-pattern matches, route cache config from `PLATFORM_ROUTES`, and whether the fetch was a router HIT/MISS/BYPASS. |
 | `updates-policy` | Disables the in-app auto-update machinery (the filesystem is read-only; Composer is the update path), replaces the auto-update toggles with a note, and removes the core Site Health tests that would fail by design. |
 | `site-health` | Upsun-specific Site Health checks: object cache round-trip, cron configuration, writable mounts, preview search visibility; plus an "Upsun" section in the Info tab. |
 | `preview-protection` | Sends `X-Robots-Tag: noindex, nofollow` and robots meta on non-production environments, without touching the `blog_public` option (the database is a production clone). |
@@ -120,6 +120,8 @@ wp upsun info            # project / environment / branch / routes
 wp upsun doctor          # health checks; exits 1 on failure (deploy-hook friendly)
 wp upsun relationships   # service relationships (credentials never printed)
 wp upsun cache flush     # object cache only — the router cache has no purge API
+wp upsun cache-check /some/page          # why is/isn't this page router-cacheable?
+wp upsun cache-check / --cookie="a=1"    # ...and what do these request cookies change?
 wp upsun sanitize        # fire the preview sanitize actions (refuses on production)
 wp upsun sanitize --if-needed   # post_deploy-hook mode: stamp-aware, safe everywhere
 wp upsun sanitize --dry-run
