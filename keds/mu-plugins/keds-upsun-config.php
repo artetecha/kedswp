@@ -55,6 +55,31 @@ add_filter( 'upsun_page_cache_skip', function ( $skip ) {
 add_filter( 'upsun_configure_smtp', '__return_false' );
 
 /**
+ * Upsun does not expose the routes' cache blocks at runtime, so mirror
+ * routes["https://{default}/"].cache from .upsun/config.yaml here — this
+ * makes `wp upsun cache-check` cookie notes exact instead of assuming the
+ * ["*"] default. Keep in sync with .upsun/config.yaml.
+ */
+add_filter( 'upsun_cache_check_route_cache', function ( array $config ) {
+	return array(
+		'enabled'     => true,
+		'default_ttl' => 0,
+		'cookies'     => array(
+			'/^wordpress_logged_in_/',
+			'/^wordpress_sec_/',
+			'wordpress_test_cookie',
+			'/^wp-settings-/',
+			'/^wp-postpass/',
+			'/^wp_woocommerce_session_/',
+			'woocommerce_items_in_cart',
+			'woocommerce_cart_hash',
+			'PHPSESSID',
+		),
+		'known'       => true,
+	);
+} );
+
+/**
  * Preview safety: the LearnPress Stripe add-on has no runtime test-mode
  * switch (LP bulk-loads settings through its own settings cache, so option
  * filters never reach the gateway), so the safe move is removing the
