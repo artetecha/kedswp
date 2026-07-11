@@ -143,10 +143,14 @@ explains the verdict:
 - whether this fetch was a router HIT/MISS/BYPASS (`X-Platform-Cache`).
 
 Output: a table plus a one-line verdict (`cacheable for 600s (s-maxage)` /
-`uncacheable: Set-Cookie lp_session_guest`). Better than originally planned:
-the per-route cache config (enabled, default_ttl, cookie list) IS readable
-from `PLATFORM_ROUTES`, so the router cookie allowlist is reported as fact
-when visible and flagged "(assumed)" only when it is not. The same engine
+`uncacheable: Set-Cookie lp_session_guest`). As originally suspected, Upsun
+does not expose the routes' cache blocks in `PLATFORM_ROUTES` (verified
+live) — documented defaults are assumed and flagged "(assumed)", and
+consumers can mirror their real route cache config via the
+`upsun_cache_check_route_cache` filter to make the cookie notes exact.
+The tool reads the block if the platform ever starts exposing it. HTTP 401s
+are diagnosed as access control (with `--auth=<user:pass>` support for
+protected previews) rather than misattributed to the page. The same engine
 powers the interactive form in the dashboard Caching panel (restricted to
 the environment's own routes).
 

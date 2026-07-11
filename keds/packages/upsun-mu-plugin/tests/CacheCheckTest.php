@@ -165,6 +165,66 @@ final class CacheCheckTest extends TestCase {
 		$this->assertSame( 'HIT, age 42', $fetch );
 	}
 
+	public function test_401_names_access_control_not_the_page(): void {
+		$report = $this->analyze( array( 'status' => 401, 'headers' => array( 'www-authenticate' => 'Basic realm="preview"' ) ) );
+
+		$this->assertFalse( $report['cacheable'] );
+		$this->assertStringContainsString( 'HTTP 401', $report['summary'] );
+		$this->assertStringContainsString( '--auth', implode( ' ', $report['notes'] ) );
+		// The misleading "check DONOTCACHEPAGE" hint is suppressed on 401s.
+		$this->assertStringNotContainsString( 'DONOTCACHEPAGE', implode( ' ', $report['notes'] ) );
+	}
+
+	public function test_regex_entries_in_the_route_cookie_list_are_honored(): void {
+		$route = array(
+			'enabled'     => true,
+			'default_ttl' => 0,
+			'cookies'     => array( '/^wordpress_logged_in_/', 'PHPSESSID' ),
+			'known'       => true,
+		);
+
+		$keyed = $this->analyze(
+			array(
+				'headers'       => array( 'cache-control' => 'public, s-maxage=600' ),
+				'cookie_header' => 'wordpress_logged_in_abc=1',
+				'route_cache'   => $route,
+			)
+		);
+		$this->assertStringContainsString( 'part of the route cache key', implode( ' ', $keyed['notes'] ) );
+
+		$harmless = $this->analyze(
+			array(
+				'headers'       => array( 'cache-control' => 'public, s-maxage=600' ),
+				'cookie_header' => 'harmless=1',
+				'route_cache'   => $route,
+			)
+		);
+		$this->assertStringContainsString( 'do not affect the cache key', implode( ' ', $harmless['notes'] ) );
+	}
+
+	public function test_route_cache_filter_lets_consumers_declare_config(): void {
+		$this->fake_routes(
+			array( 'https://example.com/' => array( 'type' => 'upstream', 'primary' => true ) )
+		);
+
+		add_filter(
+			'upsun_cache_check_route_cache',
+			function ( array $config ) {
+				return array(
+					'enabled'     => true,
+					'default_ttl' => 0,
+					'cookies'     => array( '/^wordpress_logged_in_/' ),
+					'known'       => true,
+				);
+			}
+		);
+
+		$config = CacheCheck::route_cache_config( 'https://example.com/page' );
+
+		$this->assertTrue( $config['known'] );
+		$this->assertSame( array( '/^wordpress_logged_in_/' ), $config['cookies'] );
+	}
+
 	/* URL resolution and route config. */
 
 	public function test_paths_resolve_against_the_primary_route(): void {

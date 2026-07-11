@@ -30,9 +30,11 @@ final class CacheCheck {
 	 * @param string $url           Absolute URL, or a path resolved against
 	 *                              the primary route.
 	 * @param string $cookie_header Optional Cookie header to send.
+	 * @param string $auth          Optional "user:pass" for environments
+	 *                              behind HTTP access control.
 	 * @return array The analyze() report, or [ 'error' => string ].
 	 */
-	public static function run( string $url, string $cookie_header = '' ): array {
+	public static function run( string $url, string $cookie_header = '', string $auth = '' ): array {
 		$resolved = self::resolve_url( $url );
 
 		if ( null === $resolved ) {
@@ -45,8 +47,18 @@ final class CacheCheck {
 			'user-agent'  => 'upsun-mu-plugin/cache-check ' . version(),
 		);
 
+		$request_headers = array();
+
 		if ( '' !== $cookie_header ) {
-			$args['headers'] = array( 'Cookie' => $cookie_header );
+			$request_headers['Cookie'] = $cookie_header;
+		}
+
+		if ( '' !== $auth ) {
+			$request_headers['Authorization'] = 'Basic ' . base64_encode( $auth );
+		}
+
+		if ( array() !== $request_headers ) {
+			$args['headers'] = $request_headers;
 		}
 
 		$response = wp_remote_get( $resolved, $args );
@@ -102,7 +114,12 @@ final class CacheCheck {
 		preg_match( '/\b(private|no-cache|no-store)\b/i', $cache_control, $refusal );
 
 		// Storability verdict, in the router's order of refusal.
-		if ( false === (bool) $route['enabled'] ) {
+		if ( 401 === $status ) {
+			$cacheable = false;
+			$final_ttl = null;
+			$summary   = 'uncacheable: HTTP 401 — the fetch was rejected by access control before reaching WordPress';
+			$notes[]   = 'This environment appears to be protected by HTTP auth, so the verdict describes the auth challenge, not your page. Retry with --auth=<user:pass>, or check from an environment without access control.';
+		} elseif ( false === (bool) $route['enabled'] ) {
 			$cacheable = false;
 			$final_ttl = null;
 			$summary   = 'uncacheable: the router cache is disabled for this route';
@@ -133,7 +150,7 @@ final class CacheCheck {
 		}
 
 		// When the app sent no caching header, explain the likely reason.
-		if ( null === $ttl && '' === $cache_control ) {
+		if ( null === $ttl && '' === $cache_control && 401 !== $status ) {
 			$matches = self::bypass_matches( $request_cookies, (array) ( $input['bypass_patterns'] ?? array() ) );
 
 			if ( array() !== $matches ) {
@@ -150,7 +167,14 @@ final class CacheCheck {
 			if ( in_array( '*', (array) $route['cookies'], true ) ) {
 				$notes[] = sprintf( 'This request itself bypasses the shared cache: cookie(s) %s sent and the route cookie list is ["*"] (any request cookie busts the cache).', implode( ', ', $request_cookies ) );
 			} else {
-				$keyed   = array_values( array_intersect( $request_cookies, array_map( 'strval', (array) $route['cookies'] ) ) );
+				$keyed = array();
+
+				foreach ( $request_cookies as $name ) {
+					if ( self::cookie_in_list( $name, (array) $route['cookies'] ) ) {
+						$keyed[] = $name;
+					}
+				}
+
 				$notes[] = array() !== $keyed
 					? sprintf( 'Cookie(s) %s are part of the route cache key — each value gets its own cache entry.', implode( ', ', $keyed ) )
 					: 'The cookies sent are not in the route cookie list, so they do not affect the cache key.';
@@ -162,7 +186,7 @@ final class CacheCheck {
 		}
 
 		if ( empty( $route['known'] ) ) {
-			$notes[] = 'Router cache settings for this URL were not found in PLATFORM_ROUTES — documented defaults assumed (enabled, default_ttl 0, cookies ["*"]).';
+			$notes[] = 'Upsun does not expose route cache settings at runtime — documented defaults assumed (enabled, default_ttl 0, cookies ["*"]). Declare your route\'s real settings via the upsun_cache_check_route_cache filter to make cookie notes exact.';
 		}
 
 		$platform_cache = self::header_string( $headers, 'x-platform-cache' );
@@ -262,17 +286,49 @@ final class CacheCheck {
 		}
 
 		if ( null === $best || ! is_array( $best['cache'] ?? null ) ) {
-			return self::DOCUMENTED_DEFAULTS + array( 'known' => false );
+			$config = self::DOCUMENTED_DEFAULTS + array( 'known' => false );
+		} else {
+			$cache  = $best['cache'];
+			$config = array(
+				'enabled'     => (bool) ( $cache['enabled'] ?? true ),
+				'default_ttl' => (int) ( $cache['default_ttl'] ?? 0 ),
+				'cookies'     => (array) ( $cache['cookies'] ?? array( '*' ) ),
+				'known'       => true,
+			);
 		}
 
-		$cache = $best['cache'];
+		/**
+		 * Filters the route cache config used by cache-check. Upsun does not
+		 * expose the routes' cache blocks at runtime, so consumers can
+		 * mirror their .upsun/config.yaml here (set known=true) to make the
+		 * cookie-allowlist notes exact.
+		 *
+		 * @param array  $config {enabled, default_ttl, cookies, known}.
+		 * @param string $url    The URL being checked.
+		 */
+		$config = (array) apply_filters( 'upsun_cache_check_route_cache', $config, $url );
 
-		return array(
-			'enabled'     => (bool) ( $cache['enabled'] ?? true ),
-			'default_ttl' => (int) ( $cache['default_ttl'] ?? 0 ),
-			'cookies'     => (array) ( $cache['cookies'] ?? array( '*' ) ),
-			'known'       => true,
-		);
+		return $config + self::DOCUMENTED_DEFAULTS + array( 'known' => false );
+	}
+
+	/**
+	 * Whether a cookie name is covered by a route cookie list, which mixes
+	 * literal names and slash-delimited regexes (plus the "*" wildcard).
+	 */
+	private static function cookie_in_list( string $name, array $entries ): bool {
+		foreach ( $entries as $entry ) {
+			$entry = (string) $entry;
+
+			if ( '*' === $entry || $entry === $name ) {
+				return true;
+			}
+
+			if ( '' !== $entry && '/' === $entry[0] && 1 === @preg_match( $entry, $name ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

@@ -188,6 +188,10 @@ class UpsunCommand {
 	 * [--cookie=<header>]
 	 * : Send a Cookie header, e.g. --cookie="lp_session_guest=x; foo=1".
 	 *
+	 * [--auth=<user:pass>]
+	 * : HTTP basic auth credentials, for environments behind access control
+	 * (without them the verdict describes the 401 challenge, not the page).
+	 *
 	 * [--format=<format>]
 	 * : Render output in a particular format.
 	 * ---
@@ -203,6 +207,7 @@ class UpsunCommand {
 	 *
 	 *     wp upsun cache-check /
 	 *     wp upsun cache-check /courses/ --cookie="wordpress_logged_in_x=1"
+	 *     wp upsun cache-check / --auth=preview:secret
 	 *
 	 * @subcommand cache-check
 	 */
@@ -212,7 +217,11 @@ class UpsunCommand {
 			return;
 		}
 
-		$report = CacheCheck::run( (string) ( $args[0] ?? '' ), (string) ( $assoc_args['cookie'] ?? '' ) );
+		$report = CacheCheck::run(
+			(string) ( $args[0] ?? '' ),
+			(string) ( $assoc_args['cookie'] ?? '' ),
+			(string) ( $assoc_args['auth'] ?? '' )
+		);
 
 		if ( isset( $report['error'] ) ) {
 			WP_CLI::error( $report['error'] );
