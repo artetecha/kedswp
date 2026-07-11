@@ -555,8 +555,9 @@ class SafePreviews implements Module {
 
 	public function add_panel( array $panels ): array {
 		$panels['preview-safety'] = array(
-			'title'  => __( 'Preview safety', 'upsun-mu-plugin' ),
-			'render' => array( $this, 'render_panel' ),
+			'title'   => __( 'Preview safety', 'upsun-mu-plugin' ),
+			'render'  => array( $this, 'render_panel' ),
+			'context' => 'side',
 		);
 
 		return $panels;
