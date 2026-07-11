@@ -188,9 +188,11 @@ class UpsunCommand {
 	 * [--cookie=<header>]
 	 * : Send a Cookie header, e.g. --cookie="lp_session_guest=x; foo=1".
 	 *
-	 * [--auth=<user:pass>]
-	 * : HTTP basic auth credentials, for environments behind access control
-	 * (without them the verdict describes the 401 challenge, not the page).
+	 * [--auth=<credentials>]
+	 * : HTTP basic auth credentials as "user:pass", for environments behind
+	 * access control (without them the verdict describes the 401 challenge,
+	 * not the page). Note: WP-CLI synopsis tokens cannot contain a colon,
+	 * hence the generic placeholder.
 	 *
 	 * [--format=<format>]
 	 * : Render output in a particular format.
