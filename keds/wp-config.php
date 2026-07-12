@@ -143,6 +143,12 @@ if ( ! defined( 'DISABLE_WP_CRON' ) ) {
 	define( 'DISABLE_WP_CRON', true );
 }
 
+// Deploy migrations for `wp upsun migrate` (this file is copied into
+// wordpress/, so one level up is the app root).
+if ( ! defined( 'UPSUN_MIGRATIONS_DIR' ) ) {
+	define( 'UPSUN_MIGRATIONS_DIR', dirname( __DIR__ ) . '/migrations' );
+}
+
 $table_prefix = 'wp_';
 
 ini_set( 'session.gc_probability', 1 );

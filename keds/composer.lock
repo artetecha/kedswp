@@ -633,11 +633,11 @@
         },
         {
             "name": "upsun/wordpress-mu-plugin",
-            "version": "0.2.1",
+            "version": "0.3.3",
             "dist": {
                 "type": "path",
                 "url": "packages/upsun-mu-plugin",
-                "reference": "0dffb4a5ff97374cc96b51725f740d20a6a4b5a5"
+                "reference": "c27759b81639bc220d5a9388688e590043a96af2"
             },
             "require": {
                 "php": ">=8.1"

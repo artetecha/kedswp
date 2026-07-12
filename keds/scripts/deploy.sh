@@ -15,7 +15,9 @@ fi
 
 wp core update-db
 
-bash ../scripts/run-deploy-migrations.sh
+# Ordered once-per-database migrations from keds/migrations/ (see the
+# upsun-mu-plugin). Non-zero exit aborts the deploy (set -e above).
+wp upsun migrate
 
 wp redis enable || true
 if [ "${KEDS_FLUSH_CACHE_ON_DEPLOY:-0}" = "1" ]; then
