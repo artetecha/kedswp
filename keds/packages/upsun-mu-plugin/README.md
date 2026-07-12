@@ -48,6 +48,17 @@ hooks:
     wp upsun sanitize --if-needed
 ```
 
+This line is also where your **sanitization policy** lives: `--enable` forces
+the opt-in DB-writing sanitizers for the run, so the whole policy is declared
+at project level in versioned config and applied identically to every child
+environment (or vary it per environment type with a small script):
+
+```yaml
+hooks:
+  post_deploy: |
+    wp upsun sanitize --if-needed --enable="anonymize-user-emails,anonymize-user-passwords:password-{ID}"
+```
+
 Skipping this step does **not** weaken the runtime preview protections (mail interception, payment test mode, webhook pausing are active on every preview request from boot) — it only means the one-time `upsun_preview_sanitize` consumer actions never fire. The "Preview safety" health check (Site Health, the Upsun dashboard, `wp upsun doctor`) warns on every environment until the wiring is in place. If you cannot edit your hooks, enable the per-boot fallback via the `upsun_safe_previews_boot_check` filter.
 
 ## Modules
@@ -165,6 +176,9 @@ wp upsun mounts          # declared mounts + ready-to-paste YAML for missing one
 wp upsun sanitize        # fire the preview sanitize actions (refuses on production)
 wp upsun sanitize --if-needed   # post_deploy-hook mode: stamp-aware, safe everywhere
 wp upsun sanitize --dry-run
+wp upsun sanitize --enable="anonymize-user-emails,anonymize-user-passwords:password-{ID}"
+                         # force sanitizers for this run only (project-level policy
+                         # when placed in the post_deploy hook); filters still work
 ```
 
 All commands print "Not running on Upsun." and exit 0 off-platform.

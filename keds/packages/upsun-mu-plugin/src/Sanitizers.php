@@ -74,7 +74,27 @@ final class Sanitizers {
 		return (array) apply_filters( 'upsun_preview_sanitizers', $sanitizers );
 	}
 
-	public static function is_enabled( array $sanitizer ): bool {
+	/** @var array<string, mixed> Per-run forced enablement: id => true|string. */
+	private static array $forced = array();
+
+	/**
+	 * Force sanitizers on for the current process — the CLI --enable flag,
+	 * i.e. project-level policy declared in the post_deploy hook. Nothing
+	 * is persisted; values are passed to built-ins that accept one (the
+	 * password template, pipe-separated plugin basenames). Pass an empty
+	 * array to clear.
+	 *
+	 * @param array<string, mixed> $forced id => true|string.
+	 */
+	public static function force( array $forced ): void {
+		self::$forced = $forced;
+	}
+
+	public static function is_enabled( string $id, array $sanitizer ): bool {
+		if ( array_key_exists( $id, self::$forced ) ) {
+			return true;
+		}
+
 		return is_callable( $sanitizer['enabled'] ?? null ) && (bool) call_user_func( $sanitizer['enabled'] );
 	}
 
@@ -92,7 +112,7 @@ final class Sanitizers {
 		$reports = array();
 
 		foreach ( self::registry() as $id => $sanitizer ) {
-			if ( ! self::is_enabled( $sanitizer ) || ! is_callable( $sanitizer['run'] ?? null ) ) {
+			if ( ! self::is_enabled( (string) $id, $sanitizer ) || ! is_callable( $sanitizer['run'] ?? null ) ) {
 				continue;
 			}
 
@@ -352,6 +372,10 @@ final class Sanitizers {
 	 * @return bool|string
 	 */
 	private static function password_mode() {
+		if ( array_key_exists( 'anonymize-user-passwords', self::$forced ) ) {
+			return self::$forced['anonymize-user-passwords']; // true or a template.
+		}
+
 		/**
 		 * Filters whether (and how) user passwords are anonymized on
 		 * sanitize.
@@ -367,14 +391,21 @@ final class Sanitizers {
 	 * @return string[] Plugin basenames to deactivate on previews.
 	 */
 	private static function deactivation_targets(): array {
-		/**
-		 * Filters the plugin basenames deactivated on sanitize.
-		 *
-		 * @param string[] $plugins Default empty (sanitizer disabled).
-		 */
-		$targets = (array) apply_filters( 'upsun_sanitize_deactivate_plugins', array() );
+		$forced = self::$forced['deactivate-plugins'] ?? null;
 
-		return array_values( array_filter( array_map( 'strval', $targets ), 'strlen' ) );
+		if ( is_string( $forced ) && '' !== $forced ) {
+			// --enable value: pipe-separated basenames.
+			$targets = explode( '|', $forced );
+		} else {
+			/**
+			 * Filters the plugin basenames deactivated on sanitize.
+			 *
+			 * @param string[] $plugins Default empty (sanitizer disabled).
+			 */
+			$targets = (array) apply_filters( 'upsun_sanitize_deactivate_plugins', array() );
+		}
+
+		return array_values( array_filter( array_map( 'trim', array_map( 'strval', $targets ) ), 'strlen' ) );
 	}
 
 	/**

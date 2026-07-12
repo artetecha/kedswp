@@ -49,6 +49,7 @@ final class SanitizersTest extends TestCase {
 	private function reset(): void {
 		upsun_test_clear_env();
 		upsun_test_reset_hooks();
+		Sanitizers::force( array() );
 		$GLOBALS['upsun_test_options']        = array();
 		$GLOBALS['upsun_test_active_plugins'] = array();
 		unset( $GLOBALS['wpdb'] );
@@ -78,7 +79,7 @@ final class SanitizersTest extends TestCase {
 		);
 
 		foreach ( Sanitizers::registry() as $id => $sanitizer ) {
-			$this->assertFalse( Sanitizers::is_enabled( $sanitizer ), "{$id} must ship disabled" );
+			$this->assertFalse( Sanitizers::is_enabled( (string) $id, $sanitizer ), "{$id} must ship disabled" );
 		}
 
 		$this->assertSame( array(), Sanitizers::run( true ) );
@@ -241,6 +242,51 @@ final class SanitizersTest extends TestCase {
 		$this->assertStringContainsString( "SET user_pass = MD5(CONCAT('password-', ID, ''))", $update );
 		$this->assertStringContainsString( "user_pass != MD5(CONCAT('password-', ID, ''))", $update );
 		$this->assertStringContainsString( "user_email != 'keep@example.com'", $update );
+	}
+
+	/* Forced enablement (the CLI --enable flag). */
+
+	public function test_force_enables_sanitizers_and_passes_values(): void {
+		$this->fake_preview_env();
+		$wpdb                                 = $this->fake_wpdb();
+		$GLOBALS['upsun_test_active_plugins'] = array( 'a/a.php' );
+
+		Sanitizers::force(
+			array(
+				'anonymize-user-emails'    => true,
+				'anonymize-user-passwords' => 'password-{ID}',
+				'deactivate-plugins'       => 'a/a.php|b/b.php',
+			)
+		);
+
+		$reports = Sanitizers::run( true );
+
+		$this->assertCount( 3, $reports );
+		$this->assertStringContainsString( 'would anonymize 3 user email(s)', $reports[0] );
+		$this->assertStringContainsString( 'would set 3 password(s) to "password-{ID}"', $reports[1] );
+		$this->assertStringContainsString( 'would deactivate: a/a.php', $reports[2] );
+
+		// The forced template reached the SQL.
+		$this->assertStringContainsString( "MD5(CONCAT('password-', ID, ''))", implode( ' ', $wpdb->queries ) );
+	}
+
+	public function test_force_is_per_run_and_clearable(): void {
+		$this->fake_preview_env();
+		$this->fake_wpdb();
+
+		Sanitizers::force( array( 'anonymize-user-emails' => true ) );
+		$this->assertCount( 1, Sanitizers::run( true ) );
+
+		Sanitizers::force( array() );
+		$this->assertSame( array(), Sanitizers::run( true ) );
+	}
+
+	public function test_forced_unknown_ids_are_ignored_by_the_engine(): void {
+		$this->fake_preview_env();
+
+		Sanitizers::force( array( 'does-not-exist' => true ) );
+
+		$this->assertSame( array(), Sanitizers::run( true ) );
 	}
 
 	/* SafePreviews flow. */

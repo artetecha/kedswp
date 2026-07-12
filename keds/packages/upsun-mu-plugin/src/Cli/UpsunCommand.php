@@ -265,6 +265,14 @@ class UpsunCommand {
 	 * exit; on previews, run only when the stamp shows freshly cloned or
 	 * synced data.
 	 *
+	 * [--enable=<sanitizers>]
+	 * : Force sanitizers on for this run (project-level policy — put this
+	 * in the post_deploy hook). Comma-separated ids, each optionally with a
+	 * :value for the built-ins that take one: a password template for
+	 * anonymize-user-passwords, pipe-separated plugin basenames for
+	 * deactivate-plugins. Nothing is persisted; filters remain the
+	 * code-based alternative.
+	 *
 	 * [--dry-run]
 	 * : Report the protections and hooked callbacks without firing anything.
 	 *
@@ -283,7 +291,8 @@ class UpsunCommand {
 	 *
 	 *     wp upsun sanitize
 	 *     wp upsun sanitize --if-needed   # post_deploy hook, all environments
-	 *     wp upsun sanitize --dry-run
+	 *     wp upsun sanitize --if-needed --enable="anonymize-user-emails,anonymize-user-passwords:password-{ID}"
+	 *     wp upsun sanitize --dry-run --enable="deactivate-plugins:updraftplus/updraftplus.php|wordfence/wordfence.php"
 	 */
 	public function sanitize( $args, $assoc_args ) {
 		if ( ! Environment::is_upsun() ) {
@@ -307,6 +316,27 @@ class UpsunCommand {
 		if ( $if_needed && $module->is_sanitized() ) {
 			WP_CLI::log( sprintf( 'Environment stamp matches "%s"; data already sanitized. Nothing to do.', Environment::name() ) );
 			return;
+		}
+
+		if ( ! empty( $assoc_args['enable'] ) ) {
+			$forced = array();
+
+			foreach ( explode( ',', (string) $assoc_args['enable'] ) as $item ) {
+				$item = trim( $item );
+
+				if ( '' === $item ) {
+					continue;
+				}
+
+				$parts                       = explode( ':', $item, 2 );
+				$forced[ trim( $parts[0] ) ] = isset( $parts[1] ) && '' !== trim( $parts[1] ) ? trim( $parts[1] ) : true;
+			}
+
+			foreach ( array_keys( array_diff_key( $forced, \Upsun\Sanitizers::registry() ) ) as $unknown ) {
+				WP_CLI::warning( "Unknown sanitizer '{$unknown}' in --enable." );
+			}
+
+			\Upsun\Sanitizers::force( $forced );
 		}
 
 		$state = \Upsun\ModuleRegistry::status()['safe-previews']['state'] ?? 'not booted';
@@ -337,7 +367,7 @@ class UpsunCommand {
 		foreach ( \Upsun\Sanitizers::registry() as $id => $sanitizer ) {
 			$sanitizer_rows[] = array(
 				'sanitizer' => (string) $id,
-				'enabled'   => \Upsun\Sanitizers::is_enabled( $sanitizer ) ? 'yes' : 'no',
+				'enabled'   => \Upsun\Sanitizers::is_enabled( (string) $id, $sanitizer ) ? 'yes' : 'no',
 			);
 		}
 

@@ -211,6 +211,13 @@ on Upsun, so scrubbed preview state can never leak back, and a resync
 re-triggers sanitize. Every sanitizer is idempotent and dry-run aware,
 reporting what changed through `wp upsun sanitize` and the dashboard panel.
 
+Enablement is deliberately never DB-backed (a resync would erase the toggle
+at exactly the moment it is needed). Two equivalent surfaces: filters in a
+consumer mu-plugin, or `wp upsun sanitize --enable=<ids>` — per-run forcing
+that turns the post_deploy hook line into the project-level sanitization
+policy, versioned in `.upsun/config.yaml` and identical for every child
+environment.
+
 Shipped built-ins:
 
 - **`anonymize-user-emails`** — one idempotent UPDATE rewriting emails to

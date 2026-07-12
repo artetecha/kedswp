@@ -537,7 +537,7 @@ class SafePreviews implements Module {
 				$parts[] = sprintf(
 					'%s (%s)',
 					(string) $id,
-					\Upsun\Sanitizers::is_enabled( $sanitizer )
+					\Upsun\Sanitizers::is_enabled( (string) $id, $sanitizer )
 						? __( 'enabled', 'upsun-mu-plugin' )
 						: __( 'disabled', 'upsun-mu-plugin' )
 				);
