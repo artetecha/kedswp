@@ -268,11 +268,13 @@ class UpsunCommand {
 	 *
 	 * [--enable=<sanitizers>]
 	 * : Force sanitizers on for this run (project-level policy — put this
-	 * in the post_deploy hook). Comma-separated ids, each optionally with a
-	 * :value for the built-ins that take one: a password template for
-	 * anonymize-user-passwords, pipe-separated plugin basenames for
-	 * deactivate-plugins. Nothing is persisted; filters remain the
-	 * code-based alternative.
+	 * in the post_deploy hook). Comma-separated ids, each optionally taking
+	 * a value after a colon for the built-ins that support one (a password
+	 * template for anonymize-user-passwords, pipe-separated plugin basenames
+	 * for deactivate-plugins). Nothing is persisted; filters remain the
+	 * code-based alternative. Note: WP-CLI treats docblock lines starting
+	 * with a colon as description markers, so never begin a line here with
+	 * one.
 	 *
 	 * [--dry-run]
 	 * : Report the protections and hooked callbacks without firing anything.
