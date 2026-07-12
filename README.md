@@ -13,7 +13,7 @@ keds/                  Application root (Upsun source.root)
 ├── mu-plugins/        Custom KEDS mu-plugins (copied into the build)
 ├── private-packages/  Vendored premium plugins/themes (Composer path repositories)
 ├── scripts/           Deploy hook, premium update + content-migration tooling
-├── deploy-migrations/ One-time runtime migrations (see its README)
+├── migrations/        One-time runtime migrations for `wp upsun migrate` (see its README)
 └── wordpress/         Build output — gitignored, never edit by hand
 tests/e2e/             Playwright smoke tests run against Upsun preview environments
 ```
@@ -35,7 +35,7 @@ Services: MariaDB 11.8 and Redis 8.0 (object cache via the redis-cache drop-in).
 The deploy hook ([keds/scripts/deploy.sh](keds/scripts/deploy.sh)):
 
 1. Runs `wp core update-db`.
-2. Runs pending **deploy migrations** — ordered shell scripts under [keds/deploy-migrations/](keds/deploy-migrations/README.md) for one-time runtime state changes (activating plugins, switching themes). Each runs once per database, tracked in a `keds_deploy_migration_*` option.
+2. Runs `wp upsun migrate` — ordered PHP migrations under [keds/migrations/](keds/migrations/README.md) for one-time runtime state changes (activating plugins, switching themes). Each runs once per database, tracked in an `upsun_migration_*` option; a failure aborts the deploy.
 3. Ensures the Redis object cache is enabled and runs due cron events. Set `KEDS_FLUSH_CACHE_ON_DEPLOY=1` to flush the object cache on deploy.
 
 ## Updating plugins and themes
