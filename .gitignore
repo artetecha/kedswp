@@ -20,3 +20,6 @@
 /tests/crm-e2e/node_modules/
 /tests/crm-e2e/playwright-report/
 /tests/crm-e2e/test-results/
+
+# Composer-staged mu-plugins (copied into wordpress/ by postbuild)
+/keds/composer-mu-plugins/

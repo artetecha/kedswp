@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1252f410d99faef1f0691a40a0abbd87",
+    "content-hash": "2808f8b35863280d1161369d5edaf2ce",
     "packages": [
+        {
+            "name": "artetecha/upsun-wp",
+            "version": "0.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/artetecha/upsun-wp.git",
+                "reference": "1f76550784b06bb23038ed29e4b94ff14add830f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/artetecha/upsun-wp/zipball/1f76550784b06bb23038ed29e4b94ff14add830f",
+                "reference": "1f76550784b06bb23038ed29e4b94ff14add830f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.5"
+            },
+            "type": "wordpress-muplugin",
+            "extra": {
+                "installer-name": "upsun"
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vince Russo",
+                    "homepage": "https://artetecha.com"
+                }
+            ],
+            "description": "Must-use plugin integrating WordPress with the Upsun platform: environment awareness, router-cache friendliness, safe preview clones, deploy migrations, Site Health checks, and a wp upsun CLI command.",
+            "homepage": "https://upsun.artetecha.com/",
+            "keywords": [
+                "mu-plugin",
+                "platformsh",
+                "upsun",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/artetecha/upsun-wp/issues",
+                "source": "https://github.com/artetecha/upsun-wp"
+            },
+            "time": "2026-07-13T08:55:10+00:00"
+        },
         {
             "name": "composer/installers",
             "version": "v2.3.0",
@@ -630,63 +678,6 @@
                 "source": "https://github.com/platformsh/config-reader-php/tree/3.0.1"
             },
             "time": "2025-02-25T17:22:15+00:00"
-        },
-        {
-            "name": "upsun/wordpress-mu-plugin",
-            "version": "0.3.3",
-            "dist": {
-                "type": "path",
-                "url": "packages/upsun-mu-plugin",
-                "reference": "c27759b81639bc220d5a9388688e590043a96af2"
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^10.5"
-            },
-            "type": "wordpress-muplugin",
-            "extra": {
-                "installer-name": "upsun"
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Upsun\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "archive": {
-                "exclude": [
-                    "/vendor",
-                    "/tests",
-                    "/composer.lock",
-                    "/phpunit.xml.dist",
-                    "/.phpunit.cache",
-                    "/.gitignore"
-                ]
-            },
-            "scripts": {
-                "test": [
-                    "phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Must-use plugin integrating WordPress with the Upsun platform: environment awareness, router-cache friendliness, read-only filesystem UX, Site Health checks, and a wp upsun CLI command.",
-            "homepage": "https://upsun.com",
-            "keywords": [
-                "mu-plugin",
-                "platformsh",
-                "upsun",
-                "wordpress"
-            ],
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
         },
         {
             "name": "wpackagist-plugin/akismet",
