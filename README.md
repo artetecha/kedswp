@@ -23,6 +23,7 @@ tests/e2e/             Playwright smoke tests run against Upsun preview environm
 `.upsun/config.yaml` runs Composer with the `composer` build flavor from `keds/`:
 
 - **Public packages** come from [wpackagist](https://wpackagist.org) (pinned versions).
+- The **Upsun mu-plugin** ([artetecha/upsun-wp](https://github.com/artetecha/upsun-wp)) comes from Packagist. It installs into `composer-mu-plugins/` and `postbuild` copies it into the build — Composer's alphabetical install order would otherwise let the WordPress core extraction delete it from `wordpress/`.
 - **Premium packages** (Eduma theme, Thim/LearnPress add-ons, Fluent pro plugins, Slider Revolution, Paid Memberships Pro, …) are vendored as full source under `keds/private-packages/` and installed as Composer path repositories. `keds/package-source-manifest.json` records which slug comes from which source.
 - The `postbuild` Composer script copies `wp-config.php` and `mu-plugins/` into the WordPress tree and installs the redis-cache object-cache drop-in.
 
