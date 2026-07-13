@@ -141,8 +141,8 @@ class AdminStudentOverviewTemplate {
 			// join to check deleted user
 			$filter->join[]      = "INNER JOIN {$userItemsDB->tb_users} AS u ON ui.user_id = u.ID";
 			$filter->item_type   = LP_COURSE_CPT;
-			$filter->order_by    = $sort['order_by'];
-			$filter->order       = $sort['direction'];
+			$filter->order_by    = $sort['order_by'] ?? 'total_courses';
+			$filter->order       = $sort['direction'] ?? 'DESC';
 			$filter->limit       = $limit;
 			$filter->page        = $paged;
 			$filter->field_count = 'user_id';

@@ -3,7 +3,7 @@
         'name' => 'learnpress-addons/learnpress-gradebook',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '97da1dc4c61236271e113be0c1ebaf7a4019a6db',
+        'reference' => '431bfa3c884533cf43e72580be2156b224469788',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'learnpress-addons/learnpress-gradebook' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '97da1dc4c61236271e113be0c1ebaf7a4019a6db',
+            'reference' => '431bfa3c884533cf43e72580be2156b224469788',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
