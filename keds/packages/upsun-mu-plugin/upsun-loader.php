@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Upsun
- * Plugin URI: https://platformista.github.io/upsun/
+ * Plugin URI: https://upsun.artetecha.com/
  * Description: Platform integration for WordPress on Upsun. Loads the Upsun must-use plugin from mu-plugins/upsun/. The plugin version lives in the package composer.json / UPSUN_MU_PLUGIN_VERSION.
  * Author: Vince Russo
  * Author URI: https://artetecha.com

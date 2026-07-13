@@ -19,8 +19,9 @@
 | — | Extraction to an independent repo | 🔄 in progress — v0.3 shipped, the trigger has fired |
 
 **v0.3 is complete.** Per the extraction section below, the plugin moves to
-its own repository (`github.com/platformista/upsun`, published on Packagist
-as `platformista/upsun`); KEDS becomes a normal Composer consumer.
+its own repository (`github.com/artetecha/upsun-wp`, published on Packagist
+as `artetecha/upsun-wp`, site at `upsun.artetecha.com`); KEDS becomes a
+normal Composer consumer.
 
 The v0.2 milestone spans 0.2.x releases; version = package `composer.json` /
 `UPSUN_MU_PLUGIN_VERSION`.
@@ -360,23 +361,25 @@ shipping — whichever came first.
 Steps:
 
 1. Split `keds/packages/upsun-mu-plugin/` into its own repository with history
-   (`git filter-repo --subdirectory-filter`) → `github.com/platformista/upsun`.
-2. In the new repo: rename the package to `platformista/upsun` (Composer name
+   (`git filter-repo --subdirectory-filter`) → `github.com/artetecha/upsun-wp`.
+2. In the new repo: rename the package to `artetecha/upsun-wp` (Composer name
    only — the `Upsun\` namespace, `UPSUN_*` constants, `upsun_*` filters,
    `installer-name: upsun`, and the product name all stay); drop the
    composer.json `version` field (git tags become the authority); port the
    unit-test workflow (PHP 8.1 + 8.4 matrix) as CI plus a WP-integration
-   smoke job; deploy the `site/` landing page to GitHub Pages via Actions.
-3. Publish `platformista/upsun` on Packagist; tag `0.3.4`. `archive.exclude`
+   smoke job; deploy the `site/` landing page to GitHub Pages via Actions
+   with the custom domain `upsun.artetecha.com` (DNS CNAME →
+   `artetecha.github.io`).
+3. Publish `artetecha/upsun-wp` on Packagist; tag `0.3.4`. `archive.exclude`
    starts applying to dist installs (tests and the site stop shipping to
    consumers).
 4. KEDS swaps the path repository for a Packagist version constraint (`^0.3`)
    — a two-line `composer.json` change; the loader-shim postbuild line is
    unchanged. The `upsun-mu-plugin` CI job retires (the plugin repo owns its
    tests); the hermetic job's consumer-wiring assertions stay.
-5. The companion starter repo `platformista/wordpress-upsun-starter` becomes
-   the reference consumer: a deploy-ready Composer WordPress on Upsun,
-   pre-wired for the plugin.
+5. The companion starter repo (under `artetecha`, name TBD) becomes the
+   reference consumer: a deploy-ready Composer WordPress on Upsun, pre-wired
+   for the plugin.
 6. Distribution stays Composer-first. No wordpress.org listing: mu-plugins
    aren't activatable and the loader-shim install step doesn't fit the plugin
    directory model (and wpackagist only mirrors wordpress.org).
