@@ -4,12 +4,12 @@
  * Plugin URI: https://thimpress.com/product/gradebook-add-on-for-learnpress/
  * Description: Manage gradebook for user.
  * Author: ThimPress
- * Version: 4.1.1
+ * Version: 4.1.2
  * Author URI: http://thimpress.com
  * Tags: learnpress, lms, gradebook
  * Text Domain: learnpress-gradebook
  * Domain Path: /languages/
- * Require_LP_Version: 4.4.0
+ * Require_LP_Version: 4.4.1
  *
  * @package learnpress-gradebook
  */

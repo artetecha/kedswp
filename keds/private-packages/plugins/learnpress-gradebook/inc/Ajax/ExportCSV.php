@@ -128,7 +128,7 @@ class ExportCSV extends AbstractAjax {
 					$start_time_obj->format( LP_Datetime::I18N_FORMAT_HAS_TIME ),
 					$end_time_obj->format( LP_Datetime::I18N_FORMAT_HAS_TIME ),
 					$progress['result'],
-					AdminRecentActivityTemplate::get_status_label( $userCourseModel->get_status() ),
+					$userCourseModel->get_string_i18n( $userCourseModel->get_status() ),
 				);
 
 				fputcsv( $file, $row );

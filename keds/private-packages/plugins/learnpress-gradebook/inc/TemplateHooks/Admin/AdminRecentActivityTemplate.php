@@ -284,7 +284,7 @@ class AdminRecentActivityTemplate {
 			$status = $userItemModel->get_graduation();
 		}
 
-		$status_label = self::get_status_label( $status );
+		$status_label = strtolower( $userItemModel->get_string_i18n( $status ) );
 
 		$html_activity_content = '';
 		if ( $userItemModel->item_type === LP_COURSE_CPT ) {
@@ -292,37 +292,41 @@ class AdminRecentActivityTemplate {
 			$courseModel     = $userCourseModel->get_course_model();
 			$coursePostModel = new CoursePostModel( $courseModel );
 
-			$html_activity_content = sprintf(
-				__( '%1$s %2$s in the Course %3$s', 'learnpress-gradebook' ),
-				$user_name,
-				$has_just_text . $status_label,
-				sprintf(
-					'<a href="%1$s" ><strong>%2$s</strong></a>',
-					$coursePostModel->get_permalink(),
-					$courseModel->get_title()
-				),
-			);
+			if ( $courseModel ) {
+				$html_activity_content = sprintf(
+					__( '%1$s %2$s in the Course %3$s', 'learnpress-gradebook' ),
+					$user_name,
+					$has_just_text . $status_label,
+					sprintf(
+						'<a href="%1$s" ><strong>%2$s</strong></a>',
+						$coursePostModel->get_permalink(),
+						$courseModel->get_title()
+					),
+				);
+			} else {}
 		} elseif ( $userItemModel->ref_type === LP_COURSE_CPT ) {
 			$courseModel       = CourseModel::find( $userItemModel->ref_id, true );
 			$itemModelOfCourse = $courseModel->get_item_model( $userItemModel->item_id, $userItemModel->item_type );
-			$item_type_label   = CourseModel::item_types_label( $userItemModel->item_type );
+			if ( $itemModelOfCourse ) {
+				$item_type_label = CourseModel::item_types_label( $userItemModel->item_type );
 
-			$html_activity_content = sprintf(
-				__( '%1$s %2$s the %3$s %4$s of the Course %5$s', 'learnpress-gradebook' ),
-				$user_name,
-				$has_just_text . $status_label,
-				$item_type_label,
-				sprintf(
-					'<a href="%1$s" ><strong>%2$s</strong></a>',
-					$itemModelOfCourse->get_permalink(),
-					$itemModelOfCourse->get_the_title()
-				),
-				sprintf(
-					'<a href="%1$s"><strong>%2$s</strong></a>',
-					$courseModel->get_permalink(),
-					$courseModel->get_title()
-				),
-			);
+				$html_activity_content = sprintf(
+					__( '%1$s %2$s the %3$s %4$s of the Course %5$s', 'learnpress-gradebook' ),
+					$user_name,
+					$has_just_text . $status_label,
+					$item_type_label,
+					sprintf(
+						'<a href="%1$s" ><strong>%2$s</strong></a>',
+						$itemModelOfCourse->get_permalink(),
+						$itemModelOfCourse->get_the_title()
+					),
+					sprintf(
+						'<a href="%1$s"><strong>%2$s</strong></a>',
+						$courseModel->get_permalink(),
+						$courseModel->get_title()
+					),
+				);
+			} else {}
 		}
 
 		if ( ! $html_activity_content ) {
@@ -536,24 +540,5 @@ class AdminRecentActivityTemplate {
 		);
 
 		return Template::combine_components( $sections );
-	}
-
-	public static function get_status_label( $status = '' ) {
-		if ( ! $status ) {
-			$status = LP_ITEM_STARTED;
-		}
-
-		$statuses = array(
-			LP_COURSE_ENROLLED               => esc_html__( 'enrolled', 'learnpress-gradebook' ),
-			LP_COURSE_PURCHASED              => esc_html__( 'purchased', 'learnpress-gradebook' ),
-			LP_ITEM_COMPLETED                => esc_html__( 'completed', 'learnpress-gradebook' ),
-			LP_ITEM_STARTED                  => esc_html__( 'started', 'learnpress-gradebook' ),
-			LP_COURSE_FINISHED               => esc_html__( 'finished', 'learnpress-gradebook' ),
-			LP_COURSE_GRADUATION_PASSED      => esc_html__( 'passed', 'learnpress-gradebook' ),
-			LP_COURSE_GRADUATION_FAILED      => esc_html__( 'failed', 'learnpress-gradebook' ),
-			LP_COURSE_GRADUATION_IN_PROGRESS => esc_html__( 'in progress', 'learnpress-gradebook' ),
-		);
-
-		return $statuses[ $status ] ?? $status;
 	}
 }

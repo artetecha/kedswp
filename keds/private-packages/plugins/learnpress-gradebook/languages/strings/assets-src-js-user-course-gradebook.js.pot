@@ -1,0 +1,26 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+#: assets/src/js/user-course-gradebook.js:19
+msgid "Title"
+msgstr ""
+
+#: assets/src/js/user-course-gradebook.js:20
+msgid "Type"
+msgstr ""
+
+#: assets/src/js/user-course-gradebook.js:21
+msgid "Start time"
+msgstr ""
+
+#: assets/src/js/user-course-gradebook.js:22
+msgid "End time"
+msgstr ""
+
+#: assets/src/js/user-course-gradebook.js:23
+msgid "Graduation"
+msgstr ""
+
+#: assets/src/js/user-course-gradebook.js:24
+msgid "Status"
+msgstr ""

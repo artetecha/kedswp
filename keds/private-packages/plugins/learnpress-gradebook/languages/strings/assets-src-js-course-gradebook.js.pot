@@ -1,0 +1,36 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+#: assets/src/js/course-gradebook.js:19
+#: assets/src/js/course-gradebook.js:28
+msgid "User ID"
+msgstr ""
+
+#: assets/src/js/course-gradebook.js:20
+#: assets/src/js/course-gradebook.js:29
+msgid "Username"
+msgstr ""
+
+#: assets/src/js/course-gradebook.js:21
+#: assets/src/js/course-gradebook.js:30
+msgid "Email"
+msgstr ""
+
+#: assets/src/js/course-gradebook.js:22
+#: assets/src/js/course-gradebook.js:31
+msgid "Start time"
+msgstr ""
+
+#: assets/src/js/course-gradebook.js:23
+#: assets/src/js/course-gradebook.js:33
+msgid "Status"
+msgstr ""
+
+#: assets/src/js/course-gradebook.js:24
+#: assets/src/js/course-gradebook.js:34
+msgid "Average"
+msgstr ""
+
+#: assets/src/js/course-gradebook.js:32
+msgid "End time"
+msgstr ""
