@@ -2,8 +2,7 @@
 /**
  * Plugin Name: Upsun
  * Plugin URI: https://upsun.com
- * Description: Platform integration for WordPress on Upsun. Loads the Upsun must-use plugin from mu-plugins/upsun/.
- * Version: 0.1.0
+ * Description: Platform integration for WordPress on Upsun. Loads the Upsun must-use plugin from mu-plugins/upsun/. The plugin version lives in the package composer.json / UPSUN_MU_PLUGIN_VERSION.
  * Author: Upsun
  * Author URI: https://upsun.com
  * License: MIT
