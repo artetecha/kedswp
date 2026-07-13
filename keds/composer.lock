@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec0d33a7abfbcc7bc2f3c57f9b4a9fa4",
+    "content-hash": "1252f410d99faef1f0691a40a0abbd87",
     "packages": [
         {
             "name": "composer/installers",
@@ -852,15 +852,15 @@
         },
         {
             "name": "wpackagist-plugin/fluentform",
-            "version": "6.2.5",
+            "version": "6.2.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/fluentform/",
-                "reference": "tags/6.2.5"
+                "reference": "tags/6.2.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/fluentform.6.2.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/fluentform.6.2.6.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -870,15 +870,15 @@
         },
         {
             "name": "wpackagist-plugin/google-listings-and-ads",
-            "version": "3.7.2",
+            "version": "3.7.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/google-listings-and-ads/",
-                "reference": "tags/3.7.2"
+                "reference": "tags/3.7.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-listings-and-ads.3.7.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/google-listings-and-ads.3.7.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -960,15 +960,15 @@
         },
         {
             "name": "wpackagist-plugin/learnpress",
-            "version": "4.4.1",
+            "version": "4.4.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/learnpress/",
-                "reference": "tags/4.4.1"
+                "reference": "tags/4.4.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/learnpress.4.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/learnpress.4.4.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -1032,15 +1032,15 @@
         },
         {
             "name": "wpackagist-plugin/redirection",
-            "version": "5.8.1",
+            "version": "5.9.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/redirection/",
-                "reference": "tags/5.8.1"
+                "reference": "tags/5.9.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/redirection.5.8.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/redirection.5.9.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
