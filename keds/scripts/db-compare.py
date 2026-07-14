@@ -57,7 +57,7 @@ WANTED_OPTIONS = {
     "blog_public",
 }
 
-MIGRATION_OPTION_PREFIX = "keds_deploy_migration_"
+MIGRATION_OPTION_PREFIX = "upsun_migration_"
 
 # Options expected to differ constantly without carrying configuration:
 # transients, locks, run timestamps, rotating counters. Excluded from the
