@@ -44,6 +44,7 @@ if ( ! class_exists( 'LP_Assignment_Post_Type' ) ) {
 
 			// Add Evaluate final assignments in LP4.
 			add_filter( 'learnpress/course-evaluation/methods', array( $this, 'evaluate_methods' ) );
+			add_filter( 'learn-press/course/evaluation-types', array( $this, 'evaluation_types' ) );
 
 			// add assignment link in LP settings for course
 			add_filter( 'learn-press/course-settings-fields/single', array( $this, 'add_setting_course_link' ) );
@@ -295,13 +296,14 @@ if ( ! class_exists( 'LP_Assignment_Post_Type' ) ) {
 			$html             = '';
 
 			if ( $final_assignment && get_post_meta( $post_id, '_lp_course_result', true ) === 'evaluate_final_assignment' ) {
-				$passing_grade = get_post_meta( $final_assignment, '_lp_passing_grade', true );
-				$mark          = get_post_meta( $final_assignment, '_lp_mark', true );
+				$passing_grade = (float) get_post_meta( $final_assignment, '_lp_passing_grade', true );
+				$mark_max      = (float) get_post_meta( $final_assignment, '_lp_mark', true );
 				$url           = get_edit_post_link( $final_assignment );
+				$percent       = $mark_max ? ( $passing_grade / $mark_max ) * 100 : 0;
 				$html          = '
 					<div class="lp-metabox-evaluate-assignment">
 						<div class="lp-metabox-evaluate-assignment__message">
-						' . esc_html__( 'Passing Grade: ', 'learnpress-assignments' ) . ( $passing_grade / $mark ) * 100 . '% - ' . esc_html__( 'Assignment: ', 'learnpress-assignments' ) . '<a href="' . esc_url( $url ) . '">' . get_the_title( $final_assignment ) . '</a>
+						' . esc_html__( 'Passing Grade: ', 'learnpress-assignments' ) . $percent . '% - ' . esc_html__( 'Assignment: ', 'learnpress-assignments' ) . '<a href="' . esc_url( $url ) . '">' . get_the_title( $final_assignment ) . '</a>
 						</div>
 					</div>
 				';
@@ -321,6 +323,28 @@ if ( ! class_exists( 'LP_Assignment_Post_Type' ) ) {
 			);
 
 			return $methods;
+		}
+
+		/**
+		 * Add evaluation types
+		 *
+		 * @param array $types
+		 * @return array
+		 * @since 4.2.1
+		 * @version 1.0.0
+		 */
+		public function evaluation_types( $types ) {
+			$assignment_types = [
+				'evaluate_final_assignment' => [
+					'label' => __( 'evaluate via results of the final assignment', 'learnpress' ),
+					'tip'   => __( 'evaluate by results of final assignment in course. you have to add a assignment into end of course.', 'learnpress' ),
+				],
+			];
+
+			return array_merge(
+				$types,
+				$assignment_types
+			);
 		}
 
 		/**
@@ -603,7 +627,6 @@ if ( ! class_exists( 'LP_Assignment_Post_Type' ) ) {
 				error_log( __METHOD__ . ': ' . $e->getMessage() );
 			}
 		}
-
 
 		/**
 		 * @return LP_Assignment_Post_Type|null

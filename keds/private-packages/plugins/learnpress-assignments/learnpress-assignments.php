@@ -4,14 +4,14 @@
  * Plugin URI: https://thimpress.com/product/assignments-add-on-for-learnpress/
  * Description: Assignments add-on for LearnPress.
  * Author: ThimPress
- * Version: 4.2.0
+ * Version: 4.2.1
  * Author URI: http://thimpress.com
  * Tags: learnpress, lms, assignment
  * Requires at least: 6.3
  * Requires PHP: 7.4
  * Text Domain: learnpress-assignments
  * Domain Path: /languages/
- * Require_LP_Version: 4.3.2.7
+ * Require_LP_Version: 4.4.2
  *
  * @package learnpress-assigments
  */

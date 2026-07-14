@@ -1,1 +1,5 @@
-{"name":"keds-plugin/learnpress-assignments","type":"wordpress-plugin","version":"4.2.0"}
+{
+ "name": "keds-plugin/learnpress-assignments",
+ "type": "wordpress-plugin",
+ "version": "4.2.1"
+}

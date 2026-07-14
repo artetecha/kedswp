@@ -2,10 +2,16 @@
 Contributors: Thimpress
 Donate link:
 Tags: learnpress, lms, assignment
-Tested up to: 6.8
-Stable tag: 4.1.7
+Tested up to: 7.0.1
+Stable tag: 4.2.1
+
+== Description ==
+LearnPress Assignments is an extension plugin for creating and managing standalone assignments inside LearnPress. Assignments reuse LearnPress questions and grading, but are stored in their own custom tables and served on their own front-end routes. Requires LearnPress 4.4.1 or later.
 
 == Changelog ==
+
+= 4.2.1 (2026-07-14) =
+~ Fixed: evaluate passing grade error.
 
 = 4.2.0 (2026-04-11) =
 ~ Fixed: minor bugs.

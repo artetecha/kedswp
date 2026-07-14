@@ -162,7 +162,7 @@ if ( ! class_exists( 'LP_Addon_Assignment' ) ) {
 			);
 
 			// add filter user access admin view assignment
-			add_filter( 'learn-press/filter-user-access-types', array( $this, 'add_filter_access' ) );
+			//add_filter( 'learn-press/filter-user-access-types', array( $this, 'add_filter_access' ) );
 
 			// add user profile page tabs
 			add_filter( 'learn-press/profile-tabs', array( $this, 'add_profile_tabs' ) );
@@ -327,11 +327,11 @@ if ( ! class_exists( 'LP_Addon_Assignment' ) ) {
 		 *
 		 * @return array
 		 */
-		public function add_filter_access( $types ) {
+		/*public function add_filter_access( $types ) {
 			$types[] = LP_ASSIGNMENT_CPT;
 
 			return $types;
-		}
+		}*/
 
 		public function learnpress_assignment_add_class_css( $item_status, $item_grade, $item_type ) {
 			$item_class = '';
@@ -1154,7 +1154,9 @@ if ( ! class_exists( 'LP_Addon_Assignment' ) ) {
 			if ( 'evaluate_final_assignment' == $evaluation_type ) {
 				$assignment_id = get_post_meta( $course_id, '_lp_final_assignment', true );
 				$assignment    = new LP_Assignment( $assignment_id );
-				$value         = $assignment->get_passing_grade() * 100 / $assignment->get_mark();
+				$passing_grade = (float) $assignment->get_passing_grade();
+				$mark_max      = (float) $assignment->get_mark();
+				$value         = $mark_max ? ( $passing_grade * 100 / $mark_max ) : 0;
 				$value         = $value % 2 == 0 ? $value : number_format( $value, 2 );
 			}
 

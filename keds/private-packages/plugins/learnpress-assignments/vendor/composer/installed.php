@@ -3,7 +3,7 @@
         'name' => 'learnpress-addons/learnpress-assignment',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '6ab67a9c258bb03500c18d01caee07dd4abf01e9',
+        'reference' => 'ae403835f5398b00814395e313124a1223652081',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'learnpress-addons/learnpress-assignment' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6ab67a9c258bb03500c18d01caee07dd4abf01e9',
+            'reference' => 'ae403835f5398b00814395e313124a1223652081',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

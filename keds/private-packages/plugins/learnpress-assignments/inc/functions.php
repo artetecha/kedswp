@@ -715,7 +715,7 @@ if ( ! function_exists( 'learn_press_assignment_get_result' ) ) {
 		$result['retake_count'] = $userAssignmentModel->get_retaken_count();
 		$result['grade']        = $userAssignmentModel->get_graduation();
 		$result['status']       = $userAssignmentModel->get_status();
-		$result['result']       = $mark != 0 ? ( $result['user_mark'] / $result['mark'] ) * 100 : 0;
+		$result['result']       = $result['mark'] ? ( $result['user_mark'] / $result['mark'] ) * 100 : 0;
 
 		return $result;
 	}

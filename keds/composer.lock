@@ -372,11 +372,11 @@
         },
         {
             "name": "keds-plugin/learnpress-assignments",
-            "version": "4.2.0",
+            "version": "4.2.1",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/learnpress-assignments",
-                "reference": "f98149f3a00751233fe1022adafc8a8cd6ea0ca5"
+                "reference": "74fd6cd03b8458e3ddad533e2471380a8a38ca0b"
             },
             "type": "wordpress-plugin",
             "transport-options": {
