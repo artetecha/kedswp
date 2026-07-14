@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2808f8b35863280d1161369d5edaf2ce",
+    "content-hash": "ad9a4464a1196c747949b0842f7039ab",
     "packages": [
         {
             "name": "artetecha/upsun-wp",
@@ -879,15 +879,15 @@
         },
         {
             "name": "wpackagist-plugin/google-site-kit",
-            "version": "1.182.0",
+            "version": "1.183.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/google-site-kit/",
-                "reference": "tags/1.182.0"
+                "reference": "tags/1.183.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.182.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.183.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
