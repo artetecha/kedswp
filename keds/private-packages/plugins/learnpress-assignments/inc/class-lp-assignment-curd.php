@@ -127,7 +127,7 @@ if ( ! class_exists( 'LP_Assignment_CURD' ) ) {
 		/**
 		 * Load assignment data.
 		 *
-		 * @param object $assignment
+		 * @param LP_Assignment $assignment
 		 *
 		 * @return object
 		 * @throws Exception
@@ -141,7 +141,7 @@ if ( ! class_exists( 'LP_Assignment_CURD' ) ) {
 			if ( ! $id || get_post_type( $id ) !== LP_ASSIGNMENT_CPT ) {
 				throw new Exception( sprintf( __( 'Invalid assignment with ID "%d".', 'learnpress-assignments' ), $id ) );
 			}
-			$assignment->set_data_via_methods(
+			/*$assignment->set_data_via_methods(
 				array(
 					'retake_count'   => get_post_meta( $assignment->get_id(), '_lp_retake_count', true ),
 					'mark'           => get_post_meta( $assignment->get_id(), '_lp_mark', true ),
@@ -150,7 +150,14 @@ if ( ! class_exists( 'LP_Assignment_CURD' ) ) {
 					'files_amount'   => get_post_meta( $assignment->get_id(), '_lp_upload_files', true ),
 					'passing_grade'  => get_post_meta( $assignment->get_id(), '_lp_passing_grade', true ),
 				)
-			);
+			);*/
+
+			$assignment->set_retake_count( get_post_meta( $assignment->get_id(), '_lp_retake_count', true ) );
+			$assignment->set_mark( get_post_meta( $assignment->get_id(), '_lp_mark', true ) );
+			$assignment->set_introduction( get_post_meta( $assignment->get_id(), '_lp_introduction', true ) );
+			$assignment->set_file_extension( get_post_meta( $assignment->get_id(), '_lp_file_extension', true ) );
+			$assignment->set_files_amount( get_post_meta( $assignment->get_id(), '_lp_upload_files', true ) );
+			$assignment->set_passing_grade( get_post_meta( $assignment->get_id(), '_lp_passing_grade', true ) );
 
 			return $assignment;
 		}

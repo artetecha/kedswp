@@ -240,7 +240,7 @@ if ( ! class_exists( 'LP_Assignment_Admin_Ajax' ) ) {
 
 						update_post_meta( $course_id, '_lp_final_assignment', $final_assignment );
 						$passing_grade = $assignmentPostModel->get_passing_grade();
-						$mark          = $assignmentPostModel->get_max_mark();
+						$max_mark      = $assignmentPostModel->get_max_mark();
 						$url           = get_edit_post_link( $final_assignment );
 
 						$output['status'] = 'success';
@@ -248,10 +248,10 @@ if ( ! class_exists( 'LP_Assignment_Admin_Ajax' ) ) {
 
 						<div class="lp-metabox-evaluate-assignment__message">
 							<?php
-							printf(
-								esc_html__( 'Passing Grade: %s%', 'learpress-assignments' ),
-								$mark != 0 ? ( $passing_grade / $mark ) * 100 : $mark
-							);
+							echo sprintf(
+								esc_html__( 'Passing Grade: %s', 'learpress-assignments' ),
+								$max_mark != 0 ? ( $passing_grade / $max_mark ) * 100 : $max_mark
+							) . '%';
 							?>
 							-
 							<?php
