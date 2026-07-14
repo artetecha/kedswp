@@ -199,22 +199,42 @@ jobs:
           # with `!` are exempt from bash errexit and would never fail the job.
           fatal='There has been a critical error|Fatal error'
 
+          # Fetch helper with retries. PHP's built-in server occasionally
+          # drops a worker mid-request (curl 52 "empty reply" — observed
+          # ~once per 10-15 runs; the site is fine, the next request
+          # succeeds), and the heavy first render of /cour/ is the most
+          # likely place to hit it (/courses/). Retry transient fetch
+          # failures so a single dropped worker doesn't fail the whole
+          # smoke run. Keeps -f so a genuine HTTP error still fails
+          # (after retries).
+          fetch() {
+            local url="$1" out="$2" max_time="${3:-300}" i
+            for i in $(seq 1 5); do
+              if curl -fsS --max-time "$max_time" "$url" -o "$out" && [ -s "$out" ]; then
+                return 0
+              fi
+              echo "fetch $url attempt $i failed; retrying in 3s" >&2
+              sleep 3
+            done
+            echo "ERROR: fetch $url failed after 5 attempts" >&2
+            [ -f /tmp/wp-debug.log ] && { echo "=== debug log tail ==="; tail -n 100 /tmp/wp-debug.log; } >&2 || true
+            return 1
+          }
+
           # Homepage: 200 and no fatal markers (first render is uncached Eduma+Elementor — be patient).
-          curl -fsS --max-time 300 http://127.0.0.1:8080/ -o /tmp/smoke/home.html
+          fetch http://127.0.0.1:8080/ /tmp/smoke/home.html 300
           if grep -Eqi "$fatal" /tmp/smoke/home.html; then echo "fatal on /" >&2; exit 1; fi
 
           # Login page renders its form.
-          curl -fsS --max-time 60 http://127.0.0.1:8080/wp-login.php -o /tmp/smoke/login.html
+          fetch http://127.0.0.1:8080/wp-login.php /tmp/smoke/login.html 60
           grep -q 'loginform' /tmp/smoke/login.html
 
           # LearnPress course archive exists and renders.
-          curl -fsS --max-time 300 http://127.0.0.1:8080/courses/ -o /tmp/smoke/courses.html
+          fetch http://127.0.0.1:8080/courses/ /tmp/smoke/courses.html 300
           if grep -Eqi "$fatal" /tmp/smoke/courses.html; then echo "fatal on /courses/" >&2; exit 1; fi
 
-          # REST API responds with valid JSON. Retried: PHP's built-in server
-          # occasionally drops a worker mid-request on this endpoint
-          # (curl 52 "empty reply" — observed ~once per 10-15 runs; the site
-          # itself is fine, subsequent requests succeed).
+          # REST API responds with valid JSON. Retried for the same
+          # worker-drop reason, plus a JSON-structure check.
           rest_ok=0
           for i in $(seq 1 5); do
             if curl -sS --max-time 120 http://127.0.0.1:8080/wp-json/ -o /tmp/smoke/rest.json \
