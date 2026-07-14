@@ -50,7 +50,7 @@
     "keds-plugin/tp-portfolio": "*",
     "keds-plugin/wp-events-manager": "*",
     "keds-theme/eduma": "*",
-    "artetecha/upsun-wp": "^0.3",
+    "artetecha/upsun-wp": "^0.4",
     "platformsh/config-reader": "^3.0",
     "wpackagist-plugin/akismet": "5.7",
     "wpackagist-plugin/auto-sizes": "1.7.0",
