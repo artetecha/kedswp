@@ -117,3 +117,9 @@ routes:
         - "woocommerce_items_in_cart"
         - "woocommerce_cart_hash"
         - "PHPSESSID"
+
+  # Redirect www to the canonical apex. Needed once www resolves to Upsun at
+  # cutover; without a matching route, www requests would hit no upstream.
+  "https://www.{default}/":
+    type: redirect
+    to: "https://{default}/"
