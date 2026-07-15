@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8139a4464f5c2fbebaca152a321e1bc1",
+    "content-hash": "25da6a9e9b945a781a3a5b82db69dea9",
     "packages": [
         {
             "name": "artetecha/upsun-wp",
@@ -1131,15 +1131,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-gateway-stripe",
-            "version": "10.8.3",
+            "version": "10.8.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
-                "reference": "tags/10.8.3"
+                "reference": "tags/10.8.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.10.8.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.10.8.4.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"

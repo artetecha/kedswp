@@ -77,7 +77,7 @@
     "wpackagist-plugin/web-worker-offloading": "0.2.1",
     "wpackagist-plugin/webp-uploads": "2.7.1",
     "wpackagist-plugin/woocommerce": "10.9.4",
-    "wpackagist-plugin/woocommerce-gateway-stripe": "10.8.3",
+    "wpackagist-plugin/woocommerce-gateway-stripe": "10.8.4",
     "wpackagist-plugin/wp-mail-smtp": "4.9.0",
     "wpackagist-theme/twentytwentyfive": "1.5",
     "wpackagist-theme/twentytwentyfour": "1.5"
