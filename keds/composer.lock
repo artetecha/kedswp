@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25da6a9e9b945a781a3a5b82db69dea9",
+    "content-hash": "32357f3657d940eb3f4676ec1c036211",
     "packages": [
         {
             "name": "artetecha/upsun-wp",
@@ -789,15 +789,15 @@
         },
         {
             "name": "wpackagist-plugin/elementor",
-            "version": "4.1.4",
+            "version": "4.1.5",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/elementor/",
-                "reference": "tags/4.1.4"
+                "reference": "tags/4.1.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/elementor.4.1.4.zip"
+                "url": "https://downloads.wordpress.org/plugin/elementor.4.1.5.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
