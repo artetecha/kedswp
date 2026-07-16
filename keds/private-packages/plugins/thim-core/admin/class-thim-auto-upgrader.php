@@ -187,11 +187,10 @@ class Thim_Auto_Upgrader extends Thim_Singleton {
 				$url_download = Thim_Product_Registration::get_url_download_theme( $stylesheet );
 				if ( ! is_wp_error( $url_download ) ) {
 					$options['package'] = $url_download;
-				} else {
-					if ( $url_download->get_error_code() == 'thim_core_key_broken' ) {
-						Thim_Product_Registration::destroy_active();
-					}
 				}
+				// Don't destroy the local activation on a failed lookup here:
+				// legacy customers may still resolve via the site_key fallback,
+				// and wiping their activation would lock them out of updates.
 
 				return $options;
 			}

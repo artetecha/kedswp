@@ -9,7 +9,7 @@ $current_version = $theme_data['version'];
 $update_themes = Thim_Free_Theme::get_update_themes();
 $themes        = $update_themes['themes'];
 
-$data = isset( $themes[$template] ) ? $themes[$template] : false;
+$data = isset( $themes[ $template ] ) ? $themes[ $template ] : false;
 
 $purchase_code = Thim_Product_Registration::get_data_theme_register( 'purchase_code' );
 
@@ -26,15 +26,19 @@ $can_update = version_compare( $data['version'], $current_version, '>' );
 	<div class="td-box-welcome-admin">
 		<div class="box-left">
 			<p>
-				<?php printf(
+				<?php
+				printf(
 					__(
 						'Thanks for installing the %1$s theme. If this is the first time you work with %1$s, please read and follow
-			the instructions carefully. This is the getting started section of %1$s Theme Dashboard.', 'thim-core'
-					), $data['name']
-				); ?>
+			the instructions carefully. This is the getting started section of %1$s Theme Dashboard.',
+						'thim-core'
+					),
+					$data['name']
+				);
+				?>
 			</p>
 			<a href="<?php echo admin_url( 'admin.php?page=thim-getting-started' ); ?>"
-			   class="tc-button-box tc-button-black"><?php esc_html_e( 'Let\'s get started', 'thim-core' ); ?></a>
+				class="tc-button-box tc-button-black"><?php esc_html_e( 'Let\'s get started', 'thim-core' ); ?></a>
 		</div>
 		<div class="box-right">
 			<?php
@@ -50,10 +54,18 @@ $can_update = version_compare( $data['version'], $current_version, '>' );
 					$data_info = array(
 						'title' => __( 'New version available', 'thim-core' ),
 						'class' => 'has-update',
-						'desc'  => __( 'Your Version is', 'thim-core' ) . ' ' . $current_version
+						'desc'  => __( 'Your Version is', 'thim-core' ) . ' ' . $current_version,
 					);
 					if ( empty( $purchase_code ) ) {
-						$data_info['btn-update'] = '<div class="update-notice"><a href="' . esc_url( add_query_arg( array( 'page' => 'thim-license', 'thim_redirect' => urlencode( $link_check ) ), admin_url( 'admin.php' ) ) ) . '" class="button-link">' . __( 'Activate now.', 'thim-core' ) . '</a></div>';
+						$data_info['btn-update'] = '<div class="update-notice"><a href="' . esc_url(
+							add_query_arg(
+								array(
+									'page'          => 'thim-license',
+									'thim_redirect' => urlencode( $link_check ),
+								),
+								admin_url( 'admin.php' )
+							)
+						) . '" class="button-link">' . __( 'Activate now.', 'thim-core' ) . '</a></div>';
 					} else {
 						$data_info['btn-update'] = '<div class="update-message"><button class="button-link tc-update-now" type="button">' . esc_html__( 'Update now', 'thim-core' ) . '</button></div>';
 					}

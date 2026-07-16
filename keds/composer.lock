@@ -568,11 +568,11 @@
         },
         {
             "name": "keds-plugin/thim-core",
-            "version": "2.4.9",
+            "version": "2.5.0",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/thim-core",
-                "reference": "96f39838e93af95d02b61342d37bdc3de11f9fbd"
+                "reference": "d575ede72937646a37c25f9e6cea4c46fad066b2"
             },
             "type": "wordpress-plugin",
             "transport-options": {

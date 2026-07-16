@@ -96,7 +96,15 @@ class Thim_Free_Theme extends Thim_Singleton {
 		add_action( 'thim_core_background_check_update_theme_lite', array( $this, 'background_check_update_theme' ) );
 		add_filter( 'thim_core_get_link_download_theme', array( $this, 'get_link_download_theme' ), 10, 2 );
 		add_filter( 'thim_core_can_update_theme', array( $this, 'can_update_theme' ) );
-		add_action( 'thim_core_background_check_update_theme_lite', array( $this, 'check_active_with_purchase_code_txt' ) );
+
+		// Auto-activate from the purchase-code.txt bundled inside the theme zip.
+		// This must run for every theme (not just lite) and at the right moment:
+		//  - after_switch_theme: the customer already has thim-core and activates
+		//    the theme.
+		//  - admin_init: the customer installs the theme first, then thim-core;
+		//    the check runs on the next admin load once thim-core is active.
+		add_action( 'after_switch_theme', array( $this, 'check_active_with_purchase_code_txt' ) );
+		add_action( 'admin_init', array( $this, 'check_active_with_purchase_code_txt' ) );
 	}
 
 	// Check if in theme has file purchase_code.txt
@@ -113,6 +121,12 @@ class Thim_Free_Theme extends Thim_Singleton {
 		// use get_parent_theme_file_path.
 		$purchase_code_file = get_parent_theme_file_path( 'purchase-code.txt' );
 		if ( ! file_exists( $purchase_code_file ) ) {
+			return;
+		}
+
+		// Throttle retries: after a failed attempt (invalid code / network) don't
+		// hit the license server again on every admin page load.
+		if ( get_transient( 'thim_core_purchase_code_txt_tried' ) ) {
 			return;
 		}
 
@@ -143,23 +157,28 @@ class Thim_Free_Theme extends Thim_Singleton {
 
 		$response = rest_do_request( $request );
 
-		if ( ! $response->is_error() ) {
-			if ( $response->get_data()['status'] == 'success' ) {
-				// delete purchase_code.txt
-				$wp_filesystem->delete( $purchase_code_file );
-			} else {
-				$message = isset( $response->get_data()['message'] ) ? $response->get_data()['message'] : 'Cannot active theme with purchase code.';
+		$data = $response->is_error() ? array() : (array) $response->get_data();
 
-				Thim_Notification::add_notification(
-					array(
-						'id'          => 'purchase_code_txt',
-						'type'        => 'error',
-						'content'     => $message,
-						'dismissible' => false,
-						'global'      => true,
-					)
-				);
-			}
+		if ( ( $data['status'] ?? '' ) === 'success' ) {
+			// delete purchase_code.txt
+			$wp_filesystem->delete( $purchase_code_file );
+			delete_transient( 'thim_core_purchase_code_txt_tried' );
+		} else {
+			// Any non-success outcome (error status or a hard REST error) →
+			// throttle so we don't hammer the license server on every load.
+			set_transient( 'thim_core_purchase_code_txt_tried', 1, 5 * MINUTE_IN_SECONDS );
+
+			$message = ! empty( $data['message'] ) ? $data['message'] : 'Cannot active theme with purchase code.';
+
+			Thim_Notification::add_notification(
+				array(
+					'id'          => 'purchase_code_txt',
+					'type'        => 'error',
+					'content'     => $message,
+					'dismissible' => false,
+					'global'      => true,
+				)
+			);
 		}
 	}
 

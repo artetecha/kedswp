@@ -28,8 +28,8 @@ $sub_pages    = Thim_Dashboard::get_sub_pages();
 				$menu_title = apply_filters( 'thim_core_tab_' . $key . '_menu_title', $sub_page['title'] );
 				?>
 				<a id="tc-nav-tag-<?php echo esc_attr( $key ); ?>" href="<?php echo esc_url( $link ); ?>"
-				   class="nav-tab<?php echo ( $key === $current_page ) ? ' nav-tab-active' : ''; ?>"
-				   title="<?php echo esc_attr( $sub_page['title'] ); ?>">
+					class="nav-tab<?php echo ( $key === $current_page ) ? ' nav-tab-active' : ''; ?>"
+					title="<?php echo esc_attr( $sub_page['title'] ); ?>">
 					<?php echo isset( $sub_page['icon'] ) ? $sub_page['icon'] : ''; ?>
 					<?php echo( $menu_title ); ?>
 				</a>
