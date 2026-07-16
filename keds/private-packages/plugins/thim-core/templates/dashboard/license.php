@@ -7,8 +7,8 @@ $user          = wp_get_current_user();
 $theme_data = Thim_Theme_Manager::get_metadata();
 $theme      = $theme_data['text_domain'];
 $version    = $theme_data['version'];
-$is_active = Thim_Product_Registration::is_active();
-$site_key  = Thim_Product_Registration::get_site_key();
+$is_active  = Thim_Product_Registration::is_active();
+$site_key   = Thim_Product_Registration::get_site_key();
 ?>
 <div class="tc-box tc-box-theme-license">
 	<div class="tc-box-header">
@@ -60,7 +60,6 @@ $site_key  = Thim_Product_Registration::get_site_key();
 								<?php esc_html_e( 'Purchase code: ', 'thim-core' ); ?>
 							</th>
 							<td>
-								<?php // Show purchase code with **** and last 3 characters of the purchase code with format uuid4 ?>
 								<input type="text"
 										value="<?php echo esc_html( str_repeat( '*', strlen( $purchase_code ) - 7 ) . substr( $purchase_code, - 4 ) ); ?>"
 										disabled>

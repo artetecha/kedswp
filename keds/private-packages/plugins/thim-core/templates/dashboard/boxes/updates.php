@@ -64,7 +64,10 @@ $site_key = Thim_Product_Registration::get_site_key();
 						'class' => 'has-update',
 						'desc'  => __( 'Your Version is', 'thim-core' ) . ' ' . $current_version,
 					);
-					if ( $is_active ) {
+					if ( ! empty( $data['expired'] ) ) {
+						$data_info['desc']      .= ' — ' . esc_html__( 'Your license has expired.', 'thim-core' );
+						$data_info['btn-update'] = '<div class="update-notice"><a href="https://thimpress.com/my-account/" target="_blank" class="active-theme-now">' . esc_html__( 'Renew to update', 'thim-core' ) . '</a></div>';
+					} elseif ( $is_active ) {
 						$data_info['btn-update'] = '<div class="update-message"><button class="button-link tc-update-now" type="button">' . esc_html__( 'Update now', 'thim-core' ) . '</button></div>';
 					} else {
 						$data_info['btn-update'] = '<div class="update-notice"><a href="' . esc_url( admin_url( '/admin.php?page=thim-license' ) ) . '" class="active-theme-now">' . esc_html__( 'Active Theme Now', 'thim-core' ) . '</a></div>';

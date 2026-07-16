@@ -500,9 +500,11 @@ class Thim_Product_Registration extends Thim_Singleton {
 	/**
 	 * Get url link download theme through the consolidated market server.
 	 *
-	 * Theme update download used to call Envato directly with the seller's
-	 * refresh_token; that flow is gone. The customer's activation site_code
-	 * is enough — the server gates the zip via /license/download.
+	 * New activations carry a purchase_token (site_code) and download via
+	 * /license/download. Legacy customers registered through Envato only have
+	 * a site_key stored locally (no purchase_token); for them we fall back to
+	 * the still-live download-theme-package endpoint, which resolves the
+	 * site_key against thim_em_activations on the server.
 	 *
 	 * @param string|null $stylesheet
 	 *
@@ -513,21 +515,38 @@ class Thim_Product_Registration extends Thim_Singleton {
 		$slug          = $theme_data['text_domain'] ?? $theme_data['template'] ?? '';
 		$purchase_token = self::get_data_theme_register( 'purchase_token' );
 
-		if ( empty( $purchase_token ) ) {
-			return new WP_Error( 'thim_core_key_broken', __( 'Theme is not activated.', 'thim-core' ) );
-		}
-
 		if ( empty( $slug ) ) {
 			return new WP_Error( 'thim_core_slug_missing', __( 'Theme slug is missing.', 'thim-core' ) );
 		}
 
-		return add_query_arg(
-			array(
-				'slug'      => $slug,
-				'site_code' => $purchase_token,
-			),
-			Thim_Admin_Config::get( 'api_thim_market' ) . '/license/download'
-		);
+		// New flow: activation carries a purchase_token (site_code).
+		if ( ! empty( $purchase_token ) ) {
+			return add_query_arg(
+				array(
+					'slug'      => $slug,
+					'site_code' => $purchase_token,
+				),
+				Thim_Admin_Config::get( 'api_thim_market' ) . '/license/download'
+			);
+		}
+
+		// Legacy flow: customer registered through Envato has only a site_key.
+		// Server matches it against thim_em_activations and serves the zip.
+		$site_key = self::get_site_key( $stylesheet );
+		if ( ! empty( $site_key ) && $site_key !== 'site_key' ) {
+			$code = thim_core_generate_code_by_site_key( $site_key );
+
+			return add_query_arg(
+				array(
+					'theme' => $slug,
+					'code'  => $code,
+					'debug' => 'yes',
+				),
+				Thim_Admin_Config::get( 'host_downloads' ) . '/download-theme-package/'
+			);
+		}
+
+		return new WP_Error( 'thim_core_key_broken', __( 'Theme is not activated.', 'thim-core' ) );
 	}
 
 	/**
@@ -579,6 +598,7 @@ class Thim_Product_Registration extends Thim_Singleton {
 
 		add_action( 'wp_ajax_thim_core_update_theme', array( $this, 'ajax_update_theme' ) );
 		add_action( 'thim_core_background_check_update_theme', array( $this, 'background_check_update_theme' ), 1 );
+		add_action( 'admin_init', array( $this, 'maybe_notify_license' ) );
 		add_action( 'thim_core_list_modals', array( $this, 'add_modal_activate_theme' ) );
 		add_action( 'thim_core_dashboard_init', array( $this, 'handle_deregister' ) );
 		add_action( 'template_redirect', array( $this, 'handle_connect_check_activation' ) );
@@ -844,8 +864,9 @@ class Thim_Product_Registration extends Thim_Singleton {
 		// the server validates both against the `_slug` post meta.
 		$theme_slug = $theme_data['text_domain'] ?? $theme_data['template'] ?? '';
 		$site_code  = self::get_data_theme_register( 'purchase_token' );
+		$item_id    = $theme_data['envato_item_id'] ?? '';
 
-		$checker                       = new Thim_Theme_Envato_Check_Update( $theme_slug, $current_version, $site_code );
+		$checker                       = new Thim_Theme_Envato_Check_Update( $theme_slug, $current_version, $site_code, $item_id );
 		$update_themes['last_checked'] = $now;
 		$data                          = $checker->get_theme_data();
 
@@ -864,6 +885,9 @@ class Thim_Product_Registration extends Thim_Singleton {
 				'rating'       => $data['rating'],
 				'rating_count' => $data['rating_count'],
 				'url'          => $data['url'],
+				// Expired: still surface the new version, but the update action
+				// is gated (Renew button on the client, download blocked server side).
+				'expired'      => $checker->is_expired(),
 				'package'      => '',
 			);
 		} else {
@@ -872,7 +896,93 @@ class Thim_Product_Registration extends Thim_Singleton {
 
 		$update_themes['themes'] = $themes;
 
+		// Persist license state so the renewal notice can be surfaced on every
+		// admin load — this check itself only runs on a 12h throttle. Only
+		// overwrite when the server actually answered, so a transient network
+		// failure doesn't wipe a known expiry.
+		if ( $data || $checker->is_expired() ) {
+			$update_themes['license_expired'] = $checker->is_expired();
+			$update_themes['license_expire']  = $checker->get_server_expire();
+			$update_themes['license_latest']  = $checker->get_server_latest();
+			$update_themes['license_name']    = $theme_data['name'] ?? $theme_slug;
+			$update_themes['license_current'] = $current_version;
+		}
+
 		update_option( 'thim_core_check_update_themes', $update_themes );
+	}
+
+	/**
+	 * Surface a renewal notice for thimpress licenses: proactively within 30
+	 * days before expiry, and once expired (updates are blocked at that point).
+	 * Reads state persisted by check_theme_update() so it runs on every admin
+	 * load.
+	 *
+	 * @since 2.4.10
+	 */
+	public function maybe_notify_license() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
+		$update = self::get_update_themes();
+		$expire = $update['license_expire'] ?? '';
+		$name   = ! empty( $update['license_name'] ) ? esc_html( $update['license_name'] ) : esc_html__( 'theme', 'thim-core' );
+		$renew  = 'https://thimpress.com/my-account/';
+
+		// Already expired — updates are paused.
+		if ( ! empty( $update['license_expired'] ) ) {
+			Thim_Notification::add_notification(
+				array(
+					'id'          => 'thim_license_expired',
+					'type'        => 'error',
+					'content'     => sprintf(
+						__( 'Your %1$s license has expired and updates are paused. <a href="%2$s" target="_blank">Renew now</a> to keep receiving updates and support.', 'thim-core' ),
+						$name,
+						$renew
+					),
+					'dismissible' => false,
+					'global'      => true,
+				)
+			);
+
+			return;
+		}
+
+		// Not expired yet — warn within 30 days of the expiry date.
+		if ( empty( $expire ) ) {
+			return;
+		}
+
+		$expire_ts = strtotime( $expire );
+		if ( ! $expire_ts ) {
+			return;
+		}
+
+		$days_left = (int) ceil( ( $expire_ts - time() ) / DAY_IN_SECONDS );
+		if ( $days_left < 0 || $days_left > 30 ) {
+			return;
+		}
+
+		Thim_Notification::add_notification(
+			array(
+				'id'          => 'thim_license_expiring',
+				'type'        => 'warning',
+				'content'     => sprintf(
+					_n(
+						'Your %1$s license expires in %2$d day (%3$s). <a href="%4$s" target="_blank">Renew now</a> to keep receiving updates and support.',
+						'Your %1$s license expires in %2$d days (%3$s). <a href="%4$s" target="_blank">Renew now</a> to keep receiving updates and support.',
+						$days_left,
+						'thim-core'
+					),
+					$name,
+					$days_left,
+					esc_html( date_i18n( get_option( 'date_format' ), $expire_ts ) ),
+					$renew
+				),
+				'dismissible' => true,
+				'global'      => true,
+			)
+		);
 	}
 
 	/**
