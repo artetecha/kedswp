@@ -25,6 +25,7 @@
   ],
   "require": {
     "php": ">=8.4 <8.5",
+    "artetecha/upsun-wp": "^0.4",
     "composer/installers": "^2.3",
     "johnpbloch/wordpress-core": "7.0.*",
     "johnpbloch/wordpress-core-installer": "^2.0",
@@ -50,7 +51,7 @@
     "keds-plugin/tp-portfolio": "*",
     "keds-plugin/wp-events-manager": "*",
     "keds-theme/eduma": "*",
-    "artetecha/upsun-wp": "^0.4",
+    "keds-theme/online-learning-child": "*",
     "platformsh/config-reader": "^3.0",
     "wpackagist-plugin/akismet": "5.7",
     "wpackagist-plugin/auto-sizes": "1.7.0",
@@ -73,11 +74,13 @@
     "wpackagist-plugin/redirection": "5.9.0",
     "wpackagist-plugin/redis-cache": "^2.0",
     "wpackagist-plugin/speculation-rules": "1.6.0",
+    "wpackagist-plugin/thim-blocks": "1.0.4",
     "wpackagist-plugin/web-worker-offloading": "0.2.1",
     "wpackagist-plugin/webp-uploads": "2.7.1",
     "wpackagist-plugin/woocommerce": "10.9.4",
     "wpackagist-plugin/woocommerce-gateway-stripe": "10.8.4",
     "wpackagist-plugin/wp-mail-smtp": "4.9.0",
+    "wpackagist-theme/online-learning": "1.0.9",
     "wpackagist-theme/twentytwentyfive": "1.5",
     "wpackagist-theme/twentytwentyfour": "1.5"
   },
@@ -96,7 +99,7 @@
   },
   "extra": {
     "distro": {
-      "default-theme": "eduma",
+      "default-theme": "online-learning-child",
       "removed": [
         "google-site-kit",
         "object-cache-pro",

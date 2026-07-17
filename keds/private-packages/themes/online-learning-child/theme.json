@@ -1,0 +1,221 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 3,
+    "settings": {
+        "appearanceTools": true,
+        "color": {
+            "palette": [
+                {
+                    "slug": "primary",
+                    "color": "#24256C",
+                    "name": "KEDS Indigo"
+                },
+                {
+                    "slug": "secondary",
+                    "color": "#16173F",
+                    "name": "Deep Indigo"
+                },
+                {
+                    "slug": "accent",
+                    "color": "#FFB606",
+                    "name": "KEDS Gold"
+                },
+                {
+                    "slug": "heading",
+                    "color": "#1B1C4B",
+                    "name": "Heading"
+                },
+                {
+                    "slug": "body",
+                    "color": "#4A4A4A",
+                    "name": "Body"
+                },
+                {
+                    "slug": "surface",
+                    "color": "#F4F5FB",
+                    "name": "Surface"
+                },
+                {
+                    "slug": "background",
+                    "color": "#FFFFFF",
+                    "name": "Background"
+                },
+                {
+                    "slug": "border-color",
+                    "color": "#E4E4EF",
+                    "name": "Border Color"
+                }
+            ],
+            "duotone": [
+                {
+                    "slug": "keds-indigo",
+                    "name": "KEDS Indigo",
+                    "colors": [
+                        "#16173F",
+                        "#F4F5FB"
+                    ]
+                }
+            ]
+        },
+        "typography": {
+            "fontFamilies": [
+                {
+                    "name": "Work Sans",
+                    "slug": "worksans",
+                    "fontFamily": "'Work Sans', 'WorkSans Fallback', -apple-system, sans-serif",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Work Sans",
+                            "fontWeight": "400 700",
+                            "fontStyle": "normal",
+                            "fontDisplay": "swap",
+                            "src": [ "file:./assets/fonts/work-sans/work-sans-latin.woff2" ],
+                            "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+                        },
+                        {
+                            "fontFamily": "Work Sans",
+                            "fontWeight": "400 700",
+                            "fontStyle": "normal",
+                            "fontDisplay": "swap",
+                            "src": [ "file:./assets/fonts/work-sans/work-sans-latin-ext.woff2" ],
+                            "unicodeRange": "U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF"
+                        }
+                    ]
+                },
+                {
+                    "name": "Libre Baskerville",
+                    "slug": "librebaskerville",
+                    "fontFamily": "'Libre Baskerville', 'LibreBaskerville Fallback', Georgia, serif",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Libre Baskerville",
+                            "fontWeight": "400",
+                            "fontStyle": "normal",
+                            "fontDisplay": "swap",
+                            "src": [ "file:./assets/fonts/libre-baskerville/libre-baskerville-latin-400.woff2" ],
+                            "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+                        },
+                        {
+                            "fontFamily": "Libre Baskerville",
+                            "fontWeight": "400",
+                            "fontStyle": "normal",
+                            "fontDisplay": "swap",
+                            "src": [ "file:./assets/fonts/libre-baskerville/libre-baskerville-latin-ext-400.woff2" ],
+                            "unicodeRange": "U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF"
+                        },
+                        {
+                            "fontFamily": "Libre Baskerville",
+                            "fontWeight": "700",
+                            "fontStyle": "normal",
+                            "fontDisplay": "swap",
+                            "src": [ "file:./assets/fonts/libre-baskerville/libre-baskerville-latin-700.woff2" ],
+                            "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+                        },
+                        {
+                            "fontFamily": "Libre Baskerville",
+                            "fontWeight": "700",
+                            "fontStyle": "normal",
+                            "fontDisplay": "swap",
+                            "src": [ "file:./assets/fonts/libre-baskerville/libre-baskerville-latin-ext-700.woff2" ],
+                            "unicodeRange": "U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF"
+                        }
+                    ]
+                },
+                {
+                    "name": "Body (Work Sans)",
+                    "slug": "inter",
+                    "fontFamily": "'Work Sans', 'WorkSans Fallback', -apple-system, sans-serif"
+                },
+                {
+                    "name": "Display (Libre Baskerville)",
+                    "slug": "dmsans",
+                    "fontFamily": "'Libre Baskerville', 'LibreBaskerville Fallback', Georgia, serif"
+                }
+            ]
+        }
+    },
+    "styles": {
+        "typography": {
+            "fontFamily": "var(--wp--preset--font-family--worksans)",
+            "fontSize": "var(--wp--preset--font-size--medium)",
+            "lineHeight": "1.65"
+        },
+        "color": {
+            "text": "var(--wp--preset--color--body)",
+            "background": "var(--wp--preset--color--background)"
+        },
+        "elements": {
+            "heading": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--librebaskerville)",
+                    "fontWeight": "700",
+                    "lineHeight": "1.2"
+                },
+                "color": {
+                    "text": "var(--wp--preset--color--heading)"
+                }
+            },
+            "link": {
+                "color": {
+                    "text": "var(--wp--preset--color--primary)"
+                },
+                ":hover": {
+                    "color": {
+                        "text": "var(--wp--preset--color--secondary)"
+                    }
+                }
+            },
+            "button": {
+                "color": {
+                    "text": "#ffffff",
+                    "background": "var(--wp--preset--color--primary)"
+                },
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--worksans)",
+                    "fontWeight": "600"
+                },
+                "border": {
+                    "radius": "6px"
+                },
+                "spacing": {
+                    "padding": {
+                        "top": "14px",
+                        "bottom": "14px",
+                        "left": "28px",
+                        "right": "28px"
+                    }
+                },
+                ":hover": {
+                    "color": {
+                        "background": "var(--wp--preset--color--secondary)"
+                    }
+                }
+            }
+        },
+        "blocks": {
+            "core/button": {
+                "variations": {
+                    "outline": {
+                        "color": {
+                            "text": "var(--wp--preset--color--primary)"
+                        },
+                        "border": {
+                            "color": "var(--wp--preset--color--primary)",
+                            "style": "solid",
+                            "width": "1px"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "customTemplates": [
+        {
+            "name": "fullwidth",
+            "title": "Fullwidth",
+            "postTypes": [
+                "page"
+            ]
+        }
+    ]
+}

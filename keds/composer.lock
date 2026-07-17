@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ae714b45eb61ceee98b65ce39e234fc",
+    "content-hash": "675433a5561f5bc719837c0389c0b820",
     "packages": [
         {
             "name": "artetecha/upsun-wp",
@@ -637,6 +637,24 @@
             }
         },
         {
+            "name": "keds-theme/online-learning-child",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/themes/online-learning-child",
+                "reference": "872662e80b38c0a61a718e86617efc9575251041"
+            },
+            "type": "wordpress-theme",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "KEDS block/FSE theme — child of ThimPress \"Online Learning\", branded for King's Evangelical Divinity School.",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
             "name": "platformsh/config-reader",
             "version": "3.0.1",
             "source": {
@@ -1058,6 +1076,24 @@
             "homepage": "https://wordpress.org/plugins/speculation-rules/"
         },
         {
+            "name": "wpackagist-plugin/thim-blocks",
+            "version": "1.0.4",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/thim-blocks/",
+                "reference": "tags/1.0.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/thim-blocks.1.0.4.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/thim-blocks/"
+        },
+        {
             "name": "wpackagist-plugin/web-worker-offloading",
             "version": "0.2.1",
             "source": {
@@ -1146,6 +1182,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-mail-smtp/"
+        },
+        {
+            "name": "wpackagist-theme/online-learning",
+            "version": "1.0.9",
+            "source": {
+                "type": "svn",
+                "url": "https://themes.svn.wordpress.org/online-learning/",
+                "reference": "1.0.9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/theme/online-learning.1.0.9.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-theme",
+            "homepage": "https://wordpress.org/themes/online-learning/"
         },
         {
             "name": "wpackagist-theme/twentytwentyfive",

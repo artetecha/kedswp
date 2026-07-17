@@ -1,0 +1,45 @@
+/*
+Theme Name: KEDS (Online Learning Child)
+Theme URI: https://kingsdivinity.org/
+Template: online-learning
+Author: KEDS
+Author URI: https://kingsdivinity.org/
+Description: Block/Full-Site-Editing theme for King's Evangelical Divinity School. A child of ThimPress "Online Learning" that carries the KEDS brand (indigo/gold, Libre Baskerville + Work Sans) and replaces the previous Eduma + Elementor stack. LearnPress LMS and all premium add-ons keep working unchanged.
+Version: 1.0.0
+Requires at least: 6.5
+Tested up to: 7.0
+Requires PHP: 8.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: online-learning-child
+*/
+
+/* -------------------------------------------------------------------------
+ * Almost all styling is driven by theme.json and the parent theme's
+ * stylesheet. Keep hand-written CSS here to the few things blocks/theme.json
+ * cannot express. Prefer theme.json first.
+ * ---------------------------------------------------------------------- */
+
+/* Mega-menu: let the primary navigation submenu lay its items out in a row
+ * of columns instead of a single tall stacked list. Scoped to the header so
+ * it never touches in-content navigation blocks. */
+.header-main .wp-block-navigation .wp-block-navigation__submenu-container {
+	min-width: 16rem;
+}
+
+/* Brand-tinted, full-bleed hero background used by the KEDS hero pattern. */
+.keds-hero {
+	background-image: linear-gradient(180deg, var(--wp--preset--color--surface) 0%, #ffffff 100%);
+}
+
+/* Give the "step number" badges in the How-to-start pattern a consistent circle. */
+.keds-step-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 9999px;
+	font-family: var(--wp--preset--font-family--librebaskerville);
+	font-weight: 700;
+}

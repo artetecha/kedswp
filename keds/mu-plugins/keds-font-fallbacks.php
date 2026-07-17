@@ -1,14 +1,15 @@
 <?php
 /**
  * Plugin Name: KEDS Font Fallbacks (Magic Fallbacks)
- * Description: Eliminates font-swap layout shift (CLS) by defining metric-matched fallback
- *              fonts and injecting them into the theme (--thim-font-*) and Elementor
- *              (--e-global-typography-*) font-family CSS variables. During the swap window the
- *              browser paints a size-matched fallback instead of a bare generic, so text does
- *              not reflow when the real webfont arrives. OMGF still owns loading/preload/unload;
- *              this plugin only supplies the fallback metrics — the free equivalent of OMGF
- *              Pro's "Magic Fallbacks".
- * Version: 1.0.0
+ * Description: Eliminates font-swap layout shift (CLS) by defining metric-matched @font-face
+ *              fallback fonts ("WorkSans Fallback", "LibreBaskerville Fallback"). The block
+ *              theme's theme.json already lists these fallback names in each font-family stack
+ *              (e.g. "Work Sans, WorkSans Fallback, sans-serif"); this plugin supplies the
+ *              matching @font-face declarations so that, during the swap window, the browser
+ *              paints a size-matched fallback instead of a bare generic and text does not reflow
+ *              when the real webfont arrives. The theme self-hosts the webfonts via theme.json
+ *              fontFace; this plugin only supplies the fallback metrics.
+ * Version: 2.0.0
  * Author: KEDS
  * Author URI: https://kingsdivinity.org
  *
@@ -67,59 +68,9 @@ function keds_font_fallbacks_config(): array {
 			'descent-override'   => '24%',
 			'line-gap-override'  => '0%',
 		],
-		// Elementor primary — buttons ("Start Here"), some widget headings.
-		'Roboto Slab'       => [
-			'fallback'           => 'RobotoSlab Fallback',
-			'local'              => 'Georgia',
-			'generic'            => 'serif',
-			'size-adjust'        => '106%',
-			'ascent-override'    => '103%',
-			'descent-override'   => '27%',
-			'line-gap-override'  => '0%',
-		],
-		// Elementor text/accent.
-		'Roboto'            => [
-			'fallback'           => 'Roboto Fallback',
-			'local'              => 'Arial',
-			'generic'            => 'sans-serif',
-			'size-adjust'        => '100%',
-			'ascent-override'    => '92.7%',
-			'descent-override'   => '24.4%',
-			'line-gap-override'  => '0%',
-		],
-		// Elementor secondary.
-		'Roboto Condensed'  => [
-			'fallback'           => 'RobotoCondensed Fallback',
-			'local'              => 'Arial Narrow',
-			'generic'            => 'sans-serif',
-			'size-adjust'        => '88%',
-			'ascent-override'    => '100%',
-			'descent-override'   => '26%',
-			'line-gap-override'  => '0%',
-		],
 	];
 
 	return apply_filters( 'keds_font_fallbacks_config', $config );
-}
-
-/**
- * Map of the CSS custom properties this site uses for font-family, to the primary family each
- * one currently carries. Discovered on kingsdivinity.org; override via filter if it changes.
- *
- * @return array<string,string>
- */
-function keds_font_fallbacks_vars(): array {
-	return apply_filters(
-		'keds_font_fallbacks_vars',
-		[
-			'--thim-font-body-font-family'                => 'Work Sans',
-			'--thim-font-title-font-family'               => 'Libre Baskerville',
-			'--e-global-typography-primary-font-family'   => 'Roboto Slab',
-			'--e-global-typography-secondary-font-family' => 'Roboto Condensed',
-			'--e-global-typography-text-font-family'      => 'Roboto',
-			'--e-global-typography-accent-font-family'    => 'Roboto',
-		]
-	);
 }
 
 /**
@@ -131,11 +82,13 @@ function keds_font_fallbacks_clean( string $value ): string {
 }
 
 /**
- * Print the fallback @font-face rules and the variable overrides.
+ * Print the metric-matched fallback @font-face declarations.
  *
- * Priority 99 + the specificity trick (`:root:root` beats the theme's `:root`;
- * `body[class*="elementor-kit"]` beats Elementor's `.elementor-kit-NNN`) guarantees these win
- * the cascade regardless of source order, without hardcoding the kit id.
+ * The block theme's theme.json font-family stacks already list these fallback
+ * family names (e.g. "Work Sans, WorkSans Fallback, sans-serif"), so no CSS
+ * variable override is needed: defining the @font-face here is enough for the
+ * browser to paint a size-matched fallback during the swap window instead of a
+ * bare generic, so text does not reflow when the real webfont arrives.
  */
 function keds_font_fallbacks_print(): void {
 	if ( is_admin() ) {
@@ -143,11 +96,9 @@ function keds_font_fallbacks_print(): void {
 	}
 
 	$config = keds_font_fallbacks_config();
-	$vars   = keds_font_fallbacks_vars();
 
-	// 1. Metric-matched @font-face declarations.
 	$faces = '';
-	foreach ( $config as $primary => $f ) {
+	foreach ( $config as $f ) {
 		$faces .= sprintf(
 			'@font-face{font-family:"%s";src:local("%s");size-adjust:%s;ascent-override:%s;descent-override:%s;line-gap-override:%s;}',
 			keds_font_fallbacks_clean( $f['fallback'] ),
@@ -159,30 +110,12 @@ function keds_font_fallbacks_print(): void {
 		);
 	}
 
-	// 2. Redefine each font-family variable as: "Primary", "Primary Fallback", generic.
-	$decls = '';
-	foreach ( $vars as $var => $primary ) {
-		if ( empty( $config[ $primary ] ) ) {
-			continue;
-		}
-		$f      = $config[ $primary ];
-		$decls .= sprintf(
-			'%s:"%s","%s",%s;',
-			keds_font_fallbacks_clean( $var ),
-			keds_font_fallbacks_clean( $primary ),
-			keds_font_fallbacks_clean( $f['fallback'] ),
-			keds_font_fallbacks_clean( $f['generic'] )
-		);
-	}
-
-	if ( '' === $decls ) {
+	if ( '' === $faces ) {
 		return;
 	}
 
-	$css = $faces . ':root:root,body[class*="elementor-kit"]{' . $decls . '}';
-
 	// Static, sanitised CSS — not user input; escaping would corrupt the stylesheet.
-	echo "\n<style id=\"keds-font-fallbacks\">" . $css . "</style>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo "\n<style id=\"keds-font-fallbacks\">" . $faces . "</style>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 add_action( 'wp_head', 'keds_font_fallbacks_print', 99 );
