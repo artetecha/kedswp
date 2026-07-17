@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32357f3657d940eb3f4676ec1c036211",
+    "content-hash": "4c87369c78be0742266ee7e9094a8d9b",
     "packages": [
         {
             "name": "artetecha/upsun-wp",
@@ -843,15 +843,15 @@
         },
         {
             "name": "wpackagist-plugin/fluentform",
-            "version": "6.2.6",
+            "version": "6.2.7",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/fluentform/",
-                "reference": "tags/6.2.6"
+                "reference": "tags/6.2.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/fluentform.6.2.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/fluentform.6.2.7.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
