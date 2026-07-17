@@ -12,8 +12,10 @@
 return static function () {
 	global $wpdb;
 
+	// Match both prefixes: googlesitekit_* and googlesitekitpersistent_*
+	// (the "persistent" store survives Site Kit's own reset, hence the name).
 	$option_names = $wpdb->get_col(
-		"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE 'googlesitekit\_%'"
+		"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE 'googlesitekit%'"
 	);
 	foreach ( $option_names as $option_name ) {
 		delete_option( $option_name );
@@ -21,7 +23,7 @@ return static function () {
 	echo 'Deleted ' . count( $option_names ) . " Site Kit options.\n";
 
 	$meta_rows = $wpdb->get_results(
-		"SELECT user_id, meta_key FROM {$wpdb->usermeta} WHERE meta_key LIKE '%googlesitekit\_%'"
+		"SELECT user_id, meta_key FROM {$wpdb->usermeta} WHERE meta_key LIKE '%googlesitekit%'"
 	);
 	foreach ( $meta_rows as $row ) {
 		delete_user_meta( $row->user_id, $row->meta_key );
