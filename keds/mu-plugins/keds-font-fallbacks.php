@@ -25,7 +25,8 @@
  *     const {createFontStack}=require("@capsizecss/core");
  *     (async()=>{
  *       const m=await fromFile("path/to/WorkSans-Regular.woff2");
- *       console.log(createFontStack([m,{ /* Arial metrics */ }]));
+ *       // arialMetrics: the Arial record from @capsizecss/metrics
+ *       console.log(createFontStack([m, arialMetrics]));
  *     })();'
  *
  * or the "Fontaine" project / https://screenspan.net/fallback. Paste the resulting numbers
