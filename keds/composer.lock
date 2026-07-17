@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c87369c78be0742266ee7e9094a8d9b",
+    "content-hash": "9ae714b45eb61ceee98b65ce39e234fc",
     "packages": [
         {
             "name": "artetecha/upsun-wp",
@@ -876,24 +876,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/google-listings-and-ads/"
-        },
-        {
-            "name": "wpackagist-plugin/google-site-kit",
-            "version": "1.183.0",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/google-site-kit/",
-                "reference": "tags/1.183.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.183.0.zip"
-            },
-            "require": {
-                "composer/installers": "^1.0 || ^2.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/google-site-kit/"
         },
         {
             "name": "wpackagist-plugin/honeypot",

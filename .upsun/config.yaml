@@ -50,6 +50,12 @@ applications:
               allow: false
             ^/xmlrpc\.php$:
               allow: false
+            # WP core/plugin/theme assets are cache-busted via ?ver=, so the
+            # static files themselves are immutable and safe to cache for a year
+            # (browser + Cloudflare edge). Without this they inherit the 600s
+            # default above, forcing re-downloads on every repeat visit.
+            '\.(js|mjs|css|woff2?|ttf|otf|eot|svg|png|jpe?g|gif|webp|avif|ico)$':
+              expires: 1y
         "/wp-content/cache":
           root: "wordpress/wp-content/cache"
           scripts: false
@@ -64,6 +70,11 @@ applications:
           root: "wordpress/wp-content/uploads"
           scripts: false
           allow: true
+          # Uploaded media filenames are effectively immutable (WordPress appends
+          # -WxH suffixes / unique names), so cache for a year. This location had
+          # no explicit expires, so media wasn't getting a long cache lifetime.
+          # Replace-in-place edits need a Cloudflare purge.
+          expires: 1y
           # nosniff matters most on user-uploaded content.
           headers:
             X-Content-Type-Options: nosniff

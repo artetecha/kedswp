@@ -63,7 +63,6 @@
     "wpackagist-plugin/fluent-crm": "3.1.8",
     "wpackagist-plugin/fluentform": "6.2.7",
     "wpackagist-plugin/google-listings-and-ads": "3.7.3",
-    "wpackagist-plugin/google-site-kit": "1.183.0",
     "wpackagist-plugin/honeypot": "2.4.02",
     "wpackagist-plugin/host-webfonts-local": "6.3.8",
     "wpackagist-plugin/image-prioritizer": "1.0.0-beta3",
@@ -99,6 +98,7 @@
     "distro": {
       "default-theme": "eduma",
       "removed": [
+        "google-site-kit",
         "object-cache-pro",
         "pantheon-mu-plugin"
       ]
