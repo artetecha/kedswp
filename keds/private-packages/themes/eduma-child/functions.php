@@ -65,6 +65,9 @@ add_action(
 	'after_setup_theme',
 	function () {
 		add_theme_support( 'editor-styles' );
+		// Load the child stylesheet inside the block editor too, so pattern
+		// layout (e.g. the .keds-card-grid centred flex) matches the front end.
+		add_editor_style( 'style.css' );
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'align-wide' );
 		add_theme_support( 'responsive-embeds' );

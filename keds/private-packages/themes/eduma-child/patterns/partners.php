@@ -24,8 +24,8 @@
 	<p class="has-text-align-center has-body-color has-text-color" style="margin-bottom:var(--wp--preset--spacing--60)"><?php echo esc_html__( 'Join our growing network of partners helping students get equipped for their calling.', 'eduma-child' ); ?></p>
 	<!-- /wp:paragraph -->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"grid","minimumColumnWidth":"14rem"}} -->
-	<div class="wp-block-group alignwide">
+	<!-- wp:group {"align":"wide","className":"keds-card-grid","layout":{"type":"default"}} -->
+	<div class="wp-block-group alignwide keds-card-grid">
 		<?php
 		$keds_partners = array(
 			array( __( 'University of Chester', 'eduma-child' ), 'https://www.chester.ac.uk' ),

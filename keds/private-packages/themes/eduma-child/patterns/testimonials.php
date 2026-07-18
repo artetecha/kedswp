@@ -25,8 +25,8 @@
 	<p class="has-text-align-center has-body-color has-text-color" style="margin-bottom:var(--wp--preset--spacing--60)"><?php echo esc_html__( 'Hear from former students about their life-changing experience with KEDS.', 'eduma-child' ); ?></p>
 	<!-- /wp:paragraph -->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"grid","minimumColumnWidth":"20rem"}} -->
-	<div class="wp-block-group alignwide">
+	<!-- wp:group {"align":"wide","className":"keds-card-grid keds-card-grid--wide","layout":{"type":"default"}} -->
+	<div class="wp-block-group alignwide keds-card-grid keds-card-grid--wide">
 		<?php
 		$keds_testimonials = array(
 			array( __( '“KEDS deepened my understanding of theology and shaped my character and ministry outlook.”', 'eduma-child' ), __( 'Craig Ireland', 'eduma-child' ), __( 'From MA Student to Institutional Leader', 'eduma-child' ) ),

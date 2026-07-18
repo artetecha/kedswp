@@ -29,8 +29,8 @@
 	<p class="has-text-align-center has-body-color has-text-color" style="margin-bottom:var(--wp--preset--spacing--60)"><?php echo esc_html__( 'From your first steps in the Bible to doctoral research, choose the level that meets you where you are.', 'eduma-child' ); ?></p>
 	<!-- /wp:paragraph -->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"grid","minimumColumnWidth":"18rem"}} -->
-	<div class="wp-block-group alignwide">
+	<!-- wp:group {"align":"wide","className":"keds-card-grid","layout":{"type":"default"}} -->
+	<div class="wp-block-group alignwide keds-card-grid">
 		<?php
 		$keds_programmes = array(
 			array( __( 'Short Course', 'eduma-child' ), __( 'Knowing Your Bible', 'eduma-child' ), __( 'A guided introduction to reading and understanding Scripture with confidence.', 'eduma-child' ), '/knowing-your-bible-kyb/' ),

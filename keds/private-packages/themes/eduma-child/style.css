@@ -65,6 +65,30 @@ Text Domain: eduma-child
 	color: var(--wp--preset--color--primary);
 }
 
+/* Card grids. WordPress's block grid layout uses
+ * `repeat(auto-fill, minmax(min(N, 100%), 1fr))`, which left-packs an
+ * incomplete final row and leaves a hard gap on the right (a lone programme
+ * card clinging left, etc.). Use a centered flex-wrap instead: cards grow to
+ * fill a full row, and any leftover row centres under it. Uniform-ish widths
+ * via a shared basis + a max-width cap so a lone card can't stretch huge. */
+.keds-card-grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--50);
+}
+
+.keds-card-grid > * {
+	flex: 1 1 16rem;
+	max-width: 24rem;
+}
+
+/* Wider cards for longer content (e.g. testimonial quotes). */
+.keds-card-grid--wide > * {
+	flex-basis: 20rem;
+	max-width: 28rem;
+}
+
 /* Eduma sets `h1 { text-transform: uppercase }` globally. Keep core heading
  * blocks in their authored case — the display serif reads far better in title
  * case for long marketing headlines. Scoped to Gutenberg heading blocks so

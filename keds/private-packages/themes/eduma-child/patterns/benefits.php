@@ -25,8 +25,8 @@
 	<p class="has-text-align-center has-body-color has-text-color" style="margin-bottom:var(--wp--preset--spacing--60)"><?php echo esc_html__( 'We understand the frustration of struggling to find time to study and not being empowered to serve the way you long to. KEDS is built around your life and your calling.', 'eduma-child' ); ?></p>
 	<!-- /wp:paragraph -->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"grid","minimumColumnWidth":"15rem"}} -->
-	<div class="wp-block-group alignwide">
+	<!-- wp:group {"align":"wide","className":"keds-card-grid","layout":{"type":"default"}} -->
+	<div class="wp-block-group alignwide keds-card-grid">
 		<?php
 		$keds_benefits = array(
 			array( __( 'Flexible Learning', 'eduma-child' ), __( 'Organise your studies around your day-to-day life.', 'eduma-child' ) ),
