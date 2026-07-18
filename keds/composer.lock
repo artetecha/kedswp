@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ae714b45eb61ceee98b65ce39e234fc",
+    "content-hash": "efe52ff59fad94564340649a9dcfd532",
     "packages": [
         {
             "name": "artetecha/upsun-wp",
@@ -631,6 +631,27 @@
                 "reference": "31dfc07f8c4a62d1485495c0b51f435a680b323c"
             },
             "type": "wordpress-theme",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
+        {
+            "name": "keds-theme/eduma-child",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "private-packages/themes/eduma-child",
+                "reference": "8933775bd108c4923c8fb722240e1ec563ce8e06"
+            },
+            "require": {
+                "composer/installers": "^2.0"
+            },
+            "type": "wordpress-theme",
+            "license": [
+                "proprietary"
+            ],
+            "description": "KEDS child of ThimPress Eduma. Carries the KEDS brand as a block-editor design system (theme.json) plus a native block pattern library, so marketing pages are built in Gutenberg with zero Elementor. LearnPress LMS and all premium add-ons are unaffected.",
             "transport-options": {
                 "symlink": false,
                 "relative": true
