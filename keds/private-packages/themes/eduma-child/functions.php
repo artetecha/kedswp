@@ -21,22 +21,37 @@ if ( ! defined( 'KEDS_CHILD_VERSION' ) ) {
  * Enqueue the child stylesheet after the parent/theme assets.
  *
  * Eduma manages its own asset pipeline via thim-core, so we do not assume a
- * specific parent handle; we simply load the child stylesheet late (priority
- * 20) so its scoped chrome overrides win. Design tokens themselves come from
- * theme.json, which WordPress enqueues automatically for any theme that ships
- * one — classic themes included.
+ * IMPORTANT: Eduma enqueues its entire compiled stylesheet via
+ * get_stylesheet_uri() (eduma functions.php:400, handle 'thim-style'). With a
+ * child theme active, get_stylesheet_uri() resolves to THIS child's style.css,
+ * so Eduma's own CSS never loads — the header/footer only look right because
+ * Elementor supplies their styling, while everything else (mobile menu, LMS
+ * pages, base layout) silently loses Eduma's rules. So we must load the parent
+ * stylesheet explicitly, before the child overrides.
+ *
+ * Design tokens themselves come from theme.json, which WordPress enqueues
+ * automatically for any theme that ships one — classic themes included.
  */
 add_action(
 	'wp_enqueue_scripts',
 	function () {
+		// Eduma's real compiled CSS (parent style.css), which its own
+		// get_stylesheet_uri() enqueue misses under a child theme.
 		wp_enqueue_style(
-			'eduma-child',
-			get_stylesheet_uri(),
+			'eduma-parent-style',
+			get_template_directory_uri() . '/style.css',
 			array(),
 			KEDS_CHILD_VERSION
 		);
+		// Child overrides load after the parent.
+		wp_enqueue_style(
+			'eduma-child',
+			get_stylesheet_uri(),
+			array( 'eduma-parent-style' ),
+			KEDS_CHILD_VERSION
+		);
 	},
-	20
+	9
 );
 
 /**
