@@ -35,20 +35,30 @@ if ( ! defined( 'KEDS_CHILD_VERSION' ) ) {
 add_action(
 	'wp_enqueue_scripts',
 	function () {
+		// Version stylesheets by file mtime so every deploy busts the browser +
+		// edge cache automatically. A static version string (we shipped 1.0.0)
+		// leaves stale CSS cached under the same ?ver= — and since our card
+		// layout now lives in this CSS, stale CSS silently breaks the layout
+		// (cards fall back to vertical stacking). mtime changes each build.
+		$parent_css = get_template_directory() . '/style.css';
+		$child_css  = get_stylesheet_directory() . '/style.css';
+		$parent_ver = file_exists( $parent_css ) ? filemtime( $parent_css ) : KEDS_CHILD_VERSION;
+		$child_ver  = file_exists( $child_css ) ? filemtime( $child_css ) : KEDS_CHILD_VERSION;
+
 		// Eduma's real compiled CSS (parent style.css), which its own
 		// get_stylesheet_uri() enqueue misses under a child theme.
 		wp_enqueue_style(
 			'eduma-parent-style',
 			get_template_directory_uri() . '/style.css',
 			array(),
-			KEDS_CHILD_VERSION
+			$parent_ver
 		);
 		// Child overrides load after the parent.
 		wp_enqueue_style(
 			'eduma-child',
 			get_stylesheet_uri(),
 			array( 'eduma-parent-style' ),
-			KEDS_CHILD_VERSION
+			$child_ver
 		);
 	},
 	9
