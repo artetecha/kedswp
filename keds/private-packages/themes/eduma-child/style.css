@@ -50,3 +50,17 @@ Text Domain: eduma-child
 	font-weight: 700;
 	line-height: 1;
 }
+
+/* Eduma's classic stylesheet colours all links/buttons #333, which beats
+ * theme.json's button element styles on specificity — leaving core Button
+ * blocks with grey text on the indigo fill. Re-assert the brand colours for
+ * buttons that don't carry an explicit per-block colour (:not(.has-text-color)),
+ * so the gold/base overrides set in patterns are left untouched. Verified on
+ * the pr-83 preview: specificity alone wins, no !important needed. */
+.wp-block-button__link:not(.has-text-color) {
+	color: var(--wp--preset--color--base);
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color) {
+	color: var(--wp--preset--color--primary);
+}
