@@ -1,0 +1,10 @@
+{
+    "name": "keds-theme/eduma-child",
+    "description": "KEDS child of ThimPress Eduma. Carries the KEDS brand as a block-editor design system (theme.json) plus a native block pattern library, so marketing pages are built in Gutenberg with zero Elementor. LearnPress LMS and all premium add-ons are unaffected.",
+    "type": "wordpress-theme",
+    "license": "proprietary",
+    "version": "1.0.0",
+    "require": {
+        "composer/installers": "^2.0"
+    }
+}

@@ -1,0 +1,52 @@
+/*
+Theme Name: KEDS (Eduma Child)
+Theme URI: https://kingsdivinity.org/
+Template: eduma
+Author: KEDS
+Author URI: https://kingsdivinity.org/
+Description: KEDS brand refresh built as a child of ThimPress "Eduma". It turns the classic Eduma theme into a modern, block-editor-first stack: a theme.json design system (KEDS indigo/gold, Libre Baskerville + Work Sans) plus a native block pattern library, so every marketing page is composed in Gutenberg with no Elementor. LearnPress LMS and all premium add-ons keep working unchanged.
+Version: 1.0.0
+Requires at least: 6.5
+Tested up to: 7.0
+Requires PHP: 8.4
+License: proprietary
+Text Domain: eduma-child
+*/
+
+/* ---------------------------------------------------------------------------
+ * Design tokens live in theme.json. Keep hand-written CSS to only what
+ * theme.json cannot express yet, and always prefer theme.json first.
+ *
+ * NOTE: Eduma is a classic (non-FSE) theme, so its header/footer/LMS chrome
+ * are PHP templates. theme.json styles the *block content* on every page and
+ * the block editor; overrides for the classic chrome go in the small blocks
+ * below, scoped tightly so they never leak into LMS or admin surfaces.
+ * ------------------------------------------------------------------------ */
+
+/* Reusable, brand-tinted full-bleed section background used by KEDS patterns. */
+.keds-surface {
+	background-color: var(--wp--preset--color--surface);
+}
+
+.keds-hero {
+	background-image: linear-gradient(
+		180deg,
+		var(--wp--preset--color--indigo-050) 0%,
+		var(--wp--preset--color--base) 100%
+	);
+}
+
+/* Numbered "step" badge used by the How-to-start pattern. */
+.keds-step-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 999px;
+	background-color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--base);
+	font-family: var(--wp--preset--font-family--display);
+	font-weight: 700;
+	line-height: 1;
+}
