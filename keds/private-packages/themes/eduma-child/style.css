@@ -74,6 +74,7 @@ Text Domain: eduma-child
 .keds-card-grid {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: stretch;
 	justify-content: center;
 	gap: var(--wp--preset--spacing--50);
 }
@@ -81,6 +82,11 @@ Text Domain: eduma-child
 .keds-card-grid > * {
 	flex: 1 1 16rem;
 	max-width: 24rem;
+	/* WordPress's flow layout adds margin-block-start (blockGap) to every
+	 * child except the first. Inside our flex row that pushes later cards
+	 * down and stretches the row, so the first card renders taller than its
+	 * siblings. The flex `gap` already spaces cards and rows, so cancel it. */
+	margin-block: 0 !important;
 }
 
 /* Wider cards for longer content (e.g. testimonial quotes). */
