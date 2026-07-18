@@ -64,3 +64,11 @@ Text Domain: eduma-child
 .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color) {
 	color: var(--wp--preset--color--primary);
 }
+
+/* Eduma sets `h1 { text-transform: uppercase }` globally. Keep core heading
+ * blocks in their authored case — the display serif reads far better in title
+ * case for long marketing headlines. Scoped to Gutenberg heading blocks so
+ * Eduma's own template titles (page/archive headers) are left as-is. */
+.wp-block-heading {
+	text-transform: none;
+}
