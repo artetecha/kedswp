@@ -79,6 +79,15 @@ return static function () {
 	update_post_meta( $id, 'thim_mtb_hide_title_and_subtitle', 1 );
 	update_post_meta( $id, 'thim_mtb_hide_breadcrumbs', 1 );
 
+	// Force the full-width (no-sidebar) layout. Eduma's thim_wrapper_layout()
+	// defaults a static front page to thim_front_page_layout ('sidebar-right'),
+	// which drops content into col-sm-9 and stops the full-bleed sections
+	// spanning the viewport. The per-page custom-layout override wins over that
+	// default (regular pages here already use 'full-content', which is why the
+	// earlier /keds-home-preview/ page looked right and the front page didn't).
+	update_post_meta( $id, 'thim_mtb_custom_layout', 1 );
+	update_post_meta( $id, 'thim_mtb_layout', 'full-content' );
+
 	// Point the site front page at it.
 	update_option( 'show_on_front', 'page' );
 	update_option( 'page_on_front', $id );
