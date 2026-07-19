@@ -60,6 +60,17 @@ add_action(
 			array( 'eduma-parent-style' ),
 			$child_ver
 		);
+
+		// Plugin-free carousel enhancement (testimonials, etc.). Deferred, in
+		// the footer; no-ops when no .keds-carousel is present.
+		$carousel_js = get_stylesheet_directory() . '/assets/js/keds-carousel.js';
+		wp_enqueue_script(
+			'keds-carousel',
+			get_stylesheet_directory_uri() . '/assets/js/keds-carousel.js',
+			array(),
+			file_exists( $carousel_js ) ? filemtime( $carousel_js ) : KEDS_CHILD_VERSION,
+			array( 'strategy' => 'defer', 'in_footer' => true )
+		);
 	},
 	9
 );

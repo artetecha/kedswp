@@ -28,14 +28,6 @@ Text Domain: eduma-child
 	background-color: var(--wp--preset--color--surface);
 }
 
-.keds-hero {
-	background-image: linear-gradient(
-		180deg,
-		var(--wp--preset--color--indigo-050) 0%,
-		var(--wp--preset--color--base) 100%
-	);
-}
-
 /* Numbered "step" badge used by the How-to-start pattern. */
 .keds-step-number {
 	display: inline-flex;
@@ -101,4 +93,146 @@ Text Domain: eduma-child
  * Eduma's own template titles (page/archive headers) are left as-is. */
 .wp-block-heading {
 	text-transform: none;
+}
+
+/* -------------------------------------------------------------------------
+ * Media-rich components: benefit icons, testimonial avatars + carousel,
+ * partner logos.
+ * ---------------------------------------------------------------------- */
+
+/* Benefit icon badge (inline SVG inherits `color`). */
+.keds-benefit-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.25rem;
+	height: 3.25rem;
+	border-radius: 14px;
+	background-color: var(--wp--preset--color--indigo-050);
+	color: var(--wp--preset--color--primary);
+	margin-bottom: 0.25rem;
+}
+
+/* Testimonial initials avatar. */
+.keds-avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.25rem;
+	height: 3.25rem;
+	border-radius: 50%;
+	font-weight: 700;
+	line-height: 1;
+	margin: 0 0 0.25rem;
+}
+
+/* Carousel: a native scroll-snap row, enhanced by keds-carousel.js. */
+.keds-carousel {
+	position: relative;
+}
+
+.keds-carousel__track {
+	display: flex;
+	gap: var(--wp--preset--spacing--50);
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	margin: 0;
+	padding: 0.5rem 0;
+}
+
+.keds-carousel__track::-webkit-scrollbar {
+	display: none;
+}
+
+.keds-carousel__slide {
+	scroll-snap-align: start;
+	flex: 0 0 85%;
+	margin: 0 !important;
+}
+
+@media ( min-width: 600px ) {
+	.keds-carousel__slide {
+		flex-basis: calc( ( 100% - var( --wp--preset--spacing--50 ) ) / 2 );
+	}
+}
+
+@media ( min-width: 900px ) {
+	.keds-carousel__slide {
+		flex-basis: calc( ( 100% - 2 * var( --wp--preset--spacing--50 ) ) / 3 );
+	}
+}
+
+.keds-carousel__arrow {
+	position: absolute;
+	top: 44%;
+	transform: translateY( -50% );
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 50%;
+	background-color: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--primary);
+	font-size: 1.5rem;
+	line-height: 1;
+	cursor: pointer;
+	z-index: 2;
+	box-shadow: 0 2px 10px rgba( 0, 0, 0, 0.08 );
+}
+
+.keds-carousel__arrow--prev {
+	left: 0.25rem;
+}
+
+.keds-carousel__arrow--next {
+	right: 0.25rem;
+}
+
+.keds-carousel__arrow:hover:not( :disabled ) {
+	background-color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--base);
+}
+
+.keds-carousel__arrow:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+.keds-carousel__dots {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-top: var(--wp--preset--spacing--40);
+}
+
+.keds-carousel__dot {
+	width: 0.6rem;
+	height: 0.6rem;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background-color: var(--wp--preset--color--border);
+	cursor: pointer;
+}
+
+.keds-carousel__dot.is-active {
+	background-color: var(--wp--preset--color--primary);
+}
+
+/* Partner logos: contain within the card, consistent height. */
+.keds-partner-logo {
+	margin: 0;
+}
+
+.keds-partner-logo img {
+	max-height: 66px;
+	width: auto;
+	max-width: 100%;
+	object-fit: contain;
 }

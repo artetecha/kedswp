@@ -3,16 +3,20 @@
  * Title: KEDS Trusted Partners
  * Slug: eduma-child/partners
  * Categories: keds
- * Description: A "Trusted Partners" strip with logo placeholders and an accreditation note.
+ * Description: A "Trusted Partners" strip with real partner logos and an accreditation note.
  * Keywords: partners, logos, accreditation, trust
  * Viewport Width: 1280
  *
- * Note: Replace each logo placeholder group with an Image block once the partner
- * logos are uploaded to the Media Library.
+ * Logos reuse the live site's media. Replace each Image block to change a logo.
  *
  * @package eduma-child
  */
 
+$keds_partners = array(
+	array( '/wp-content/uploads/2024/11/Screenshot-2024-11-12-at-5.20.39%E2%80%AFPM-300x133.png', __( 'University of Chester', 'eduma-child' ), 'https://www.chester.ac.uk' ),
+	array( '/wp-content/uploads/2024/09/ea-logo-gc-rgb-transparent-larger-1024x155.png', __( 'Evangelical Alliance', 'eduma-child' ), 'https://www.eauk.org' ),
+	array( '/wp-content/uploads/2024/12/ECTElogo-removebg-preview-300x126.png', __( 'ECTE', 'eduma-child' ), 'https://ecte.eu' ),
+);
 ?>
 <!-- wp:group {"tagName":"section","align":"full","backgroundColor":"surface","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-surface-background-color has-background" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
@@ -26,19 +30,12 @@
 
 	<!-- wp:group {"align":"wide","className":"keds-card-grid","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide keds-card-grid">
-		<?php
-		$keds_partners = array(
-			array( __( 'University of Chester', 'eduma-child' ), 'https://www.chester.ac.uk' ),
-			array( __( 'Evangelical Alliance', 'eduma-child' ), 'https://www.eauk.org' ),
-			array( __( 'ECTE', 'eduma-child' ), 'https://ecte.eu' ),
-		);
-		foreach ( $keds_partners as $keds_partner ) :
-			?>
-		<!-- wp:group {"backgroundColor":"base","style":{"border":{"color":"var:preset|color|border","width":"1px","radius":"12px"},"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}},"dimensions":{"minHeight":"7rem"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center","verticalAlignment":"center"}} -->
-		<div class="wp-block-group has-base-background-color has-background has-border-color" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:12px;min-height:7rem;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--40)">
-			<!-- wp:paragraph {"align":"center","style":{"typography":{"fontWeight":"700"},"spacing":{"margin":{"top":"0","bottom":"0"}}},"textColor":"primary","fontFamily":"display"} -->
-			<p class="has-text-align-center has-primary-color has-text-color has-display-font-family" style="margin-top:0;margin-bottom:0;font-weight:700"><a href="<?php echo esc_url( $keds_partner[1] ); ?>"><?php echo esc_html( $keds_partner[0] ); ?></a></p>
-			<!-- /wp:paragraph -->
+		<?php foreach ( $keds_partners as $keds_partner ) : ?>
+		<!-- wp:group {"backgroundColor":"base","className":"keds-partner-cell","style":{"border":{"color":"var:preset|color|border","width":"1px","radius":"12px"},"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}},"dimensions":{"minHeight":"8rem"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center","verticalAlignment":"center"}} -->
+		<div class="wp-block-group keds-partner-cell has-base-background-color has-background has-border-color" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:12px;min-height:8rem;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
+			<!-- wp:image {"className":"keds-partner-logo","sizeSlug":"large","linkDestination":"custom"} -->
+			<figure class="wp-block-image size-large keds-partner-logo"><a href="<?php echo esc_url( $keds_partner[2] ); ?>"><img src="<?php echo esc_url( $keds_partner[0] ); ?>" alt="<?php echo esc_attr( $keds_partner[1] ); ?>"/></a></figure>
+			<!-- /wp:image -->
 		</div>
 		<!-- /wp:group -->
 		<?php endforeach; ?>
