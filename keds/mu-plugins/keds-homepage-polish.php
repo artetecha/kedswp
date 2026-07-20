@@ -81,6 +81,22 @@ add_action(
 .elementor-element-3c4a760 .boxes-icon svg{
 	width:26px!important;height:26px!important;fill:var(--keds-indigo)!important;
 }
+
+/* Closing "Ready to Rise Up?" CTA (section a874fd0): indigo gradient band,
+   white copy, gold button — matching the concept's final call to action. */
+.elementor-element-a874fd0{
+	background:linear-gradient(135deg,var(--keds-indigo),var(--keds-indigo-dk))!important;
+}
+.elementor-element-a874fd0 .elementor-heading-title,
+.elementor-element-a874fd0 .elementor-widget-text-editor,
+.elementor-element-a874fd0 .elementor-widget-text-editor *{color:#fff!important;}
+.elementor-element-a874fd0 .elementor-button{
+	background-color:var(--keds-gold)!important;color:var(--keds-indigo-dk)!important;
+	border-color:var(--keds-gold)!important;
+}
+.elementor-element-a874fd0 .elementor-button:hover{
+	background-color:#fff!important;border-color:#fff!important;color:var(--keds-indigo-dk)!important;
+}
 CSS;
 
 		$ver = defined( 'KEDS_HOMEPAGE_POLISH_VER' ) ? KEDS_HOMEPAGE_POLISH_VER : '1.0.0';
