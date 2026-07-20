@@ -68,13 +68,19 @@ add_action(
 .elementor-element-3c4a760 .elementor-widget-thim-icon-box:hover > .elementor-widget-container{
 	box-shadow:0 10px 26px rgba(36,37,108,.10);transform:translateY(-3px);
 }
-.elementor-element-3c4a760 .elementor-icon-box-icon{
+/* Benefit icons are Thim icon-boxes: .boxes-icon > .inner-icon > .icon > svg
+   (Font Awesome, #333, 60px). Badge the inner-icon + recolour/resize the glyph. */
+.elementor-element-3c4a760 .boxes-icon{margin-bottom:1.1rem!important;}
+.elementor-element-3c4a760 .boxes-icon .inner-icon{
 	display:inline-flex!important;align-items:center;justify-content:center;
 	width:3.5rem;height:3.5rem;border-radius:14px;background:var(--keds-tint);
-	margin-bottom:1.1rem!important;
 }
-.elementor-element-3c4a760 .elementor-icon{font-size:1.6rem!important;line-height:1!important;}
-.elementor-element-3c4a760 .elementor-icon svg{width:26px!important;height:26px!important;}
+.elementor-element-3c4a760 .boxes-icon .icon{
+	color:var(--keds-indigo)!important;font-size:26px!important;line-height:1!important;
+}
+.elementor-element-3c4a760 .boxes-icon svg{
+	width:26px!important;height:26px!important;fill:var(--keds-indigo)!important;
+}
 CSS;
 
 		$ver = defined( 'KEDS_HOMEPAGE_POLISH_VER' ) ? KEDS_HOMEPAGE_POLISH_VER : '1.0.0';
