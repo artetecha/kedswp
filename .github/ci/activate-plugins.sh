@@ -84,8 +84,29 @@ done
 # Some plugins self-deactivate from their activation hook; check final state.
 # stderr is left visible on purpose: if WordPress is wedged (an activation
 # fatal), the real error must reach the log, not /dev/null.
+#
+# wp-cli's contract is that `--field=status` prints ONLY the status value on
+# stdout; diagnostics belong on stderr. A misbehaving plugin can break that —
+# e.g. Elementor 4.2.0's Logger\Manager dumps a captured-error report to raw
+# stdout at PHP shutdown, gluing it onto the value and (since it fires on
+# every bootstrap) failing every plugin at once. So extract the known status
+# token wherever it sits rather than exact-matching the whole capture, and
+# warn loudly when there was extra output — that's an upstream stdout-contract
+# violation we want visible in the log, not silently swallowed.
 for slug in "${desired[@]}"; do
-	status=$(timeout 60 wp plugin get "$slug" --field=status || echo unknown)
+	raw=$(timeout 60 wp plugin get "$slug" --field=status || echo unknown)
+	status=$(printf '%s\n' "$raw" \
+		| grep -xE 'active|active-network|inactive|must-use|dropin' \
+		| head -n1)
+	status=${status:-$raw}
+
+	if [ "$raw" != "$status" ]; then
+		printf 'WARNING: %s status read produced stdout beyond %q — a plugin is\n' "$slug" "$status" >&2
+		printf '         writing to stdout during `wp plugin get` (WP-CLI stdout-\n' >&2
+		printf '         contract violation). First lines of the raw capture:\n' >&2
+		printf '%s\n' "$raw" | head -n5 | sed 's/^/         | /' >&2
+	fi
+
 	case "$status" in
 		active|active-network) ;;
 		*) failed+=("$slug[$status]") ;;
