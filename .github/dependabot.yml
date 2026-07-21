@@ -24,6 +24,14 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - dependencies
+    ignore:
+      # Elementor 4.2.0 trips a PHP 8.4 deprecation (Atomic_Global_Styles::
+      # get_cache_root_key() implicit-nullable param) whose shutdown log dump
+      # contaminates wp-cli stdout and breaks the hermetic activation smoke
+      # test (PR #90, 2026-07-21). Pin out ONLY 4.2.0 so the eventual fixed
+      # release (4.2.1 / 4.3+) still flows through automatically.
+      - dependency-name: "wpackagist-plugin/elementor"
+        versions: ["4.2.0"]
     groups:
       wpackagist-minor-patch:
         patterns:
