@@ -4,7 +4,7 @@ Tags: contact form, contact forms, wp forms, forms, form builder, contact form b
 Requires at least: 4.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.2.4
+Stable tag: 6.2.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -361,6 +361,13 @@ The entire source code is <a href="https://github.com/fluentform/fluentform">ava
 12. Asset Loading Comparison with Other Plugins
 
 == Changelog ==
+= 6.2.7 (Date: July 17, 2026) =
+- Adds Google Places API (New) opt-in for address autocomplete on the Google Maps Integration settings
+- Fixes MailerLite group dropdown missing groups beyond the first 50
+- Fixes webhook URL losing percent-encoded characters on save
+- Fixes an object injection vulnerability when prefilling forms with custom user or post meta
+- Tightens payment transaction updates and subscription cancellation to require the Manage Payments permission
+
 = 6.2.4 (Date: May 25, 2026) =
 - Adds image cropping support to the Featured Image field on Post forms
 - Fixes conversational form pretty URLs rendering

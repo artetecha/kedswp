@@ -17,6 +17,27 @@ use FluentForm\Framework\Helpers\ArrayHelper;
 class PopulatePostForm
 {
     /**
+     * Object-injection-safe unserialize with a backward-compatible fallback.
+     *
+     * Prefers Helper::safeUnserialize() (free plugin), but older free versions
+     * may not ship it yet, so fall back to the same object-free unserialize
+     * inline to avoid a fatal on those installs.
+     *
+     * TODO: Remove this shim and call Helper::safeUnserialize() directly once the
+     * minimum required free plugin version guarantees Helper::safeUnserialize().
+     */
+    protected static function unserializeSafely($data)
+    {
+        if (method_exists(Helper::class, 'safeUnserialize')) {
+            return Helper::safeUnserialize($data);
+        }
+        if (is_serialized($data)) {
+            return @unserialize(trim($data), ['allowed_classes' => false]);
+        }
+        return $data;
+    }
+
+    /**
      * Boot Class if post feed has post form type set to update
      */
     public function __construct()
@@ -501,7 +522,7 @@ class PopulatePostForm
                             }
 						}
 						if ($type === 'checkbox') {
-							$value = maybe_unserialize($value);
+							$value = self::unserializeSafely($value);
 						}
                         $meta_fields['custom_meta'][] = [
                             "name" => $name,

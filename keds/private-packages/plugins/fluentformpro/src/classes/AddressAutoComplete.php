@@ -104,8 +104,11 @@ class AddressAutoComplete
         }
 
         $defaults = [
-            'api_key' => '',
-            'status'  => ''
+            'api_key'         => '',
+            'status'          => '',
+            'places_api_new'  => 'no',
+            'advanced_marker' => 'no',
+            'map_id'          => '',
         ];
 
         return wp_parse_args($globalSettings, $defaults);
@@ -121,21 +124,48 @@ class AddressAutoComplete
             'invalid_message'  => __('Google Map API key is not valid', 'fluentformpro'),
             'save_button_text' => __('Save Settings', 'fluentformpro'),
             'fields'           => [
-                'api_key' => [
+                'api_key'         => [
                     'type'        => 'password',
                     'placeholder' => '',
                     'label_tips'  => __("Enter your Google Map API Key", 'fluentformpro'),
                     'label'       => __('Google Map API Key', 'fluentformpro'),
                 ],
+                'places_api_new'  => [
+                    'type'           => 'checkbox_yes_no',
+                    'checkbox_label' => __('Use Google Places API (New)', 'fluentformpro'),
+                    'label'          => __('Places API (New)', 'fluentformpro'),
+                    'label_tips'     => __('Use the new Google Places API for address autocomplete. Requires "Places API (New)" to be enabled in your Google Cloud Console. Leave off to keep the legacy Places autocomplete.', 'fluentformpro'),
+                ],
+                'advanced_marker' => [
+                    'type'           => 'checkbox_yes_no',
+                    'checkbox_label' => __('Use Advanced Marker for the map', 'fluentformpro'),
+                    'label'          => __('Advanced Marker', 'fluentformpro'),
+                    'label_tips'     => __('Use AdvancedMarkerElement instead of the deprecated Marker. Requires a Map ID. Only applies when Places API (New) is enabled.', 'fluentformpro'),
+                    'dependency'     => [
+                        [
+                            'depends_on' => 'places_api_new',
+                            'value'      => 'yes',
+                            'operator'   => '==',
+                        ],
+                    ],
+                ],
+                'map_id'          => [
+                    'type'        => 'text',
+                    'placeholder' => '',
+                    'label'       => __('Google Map ID', 'fluentformpro'),
+                    'label_tips'  => __('Required for the Advanced Marker. Create a Map ID in your Google Cloud Console (Map Management).', 'fluentformpro'),
+                    'dependency'  => [
+                        [
+                            'depends_on' => 'advanced_marker',
+                            'value'      => 'yes',
+                            'operator'   => '==',
+                        ],
+                    ],
+                ],
             ],
-            'hide_on_valid'    => true,
-            'discard_settings' => [
-                'section_description' => 'Google Map API is set. You can now enable google map autocomplete feature for Address Field',
-                'button_text'         => 'Disconnect Google Map API',
-                'data'                => [
-                    'api_key' => ''
-                ]
-            ]
+            // Keep the form (with these toggles) visible after a key is saved so
+            // the options stay reachable on this screen.
+            'hide_on_valid'    => false,
         ];
     }
 
@@ -145,8 +175,11 @@ class AddressAutoComplete
 
         if (!$key) {
             $defaults = [
-                'api_key' => '',
-                'status'  => ''
+                'api_key'         => '',
+                'status'          => '',
+                'places_api_new'  => 'no',
+                'advanced_marker' => 'no',
+                'map_id'          => '',
             ];
             update_option($this->optionKey, $defaults, 'no');
             wp_send_json_success([
@@ -155,9 +188,15 @@ class AddressAutoComplete
             ], 200);
         }
 
+        $placesApiNew = 'yes' === ArrayHelper::get($settings, 'places_api_new') ? 'yes' : 'no';
+        $advancedMarker = ('yes' === $placesApiNew && 'yes' === ArrayHelper::get($settings, 'advanced_marker')) ? 'yes' : 'no';
+
         update_option($this->optionKey, [
-            'api_key' => sanitize_text_field($settings['api_key']),
-            'status'  => true
+            'api_key'         => sanitize_text_field($settings['api_key']),
+            'status'          => true,
+            'places_api_new'  => $placesApiNew,
+            'advanced_marker' => $advancedMarker,
+            'map_id'          => sanitize_text_field(ArrayHelper::get($settings, 'map_id', '')),
         ], 'no');
 
         wp_send_json_success([
@@ -189,8 +228,12 @@ class AddressAutoComplete
                 FLUENTFORM_VERSION,
                 true
             );
+            $settings = $this->getSettings([]);
             wp_localize_script('ff_address_autocomplete', 'ff_gmap_vars', [
-                'api_key' => $this->convJsGmapApiKey(''),
+                'api_key'         => $this->convJsGmapApiKey(''),
+                'places_api_new'  => ArrayHelper::get($settings, 'places_api_new', 'no'),
+                'advanced_marker' => $this->useAdvancedMarker() ? 'yes' : 'no',
+                'map_id'          => ArrayHelper::get($settings, 'map_id', ''),
             ]);
         }
 
@@ -230,7 +273,7 @@ class AddressAutoComplete
                 if ($shouldEnqueue) {
                     wp_enqueue_script(
                         'google-maps',
-                        'https://maps.googleapis.com/maps/api/js?key=' . $apiKey . '&loading=async&libraries=places&callback=fluentform_gmap_callback',
+                        $this->mapsLoaderSrc($apiKey),
                         ['ff_address_autocomplete'],
                         FLUENTFORM_VERSION,
                         true
@@ -259,6 +302,37 @@ class AddressAutoComplete
             $apiKey = $settings['api_key'];
         }
         return $apiKey;
+    }
+
+    /**
+     * Build the Google Maps JS loader URL. Loads the `marker` library in
+     * addition to `places` only when the Advanced Marker is fully configured.
+     *
+     * @param string $apiKey
+     * @return string
+     */
+    public function mapsLoaderSrc($apiKey)
+    {
+        $libraries = $this->useAdvancedMarker() ? 'places,marker' : 'places';
+
+        return 'https://maps.googleapis.com/maps/api/js?key=' . $apiKey
+            . '&loading=async&libraries=' . $libraries
+            . '&callback=fluentform_gmap_callback';
+    }
+
+    /**
+     * Advanced Marker is used only when Places API (New) is on, the toggle is
+     * enabled, and a Map ID is provided (AdvancedMarkerElement requires one).
+     *
+     * @return bool
+     */
+    public function useAdvancedMarker()
+    {
+        $settings = $this->getSettings([]);
+
+        return 'yes' === ArrayHelper::get($settings, 'places_api_new')
+            && 'yes' === ArrayHelper::get($settings, 'advanced_marker')
+            && !empty(ArrayHelper::get($settings, 'map_id'));
     }
 
     /**
