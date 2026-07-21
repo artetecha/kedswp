@@ -52,9 +52,20 @@ class Client extends IntegrationManagerHelper
         $notification_id = $this->app->request->get('notification_id');
         $notification = json_decode($notification, true);
 
-        $notification = fluentFormSanitizer(
-        	$this->validate($notification)
-        );
+        $validated = $this->validate($notification);
+        $requestUrl = sanitize_url($validated['request_url']);
+        $conditionals = isset($validated['conditionals']) ? $validated['conditionals'] : [];
+        $notification = fluentFormSanitizer($validated);
+        $notification['request_url'] = $requestUrl;
+
+        if (!empty($conditionals['conditions'])) {
+            $notification['conditionals'] = $conditionals;
+            foreach ($notification['conditionals']['conditions'] as &$condition) {
+                if (isset($condition['value'])) {
+                    $condition['value'] = sanitize_text_field($condition['value']);
+                }
+            }
+        }
 
         if ($notification_id) {
             $notification_id = $this->resolveWebHook($notification_id)->id;

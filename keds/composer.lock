@@ -344,11 +344,11 @@
         },
         {
             "name": "keds-plugin/fluentformpro",
-            "version": "6.2.4",
+            "version": "6.2.7",
             "dist": {
                 "type": "path",
                 "url": "private-packages/plugins/fluentformpro",
-                "reference": "dad4ecbcb06778aa8e6ff43bae6c21dfad0a9a24"
+                "reference": "3bab110875291d9de7f3b940d8c1f03520dc582c"
             },
             "type": "wordpress-plugin",
             "transport-options": {

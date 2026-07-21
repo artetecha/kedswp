@@ -89,18 +89,53 @@ class API
     }
 
     /**
-     * Get all Forms in the system.
+     * Get all MailerLite groups (v2 paginates via limit/offset, max 1000).
+     *
+     * Loops until a page returns fewer rows than the requested limit
+     * (= last page). The fluentform/mailerlite_groups_pagination filter
+     * lets a snippet override the per-page limit and the safety cap on
+     * total pages.
      *
      * @access public
      * @return array
      */
     public function getGroups()
     {
-        $response = $this->make_request('groups', array(), 'GET');
-        if (empty($response['error'])) {
-            return $response;
-        }
-        return [];
+        $config = apply_filters('fluentform/mailerlite_groups_pagination', [
+            'limit'        => 1000, // v2 max per page
+            'max_pages'    => 50,   // hard stop in case the API misbehaves
+            'start_offset' => 0,    // skip this many rows before starting
+        ]);
+
+        $limit = (int) ($config['limit'] ?? 1000);
+        $maxPages = (int) ($config['max_pages'] ?? 50);
+        $offset = (int) ($config['start_offset'] ?? 0);
+
+        $allGroups = [];
+        $page = 0;
+
+        do {
+            $response = $this->make_request(
+                'groups?limit=' . $limit . '&offset=' . $offset,
+                [],
+                'GET'
+            );
+
+            if (!is_array($response) || !empty($response['error'])) {
+                break;
+            }
+
+            $count = count($response);
+            if ($count === 0) {
+                break;
+            }
+
+            $allGroups = array_merge($allGroups, $response);
+            $offset += $count;
+            $page++;
+        } while ($count === $limit && $page < $maxPages);
+
+        return $allGroups;
     }
 
     public function getCustomFields()

@@ -350,9 +350,30 @@ class JetEngineHelper
         return $date ?: '';
     }
 
+    /**
+     * Object-injection-safe unserialize with a backward-compatible fallback.
+     *
+     * Prefers Helper::safeUnserialize() (free plugin), but older free versions
+     * may not ship it yet, so fall back to the same object-free unserialize
+     * inline to avoid a fatal on those installs.
+     *
+     * TODO: Remove this shim and call Helper::safeUnserialize() directly once the
+     * minimum required free plugin version guarantees Helper::safeUnserialize().
+     */
+    protected static function unserializeSafely($data)
+    {
+        if (method_exists(Helper::class, 'safeUnserialize')) {
+            return Helper::safeUnserialize($data);
+        }
+        if (is_serialized($data)) {
+            return @unserialize(trim($data), ['allowed_classes' => false]);
+        }
+        return $data;
+    }
+
     protected static function populateMediaFile($value)
     {
-        $attachmentId = maybe_unserialize($value);
+        $attachmentId = self::unserializeSafely($value);
         if (!is_numeric($value)) {
             if (is_array($value)) {
                 $attachmentId = Arr::get($value, 'id', '');
@@ -365,7 +386,7 @@ class JetEngineHelper
 
     protected static function populateGalleryField($value)
     {
-        $value = maybe_unserialize($value);
+        $value = self::unserializeSafely($value);
         if (!is_array($value)) {
             $value = explode(',', $value);
         }
@@ -474,7 +495,7 @@ class JetEngineHelper
                 $type = Arr::get($config, 'type', '');
                 $element = Arr::get($formFields, $fieldName . '.element', '');
                 if ('checkbox' == $type) {
-                    $value = maybe_unserialize($value);
+                    $value = self::unserializeSafely($value);
                     if (!Arr::isTrue($config, 'is_array')) {
                         $value = array_filter($value, function ($v) {
                             return $v == 'true';
@@ -512,7 +533,7 @@ class JetEngineHelper
 
     protected static function populateRepeaterField($value)
     {
-        if (!$value = maybe_unserialize($value)) {
+        if (!$value = self::unserializeSafely($value)) {
             return [];
         }
         $value = array_map(function ($v) {
