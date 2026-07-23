@@ -35,18 +35,36 @@ ENVIRONMENT="${UPSUN_ENV:-main}"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PKG_DIR="${ROOT_DIR}/private-packages"
 
+# Slugs are interpolated into shell commands executed on the credential-bearing
+# production container, so every one MUST match this before it goes near SSH.
+SLUG_RE='^[A-Za-z0-9._-]+$'
+
+# Download/vendor timeout on the container (seconds). The engine's own
+# wp_remote_get already caps the download at 120s; this is a belt-and-suspenders
+# bound on the whole vendor step, run container-side (Linux `timeout`) so it
+# needs no `timeout` binary locally (macOS lacks one).
+REMOTE_TIMEOUT=600
+
 # Run an inline bash snippet on the production container over SSH.
 remote() { # remote <inline-bash>
 	upsun ssh -p "$PROJECT" -e "$ENVIRONMENT" --app keds --no-interaction "$1"
 }
 
-# Slugs of every vendored package (plugins + themes), one per line.
-vendored_slugs() {
-	local sub pkg
+# Every vendored package as "slug type" (type is plugin|theme). Slugs that
+# fail SLUG_RE are skipped loudly rather than interpolated into a remote shell.
+vendored_entries() {
+	local sub type pkg slug
 	for sub in plugins themes; do
 		[ -d "$PKG_DIR/$sub" ] || continue
+		type=plugin; [ "$sub" = themes ] && type=theme
 		for pkg in "$PKG_DIR/$sub"/*/; do
-			[ -f "${pkg}composer.json" ] && basename "$pkg"
+			[ -f "${pkg}composer.json" ] || continue
+			slug="$(basename "$pkg")"
+			if [[ ! "$slug" =~ $SLUG_RE ]]; then
+				echo "WARN: skipping unsafe package name '$slug'" >&2
+				continue
+			fi
+			echo "$slug $type"
 		done
 	done
 }
@@ -64,31 +82,42 @@ slug_layout() { # slug_layout <slug> -> "themes theme keds-theme" | "plugins plu
 
 cmd_check() { # cmd_check [table|porcelain]
 	local format="${1:-table}"
-	local slugs raw parsed
-	slugs="$(vendored_slugs | tr '\n' ' ')"
-	if [ -z "${slugs// /}" ]; then
+	local entries args raw parsed slug type
+	entries="$(vendored_entries)"
+	if [ -z "$entries" ]; then
 		[ "$format" = table ] && echo "No vendored packages found."
 		return 0
 	fi
 
-	# One SSH round-trip: prime the transients once (for the built-in
-	# TransientFetcher), then dry-run the engine for each vendored slug.
-	# --dry-run resolves the fetcher (type auto-detected from the installed
-	# package) and prints, per pending update,
+	# "slug:type" tokens for the remote loop (both halves already SLUG_RE /
+	# fixed-value safe). --type is passed on both the check and the apply
+	# paths so the fetcher/version the check reports is the one apply vendors.
+	args=""
+	while read -r slug type; do
+		[ -n "$slug" ] && args+=" ${slug}:${type}"
+	done <<<"$entries"
+
+	# One SSH round-trip. The `wp cli has-command` preflight runs WITHOUT
+	# `|| true`: a missing engine (bad deploy) fails the remote block under
+	# `set -e`, so a real outage propagates as a non-zero exit that `retry`
+	# in the PR pipeline re-attempts — instead of an empty stdout that reads
+	# as "everything up to date". Each dry-run prints, per pending update,
 	# "Would update <slug>: <from> → <to> via <fetcher>."
 	raw="$(remote "
 		set -e
 		cd /app/wordpress
+		wp cli has-command 'upsun vendor'
 		wp eval 'wp_update_plugins(); wp_update_themes();' >/dev/null 2>&1 || true
-		for s in ${slugs}; do
-			wp upsun vendor \"\$s\" --update --dry-run 2>/dev/null || true
+		for pair in ${args}; do
+			s=\"\${pair%%:*}\"; t=\"\${pair##*:}\"
+			timeout ${REMOTE_TIMEOUT} wp upsun vendor \"\$s\" --update --type=\"\$t\" --dry-run 2>/dev/null || true
 		done
 	")"
 
-	# Versions and slugs are ASCII; only the arrow is multibyte, matched
-	# literally. Emits "slug local remote fetcher" per pending update.
-	parsed="$(printf '%s\n' "$raw" \
-		| sed -nE 's/^Would update ([^:]+): ([^ ]+) → ([^ ]+) via ([^.]+)\.?$/\1 \2 \3 \4/p')"
+	# Tolerate a CRLF from the transport and either arrow glyph; emit
+	# "slug local remote fetcher" per pending update.
+	parsed="$(printf '%s\n' "$raw" | tr -d '\r' \
+		| sed -nE 's/^Would update ([^:]+): ([^ ]+) (→|->) ([^ ]+) via ([^.]+)\.?$/\1 \2 \4 \5/p')"
 
 	if [ "$format" = porcelain ]; then
 		printf '%s\n' "$parsed" | sed '/^$/d'
@@ -107,6 +136,9 @@ cmd_check() { # cmd_check [table|porcelain]
 
 cmd_update() { # cmd_update <slug>
 	local slug="$1" layout kind type ns tmp version
+	if [[ ! "$slug" =~ $SLUG_RE ]]; then
+		echo "ERROR: refusing unsafe package name '$slug'" >&2; return 1
+	fi
 	layout="$(slug_layout "$slug")" || { echo "ERROR: $slug is not in private-packages/" >&2; return 1; }
 	read -r kind type ns <<<"$layout"
 
@@ -123,7 +155,7 @@ cmd_update() { # cmd_update <slug>
 		cd /app/wordpress
 		wp eval 'wp_update_plugins(); wp_update_themes();' >/dev/null 2>&1 || true
 		rm -rf /tmp/keds-vendor && mkdir -p /tmp/keds-vendor
-		wp upsun vendor '$slug' --update --type='$type' --to=/tmp/keds-vendor --vendor='$ns' 1>&2
+		timeout ${REMOTE_TIMEOUT} wp upsun vendor '$slug' --update --type='$type' --to=/tmp/keds-vendor --vendor='$ns' 1>&2
 		if [ -d /tmp/keds-vendor/'$slug' ]; then
 			tar -C /tmp/keds-vendor -cf - '$slug' | base64
 		fi

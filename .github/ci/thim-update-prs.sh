@@ -66,12 +66,6 @@ updates=$(retry 3 keds/scripts/thim-update.sh check --porcelain)
 
 echo "--- updates ---"; echo "${updates:-none}"
 
-# Labels are created up front (idempotent); PRs carry the channel label.
-for lbl in thim-update premium-update; do
-	gh label create "$lbl" --color 5319e7 \
-		--description "Automated premium package update" --force >/dev/null 2>&1 || true
-done
-
 failures=()
 raised=0
 
@@ -108,8 +102,10 @@ while read -r slug local_ver remote_ver fetcher; do
 
 	echo "==> $slug: $local_ver -> $remote_ver ($fetcher)"
 	# </dev/null: commands inside (upsun ssh in particular) must not slurp
-	# the porcelain lines this loop is reading from stdin.
-	if ! (
+	# the porcelain lines this loop is reading from stdin. Subshell exit codes:
+	# 0 = PR raised/refreshed, 3 = nothing to vendor (benign), other = failure.
+	rc=0
+	(
 		set -euo pipefail
 		git checkout -B "$branch" "origin/$BASE_BRANCH"
 		git reset --hard "origin/$BASE_BRANCH"
@@ -118,6 +114,12 @@ while read -r slug local_ver remote_ver fetcher; do
 		keds/scripts/thim-update.sh update "$slug"
 
 		git add -A keds/private-packages keds/composer.json keds/composer.lock
+		# An up-to-date race between the check and update passes leaves nothing
+		# staged; that is benign, not a failed PR (exit 3, handled below).
+		if git diff --cached --quiet; then
+			echo "==> $slug: engine vendored nothing (up-to-date race), skipping"
+			exit 3
+		fi
 		git commit -m "Update ${slug} ${local_ver} -> ${remote_ver} (${desc})"
 		git push --force origin "$branch"
 
@@ -129,16 +131,23 @@ while read -r slug local_ver remote_ver fetcher; do
 			gh pr edit "$pr_number" \
 				--title "Update ${slug} ${local_ver} → ${remote_ver}" --body "$body"
 		else
+			# Create the channel label lazily (idempotent) so an as-yet-unmapped
+			# fetcher id — which channel_label falls back to vendored-update for —
+			# still gets a real label instead of failing gh pr create.
+			gh label create "$label" --color 5319e7 \
+				--description "Automated premium package update" --force >/dev/null 2>&1 || true
 			gh pr create --head "$branch" --base "$BASE_BRANCH" \
 				--title "Update ${slug} ${local_ver} → ${remote_ver}" \
 				--label "$label" --body "$body"
 		fi
-	) </dev/null; then
-		echo "ERROR: failed to raise PR for $slug, continuing with the rest" >&2
-		failures+=("$slug")
-	else
-		raised=$(( raised + 1 ))
-	fi
+	) </dev/null || rc=$?
+
+	case "$rc" in
+		0) raised=$(( raised + 1 )) ;;
+		3) : ;; # nothing to vendor; already logged, not a failure
+		*) echo "ERROR: failed to raise PR for $slug, continuing with the rest" >&2
+		   failures+=("$slug") ;;
+	esac
 done <<<"$updates"
 
 git checkout --detach "origin/$BASE_BRANCH" >/dev/null 2>&1 || true
