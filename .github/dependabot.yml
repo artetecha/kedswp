@@ -22,8 +22,6 @@ updates:
       timezone: Europe/London
     versioning-strategy: increase
     open-pull-requests-limit: 10
-    labels:
-      - dependencies
     ignore:
       # Elementor 4.2.0 trips a PHP 8.4 deprecation (Atomic_Global_Styles::
       # get_cache_root_key() implicit-nullable param) whose shutdown log dump
@@ -44,5 +42,3 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
-    labels:
-      - dependencies
