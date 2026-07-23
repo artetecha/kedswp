@@ -1,26 +1,33 @@
 #!/usr/bin/env bash
 #
-# Raise one PR per vendored premium package that has an update available,
-# across two licensed channels:
-#   - thim:    ThimPress catalog via thim-core (scripts/thim-update.sh),
-#              branches thim/<slug>
-#   - premium: WordPress update transients — Fluent pro, PMP, any future
-#              licensed plugin (scripts/premium-update.sh), branches
-#              premium/<slug>
-# A slug the Thim catalog knows is handled by the thim channel exclusively.
-# Ends with a coverage audit: vendored packages NO channel can see are
-# reported (and fail nothing — they just must not rot silently).
+# Raise one PR per vendored premium package that has an update available.
+#
+# Discovery and vendoring are now delegated to the upsun-wp vendoring engine
+# (`wp upsun vendor`, upsun-wp >= 0.5) driven on the production container by
+# keds/scripts/thim-update.sh — see that script for the trust model (license
+# tokens never leave the container). A single `check --porcelain` call reports
+# every pending update as "slug local remote fetcher"; the fetcher id maps
+# back to the two historical channels so branch prefixes and labels are
+# unchanged:
+#   - thimpress -> thim/<slug>    label thim-update    (Eduma, thim-*, LP add-ons)
+#   - transient -> premium/<slug> label premium-update (Fluent pro, PMPro, ...)
 #
 # Driven by .github/workflows/thim-update.yml; runs from the repo root.
 #
 # Each branch is rebuilt from origin/main on every run, so sibling PRs that
 # went stale when one merged (composer.json/lock overlap) self-heal on the
-# next run. A marker in the PR body encodes the proposed version so
-# unchanged PRs are skipped instead of force-pushed.
+# next run. A marker in the PR body encodes the proposed version so unchanged
+# PRs are skipped instead of force-pushed.
+#
+# NOTE: the old per-channel "uncovered packages" audit was dropped in the
+# engine migration. Discovery is now per-package over private-packages/ (every
+# vendored package is dry-run every run); a package whose licensed updater is
+# silently unwired simply yields no update, indistinguishable from up-to-date.
+# The job summary reports scanned/raised counts instead.
 #
 # Expects: GH_TOKEN (a PAT, NOT the workflow GITHUB_TOKEN — PRs created by
 # GITHUB_TOKEN never trigger the pull_request test workflows), an
-# authenticated upsun CLI, composer, python3, unzip, git author configured.
+# authenticated upsun CLI, composer, php, python3, git author configured.
 #
 # Usage: thim-update-prs.sh [slugs...]   (no args = all available updates)
 
@@ -47,126 +54,117 @@ retry() {
 	return 1
 }
 
+# Map a fetcher id to its historical channel presentation.
+channel_prefix() { case "$1" in thimpress) echo thim;;    transient) echo premium;;        *) echo vendor;; esac; }
+channel_label()  { case "$1" in thimpress) echo thim-update;; transient) echo premium-update;; *) echo vendored-update;; esac; }
+channel_desc()   { case "$1" in thimpress) echo "ThimPress licensed channel";; transient) echo "WP licensed-update channel";; *) echo "vendoring engine";; esac; }
+
 git fetch origin "$BASE_BRANCH"
 
-echo "==> checking the ThimPress channel"
-thim_coverage=$(retry 3 keds/scripts/thim-update.sh coverage)
-thim_updates=$(retry 3 keds/scripts/thim-update.sh check --porcelain)
+echo "==> checking every vendored package via the vendoring engine"
+updates=$(retry 3 keds/scripts/thim-update.sh check --porcelain)
 
-echo "==> checking the WP-transient premium channel"
-premium_coverage=$(retry 3 keds/scripts/premium-update.sh coverage)
-premium_updates=$(retry 3 keds/scripts/premium-update.sh check --porcelain)
-
-# Thim wins for any slug its catalog covers (both channels would serve the
-# same bits, but one source of truth per package keeps PRs deterministic).
-premium_updates=$(while read -r slug rest; do
-	[ -n "$slug" ] || continue
-	grep -qx "$slug" <<<"$thim_coverage" || echo "$slug $rest"
-done <<<"$premium_updates")
-
-echo "--- thim updates ---";    echo "${thim_updates:-none}"
-echo "--- premium updates ---"; echo "${premium_updates:-none}"
+echo "--- updates ---"; echo "${updates:-none}"
 
 failures=()
+raised=0
 
-# process_updates <channel> <script> <branch_prefix> <label> <channel_desc> <<<"$updates"
-process_updates() {
-	local channel="$1" script="$2" prefix="$3" label="$4" desc="$5"
-	local slug local_ver remote_ver branch marker pr_json mergeable body pr_number
+while read -r slug local_ver remote_ver fetcher; do
+	[ -n "$slug" ] || continue
 
-	gh label create "$label" --color 5319e7 \
-		--description "Automated premium package update ($channel channel)" --force >/dev/null 2>&1 || true
+	if [ "${#REQUESTED[@]}" -gt 0 ]; then
+		wanted=false
+		for r in "${REQUESTED[@]}"; do [ "$r" = "$slug" ] && wanted=true; done
+		$wanted || { echo "==> $slug: not in requested set, skipping"; continue; }
+	fi
 
-	while read -r slug local_ver remote_ver; do
-		[ -n "$slug" ] || continue
+	prefix="$(channel_prefix "$fetcher")"
+	label="$(channel_label "$fetcher")"
+	desc="$(channel_desc "$fetcher")"
+	branch="$prefix/$slug"
+	# Marker uses the channel prefix (thim|premium) for continuity with PRs
+	# raised by the pre-migration pipeline.
+	marker="<!-- $prefix: ${slug}@${remote_ver} -->"
 
-		if [ "${#REQUESTED[@]}" -gt 0 ]; then
-			local wanted=false r
-			for r in "${REQUESTED[@]}"; do [ "$r" = "$slug" ] && wanted=true; done
-			$wanted || { echo "==> $slug: not in requested set, skipping"; continue; }
+	pr_json=$(gh pr list --head "$branch" --base "$BASE_BRANCH" --state open --json number,body,mergeable --jq '.[0] // empty')
+	if [ -n "$pr_json" ] && grep -qF "$marker" <<<"$pr_json"; then
+		# Same version already proposed — but only skip if the PR is still
+		# mergeable. Conflicted branches (composer.lock overlap after a
+		# sibling merged) MUST rebuild or they stay stale forever: the whole
+		# self-heal design hinges on this.
+		mergeable=$(python3 -c 'import json,sys; print(json.loads(sys.argv[1]).get("mergeable",""))' "$pr_json")
+		if [ "$mergeable" != "CONFLICTING" ]; then
+			echo "==> $slug: open PR already proposes $remote_ver, skipping"
+			continue
 		fi
+		echo "==> $slug: open PR is conflicted, rebuilding from $BASE_BRANCH"
+	fi
 
-		branch="$prefix/$slug"
-		marker="<!-- $channel: ${slug}@${remote_ver} -->"
+	echo "==> $slug: $local_ver -> $remote_ver ($fetcher)"
+	# </dev/null: commands inside (upsun ssh in particular) must not slurp
+	# the porcelain lines this loop is reading from stdin. Subshell exit codes:
+	# 0 = PR raised/refreshed, 3 = nothing to vendor (benign), other = failure.
+	rc=0
+	(
+		set -euo pipefail
+		git checkout -B "$branch" "origin/$BASE_BRANCH"
+		git reset --hard "origin/$BASE_BRANCH"
+		git clean -fd keds/private-packages
 
-		pr_json=$(gh pr list --head "$branch" --base "$BASE_BRANCH" --state open --json number,body,mergeable --jq '.[0] // empty')
-		if [ -n "$pr_json" ] && grep -qF "$marker" <<<"$pr_json"; then
-			# Same version already proposed — but only skip if the PR is
-			# still mergeable. Conflicted branches (composer.lock overlap
-			# after a sibling merged) MUST rebuild or they stay stale
-			# forever: the whole self-heal design hinges on this.
-			mergeable=$(python3 -c 'import json,sys; print(json.loads(sys.argv[1]).get("mergeable",""))' "$pr_json")
-			if [ "$mergeable" != "CONFLICTING" ]; then
-				echo "==> $slug: open PR already proposes $remote_ver, skipping"
-				continue
-			fi
-			echo "==> $slug: open PR is conflicted, rebuilding from $BASE_BRANCH"
+		keds/scripts/thim-update.sh update "$slug"
+
+		git add -A keds/private-packages keds/composer.json keds/composer.lock
+		# An up-to-date race between the check and update passes leaves nothing
+		# staged; that is benign, not a failed PR (exit 3, handled below).
+		if git diff --cached --quiet; then
+			echo "==> $slug: engine vendored nothing (up-to-date race), skipping"
+			exit 3
 		fi
+		git commit -m "Update ${slug} ${local_ver} -> ${remote_ver} (${desc})"
+		git push --force origin "$branch"
 
-		echo "==> $slug: $local_ver -> $remote_ver ($channel)"
-		# </dev/null: commands inside (upsun ssh in particular) must not
-		# slurp the porcelain lines this loop is reading from stdin.
-		if ! (
-			set -euo pipefail
-			git checkout -B "$branch" "origin/$BASE_BRANCH"
-			git reset --hard "origin/$BASE_BRANCH"
-			git clean -fd keds/private-packages
+		body=$(printf '%s\n\nAutomated update of `%s` from **%s** to **%s** via the %s (`wp upsun vendor`).\n\nMerging deploys to production — review the CI results and the preview environment first. This PR is human-merged by design.\n' \
+			"$marker" "$slug" "$local_ver" "$remote_ver" "$desc")
 
-			"$script" update "$slug"
-
-			git add -A keds/private-packages keds/composer.json keds/composer.lock
-			git commit -m "Update ${slug} ${local_ver} -> ${remote_ver} (${desc})"
-			git push --force origin "$branch"
-
-			body=$(printf '%s\n\nAutomated update of `%s` from **%s** to **%s** via the %s (`%s`).\n\nMerging deploys to production — review the CI results and the preview environment first. This PR is human-merged by design.\n' \
-				"$marker" "$slug" "$local_ver" "$remote_ver" "$desc" "${script#keds/}")
-
-			if [ -n "$pr_json" ]; then
-				pr_number=$(python3 -c 'import json,sys; print(json.loads(sys.argv[1])["number"])' "$pr_json")
-				gh pr edit "$pr_number" \
-					--title "Update ${slug} ${local_ver} → ${remote_ver}" --body "$body"
-			else
-				gh pr create --head "$branch" --base "$BASE_BRANCH" \
-					--title "Update ${slug} ${local_ver} → ${remote_ver}" \
-					--label "$label" --body "$body"
-			fi
-		) </dev/null; then
-			echo "ERROR: failed to raise PR for $slug, continuing with the rest" >&2
-			failures+=("$slug")
+		if [ -n "$pr_json" ]; then
+			pr_number=$(python3 -c 'import json,sys; print(json.loads(sys.argv[1])["number"])' "$pr_json")
+			gh pr edit "$pr_number" \
+				--title "Update ${slug} ${local_ver} → ${remote_ver}" --body "$body"
+		else
+			# Create the channel label lazily (idempotent) so an as-yet-unmapped
+			# fetcher id — which channel_label falls back to vendored-update for —
+			# still gets a real label instead of failing gh pr create.
+			gh label create "$label" --color 5319e7 \
+				--description "Automated premium package update" --force >/dev/null 2>&1 || true
+			gh pr create --head "$branch" --base "$BASE_BRANCH" \
+				--title "Update ${slug} ${local_ver} → ${remote_ver}" \
+				--label "$label" --body "$body"
 		fi
-	done
-}
+	) </dev/null || rc=$?
 
-process_updates thim    keds/scripts/thim-update.sh    thim    thim-update    "ThimPress licensed channel"      <<<"$thim_updates"
-process_updates premium keds/scripts/premium-update.sh premium premium-update "WP licensed-update channel"      <<<"$premium_updates"
+	case "$rc" in
+		0) raised=$(( raised + 1 )) ;;
+		3) : ;; # nothing to vendor; already logged, not a failure
+		*) echo "ERROR: failed to raise PR for $slug, continuing with the rest" >&2
+		   failures+=("$slug") ;;
+	esac
+done <<<"$updates"
 
 git checkout --detach "origin/$BASE_BRANCH" >/dev/null 2>&1 || true
 
-# Coverage audit: vendored packages that neither channel can see. These
-# would silently never get update PRs — surface them loudly (but don't fail
-# the run: an unlicensed package is an ops issue, not a pipeline bug).
-uncovered=$(
-	for dir in keds/private-packages/plugins/*/ keds/private-packages/themes/*/; do
-		slug=$(basename "$dir")
-		grep -qx "$slug" <<<"$thim_coverage" && continue
-		grep -qx "$slug" <<<"$premium_coverage" && continue
-		echo "$slug"
-	done
-)
-if [ -n "$uncovered" ]; then
-	echo "WARNING: no update channel covers these vendored packages:" >&2
-	echo "$uncovered" | sed 's/^/  - /' >&2
-	if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
-		{
-			echo "## ⚠️ Uncovered vendored packages"
-			echo
-			echo "No licensed update channel can see these (license inactive, or updater not wired):"
-			echo
-			echo "$uncovered" | sed 's/^/- /'
-		} >> "$GITHUB_STEP_SUMMARY"
-	fi
-else
-	echo "==> coverage audit: every vendored package is covered by a channel"
+scanned=$(find keds/private-packages/plugins keds/private-packages/themes \
+	-mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+
+echo "==> scanned ${scanned} vendored package(s); raised/refreshed ${raised} PR(s)"
+if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+	{
+		echo "## Vendored premium updates"
+		echo
+		echo "- Packages scanned: ${scanned}"
+		echo "- Update PRs raised/refreshed: ${raised}"
+		echo
+		echo "_Discovery is per-package via \`wp upsun vendor --update --dry-run\` on the production container. A package whose licensed updater is unwired yields no update (indistinguishable from up-to-date) and is no longer separately flagged._"
+	} >> "$GITHUB_STEP_SUMMARY"
 fi
 
 if [ "${#failures[@]}" -gt 0 ]; then

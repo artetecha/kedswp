@@ -42,10 +42,9 @@ The deploy hook ([keds/scripts/deploy.sh](keds/scripts/deploy.sh)):
 ## Updating plugins and themes
 
 - **Public packages**: bump the pin in `keds/composer.json` (Dependabot also raises PRs).
-- **Thim-distributed premium packages** (Eduma, thim-core, LearnPress add-ons): `keds/scripts/thim-update.sh` — checks/downloads updates through ThimPress's API *on the production container*, so requests use the site's activated license. Also run on a schedule by CI, which opens PRs.
-- **Other premium packages** (Fluent pro, Paid Memberships Pro, …): `keds/scripts/premium-update.sh` — same trust model, driven through WordPress's own update transients on the container.
+- **Premium packages**: `keds/scripts/thim-update.sh` — drives the upsun-wp vendoring engine (`wp upsun vendor`, upsun-wp ≥ 0.5) *on the production container*, so every request uses the site's activated license and the license token never leaves the container. One engine covers both licensed channels via auto-selected fetchers: ThimPress packages (Eduma, thim-core, LearnPress add-ons, revslider) resolve through the `Keds_ThimPress_Fetcher` mu-plugin, everything else (Fluent pro, Paid Memberships Pro, …) through the engine's built-in WordPress-update-transient fetcher. Also run on a schedule by CI, which opens PRs.
 
-Both scripts vendor the new source into `private-packages/` and update the Composer pin; nothing is committed automatically — review `git diff` and push. They require an authenticated `upsun` CLI, `composer`, `python3`, and `unzip`.
+The script vendors the new source into `private-packages/` (the engine extracts and regenerates each package's `composer.json` on the container) and updates the Composer pin; nothing is committed automatically — review `git diff` and push. It requires an authenticated `upsun` CLI, `composer`, and `php`.
 
 ## Content migration from Pantheon
 
