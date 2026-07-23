@@ -540,7 +540,12 @@ class RevSliderAdmin extends RevSliderFunctionsAdmin {
 			
 			if($f->_truefalse($f->get_options(['system', 'valid'], 'false')) === false && version_compare($f->get_options(['system', 'version'], RS_REVISION), $plugin['Version'], '>')){
 				add_action('after_plugin_row_' . $plugin_id, ['RevSliderAdmin', 'show_purchase_notice'], 10, 3);
-				add_action('admin_footer', ['RevSliderAdmin', 'add_ajax_footer_functionality']);
+				// KEDS PATCH: add_ajax_footer_functionality() does not exist in this
+				// ThimPress-bundled build, so this dangling callback fatals the wp-admin
+				// plugins screen. It was commented out in 7.0.9 and the 7.1.1 bundle
+				// regressed it. Re-check on the next RevSlider bump — drop this patch if
+				// the method reappears upstream.
+				// add_action('admin_footer', ['RevSliderAdmin', 'add_ajax_footer_functionality']);
 			}
 
 			break;
